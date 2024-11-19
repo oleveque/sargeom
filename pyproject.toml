@@ -1,3 +1,15 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "sargeom"
+version = "0.0.1"
+authors = [
+  { name="Olivier LEVEQUE", email="olivier.leveque@onera.fr" },
+]
+description = "A Python package for Synthetic Aperture Radar (SAR) geometry calculations"
+readme = "README.md"
+
+[project.urls]
+homepage = "https://github.com/oleveque/sar-geometry.git"
