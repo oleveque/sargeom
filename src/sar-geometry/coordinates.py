@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
 This module allows you to manipulate and transform terrestrial coordinates from the `WGS84 geodetic system <https://others.gitlab-pages.onera.net/sardocs/explanations/01_geometry.html#les-referentiels-geodesiques-courants>`_.
 By default, distances are expressed in meters and angles in degrees.
@@ -11,14 +9,14 @@ import pyproj
 
 # Coordinate systems
 wgs84_EGM96 = pyproj.crs.CRS.from_epsg(
-    "4326+5773"
-)  # EPSG:9707 = WGS84 Geographic 2D coordinate system (GCS) + EGM96 height (= Gravity-related height)
+    "4326+5773" # EPSG:9707 = WGS84 Geographic 2D coordinate system (GCS) + EGM96 height (= Gravity-related height)
+)
 wgs84_ECEF = pyproj.crs.CRS.from_epsg(
-    "4978"
-)  # EPSG:4978 = WGS84 Geocentric 3D coordinate system (ECEF = Earth-centered, Earth-fixed coordinate system)
+    "4978" # EPSG:4978 = WGS84 Geocentric 3D coordinate system (ECEF = Earth-centered, Earth-fixed coordinate system)
+)
 wgs84_GCS = pyproj.crs.CRS.from_epsg(
-    "4979"
-)  # EPSG:4979 = WGS84 Geographic 3D coordinate system (GCS)
+    "4979" # EPSG:4979 = WGS84 Geographic 3D coordinate system (GCS)
+)
 
 # Coordinate transformations
 ecef2gcs = pyproj.transformer.Transformer.from_crs(
@@ -106,6 +104,7 @@ class Cartesian3(np.ndarray):
     """
 
     def __new__(cls, x, y, z, origin=None):
+        # Convert input to numpy arrays
         if not isinstance(x, np.ndarray):
             x = np.array(x)
         if not isinstance(y, np.ndarray):
@@ -113,9 +112,11 @@ class Cartesian3(np.ndarray):
         if not isinstance(z, np.ndarray):
             z = np.array(z)
 
+        # Check if the input arrays have the same shape
         if x.shape != y.shape != z.shape:
             raise ValueError("The X, Y and Z components must be of equal size.")
 
+        # Check if the input arrays are 0- or 1-dimensional
         if x.ndim == y.ndim == z.ndim == 0:
             obj = np.array([[x], [y], [z]]).T.view(cls)
         elif x.ndim == y.ndim == z.ndim == 1:
@@ -125,13 +126,16 @@ class Cartesian3(np.ndarray):
                 "The X, Y and Z components must be 0- or 1-dimensional arrays."
             )
 
+        # Set the local origin of the coordinate system
         obj._local_origin = origin
+
         return obj
 
     def __array_finalize__(self, obj):
         if obj is None:
             return
-
+        
+        # Set the local origin of the coordinate system
         self._local_origin = getattr(obj, "_local_origin", None)
 
     def __repr__(self):
@@ -172,16 +176,20 @@ class Cartesian3(np.ndarray):
         :class:`eratosthene.coordinates.Cartesian3`
             The Cartesian3 instance initialized by the input numpy array.
         """
+        # Convert input to numpy array
         if not isinstance(array, np.ndarray):
             array = np.array(array)
+
         # Check if the input array has one dimension and three elements
         if array.ndim == 1 and array.shape[0] == 3:
             return cls(array[0], array[1], array[2], origin)
+        
         # Check if the input array has two dimensions and three columns
         elif array.ndim == 2 and array.shape[1] == 3:
             return cls(array[:, 0], array[:, 1], array[:, 2], origin)
+        
+        # Raise an error if the input array does not meet the requirements
         else:
-            # Raise an error if the input array does not meet the requirements
             raise ValueError(
                 "The numpy array must have at least 1 row and only 3 columns."
             )
@@ -543,6 +551,12 @@ class Cartesian3(np.ndarray):
             df = coordinates.to_pandas()
         """
         import pandas as pd
+        try:
+            import pandas as pd
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html"
+            )
 
         return pd.DataFrame(self, columns=["x", "y", "z"])
 
@@ -1148,7 +1162,11 @@ class CartesianLocalNED(Cartesian3):
                     -np.sin(lon0) * np.sin(lat0),
                     np.cos(lat0),
                 ],
-                [-np.sin(lon0), np.cos(lon0), 0.0],
+                [
+                    -np.sin(lon0),
+                    np.cos(lon0),
+                    0.0
+                ],
                 [
                     -np.cos(lon0) * np.cos(lat0),
                     -np.sin(lon0) * np.cos(lat0),
@@ -1295,6 +1313,7 @@ class Cartographic(np.ndarray):
         longitude = negativePiToPi(longitude)
         latitude = negativePiToPi(latitude)
 
+        # Check if the input arrays are numpy arrays
         if not isinstance(longitude, np.ndarray):
             longitude = np.array(longitude)
         if not isinstance(latitude, np.ndarray):
@@ -1304,11 +1323,13 @@ class Cartographic(np.ndarray):
         elif not isinstance(height, np.ndarray):
             height = np.array(height)
 
+        # Check if the input arrays have the same size
         if longitude.shape != latitude.shape != height.shape:
             raise ValueError(
                 "The longitude, latitude and height must be of equal size."
             )
 
+        # Check if the input arrays are 0- or 1-dimensional
         if longitude.ndim == latitude.ndim == height.ndim == 0:
             obj = np.array([[longitude], [latitude], [height]]).T.view(cls)
         elif longitude.ndim == latitude.ndim == height.ndim == 1:
@@ -1372,21 +1393,23 @@ class Cartographic(np.ndarray):
         :class:`eratosthene.coordinates.Cartographic`
             The Cartographic instance initialized by the input numpy array.
         """
+        # Check if the input array is a numpy array
         if not isinstance(array, np.ndarray):
             array = np.array(array)
+
         # Check if the input array has one dimension and three elements
         if array.ndim == 1 and array.shape[0] == 3:
             return Cartographic(array[0], array[1], array[2], degrees)
+        
         # Check if the input array has two dimensions and three columns
         elif array.ndim == 2 and array.shape[1] == 3:
             return Cartographic(array[:, 0], array[:, 1], array[:, 2], degrees)
+        
+        # Raise an error if the input array does not meet the requirements
         else:
-            # Raise an error if the input array does not meet the requirements
             raise ValueError(
                 "The numpy array must have at least 1 row and only 3 columns."
             )
-
-    # TODO: from_geojson
 
     @property
     def longitude(self):
@@ -1529,17 +1552,14 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.geometry.Rectangle`
-            A rectangle instance representing the bounding box.
-
-        Notes
-        -----
-        The bounding box is defined such as :
-
-        - The west rectangle corner is the westernmost longitude coordinate.
-        - The south rectangle corner is the southernmost latitude coordinate.
-        - The east rectangle corner is the easternmost longitude coordinate.
-        - The north rectangle corner is the northernmost latitude coordinate.
+        east : :class:`float`
+            The maximum longitude.
+        west : :class:`float`
+            The minimum longitude.
+        north : :class:`float`
+            The maximum latitude.
+        south : :class:`float`
+            The minimum latitude.
 
         Raises
         ------
@@ -1548,27 +1568,16 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart_multi = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
+        >>> cart_multi = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
         >>> cart_multi.bounding_box()
-        Rectangle(west=10.0, south=20.0, east=15.0, north=25.0)
         """
-        from shapely import Polygon
-
         if self.is_collection():
             east = self.longitude.max()
             west = self.longitude.min()
             north = self.latitude.max()
             south = self.latitude.min()
-
-            return Polygon(
-                (
-                    (west, north),
-                    (east, north),
-                    (east, south),
-                    (west, south),
-                    (west, north),
-                )
-            )
+            return east, west, north, south
+        
         else:
             raise ValueError(
                 "This Cartographic instance must be a collection of positions."
@@ -1587,7 +1596,6 @@ class Cartographic(np.ndarray):
         --------
         >>> cart = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
         >>> ecef = cart.to_ecef()
-        >>> print(ecef)
         """
         x, y, z = gcs2ecef.transform(self.latitude, self.longitude, self.height)
         return CartesianECEF(x, y, z)
@@ -1603,14 +1611,20 @@ class Cartographic(np.ndarray):
 
         Notes
         -----
-        By convention, the epsilloidal height should be converted to the EGM96 height.
+        The ellipsoidal height is converted to orthometric height using the EGM96 geoid model.
+        As a result, the output file is compatible with Google Earth and can be easily opened within the application.
 
         Examples
         --------
         >>> cart = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
         >>> cart.to_kml("my_positions.kml")
         """
-        import simplekml
+        try:
+            import simplekml
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "SimpleKML is not installed. Please follow the instructions on https://simplekml.readthedocs.io/en/latest/index.html"
+            )
 
         kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
         lat, lon, alt = gcs2egm.transform(self.latitude, self.longitude, self.height)
@@ -1646,11 +1660,15 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> geojson = cart.to_geojson()
-        >>> print(geojson)
+        >>> cart.to_geojson()
         '{"type": "Point", "coordinates": [10.0, 20.0, 30.0]}'
         """
-        from geojson import Point, MultiPoint, LineString, Polygon
+        try:
+            from geojson import Point, MultiPoint, LineString, Polygon
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "GeoJSON is not installed. Please follow the instructions on https://geojson.readthedocs.io/en/latest/index.html#installation"
+            )
 
         if clamp_to_Ground:
             coords = self[:, :2].T
@@ -1696,11 +1714,15 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> shape = cart.to_shapely()
-        >>> print(shape)
+        >>> cart.to_shapely()
         'POINT Z (10 20 30)'
         """
-        from shapely import Point, MultiPoint, LineString, Polygon
+        try:
+            from shapely import Point, MultiPoint, LineString, Polygon
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "Shapely is not installed. Please follow the instructions on https://shapely.readthedocs.io/en/stable/installation.html"
+            )
 
         if clamp_to_Ground:
             coords = self[:, :2].T
@@ -1741,6 +1763,7 @@ class Cartographic(np.ndarray):
             raise ModuleNotFoundError(
                 "Folium is not installed. Please follow the instructions on https://python-visualization.github.io/folium/latest/getting_started.html"
             )
+        
         lon0 = (self.longitude.max() + self.longitude.min()) / 2
         lat0 = (self.latitude.max() + self.latitude.min()) / 2
         m = folium.Map(location=(lat0, lon0))
@@ -1773,7 +1796,12 @@ class Cartographic(np.ndarray):
            longitude  latitude  height
         0       10.0      20.0    30.0
         """
-        import pandas as pd
+        try:
+            import pandas as pd
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html"
+            )
 
         return pd.DataFrame(self, columns=["longitude", "latitude", "height"])
 
