@@ -1,4 +1,4 @@
-# sar-geometry
+# sar-geometry (sarg)
 
 A Python package for Synthetic Aperture Radar (SAR) geometry calculations.
 
@@ -21,6 +21,7 @@ or in development mode:
 
 ```bash
 git clone https://github.com/oleveque/sar-geometry.git
+pip install -r ./sar-geometry/requirements.txt
 pip install -e ./sar-geometry
 ```
 
