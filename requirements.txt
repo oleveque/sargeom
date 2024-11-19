@@ -1,0 +1,35 @@
+# These packages are to be installed with conda or pip, with the following command:
+# conda install --file requirements.txt
+# pip install -r requirements.txt
+
+# To build the package
+setuptools
+wheel
+twine
+
+# To build documentation
+furo
+sphinx
+sphinx-design
+sphinx-inline-tabs
+sphinx-copybutton
+sphinx-subfigure
+sphinx-automodapi
+numpydoc
+
+# To build the package
+conda-build
+build
+pip
+
+# To run API
+scipy
+numpy
+pyproj
+
+# To run examples
+folium
+pandas
+shapely
+geojson
+simplekml
