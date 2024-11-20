@@ -1,0 +1,31 @@
+CartesianLocalNED
+=================
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: CartesianLocalNED
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~CartesianLocalNED.rotation
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~CartesianLocalNED.to_aer
+      ~CartesianLocalNED.to_ecef
+      ~CartesianLocalNED.to_enu
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: rotation
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: to_aer
+   .. automethod:: to_ecef
+   .. automethod:: to_enu

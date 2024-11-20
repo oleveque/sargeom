@@ -1,0 +1,27 @@
+CartesianECEF
+=============
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: CartesianECEF
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~CartesianECEF.crs
+      ~CartesianECEF.to_cartographic
+      ~CartesianECEF.to_enu
+      ~CartesianECEF.to_enuv
+      ~CartesianECEF.to_ned
+      ~CartesianECEF.to_nedv
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: crs
+   .. automethod:: to_cartographic
+   .. automethod:: to_enu
+   .. automethod:: to_enuv
+   .. automethod:: to_ned
+   .. automethod:: to_nedv

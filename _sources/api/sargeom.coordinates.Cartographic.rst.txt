@@ -1,0 +1,63 @@
+Cartographic
+============
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: Cartographic
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~Cartographic.height
+      ~Cartographic.latitude
+      ~Cartographic.longitude
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Cartographic.ONERA_CP
+      ~Cartographic.ONERA_SDP
+      ~Cartographic.ZERO
+      ~Cartographic.append
+      ~Cartographic.bounding_box
+      ~Cartographic.crs
+      ~Cartographic.dd_to_dms
+      ~Cartographic.dms_to_dd
+      ~Cartographic.from_array
+      ~Cartographic.is_collection
+      ~Cartographic.to_array
+      ~Cartographic.to_ecef
+      ~Cartographic.to_geojson
+      ~Cartographic.to_html
+      ~Cartographic.to_kml
+      ~Cartographic.to_pandas
+      ~Cartographic.to_shapely
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: height
+   .. autoattribute:: latitude
+   .. autoattribute:: longitude
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: ONERA_CP
+   .. automethod:: ONERA_SDP
+   .. automethod:: ZERO
+   .. automethod:: append
+   .. automethod:: bounding_box
+   .. automethod:: crs
+   .. automethod:: dd_to_dms
+   .. automethod:: dms_to_dd
+   .. automethod:: from_array
+   .. automethod:: is_collection
+   .. automethod:: to_array
+   .. automethod:: to_ecef
+   .. automethod:: to_geojson
+   .. automethod:: to_html
+   .. automethod:: to_kml
+   .. automethod:: to_pandas
+   .. automethod:: to_shapely

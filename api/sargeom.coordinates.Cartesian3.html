@@ -1,0 +1,1044 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="CartesianECEF" href="sargeom.coordinates.CartesianECEF.html" /><link rel="prev" title="negativePiToPi" href="sargeom.coordinates.negativePiToPi.html" />
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+        <title>Cartesian3 - SARGeom</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">SARGeom</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  
+  <span class="sidebar-brand-text">SARGeom</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../api_reference.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Cartesian3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartographic.html">Cartographic</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples.html">Examples</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/api/sargeom.coordinates.Cartesian3.rst.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="cartesian3">
+<h1>Cartesian3<a class="headerlink" href="#cartesian3" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">Cartesian3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></a></p>
+<p>A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system.
+This class is inspired by the <a class="reference external" href="https://cesium.com/learn/cesiumjs/ref-doc/Cartesian3.html">CesiumJS library</a>.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>x</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The X component, in meters.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The Y component, in meters.</p>
+</dd>
+<dt><strong>z</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The Z component, in meters.</p>
+</dd>
+<dt><strong>origin</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartographic</span></code>, optional</span></dt><dd><p>The cartographic position describing the location of the local origin of the coordinate system.
+If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>The 3D cartesian point.</dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the X, Y and Z components are not of equal size.
+If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">ONE</span><span class="p">()</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">UNIT_X</span><span class="p">()</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes Summary</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.local_origin" title="sargeom.coordinates.Cartesian3.local_origin"><code class="xref py py-obj docutils literal notranslate"><span class="pre">local_origin</span></code></a></p></td>
+<td><p>Returns the cartographic position of the origin of the local reference system, if the cartesian coordinate system used is one.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.x" title="sargeom.coordinates.Cartesian3.x"><code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code></a></p></td>
+<td><p>The X component, in meters.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.y" title="sargeom.coordinates.Cartesian3.y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">y</span></code></a></p></td>
+<td><p>The Y component, in meters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.z" title="sargeom.coordinates.Cartesian3.z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">z</span></code></a></p></td>
+<td><p>The Z component, in meters.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods Summary</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.ONE" title="sargeom.coordinates.Cartesian3.ONE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ONE</span></code></a>([N, origin])</p></td>
+<td><p>A Cartesian3 instance initialized to (x=1.0, y=1.0, z=1.0).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_X" title="sargeom.coordinates.Cartesian3.UNIT_X"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNIT_X</span></code></a>([N, origin])</p></td>
+<td><p>A Cartesian3 instance initialized to (x=1.0, y=0.0, z=0.0).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_Y" title="sargeom.coordinates.Cartesian3.UNIT_Y"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNIT_Y</span></code></a>([N, origin])</p></td>
+<td><p>A Cartesian3 instance initialized to (x=0.0, y=1.0, z=0.0).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_Z" title="sargeom.coordinates.Cartesian3.UNIT_Z"><code class="xref py py-obj docutils literal notranslate"><span class="pre">UNIT_Z</span></code></a>([N, origin])</p></td>
+<td><p>A Cartesian3 instance initialized to (x=0.0, y=0.0, z=1.0).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.ZERO" title="sargeom.coordinates.Cartesian3.ZERO"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ZERO</span></code></a>([N, origin])</p></td>
+<td><p>A Cartesian3 instance initialized to (x=0.0, y=0.0, z=0.0).</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.angle_btw" title="sargeom.coordinates.Cartesian3.angle_btw"><code class="xref py py-obj docutils literal notranslate"><span class="pre">angle_btw</span></code></a>(left, right[, degrees])</p></td>
+<td><p>Returns the angle formed by two coordinate vectors (in degrees).</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.append" title="sargeom.coordinates.Cartesian3.append"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append</span></code></a>(positions)</p></td>
+<td><p>Create a new Cartesian3 instance with the appended positions.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.cross" title="sargeom.coordinates.Cartesian3.cross"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross</span></code></a>(right)</p></td>
+<td><p>Computes the cross (outer) product with a provided cartesian point.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance" title="sargeom.coordinates.Cartesian3.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(left, right)</p></td>
+<td><p>Computes the distance between two cartesian points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot" title="sargeom.coordinates.Cartesian3.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(left, right)</p></td>
+<td><p>Computes the dot (scalar) product of two cartesian points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.from_array" title="sargeom.coordinates.Cartesian3.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, origin])</p></td>
+<td><p>Initializes a Cartesian3 instance using a numpy array representing XYZ coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.interp" title="sargeom.coordinates.Cartesian3.interp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp</span></code></a>(time_sampling, new_time_sampling)</p></td>
+<td><p>Interpolates the set of Cartesian coordinates on the basis of the sampling times supplied as input.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_collection" title="sargeom.coordinates.Cartesian3.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
+<td><p>Check if the Cartographic instance represents a set of cartesian points.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_local" title="sargeom.coordinates.Cartesian3.is_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_local</span></code></a>()</p></td>
+<td><p>Returns <cite>true</cite> if the cartesian coordinate system is local and the local origin is defined, <cite>false</cite> otherwise.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.magnitude" title="sargeom.coordinates.Cartesian3.magnitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude</span></code></a>()</p></td>
+<td><p>Computes the magnitude (length) of the supplied cartesian vector.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.middle" title="sargeom.coordinates.Cartesian3.middle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">middle</span></code></a>(left, right)</p></td>
+<td><p>Computes the midpoint between two cartesian points.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.normalize" title="sargeom.coordinates.Cartesian3.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>()</p></td>
+<td><p>Computes the normalized form of the supplied cartesian point.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.proj_onto" title="sargeom.coordinates.Cartesian3.proj_onto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_onto</span></code></a>(vector)</p></td>
+<td><p>Projects the vector described by the current instance onto the provided vector.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_array" title="sargeom.coordinates.Cartesian3.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
+<td><p>Converts cartesian point coordinates into a numpy array.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_pandas" title="sargeom.coordinates.Cartesian3.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
+<td><p>Converts cartesian point coordinates into a Pandas DataFrame.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Attributes Documentation</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.local_origin">
+<span class="sig-name descname"><span class="pre">local_origin</span></span><a class="headerlink" href="#sargeom.coordinates.Cartesian3.local_origin" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the cartographic position of the origin of the local reference system, if the cartesian coordinate system used is one.
+To obtain its expression in the cartesian ECEF reference system, use the following
+method <code class="xref py py-meth docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3.to_ecef()</span></code> on the result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartographic</span></code></dt><dd><p>The cartographic position of the origin of the local reference system used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the Cartesian coordinate system used is not a local system.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.x">
+<span class="sig-name descname"><span class="pre">x</span></span><a class="headerlink" href="#sargeom.coordinates.Cartesian3.x" title="Link to this definition">¶</a></dt>
+<dd><p>The X component, in meters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The X component.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.y">
+<span class="sig-name descname"><span class="pre">y</span></span><a class="headerlink" href="#sargeom.coordinates.Cartesian3.y" title="Link to this definition">¶</a></dt>
+<dd><p>The Y component, in meters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The Y component.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.z">
+<span class="sig-name descname"><span class="pre">z</span></span><a class="headerlink" href="#sargeom.coordinates.Cartesian3.z" title="Link to this definition">¶</a></dt>
+<dd><p>The Z component, in meters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The Z component.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.ONE">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ONE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.ONE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.ONE" title="Link to this definition">¶</a></dt>
+<dd><p>A Cartesian3 instance initialized to (x=1.0, y=1.0, z=1.0).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>N</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional</span></dt><dd><p>Number of points to initialize. The default is only 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Instance initialized to (x=1.0, y=1.0, z=1.0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.UNIT_X">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UNIT_X</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.UNIT_X"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.UNIT_X" title="Link to this definition">¶</a></dt>
+<dd><p>A Cartesian3 instance initialized to (x=1.0, y=0.0, z=0.0).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>N</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional</span></dt><dd><p>Number of points to initialize. The default is only 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Instance initialized to (x=1.0, y=0.0, z=0.0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.UNIT_Y">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UNIT_Y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.UNIT_Y"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.UNIT_Y" title="Link to this definition">¶</a></dt>
+<dd><p>A Cartesian3 instance initialized to (x=0.0, y=1.0, z=0.0).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>N</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional</span></dt><dd><p>Number of points to initialize. The default is only 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Instance initialized to (x=0.0, y=1.0, z=0.0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.UNIT_Z">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">UNIT_Z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.UNIT_Z"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.UNIT_Z" title="Link to this definition">¶</a></dt>
+<dd><p>A Cartesian3 instance initialized to (x=0.0, y=0.0, z=1.0).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>N</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional</span></dt><dd><p>Number of points to initialize. The default is only 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Instance initialized to (x=0.0, y=0.0, z=1.0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.ZERO">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ZERO</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.ZERO"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.ZERO" title="Link to this definition">¶</a></dt>
+<dd><p>A Cartesian3 instance initialized to (x=0.0, y=0.0, z=0.0).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>N</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, optional</span></dt><dd><p>Number of points to initialize. The default is only 1.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Instance initialized to (x=0.0, y=0.0, z=0.0).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.angle_btw">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">angle_btw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.angle_btw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.angle_btw" title="Link to this definition">¶</a></dt>
+<dd><p>Returns the angle formed by two coordinate vectors (in degrees).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>left</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The first cartesian point.</p>
+</dd>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The second cartesian point.</p>
+</dd>
+<dt><strong>degrees</strong><span class="classifier">bool, optional</span></dt><dd><p>If True (default), returns the angle in degrees. If False, returns the angle in radians.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The angle formed by these two coordinate vectors (in degrees).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the angle between two Cartesian3 objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.append" title="Link to this definition">¶</a></dt>
+<dd><p>Create a new Cartesian3 instance with the appended positions.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>positions</strong><span class="classifier">sequence of <code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The sequence of Cartesian3 instances to append.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The new Cartesian3 instance with the appended positions.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the instance to append is not a Cartesian3 instance.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos1</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos2</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos12</span> <span class="o">=</span> <span class="n">pos1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pos12</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.cross">
+<span class="sig-name descname"><span class="pre">cross</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.cross"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.cross" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the cross (outer) product with a provided cartesian point.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The provided Cartesian point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The cross (outer) product with this cartesian point and the provided one.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the cross product of two Cartesian3 objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">cross_product</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.distance">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.distance" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the distance between two cartesian points.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>left</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The first Cartesian point.</p>
+</dd>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The second Cartesian point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The distance between these two cartesian points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the distance between two Cartesian3 objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="n">distance</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.dot">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.dot" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the dot (scalar) product of two cartesian points.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>left</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The first Cartesian point.</p>
+</dd>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The second Cartesian point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The dot (scalar) product of these two cartesian points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the dot product of two Cartesian3 objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="n">dot_product</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.from_array">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.from_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.from_array" title="Link to this definition">¶</a></dt>
+<dd><p>Initializes a Cartesian3 instance using a numpy array representing XYZ coordinates.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>array</strong><span class="classifier">array_like</span></dt><dd><p>A numpy array object representing a list of XYZ coordinates.</p>
+</dd>
+<dt><strong>origin</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartographic</span></code>, optional</span></dt><dd><p>The cartographic position describing the location of the local origin of the coordinate system.
+If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
+If not specified, the default local origin of the instance will be used.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The Cartesian3 instance initialized by the input numpy array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the numpy array has not at least 1 row and only 3 columns.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.interp">
+<span class="sig-name descname"><span class="pre">interp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_sampling</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_time_sampling</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.interp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.interp" title="Link to this definition">¶</a></dt>
+<dd><p>Interpolates the set of Cartesian coordinates on the basis of the sampling times supplied as input.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>time</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Sampling time at which coordinates are acquired.</p>
+</dd>
+<dt><strong>new_time</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>Sampling time at which coordinates will be estimated.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>Estimated cartesian coordinates.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If this Cartesian3 instance is not a set of cartesian points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Interpolation is performed separately for each component (<em>X</em>, <em>Y</em>, and <em>Z</em>) using numpy’s <cite>interp</cite> function.</p>
+<p class="rubric">Examples</p>
+<p>Interpolate Cartesian3 coordinates:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="n">interpolated_coords</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.is_collection">
+<span class="sig-name descname"><span class="pre">is_collection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.is_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.is_collection" title="Link to this definition">¶</a></dt>
+<dd><p>Check if the Cartographic instance represents a set of cartesian points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p><cite>true</cite> if the instance is a collections of points, <cite>false</cite> otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.is_local">
+<span class="sig-name descname"><span class="pre">is_local</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.is_local"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.is_local" title="Link to this definition">¶</a></dt>
+<dd><p>Returns <cite>true</cite> if the cartesian coordinate system is local and the local origin is defined, <cite>false</cite> otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p><cite>true</cite> if the cartesian coordinate system is local and the local origin is defined, <cite>false</cite> otherwise.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.magnitude">
+<span class="sig-name descname"><span class="pre">magnitude</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.magnitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.magnitude" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the magnitude (length) of the supplied cartesian vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <code class="xref py py-class docutils literal notranslate"><span class="pre">ndarray</span></code></dt><dd><p>The magnitude.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Get the magnitude of a Cartesian3 object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">magnitude_A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>  <span class="c1"># Returns 5.0</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.middle">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">middle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.middle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.middle" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the midpoint between two cartesian points.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>left</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The first cartesian point.</p>
+</dd>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The second cartesian point.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The midpoint between these two cartesian points.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Compute the midpoint between two Cartesian3 objects:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="n">midpoint</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">middle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.normalize">
+<span class="sig-name descname"><span class="pre">normalize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.normalize" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the normalized form of the supplied cartesian point.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The normalized cartesian point.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The normalized cartesian point is obtained by dividing each component by the Euclidean norm of the point.</p>
+<p class="rubric">Examples</p>
+<p>Normalize a Cartesian3 object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">normalized_A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>  <span class="c1"># Returns Cartesian3(0.6, 0.8, 0.0)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.proj_onto">
+<span class="sig-name descname"><span class="pre">proj_onto</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vector</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.proj_onto"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.proj_onto" title="Link to this definition">¶</a></dt>
+<dd><p>Projects the vector described by the current instance onto the provided vector.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>right</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></span></dt><dd><p>The vector to project onto.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><code class="xref py py-class docutils literal notranslate"><span class="pre">eratosthene.coordinates.Cartesian3</span></code></dt><dd><p>The projection vector.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The projection vector is obtained by computing the dot product of the current instance with the provided vector,
+dividing by the magnitude of the provided vector, and multiplying the result by the normalized provided vector.</p>
+<p class="rubric">Examples</p>
+<p>Project a Cartesian3 object onto another vector:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="n">projection</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.to_array">
+<span class="sig-name descname"><span class="pre">to_array</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.to_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.to_array" title="Link to this definition">¶</a></dt>
+<dd><p>Converts cartesian point coordinates into a numpy array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>A numpy array initialized with the point coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Convert Cartesian3 coordinates to a numpy array:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.to_pandas">
+<span class="sig-name descname"><span class="pre">to_pandas</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.to_pandas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.to_pandas" title="Link to this definition">¶</a></dt>
+<dd><p>Converts cartesian point coordinates into a Pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v2.2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code></a></dt><dd><p>A Pandas object initialized with the point coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Convert Cartesian3 coordinates to a Pandas DataFrame:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="sargeom.coordinates.CartesianECEF.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">CartesianECEF</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="sargeom.coordinates.negativePiToPi.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">negativePiToPi</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; ONERA/DEMR
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Cartesian3</a><ul>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3"><code class="docutils literal notranslate"><span class="pre">Cartesian3</span></code></a><ul>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.local_origin"><code class="docutils literal notranslate"><span class="pre">Cartesian3.local_origin</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.x"><code class="docutils literal notranslate"><span class="pre">Cartesian3.x</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.y"><code class="docutils literal notranslate"><span class="pre">Cartesian3.y</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.z"><code class="docutils literal notranslate"><span class="pre">Cartesian3.z</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.ONE"><code class="docutils literal notranslate"><span class="pre">Cartesian3.ONE()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_X"><code class="docutils literal notranslate"><span class="pre">Cartesian3.UNIT_X()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_Y"><code class="docutils literal notranslate"><span class="pre">Cartesian3.UNIT_Y()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.UNIT_Z"><code class="docutils literal notranslate"><span class="pre">Cartesian3.UNIT_Z()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.ZERO"><code class="docutils literal notranslate"><span class="pre">Cartesian3.ZERO()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.angle_btw"><code class="docutils literal notranslate"><span class="pre">Cartesian3.angle_btw()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.append"><code class="docutils literal notranslate"><span class="pre">Cartesian3.append()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.cross"><code class="docutils literal notranslate"><span class="pre">Cartesian3.cross()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance"><code class="docutils literal notranslate"><span class="pre">Cartesian3.distance()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot"><code class="docutils literal notranslate"><span class="pre">Cartesian3.dot()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.from_array"><code class="docutils literal notranslate"><span class="pre">Cartesian3.from_array()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.interp"><code class="docutils literal notranslate"><span class="pre">Cartesian3.interp()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_collection"><code class="docutils literal notranslate"><span class="pre">Cartesian3.is_collection()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_local"><code class="docutils literal notranslate"><span class="pre">Cartesian3.is_local()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.magnitude"><code class="docutils literal notranslate"><span class="pre">Cartesian3.magnitude()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.middle"><code class="docutils literal notranslate"><span class="pre">Cartesian3.middle()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.normalize"><code class="docutils literal notranslate"><span class="pre">Cartesian3.normalize()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.proj_onto"><code class="docutils literal notranslate"><span class="pre">Cartesian3.proj_onto()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_array"><code class="docutils literal notranslate"><span class="pre">Cartesian3.to_array()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_pandas"><code class="docutils literal notranslate"><span class="pre">Cartesian3.to_pandas()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/tabs.js?v=3ee01567"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    </body>
+</html>

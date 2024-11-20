@@ -1,0 +1,71 @@
+Cartesian3
+==========
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: Cartesian3
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~Cartesian3.local_origin
+      ~Cartesian3.x
+      ~Cartesian3.y
+      ~Cartesian3.z
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Cartesian3.ONE
+      ~Cartesian3.UNIT_X
+      ~Cartesian3.UNIT_Y
+      ~Cartesian3.UNIT_Z
+      ~Cartesian3.ZERO
+      ~Cartesian3.angle_btw
+      ~Cartesian3.append
+      ~Cartesian3.cross
+      ~Cartesian3.distance
+      ~Cartesian3.dot
+      ~Cartesian3.from_array
+      ~Cartesian3.interp
+      ~Cartesian3.is_collection
+      ~Cartesian3.is_local
+      ~Cartesian3.magnitude
+      ~Cartesian3.middle
+      ~Cartesian3.normalize
+      ~Cartesian3.proj_onto
+      ~Cartesian3.to_array
+      ~Cartesian3.to_pandas
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: local_origin
+   .. autoattribute:: x
+   .. autoattribute:: y
+   .. autoattribute:: z
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: ONE
+   .. automethod:: UNIT_X
+   .. automethod:: UNIT_Y
+   .. automethod:: UNIT_Z
+   .. automethod:: ZERO
+   .. automethod:: angle_btw
+   .. automethod:: append
+   .. automethod:: cross
+   .. automethod:: distance
+   .. automethod:: dot
+   .. automethod:: from_array
+   .. automethod:: interp
+   .. automethod:: is_collection
+   .. automethod:: is_local
+   .. automethod:: magnitude
+   .. automethod:: middle
+   .. automethod:: normalize
+   .. automethod:: proj_onto
+   .. automethod:: to_array
+   .. automethod:: to_pandas
