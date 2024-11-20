@@ -1,4 +1,4 @@
-# sar-geometry (sarg)
+# SAR Geometry
 
 A Python package for Synthetic Aperture Radar (SAR) geometry calculations.
 
@@ -14,15 +14,15 @@ conda activate sargeom-env
 2. **Install the package**: Next, you can install the plugin directly from GitHub using [pip](https://pypi.org/project/pip/):
 
 ```bash
-pip install git+https://github.com/oleveque/sar-geometry.git
+pip install git+https://github.com/oleveque/sargeom.git
 ```
 
 or in development mode:
 
 ```bash
-git clone https://github.com/oleveque/sar-geometry.git
-pip install -r ./sar-geometry/requirements.txt
-pip install -e ./sar-geometry
+git clone https://github.com/oleveque/sargeom.git
+pip install -r ./sargeom/requirements.txt
+pip install -e ./sargeom
 ```
 
 ## Issues
