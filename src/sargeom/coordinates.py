@@ -550,7 +550,6 @@ class Cartesian3(np.ndarray):
             coordinates = Cartesian3(1.0, 2.0, 3.0)
             df = coordinates.to_pandas()
         """
-        import pandas as pd
         try:
             import pandas as pd
         except ModuleNotFoundError:
