@@ -44,7 +44,7 @@ def negativePiToPi(angle, degrees=True):
     Returns
     -------
     :class:`float` or :class:`numpy.ndarray`
-        The converted angle or an array of converted angles (in degrees).
+        The converted angle or an array of converted angles (in degrees or radians).
     """
     # Transforms arrays and scalars of type ndarray into lists or integers
     if isinstance(angle, np.ndarray):
@@ -90,7 +90,8 @@ class Cartesian3(np.ndarray):
 
     Returns
     -------
-    The 3D cartesian point.
+    :class:`sargeom.coordinates.Cartesian3`
+        The 3D cartesian point.
 
     Examples
     --------
@@ -459,7 +460,7 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        right : :class:`sargeom.coordinates.Cartesian3`
+        vector : :class:`sargeom.coordinates.Cartesian3`
             The vector to project onto.
 
         Returns
@@ -492,9 +493,9 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        time : :class:`numpy.ndarray`
+        time_sampling : :class:`numpy.ndarray`
             Sampling time at which coordinates are acquired.
-        new_time : :class:`numpy.ndarray`
+        new_time_sampling : :class:`numpy.ndarray`
             Sampling time at which coordinates will be estimated.
 
         Raises
@@ -1291,7 +1292,8 @@ class Cartographic(np.ndarray):
 
     Returns
     -------
-    The cartographic position.
+    :class:`sargeom.coordinates.Cartographic`
+        The cartographic position.
 
     Examples
     --------
