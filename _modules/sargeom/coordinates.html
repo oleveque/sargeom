@@ -296,7 +296,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    :class:`float` or :class:`numpy.ndarray`</span>
-<span class="sd">        The converted angle or an array of converted angles (in degrees).</span>
+<span class="sd">        The converted angle or an array of converted angles (in degrees or radians).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Transforms arrays and scalars of type ndarray into lists or integers</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -333,7 +333,7 @@
 <span class="sd">        The Y component, in meters.</span>
 <span class="sd">    z : :class:`float` or :class:`numpy.ndarray`</span>
 <span class="sd">        The Z component, in meters.</span>
-<span class="sd">    origin : :class:`eratosthene.coordinates.Cartographic`, optional</span>
+<span class="sd">    origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
 <span class="sd">        The cartographic position describing the location of the local origin of the coordinate system.</span>
 <span class="sd">        If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.</span>
 
@@ -345,7 +345,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    The 3D cartesian point.</span>
+<span class="sd">    :class:`sargeom.coordinates.Cartesian3`</span>
+<span class="sd">        The 3D cartesian point.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -418,7 +419,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        array : array_like</span>
 <span class="sd">            A numpy array object representing a list of XYZ coordinates.</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`, optional</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
 <span class="sd">            The cartographic position describing the location of the local origin of the coordinate system.</span>
 <span class="sd">            If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.</span>
 <span class="sd">            If not specified, the default local origin of the instance will be used.</span>
@@ -430,7 +431,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The Cartesian3 instance initialized by the input numpy array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert input to numpy array</span>
@@ -493,7 +494,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the cartographic position of the origin of the local reference system, if the cartesian coordinate system used is one.</span>
 <span class="sd">        To obtain its expression in the cartesian ECEF reference system, use the following</span>
-<span class="sd">        method :meth:`eratosthene.coordinates.Cartesian3.to_ecef` on the result.</span>
+<span class="sd">        method :meth:`sargeom.coordinates.Cartesian3.to_ecef` on the result.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -502,7 +503,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The cartographic position of the origin of the local reference system used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_local</span><span class="p">():</span>
@@ -531,7 +532,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Instance initialized to (x=1.0, y=0.0, z=0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">origin</span><span class="p">)</span></div>
@@ -551,7 +552,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Instance initialized to (x=0.0, y=1.0, z=0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">origin</span><span class="p">)</span></div>
@@ -571,7 +572,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Instance initialized to (x=0.0, y=0.0, z=1.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">origin</span><span class="p">)</span></div>
@@ -591,7 +592,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Instance initialized to (x=1.0, y=1.0, z=1.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">origin</span><span class="p">)</span></div>
@@ -611,7 +612,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Instance initialized to (x=0.0, y=0.0, z=0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">origin</span><span class="p">)</span></div>
@@ -653,7 +654,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        positions : sequence of :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        positions : sequence of :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The sequence of Cartesian3 instances to append.</span>
 
 <span class="sd">        Raises</span>
@@ -663,7 +664,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The new Cartesian3 instance with the appended positions.</span>
 
 <span class="sd">        Examples</span>
@@ -721,7 +722,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The normalized cartesian point.</span>
 
 <span class="sd">        Notes</span>
@@ -749,12 +750,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        vector : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The vector to project onto.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The projection vector.</span>
 
 <span class="sd">        Notes</span>
@@ -776,6 +777,39 @@
         <span class="n">B</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">B</span> <span class="o">*</span> <span class="n">A</span></div>
 
+    
+<div class="viewcode-block" id="Cartesian3.reject_from">
+<a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.reject_from">[docs]</a>
+    <span class="k">def</span> <span class="nf">reject_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Rejects the vector described by the current instance from the provided vector.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vector : :class:`sargeom.coordinates.Cartesian3`</span>
+<span class="sd">            The vector to reject from.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
+<span class="sd">            The rejection vector.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        The rejection vector is obtained by subtracting the projection vector from the current instance.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Reject a Cartesian3 object from another vector:</span>
+
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            A = Cartesian3(1.0, 2.0, 3.0)</span>
+<span class="sd">            B = Cartesian3(2.0, 3.0, 4.0)</span>
+<span class="sd">            rejection = A.reject_from(B)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="Cartesian3.interp">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.interp">[docs]</a>
@@ -785,9 +819,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        time : :class:`numpy.ndarray`</span>
+<span class="sd">        time_sampling : :class:`numpy.ndarray`</span>
 <span class="sd">            Sampling time at which coordinates are acquired.</span>
-<span class="sd">        new_time : :class:`numpy.ndarray`</span>
+<span class="sd">        new_time_sampling : :class:`numpy.ndarray`</span>
 <span class="sd">            Sampling time at which coordinates will be estimated.</span>
 
 <span class="sd">        Raises</span>
@@ -797,7 +831,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            Estimated cartesian coordinates.</span>
 
 <span class="sd">        Notes</span>
@@ -887,12 +921,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The provided Cartesian point.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The cross (outer) product with this cartesian point and the provided one.</span>
 
 <span class="sd">        Examples</span>
@@ -917,9 +951,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        left : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        left : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The first Cartesian point.</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The second Cartesian point.</span>
 
 <span class="sd">        Returns</span>
@@ -949,9 +983,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        left : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        left : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The first Cartesian point.</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The second Cartesian point.</span>
 
 <span class="sd">        Returns</span>
@@ -981,14 +1015,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        left : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        left : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The first cartesian point.</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The second cartesian point.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The midpoint between these two cartesian points.</span>
 
 <span class="sd">        Examples</span>
@@ -1013,9 +1047,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        left : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        left : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The first cartesian point.</span>
-<span class="sd">        right : :class:`eratosthene.coordinates.Cartesian3`</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The second cartesian point.</span>
 <span class="sd">        degrees : bool, optional</span>
 <span class="sd">            If True (default), returns the angle in degrees. If False, returns the angle in radians.</span>
@@ -1077,7 +1111,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    :class:`eratosthene.coordinates.CartesianECEF`</span>
+<span class="sd">    :class:`sargeom.coordinates.CartesianECEF`</span>
 <span class="sd">        The 3D cartesian point in the Earth-centered Earth-fixed (ECEF) system.</span>
 
 <span class="sd">    Examples</span>
@@ -1112,7 +1146,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The geodetic coordinates (*latitude*, *longitude*, *height*).</span>
 
 <span class="sd">        Examples</span>
@@ -1136,7 +1170,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The origin position in geodetic coordinates of the North-East-Down (NED) system.</span>
 
 <span class="sd">        Raises</span>
@@ -1146,7 +1180,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalNED`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalNED`</span>
 <span class="sd">            The transformed coordinates in local North-East-Down (NED) system.</span>
 
 <span class="sd">        Examples</span>
@@ -1173,7 +1207,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The origin position in geodetic coordinates of the North-East-Down (NED) system.</span>
 
 <span class="sd">        Raises</span>
@@ -1183,7 +1217,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalNED`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalNED`</span>
 <span class="sd">            The transformed vector coordinates in local North-East-Down (NED) system.</span>
 
 <span class="sd">        Examples</span>
@@ -1211,7 +1245,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The origin position in geodetic coordinates of the East-North-Up (ENU) system.</span>
 
 <span class="sd">        Raises</span>
@@ -1221,7 +1255,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalENU`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalENU`</span>
 <span class="sd">            The transformed coordinates in local East-North-Up (ENU) system.</span>
 
 <span class="sd">        Examples</span>
@@ -1248,7 +1282,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The origin position in geodetic coordinates of the East-North-Up (ENU) system.</span>
 
 <span class="sd">        Raises</span>
@@ -1258,7 +1292,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalENU`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalENU`</span>
 <span class="sd">            The transformed vector coordinates in local East-North-Up (ENU) system.</span>
 
 <span class="sd">        Examples</span>
@@ -1296,7 +1330,7 @@
 <span class="sd">        The positive Y-axis points north along the meridian of longitude containing *lon0*, in meters.</span>
 <span class="sd">    zUp : :class:`float` or :class:`numpy.ndarray`</span>
 <span class="sd">        The positive Z-axis points upward along the ellipsoid normal, in meters.</span>
-<span class="sd">    origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">    origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">        The origin position in geodetic coordinates of the East-North-Up (ENU) system.</span>
 
 <span class="sd">    Attributes</span>
@@ -1359,7 +1393,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianECEF`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianECEF`</span>
 <span class="sd">            The geocentric ECEF coordinates.</span>
 
 <span class="sd">        Examples</span>
@@ -1389,7 +1423,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalNED`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalNED`</span>
 <span class="sd">            The local NED coordinates.</span>
 
 <span class="sd">        Examples</span>
@@ -1466,7 +1500,7 @@
 <span class="sd">        The positive Y-axis points east along the parallel of latitude containing *lat0*, in meters.</span>
 <span class="sd">    zDown : :class:`float` or :class:`numpy.ndarray`</span>
 <span class="sd">        The positive Z-axis points downward along the ellipsoid normal, in meters.</span>
-<span class="sd">    origin : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">    origin : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">        The origin position in geodetic coordinates of the North-East-Down (NED) system.</span>
 
 <span class="sd">    Attributes</span>
@@ -1533,7 +1567,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianECEF`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianECEF`</span>
 <span class="sd">            The geocentric ECEF coordinates.</span>
 
 <span class="sd">        Examples</span>
@@ -1563,7 +1597,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianLocalENU`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalENU`</span>
 <span class="sd">            The local NED coordinates.</span>
 
 <span class="sd">        Examples</span>
@@ -1654,7 +1688,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    The cartographic position.</span>
+<span class="sd">    :class:`sargeom.coordinates.Cartographic`</span>
+<span class="sd">        The cartographic position.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -1743,7 +1778,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        array : array_like</span>
 <span class="sd">            A numpy array object representing a list of Lon-Lat-Height coordinates.</span>
-<span class="sd">        origin : :class:`eratosthene.coordinates.Cartographic`, optional</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
 <span class="sd">            The cartographic position describing the location of the local origin of the coordinate system.</span>
 <span class="sd">            If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.</span>
 <span class="sd">            If not specified, the default local origin of the instance will be used.</span>
@@ -1757,7 +1792,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The Cartographic instance initialized by the input numpy array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Check if the input array is a numpy array</span>
@@ -1837,7 +1872,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            Instance initialized to (0.0, 0.0, 0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">))</span></div>
@@ -1852,7 +1887,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            Instance initialized to (longitude=5.117724, latitude=43.619212, height=0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">5.117724</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">43.619212</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
@@ -1867,7 +1902,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            Instance initialized to (longitude=2.230784, latitude=48.713028, height=0.0).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.230784</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">48.713028</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span></div>
@@ -1881,7 +1916,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        positions : :class:`eratosthene.coordinates.Cartographic`</span>
+<span class="sd">        positions : :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">            The sequence of Cartographic instances to append.</span>
 
 <span class="sd">        Raises</span>
@@ -1977,7 +2012,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        :class:`eratosthene.coordinates.CartesianECEF`</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianECEF`</span>
 <span class="sd">            The corresponding CartesianECEF instance.</span>
 
 <span class="sd">        Examples</span>

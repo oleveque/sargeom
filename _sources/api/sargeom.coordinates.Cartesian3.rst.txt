@@ -37,6 +37,7 @@ Cartesian3
       ~Cartesian3.middle
       ~Cartesian3.normalize
       ~Cartesian3.proj_onto
+      ~Cartesian3.reject_from
       ~Cartesian3.to_array
       ~Cartesian3.to_pandas
 
@@ -67,5 +68,6 @@ Cartesian3
    .. automethod:: middle
    .. automethod:: normalize
    .. automethod:: proj_onto
+   .. automethod:: reject_from
    .. automethod:: to_array
    .. automethod:: to_pandas
