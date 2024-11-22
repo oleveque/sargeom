@@ -25,6 +25,12 @@ pip install -r ./sargeom/requirements.txt
 pip install -e ./sargeom
 ```
 
+If you want to add the package to your dependencies file, you can add the following line to your `requirements.txt` file:
+
+```bash
+sargeom @ git+https://github.com/oleveque/sargeom@main
+```
+
 ## Issues
 
 If you encounter any problems, please [file an issue](https://github.com/oleveque/sar-geometry/issues) with a detailed description.
