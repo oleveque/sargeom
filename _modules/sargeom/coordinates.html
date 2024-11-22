@@ -753,6 +753,11 @@
 <span class="sd">        vector : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The vector to project onto.</span>
 
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the vector is not a single Cartesian3 instance.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`sargeom.coordinates.Cartesian3`</span>
@@ -773,9 +778,13 @@
 <span class="sd">            B = Cartesian3(2.0, 3.0, 4.0)</span>
 <span class="sd">            projection = A.proj_onto(B)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the vector is a single Cartesian3 instance</span>
+        <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The vector must be a single Cartesian3 instance.&quot;</span><span class="p">)</span>
+        
         <span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">B</span> <span class="o">*</span> <span class="n">A</span></div>
+        <span class="k">return</span> <span class="n">A</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span></div>
 
     
 <div class="viewcode-block" id="Cartesian3.reject_from">
@@ -788,6 +797,11 @@
 <span class="sd">        ----------</span>
 <span class="sd">        vector : :class:`sargeom.coordinates.Cartesian3`</span>
 <span class="sd">            The vector to reject from.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the vector is not a single Cartesian3 instance.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
