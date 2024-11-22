@@ -78,7 +78,7 @@ class Cartesian3(np.ndarray):
         The Y component, in meters.
     z : :class:`float` or :class:`numpy.ndarray`
         The Z component, in meters.
-    origin : :class:`eratosthene.coordinates.Cartographic`, optional
+    origin : :class:`sargeom.coordinates.Cartographic`, optional
         The cartographic position describing the location of the local origin of the coordinate system.
         If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
 
@@ -161,7 +161,7 @@ class Cartesian3(np.ndarray):
         ----------
         array : array_like
             A numpy array object representing a list of XYZ coordinates.
-        origin : :class:`eratosthene.coordinates.Cartographic`, optional
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
             The cartographic position describing the location of the local origin of the coordinate system.
             If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
             If not specified, the default local origin of the instance will be used.
@@ -173,7 +173,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The Cartesian3 instance initialized by the input numpy array.
         """
         # Convert input to numpy array
@@ -235,7 +235,7 @@ class Cartesian3(np.ndarray):
         """
         Returns the cartographic position of the origin of the local reference system, if the cartesian coordinate system used is one.
         To obtain its expression in the cartesian ECEF reference system, use the following
-        method :meth:`eratosthene.coordinates.Cartesian3.to_ecef` on the result.
+        method :meth:`sargeom.coordinates.Cartesian3.to_ecef` on the result.
 
         Raises
         ------
@@ -244,7 +244,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             The cartographic position of the origin of the local reference system used.
         """
         if self.is_local():
@@ -271,7 +271,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=1.0, y=0.0, z=0.0).
         """
         return cls(np.ones(N), np.zeros(N), np.zeros(N), origin)
@@ -288,7 +288,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=1.0, z=0.0).
         """
         return cls(np.zeros(N), np.ones(N), np.zeros(N), origin)
@@ -305,7 +305,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=0.0, z=1.0).
         """
         return cls(np.zeros(N), np.zeros(N), np.ones(N), origin)
@@ -322,7 +322,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=1.0, y=1.0, z=1.0).
         """
         return cls(np.ones(N), np.ones(N), np.ones(N), origin)
@@ -339,7 +339,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=0.0, z=0.0).
         """
         return cls(np.zeros(N), np.zeros(N), np.zeros(N), origin)
@@ -372,7 +372,7 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        positions : sequence of :class:`eratosthene.coordinates.Cartesian3`
+        positions : sequence of :class:`sargeom.coordinates.Cartesian3`
             The sequence of Cartesian3 instances to append.
 
         Raises
@@ -382,7 +382,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The new Cartesian3 instance with the appended positions.
 
         Examples
@@ -434,7 +434,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The normalized cartesian point.
 
         Notes
@@ -459,12 +459,12 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The vector to project onto.
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The projection vector.
 
         Notes
@@ -504,7 +504,7 @@ class Cartesian3(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             Estimated cartesian coordinates.
 
         Notes
@@ -585,12 +585,12 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The provided Cartesian point.
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The cross (outer) product with this cartesian point and the provided one.
 
         Examples
@@ -612,9 +612,9 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        left : :class:`eratosthene.coordinates.Cartesian3`
+        left : :class:`sargeom.coordinates.Cartesian3`
             The first Cartesian point.
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The second Cartesian point.
 
         Returns
@@ -641,9 +641,9 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        left : :class:`eratosthene.coordinates.Cartesian3`
+        left : :class:`sargeom.coordinates.Cartesian3`
             The first Cartesian point.
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The second Cartesian point.
 
         Returns
@@ -670,14 +670,14 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        left : :class:`eratosthene.coordinates.Cartesian3`
+        left : :class:`sargeom.coordinates.Cartesian3`
             The first cartesian point.
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The second cartesian point.
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartesian3`
+        :class:`sargeom.coordinates.Cartesian3`
             The midpoint between these two cartesian points.
 
         Examples
@@ -699,9 +699,9 @@ class Cartesian3(np.ndarray):
 
         Parameters
         ----------
-        left : :class:`eratosthene.coordinates.Cartesian3`
+        left : :class:`sargeom.coordinates.Cartesian3`
             The first cartesian point.
-        right : :class:`eratosthene.coordinates.Cartesian3`
+        right : :class:`sargeom.coordinates.Cartesian3`
             The second cartesian point.
         degrees : bool, optional
             If True (default), returns the angle in degrees. If False, returns the angle in radians.
@@ -759,7 +759,7 @@ class CartesianECEF(Cartesian3):
 
     Returns
     -------
-    :class:`eratosthene.coordinates.CartesianECEF`
+    :class:`sargeom.coordinates.CartesianECEF`
         The 3D cartesian point in the Earth-centered Earth-fixed (ECEF) system.
 
     Examples
@@ -789,7 +789,7 @@ class CartesianECEF(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             The geodetic coordinates (*latitude*, *longitude*, *height*).
 
         Examples
@@ -810,7 +810,7 @@ class CartesianECEF(Cartesian3):
 
         Parameters
         ----------
-        origin : :class:`eratosthene.coordinates.Cartographic`
+        origin : :class:`sargeom.coordinates.Cartographic`
             The origin position in geodetic coordinates of the North-East-Down (NED) system.
 
         Raises
@@ -820,7 +820,7 @@ class CartesianECEF(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalNED`
+        :class:`sargeom.coordinates.CartesianLocalNED`
             The transformed coordinates in local North-East-Down (NED) system.
 
         Examples
@@ -844,7 +844,7 @@ class CartesianECEF(Cartesian3):
 
         Parameters
         ----------
-        origin : :class:`eratosthene.coordinates.Cartographic`
+        origin : :class:`sargeom.coordinates.Cartographic`
             The origin position in geodetic coordinates of the North-East-Down (NED) system.
 
         Raises
@@ -854,7 +854,7 @@ class CartesianECEF(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalNED`
+        :class:`sargeom.coordinates.CartesianLocalNED`
             The transformed vector coordinates in local North-East-Down (NED) system.
 
         Examples
@@ -879,7 +879,7 @@ class CartesianECEF(Cartesian3):
 
         Parameters
         ----------
-        origin : :class:`eratosthene.coordinates.Cartographic`
+        origin : :class:`sargeom.coordinates.Cartographic`
             The origin position in geodetic coordinates of the East-North-Up (ENU) system.
 
         Raises
@@ -889,7 +889,7 @@ class CartesianECEF(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalENU`
+        :class:`sargeom.coordinates.CartesianLocalENU`
             The transformed coordinates in local East-North-Up (ENU) system.
 
         Examples
@@ -913,7 +913,7 @@ class CartesianECEF(Cartesian3):
 
         Parameters
         ----------
-        origin : :class:`eratosthene.coordinates.Cartographic`
+        origin : :class:`sargeom.coordinates.Cartographic`
             The origin position in geodetic coordinates of the East-North-Up (ENU) system.
 
         Raises
@@ -923,7 +923,7 @@ class CartesianECEF(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalENU`
+        :class:`sargeom.coordinates.CartesianLocalENU`
             The transformed vector coordinates in local East-North-Up (ENU) system.
 
         Examples
@@ -957,7 +957,7 @@ class CartesianLocalENU(Cartesian3):
         The positive Y-axis points north along the meridian of longitude containing *lon0*, in meters.
     zUp : :class:`float` or :class:`numpy.ndarray`
         The positive Z-axis points upward along the ellipsoid normal, in meters.
-    origin : :class:`eratosthene.coordinates.Cartographic`
+    origin : :class:`sargeom.coordinates.Cartographic`
         The origin position in geodetic coordinates of the East-North-Up (ENU) system.
 
     Attributes
@@ -1018,7 +1018,7 @@ class CartesianLocalENU(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianECEF`
+        :class:`sargeom.coordinates.CartesianECEF`
             The geocentric ECEF coordinates.
 
         Examples
@@ -1045,7 +1045,7 @@ class CartesianLocalENU(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalNED`
+        :class:`sargeom.coordinates.CartesianLocalNED`
             The local NED coordinates.
 
         Examples
@@ -1115,7 +1115,7 @@ class CartesianLocalNED(Cartesian3):
         The positive Y-axis points east along the parallel of latitude containing *lat0*, in meters.
     zDown : :class:`float` or :class:`numpy.ndarray`
         The positive Z-axis points downward along the ellipsoid normal, in meters.
-    origin : :class:`eratosthene.coordinates.Cartographic`
+    origin : :class:`sargeom.coordinates.Cartographic`
         The origin position in geodetic coordinates of the North-East-Down (NED) system.
 
     Attributes
@@ -1180,7 +1180,7 @@ class CartesianLocalNED(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianECEF`
+        :class:`sargeom.coordinates.CartesianECEF`
             The geocentric ECEF coordinates.
 
         Examples
@@ -1207,7 +1207,7 @@ class CartesianLocalNED(Cartesian3):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianLocalENU`
+        :class:`sargeom.coordinates.CartesianLocalENU`
             The local NED coordinates.
 
         Examples
@@ -1375,7 +1375,7 @@ class Cartographic(np.ndarray):
         ----------
         array : array_like
             A numpy array object representing a list of Lon-Lat-Height coordinates.
-        origin : :class:`eratosthene.coordinates.Cartographic`, optional
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
             The cartographic position describing the location of the local origin of the coordinate system.
             If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
             If not specified, the default local origin of the instance will be used.
@@ -1389,7 +1389,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             The Cartographic instance initialized by the input numpy array.
         """
         # Check if the input array is a numpy array
@@ -1466,7 +1466,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (0.0, 0.0, 0.0).
         """
         return Cartographic(np.zeros(N), np.zeros(N), np.zeros(N))
@@ -1478,7 +1478,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (longitude=5.117724, latitude=43.619212, height=0.0).
         """
         return Cartographic(longitude=5.117724, latitude=43.619212, height=0.0)
@@ -1490,7 +1490,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.Cartographic`
+        :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (longitude=2.230784, latitude=48.713028, height=0.0).
         """
         return Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
@@ -1501,7 +1501,7 @@ class Cartographic(np.ndarray):
 
         Parameters
         ----------
-        positions : :class:`eratosthene.coordinates.Cartographic`
+        positions : :class:`sargeom.coordinates.Cartographic`
             The sequence of Cartographic instances to append.
 
         Raises
@@ -1588,7 +1588,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        :class:`eratosthene.coordinates.CartesianECEF`
+        :class:`sargeom.coordinates.CartesianECEF`
             The corresponding CartesianECEF instance.
 
         Examples
