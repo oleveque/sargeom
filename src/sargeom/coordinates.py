@@ -463,6 +463,11 @@ class Cartesian3(np.ndarray):
         vector : :class:`sargeom.coordinates.Cartesian3`
             The vector to project onto.
 
+        Raises
+        ------
+        :class:`ValueError`
+            If the vector is not a single Cartesian3 instance.
+
         Returns
         -------
         :class:`sargeom.coordinates.Cartesian3`
@@ -483,9 +488,13 @@ class Cartesian3(np.ndarray):
             B = Cartesian3(2.0, 3.0, 4.0)
             projection = A.proj_onto(B)
         """
+        # Check if the vector is a single Cartesian3 instance
+        if vector.is_collection():
+            raise ValueError("The vector must be a single Cartesian3 instance.")
+        
         A = Cartesian3.dot(vector, self)
         B = vector.normalize()
-        return B * A
+        return A[:, None] * B
     
     def reject_from(self, vector):
         """
@@ -495,6 +504,11 @@ class Cartesian3(np.ndarray):
         ----------
         vector : :class:`sargeom.coordinates.Cartesian3`
             The vector to reject from.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If the vector is not a single Cartesian3 instance.
 
         Returns
         -------
