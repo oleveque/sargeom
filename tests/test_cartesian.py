@@ -160,6 +160,22 @@ class TestCartesian3(unittest.TestCase):
         normalized_result = self.cartesian_point.normalize()
         self.assertEqual(np.linalg.norm(normalized_result.to_array()), 1.0)
 
+    def test_rejection(self):
+        # Test rejection from another Cartesian3 instance
+        A = self.cartesian_collection
+        B = self.cartesian_point
+        rejection = A.reject_from(B)
+        expected_rejection = A - A.proj_onto(B)
+        self.assertTrue(np.allclose(rejection.to_array(), expected_rejection.to_array()))
+
+    def test_projection(self):
+        # Test projection onto another Cartesian3 instance
+        A = self.cartesian_collection
+        B = self.cartesian_point
+        projection = A.proj_onto(B)
+        expected_projection = Cartesian3.dot(A, B)[:, None] * B / B.magnitude()[:, None]
+        self.assertTrue(np.allclose(projection.to_array(), expected_projection.to_array()))
+
     def test_logical_operations(self):
         # Test equality comparison
         my_array = np.array([
