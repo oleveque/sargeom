@@ -486,6 +486,36 @@ class Cartesian3(np.ndarray):
         A = Cartesian3.dot(vector, self)
         B = vector.normalize()
         return B * A
+    
+    def reject_from(self, vector):
+        """
+        Rejects the vector described by the current instance from the provided vector.
+
+        Parameters
+        ----------
+        vector : :class:`sargeom.coordinates.Cartesian3`
+            The vector to reject from.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartesian3`
+            The rejection vector.
+
+        Notes
+        -----
+        The rejection vector is obtained by subtracting the projection vector from the current instance.
+
+        Examples
+        --------
+        Reject a Cartesian3 object from another vector:
+
+        .. code-block:: python
+
+            A = Cartesian3(1.0, 2.0, 3.0)
+            B = Cartesian3(2.0, 3.0, 4.0)
+            rejection = A.reject_from(B)
+        """
+        return self - self.proj_onto(vector)
 
     def interp(self, time_sampling, new_time_sampling):
         """
