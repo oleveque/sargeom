@@ -173,7 +173,7 @@ class TestCartesian3(unittest.TestCase):
         A = self.cartesian_collection
         B = self.cartesian_point
         projection = A.proj_onto(B)
-        expected_projection = Cartesian3.dot(A, B)[:, None] * B / B.magnitude()[:, None]
+        expected_projection = A.dot(B)[:, None] * B / B.magnitude()
         self.assertTrue(np.allclose(projection.to_array(), expected_projection.to_array()))
 
     def test_logical_operations(self):
@@ -190,7 +190,7 @@ class TestCartesian3(unittest.TestCase):
         A = self.cartesian_point
         B = Cartesian3(4.0, 5.0, 6.0)
         
-        dot_product = Cartesian3.dot(A, B)
+        dot_product = A.dot(B)
         self.assertEqual(dot_product, 32.0)
         
         # Test distance calculation

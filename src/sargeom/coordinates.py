@@ -427,7 +427,7 @@ class Cartesian3(np.ndarray):
             A = Cartesian3(3.0, 4.0, 0.0)
             magnitude_A = A.magnitude()  # Returns 5.0
         """
-        return np.linalg.norm(self, axis=1)
+        return np.squeeze(np.linalg.norm(self, axis=1))
 
     def normalize(self):
         """
@@ -451,8 +451,8 @@ class Cartesian3(np.ndarray):
             A = Cartesian3(3.0, 4.0, 0.0)
             normalized_A = A.normalize()  # Returns Cartesian3(0.6, 0.8, 0.0)
         """
-        A = self.magnitude()
-        return self / A[:, np.newaxis]
+        magnitude = np.linalg.norm(self, axis=1)
+        return self / magnitude[:, None]
 
     def proj_onto(self, vector):
         """
@@ -492,7 +492,7 @@ class Cartesian3(np.ndarray):
         if vector.is_collection():
             raise ValueError("The vector must be a single Cartesian3 instance.")
         
-        A = Cartesian3.dot(vector, self)
+        A = vector.dot(self)
         B = vector.normalize()
         return A[:, None] * B
     
@@ -650,22 +650,19 @@ class Cartesian3(np.ndarray):
         """
         return self.__class__.from_array(np.cross(self, right), self._local_origin)
 
-    @staticmethod
-    def dot(left, right):
+    def dot(self, right):
         """
-        Computes the dot (scalar) product of two cartesian points.
+        Computes the dot (scalar) product with a provided cartesian point.
 
         Parameters
         ----------
-        left : :class:`sargeom.coordinates.Cartesian3`
-            The first Cartesian point.
         right : :class:`sargeom.coordinates.Cartesian3`
-            The second Cartesian point.
+            The provided Cartesian point.
 
         Returns
         -------
         :class:`numpy.ndarray`
-            The dot (scalar) product of these two cartesian points.
+            The dot (scalar) product with this cartesian point and the provided one.
 
         Examples
         --------
@@ -675,9 +672,9 @@ class Cartesian3(np.ndarray):
 
             A = Cartesian3(1.0, 2.0, 3.0)
             B = Cartesian3(4.0, 5.0, 6.0)
-            dot_product = Cartesian3.dot(A, B)
+            dot_product = A.dot(B)
         """
-        return np.multiply(left.__array__(), right.__array__()).sum(axis=1)
+        return np.multiply(self.__array__(), right.__array__()).sum(axis=1)
 
     @staticmethod
     def distance(left, right):
@@ -766,7 +763,7 @@ class Cartesian3(np.ndarray):
             B = Cartesian3(4.0, 5.0, 6.0)
             angle = Cartesian3.angle_btw(A, B)
         """
-        angle = np.arccos(Cartesian3.dot(left.normalize(), right.normalize()))
+        angle = np.arccos(left.normalize().dot(right.normalize()))
 
         if degrees:
             return np.rad2deg(angle)
