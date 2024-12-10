@@ -711,7 +711,7 @@
 <span class="sd">            A = Cartesian3(3.0, 4.0, 0.0)</span>
 <span class="sd">            magnitude_A = A.magnitude()  # Returns 5.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Cartesian3.normalize">
@@ -738,8 +738,8 @@
 <span class="sd">            A = Cartesian3(3.0, 4.0, 0.0)</span>
 <span class="sd">            normalized_A = A.normalize()  # Returns Cartesian3(0.6, 0.8, 0.0)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">A</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>
-        <span class="k">return</span> <span class="bp">self</span> <span class="o">/</span> <span class="n">A</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span></div>
+        <span class="n">magnitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span> <span class="o">/</span> <span class="n">magnitude</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="Cartesian3.proj_onto">
@@ -782,7 +782,7 @@
         <span class="k">if</span> <span class="n">vector</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The vector must be a single Cartesian3 instance.&quot;</span><span class="p">)</span>
         
-        <span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">vector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">A</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">A</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">B</span></div>
 
@@ -958,22 +958,19 @@
 
 <div class="viewcode-block" id="Cartesian3.dot">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.dot">[docs]</a>
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the dot (scalar) product of two cartesian points.</span>
+<span class="sd">        Computes the dot (scalar) product with a provided cartesian point.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        left : :class:`sargeom.coordinates.Cartesian3`</span>
-<span class="sd">            The first Cartesian point.</span>
 <span class="sd">        right : :class:`sargeom.coordinates.Cartesian3`</span>
-<span class="sd">            The second Cartesian point.</span>
+<span class="sd">            The provided Cartesian point.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`numpy.ndarray`</span>
-<span class="sd">            The dot (scalar) product of these two cartesian points.</span>
+<span class="sd">            The dot (scalar) product with this cartesian point and the provided one.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -983,9 +980,9 @@
 
 <span class="sd">            A = Cartesian3(1.0, 2.0, 3.0)</span>
 <span class="sd">            B = Cartesian3(4.0, 5.0, 6.0)</span>
-<span class="sd">            dot_product = Cartesian3.dot(A, B)</span>
+<span class="sd">            dot_product = A.dot(B)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cartesian3.distance">
@@ -1083,7 +1080,7 @@
 <span class="sd">            B = Cartesian3(4.0, 5.0, 6.0)</span>
 <span class="sd">            angle = Cartesian3.angle_btw(A, B)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">normalize</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">normalize</span><span class="p">()))</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">right</span><span class="o">.</span><span class="n">normalize</span><span class="p">()))</span>
 
         <span class="k">if</span> <span class="n">degrees</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>

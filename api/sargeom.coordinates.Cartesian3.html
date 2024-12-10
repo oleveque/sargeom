@@ -347,8 +347,8 @@ If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance" title="sargeom.coordinates.Cartesian3.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(left, right)</p></td>
 <td><p>Computes the distance between two cartesian points.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot" title="sargeom.coordinates.Cartesian3.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(left, right)</p></td>
-<td><p>Computes the dot (scalar) product of two cartesian points.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot" title="sargeom.coordinates.Cartesian3.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(right)</p></td>
+<td><p>Computes the dot (scalar) product with a provided cartesian point.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.from_array" title="sargeom.coordinates.Cartesian3.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, origin])</p></td>
 <td><p>Initializes a Cartesian3 instance using a numpy array representing XYZ coordinates.</p></td>
@@ -674,20 +674,18 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.dot">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">left</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.dot" title="Link to this definition">¶</a></dt>
-<dd><p>Computes the dot (scalar) product of two cartesian points.</p>
+<span class="sig-name descname"><span class="pre">dot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">right</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartesian3.dot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.dot" title="Link to this definition">¶</a></dt>
+<dd><p>Computes the dot (scalar) product with a provided cartesian point.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>left</strong><span class="classifier"><a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The first Cartesian point.</p>
-</dd>
-<dt><strong>right</strong><span class="classifier"><a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The second Cartesian point.</p>
+<dt><strong>right</strong><span class="classifier"><a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The provided Cartesian point.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The dot (scalar) product of these two cartesian points.</p>
+<dt><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The dot (scalar) product with this cartesian point and the provided one.</p>
 </dd>
 </dl>
 </dd>
@@ -696,7 +694,7 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 <p>Compute the dot product of two Cartesian3 objects:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="n">dot_product</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="n">dot_product</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
