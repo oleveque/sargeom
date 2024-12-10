@@ -427,7 +427,7 @@ class Cartesian3(np.ndarray):
             A = Cartesian3(3.0, 4.0, 0.0)
             magnitude_A = A.magnitude()  # Returns 5.0
         """
-        return np.squeeze(np.linalg.norm(self, axis=1))
+        return np.linalg.norm(self.__array__(), axis=1).squeeze()
 
     def normalize(self):
         """
@@ -451,8 +451,7 @@ class Cartesian3(np.ndarray):
             A = Cartesian3(3.0, 4.0, 0.0)
             normalized_A = A.normalize()  # Returns Cartesian3(0.6, 0.8, 0.0)
         """
-        magnitude = np.linalg.norm(self, axis=1)
-        return self / magnitude[:, None]
+        return self / np.linalg.norm(self.__array__(), axis=1)[:, None]
 
     def proj_onto(self, vector):
         """
@@ -602,7 +601,7 @@ class Cartesian3(np.ndarray):
                 "Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html"
             )
 
-        return pd.DataFrame(self, columns=["x", "y", "z"])
+        return pd.DataFrame(self.__array__(), columns=["x", "y", "z"])
 
     def to_array(self):
         """
@@ -648,7 +647,7 @@ class Cartesian3(np.ndarray):
             B = Cartesian3(0.0, 1.0, 0.0)
             cross_product = A.cross(B)
         """
-        return self.__class__.from_array(np.cross(self, right), self._local_origin)
+        return self.__class__.from_array(np.cross(self.__array__(), right.__array__()), self._local_origin)
 
     def dot(self, right):
         """
@@ -910,7 +909,7 @@ class CartesianECEF(Cartesian3):
             ned_vector = ecef_vector.to_nedv(origin)
         """
         if isinstance(origin, Cartographic):
-            new_array = CartesianLocalNED.ZERO(origin=origin).rotation.apply(self)
+            new_array = CartesianLocalNED.ZERO(origin=origin).rotation.apply(self.__array__())
             return CartesianLocalNED.from_array(new_array, origin)
         else:
             raise ValueError("The origin position must be a Cartographic instance.")
@@ -979,7 +978,7 @@ class CartesianECEF(Cartesian3):
             enu_vector = ecef_vector.to_enuv(origin)
         """
         if isinstance(origin, Cartographic):
-            new_array = CartesianLocalENU.ZERO(origin=origin).rotation.apply(self)
+            new_array = CartesianLocalENU.ZERO(origin=origin).rotation.apply(self.__array__())
             return CartesianLocalENU.from_array(new_array, origin)
         else:
             raise ValueError("The origin position must be a Cartographic instance.")
@@ -1077,7 +1076,7 @@ class CartesianLocalENU(Cartesian3):
                 "The origin of the local Cartesian coordinate system is not defined."
             )
         else:
-            new_array = self.rotation.inv().apply(self)
+            new_array = self.rotation.inv().apply(self.__array__())
             return CartesianECEF.from_array(new_array) + self._local_origin.to_ecef()
 
     def to_ned(self):
@@ -1239,7 +1238,7 @@ class CartesianLocalNED(Cartesian3):
                 "The origin of the local Cartesian coordinate system is not defined."
             )
         else:
-            new_array = self.rotation.inv().apply(self)
+            new_array = self.rotation.inv().apply(self.__array__())
             return CartesianECEF.from_array(new_array) + self._local_origin.to_ecef()
 
     def to_enu(self):
@@ -1407,7 +1406,7 @@ class Cartographic(np.ndarray):
         if self.is_collection():
             return f"Lon.Lat.Height Cartographic positions\n{self.__str__()}"
         else:
-            return f"Lon.Lat.Height Cartographic position\n{self.squeeze().__str__()}"
+            return f"Lon.Lat.Height Cartographic position\n{self.__array__().squeeze().__str__()}"
 
     @staticmethod
     def from_array(array, degrees=True):
@@ -1713,9 +1712,9 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self[:, :2].T
+            coords = self[:, :2].__array__().T
         else:
-            coords = self.T
+            coords = self.__array__().T
 
         if self.is_collection():
             if link_markers:
@@ -1767,9 +1766,9 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self[:, :2].T
+            coords = self[:, :2].__array__().T
         else:
-            coords = self.T
+            coords = self.__array__().T
 
         if self.is_collection():
             if link_markers:
@@ -1810,9 +1809,9 @@ class Cartographic(np.ndarray):
         lat0 = (self.latitude.max() + self.latitude.min()) / 2
         m = folium.Map(location=(lat0, lon0))
         if link_markers:
-            folium.PolyLine(np.flip(self[:, :2], axis=0).tolist()).add_to(m)
+            folium.PolyLine(np.flip(self[:, :2].__array__(), axis=0).tolist()).add_to(m)
         else:
-            for position in self[:, :2]:
+            for position in self[:, :2].__array__():
                 folium.Marker(
                     np.flip(position).tolist(),
                     popup=folium.Popup(
@@ -1845,7 +1844,7 @@ class Cartographic(np.ndarray):
                 "Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html"
             )
 
-        return pd.DataFrame(self, columns=["longitude", "latitude", "height"])
+        return pd.DataFrame(self.__array__(), columns=["longitude", "latitude", "height"])
 
     def to_array(self):
         """
