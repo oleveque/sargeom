@@ -20,7 +20,7 @@ To begin, make sure that you have **Conda** installed on your system. Conda will
 Installing the Package
 ----------------------
 
-Once your environment is set up, you can install **SARGeom** in one of two ways:
+Once your environment is set up, you can install ``sargeom`` in one of two ways:
 
 Option 1: Install from GitHub using pip
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +51,7 @@ If you're managing your project's dependencies using a `requirements.txt` file, 
 
     sargeom @ git+https://github.com/oleveque/sargeom@main
 
-This will allow you to install **SARGeom** by running:
+This will allow you to install ``sargeom`` by running:
 
 .. code-block:: bash
 
