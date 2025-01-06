@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="sargeom.coordinates Module" href="api_reference.html" /><link rel="prev" title="SAR Geometry" href="index.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>User Guide - SARGeom</title>
+        <title>Installation Guide - SARGeom</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
@@ -182,7 +182,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -203,7 +203,7 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">User Guide</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation Guide</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="api_reference.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
@@ -238,7 +238,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="_sources/user_guide.rst.txt" title="View this page">
+  <a class="muted-link" href="_sources/installation_guide.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -252,15 +252,60 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="user-guide">
-<h1>User Guide<a class="headerlink" href="#user-guide" title="Link to this heading">¶</a></h1>
-<p>TODO: Add user guide content here.</p>
+          <section id="installation-guide">
+<h1>Installation Guide<a class="headerlink" href="#installation-guide" title="Link to this heading">¶</a></h1>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h2>
+<p>To begin, make sure that you have <strong>Conda</strong> installed on your system. Conda will help you manage dependencies and set up an isolated environment for this package.</p>
+<ol class="arabic">
+<li><p><strong>Install Conda</strong>:
+If you don’t have Conda installed yet, you can download and install it by following the instructions on the <a class="reference external" href="https://docs.anaconda.com/miniconda/">Conda website</a>.</p></li>
+<li><p><strong>Create and activate a new environment</strong>:
+It’s recommended to create a new environment for this project to avoid conflicts with other packages. Run the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>sargeom-env<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.12
+conda<span class="w"> </span>activate<span class="w"> </span>sargeom-env
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="installing-the-package">
+<h2>Installing the Package<a class="headerlink" href="#installing-the-package" title="Link to this heading">¶</a></h2>
+<p>Once your environment is set up, you can install <strong>SARGeom</strong> in one of two ways:</p>
+<section id="option-1-install-from-github-using-pip">
+<h3>Option 1: Install from GitHub using pip<a class="headerlink" href="#option-1-install-from-github-using-pip" title="Link to this heading">¶</a></h3>
+<p>You can install the package directly from GitHub using <cite>pip</cite>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/oleveque/sargeom.git
+</pre></div>
+</div>
+</section>
+<section id="option-2-install-in-development-mode">
+<h3>Option 2: Install in Development Mode<a class="headerlink" href="#option-2-install-in-development-mode" title="Link to this heading">¶</a></h3>
+<p>If you want to work on the package or use the latest developments from the repository, you can install it in development mode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/oleveque/sargeom.git
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>./sargeom/requirements.txt
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>./sargeom
+</pre></div>
+</div>
+</section>
+<section id="option-3-add-to-requirements-txt">
+<h3>Option 3: Add to <cite>requirements.txt</cite><a class="headerlink" href="#option-3-add-to-requirements-txt" title="Link to this heading">¶</a></h3>
+<p>If you’re managing your project’s dependencies using a <cite>requirements.txt</cite> file, simply add the following line:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sargeom<span class="w"> </span>@<span class="w"> </span>git+https://github.com/oleveque/sargeom@main
+</pre></div>
+</div>
+<p>This will allow you to install <strong>SARGeom</strong> by running:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements.txt
+</pre></div>
+</div>
+</section>
+</section>
 </section>
 
         </article>
@@ -306,8 +351,33 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Installation Guide</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#installing-the-package">Installing the Package</a><ul>
+<li><a class="reference internal" href="#option-1-install-from-github-using-pip">Option 1: Install from GitHub using pip</a></li>
+<li><a class="reference internal" href="#option-2-install-in-development-mode">Option 2: Install in Development Mode</a></li>
+<li><a class="reference internal" href="#option-3-add-to-requirements-txt">Option 3: Add to <cite>requirements.txt</cite></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>
