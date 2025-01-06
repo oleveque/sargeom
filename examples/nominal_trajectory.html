@@ -3,16 +3,17 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Cartesian3" href="sargeom.coordinates.Cartesian3.html" /><link rel="prev" title="sargeom.coordinates Module" href="../api_reference.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Examples" href="../examples.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>negativePiToPi - SARGeom</title>
+        <title>Generating a Nominal Trajectory - SARGeom</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
     
     
@@ -204,17 +205,17 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_guide.html">User Guide</a></li>
-<li class="toctree-l1 current has-children"><a class="reference internal" href="../api_reference.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">negativePiToPi</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartographic.html">Cartographic</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/nominal_trajectory.html">Generating a Nominal Trajectory</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Generating a Nominal Trajectory</a></li>
 </ul>
 </li>
 </ul>
@@ -237,7 +238,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/api/sargeom.coordinates.negativePiToPi.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/examples/nominal_trajectory.ipynb.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -257,30 +258,158 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="negativepitopi">
-<h1>negativePiToPi<a class="headerlink" href="#negativepitopi" title="Link to this heading">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="sargeom.coordinates.negativePiToPi">
-<span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">negativePiToPi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#negativePiToPi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.negativePiToPi" title="Link to this definition">¶</a></dt>
-<dd><p>Converts angles to the range from -180 to 180 degrees.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>angle</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or array_like</span></dt><dd><p>The input angle or a list/array of angles.</p>
-</dd>
-<dt><strong>degrees</strong><span class="classifier">bool, optional</span></dt><dd><p>If True (default), takes input angles in degrees and returns the angle in degrees. If False, takes input radians and returns the angle in radians.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The converted angle or an array of converted angles (in degrees or radians).</p>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
+          <section id="Generating-a-Nominal-Trajectory">
+<h1>Generating a Nominal Trajectory<a class="headerlink" href="#Generating-a-Nominal-Trajectory" title="Link to this heading">¶</a></h1>
+<p>This notebook demonstrates how to generate a nominal trajectory in the North-East-Down (NED) local coordinate system and convert it to WGS84 geographic coordinates (longitude, latitude, and height). The trajectory is based on a defined starting point and direction, with the ability to save the resulting positions in a CSV file for further analysis or visualization.</p>
+<section id="Objective">
+<h2>Objective<a class="headerlink" href="#Objective" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Define the starting point in geographic coordinates (latitude, longitude, height).</p></li>
+<li><p>Specify a route direction (azimuth) and slope (pitch) to generate a trajectory.</p></li>
+<li><p>Compute a series of local NED coordinates based on the specified direction and slope.</p></li>
+<li><p>Convert the local NED coordinates to WGS84 geographic coordinates (latitude, longitude, height).</p></li>
+<li><p>Save the resulting trajectory as a CSV file with appropriate headers.</p></li>
+</ul>
+</section>
+<section id="Step-1:-Import-Required-Libraries">
+<h2>Step 1: Import Required Libraries<a class="headerlink" href="#Step-1:-Import-Required-Libraries" title="Link to this heading">¶</a></h2>
+<p>We begin by importing necessary libraries:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sargeom.coordinates import Cartographic, CartesianLocalNED
+from scipy.spatial.transform import Rotation
+import numpy as np
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-2:-Define-the-NED-Frame-Origin">
+<h2>Step 2: Define the NED Frame Origin<a class="headerlink" href="#Step-2:-Define-the-NED-Frame-Origin" title="Link to this heading">¶</a></h2>
+<p>The origin of the NED coordinate system is defined in terms of latitude, longitude, and height. This point serves as the reference for all local NED coordinates. In this example, we use the following coordinates:</p>
+<ul class="simple">
+<li><p>Latitude: 3.2431077847784763490°</p></li>
+<li><p>Longitude: 42.475181371623002°</p></li>
+<li><p>Height: 3818 meters</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ned_frame_origin = Cartographic(
+    latitude=3.2431077847784763490, # degrees
+    longitude=42.475181371623002, # degrees
+    height=3818 # meters
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-3:-Specify-the-Route-and-Slope">
+<h2>Step 3: Specify the Route and Slope<a class="headerlink" href="#Step-3:-Specify-the-Route-and-Slope" title="Link to this heading">¶</a></h2>
+<p>The direction of travel (route) and the slope (pitch) of the trajectory are defined in degrees. In this example:</p>
+<ul class="simple">
+<li><p>Route (azimuth): 270.615° (heading direction)</p></li>
+<li><p>Slope (pitch): -0.087° (downward slope)</p></li>
+<li><p>Step size: 0.28 meters between each sample</p></li>
+<li><p>Number of trajectory samples: 100</p></li>
+<li><p>First sample distance from the origin: 10 meters (this will be the distance of the first trajectory point from the NED origin)</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>heading_angle = 270.615 # degrees
+pitch_angle = -0.087 # degrees
+sample_step = 0.28 # meters
+number_of_samples = 100
+initial_distance_from_origin = 10.0 # meters
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-4:-Compute-the-Direction-of-Travel">
+<h2>Step 4: Compute the Direction of Travel<a class="headerlink" href="#Step-4:-Compute-the-Direction-of-Travel" title="Link to this heading">¶</a></h2>
+<p>We compute the direction of the trajectory in the NED (North-East-Down) coordinate system using a rotation matrix. The <code class="docutils literal notranslate"><span class="pre">scipy.spatial.transform.Rotation</span></code> class allows us to define rotations based on Euler angles. Here we use the “ZYX” intrinsic rotation convention to apply the azimuth (route) and pitch (slope).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>travel_direction = Rotation.from_euler(
+    &quot;ZYX&quot;,  # Intrinsic rotations
+    [heading_angle, pitch_angle, 0], # Route and slope angles (yaw, pitch, roll)
+    degrees=True,
+).apply([1, 0, 0]) # Apply the rotation to the x-axis direction
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-5:-Define-the-Trajectory">
+<h2>Step 5: Define the Trajectory<a class="headerlink" href="#Step-5:-Define-the-Trajectory" title="Link to this heading">¶</a></h2>
+<p>The trajectory is created by generating a sequence of NED coordinates. We define the displacement along the trajectory by multiplying the direction vector by a step size and creating an array of sample points along the trajectory.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>distance_samples = initial_distance_from_origin + np.arange(0, number_of_samples) * sample_step # Create array of distances
 
+# Generate the trajectory in NED coordinates
+trajectory_ned = CartesianLocalNED.from_array(np.outer(distance_samples, travel_direction), origin=ned_frame_origin)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-6:-Convert-NED-Coordinates-to-WGS84">
+<h2>Step 6: Convert NED Coordinates to WGS84<a class="headerlink" href="#Step-6:-Convert-NED-Coordinates-to-WGS84" title="Link to this heading">¶</a></h2>
+<p>Once the trajectory is defined in NED coordinates, we convert it to WGS84 geographic coordinates (latitude, longitude, and height) using the .to_ecef().to_cartographic() method chain. This will allow us to obtain the desired geographic positions in degrees and meters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trajectory_wgs84 = trajectory_ned.to_ecef().to_cartographic()
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-7:-Save-the-Trajectory-to-a-CSV-File">
+<h2>Step 7: Save the Trajectory to a CSV File<a class="headerlink" href="#Step-7:-Save-the-Trajectory-to-a-CSV-File" title="Link to this heading">¶</a></h2>
+<p>Finally, we save the generated trajectory to a CSV file. The CSV file includes headers with descriptions of the coordinate fields, making it easy to understand the data. The file will store the coordinates with appropriate precision.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>output_filename = &quot;nominal_trajectory.csv&quot;
+CSV_HEADER_DESCRIPTION = &quot;&quot;&quot;# Fields descriptions:
+# -------------------
+#    o Positions as WGS84 Geographic coordinates:
+#        - LON_WGS84_DEG [°]: The longitude coordinate
+#        - LAT_WGS84_DEG [°]: The latitude coordinate
+#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate
+
+LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M&quot;&quot;&quot;
+
+np.savetxt(
+    output_filename, trajectory_wgs84.to_array(),
+    fmt=[&#39;%.12f&#39;, &#39;%.12f&#39;, &#39;%.6f&#39;],
+    delimiter=&#39;;&#39;, newline=&#39;\n&#39;, comments=&#39;&#39;,
+    encoding=&#39;utf8&#39;,
+    header=CSV_HEADER_DESCRIPTION
+)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
+<p>In this notebook, we have demonstrated how to generate a nominal trajectory based on a given route and slope, starting from a specified geographic origin. We have also shown how to convert the local NED coordinates to the WGS84 geographic system and save the result in a CSV file. This process can be extended to more complex trajectory modeling or to visualize the trajectory in 3D space.</p>
+</section>
+<section id="Further-Reading">
+<h2>Further Reading<a class="headerlink" href="#Further-Reading" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/spatial.transform.html#module-scipy.spatial.transform">SciPy Spatial Transformations</a> for understanding rotation matrices and Euler angles.</p></li>
+</ul>
+</section>
 </section>
 
         </article>
@@ -288,23 +417,15 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="sargeom.coordinates.Cartesian3.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">Cartesian3</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
-          <a class="prev-page" href="../api_reference.html">
+          
+          <a class="prev-page" href="../examples.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">sargeom.coordinates Module</div>
+                <div class="title">Examples</div>
                 
               </div>
             </a>
@@ -338,8 +459,17 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">negativePiToPi</a><ul>
-<li><a class="reference internal" href="#sargeom.coordinates.negativePiToPi"><code class="docutils literal notranslate"><span class="pre">negativePiToPi()</span></code></a></li>
+<li><a class="reference internal" href="#">Generating a Nominal Trajectory</a><ul>
+<li><a class="reference internal" href="#Objective">Objective</a></li>
+<li><a class="reference internal" href="#Step-1:-Import-Required-Libraries">Step 1: Import Required Libraries</a></li>
+<li><a class="reference internal" href="#Step-2:-Define-the-NED-Frame-Origin">Step 2: Define the NED Frame Origin</a></li>
+<li><a class="reference internal" href="#Step-3:-Specify-the-Route-and-Slope">Step 3: Specify the Route and Slope</a></li>
+<li><a class="reference internal" href="#Step-4:-Compute-the-Direction-of-Travel">Step 4: Compute the Direction of Travel</a></li>
+<li><a class="reference internal" href="#Step-5:-Define-the-Trajectory">Step 5: Define the Trajectory</a></li>
+<li><a class="reference internal" href="#Step-6:-Convert-NED-Coordinates-to-WGS84">Step 6: Convert NED Coordinates to WGS84</a></li>
+<li><a class="reference internal" href="#Step-7:-Save-the-Trajectory-to-a-CSV-File">Step 7: Save the Trajectory to a CSV File</a></li>
+<li><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+<li><a class="reference internal" href="#Further-Reading">Further Reading</a></li>
 </ul>
 </li>
 </ul>
@@ -360,5 +490,7 @@
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

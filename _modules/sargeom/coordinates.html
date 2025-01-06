@@ -6,7 +6,7 @@
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>sargeom.coordinates - SARGeom</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
@@ -212,7 +212,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../examples/nominal_trajectory.html">Generating a Nominal Trajectory</a></li>
+</ul>
+</li>
 </ul>
 
 </div>
@@ -252,10 +255,10 @@
 <span class="sd">This module allows you to manipulate and transform terrestrial coordinates from the `WGS84 geodetic system &lt;https://others.gitlab-pages.onera.net/sardocs/explanations/01_geometry.html#les-referentiels-geodesiques-courants&gt;`_.</span>
 <span class="sd">By default, distances are expressed in meters and angles in degrees.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">scipy.spatial.transform</span> <span class="kn">import</span> <span class="n">Rotation</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pyproj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyproj</span>
 
 <span class="c1"># Coordinate systems</span>
 <span class="n">wgs84_EGM96</span> <span class="o">=</span> <span class="n">pyproj</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span>
@@ -282,7 +285,7 @@
 
 <div class="viewcode-block" id="negativePiToPi">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.negativePiToPi.html#sargeom.coordinates.negativePiToPi">[docs]</a>
-<span class="k">def</span> <span class="nf">negativePiToPi</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">negativePiToPi</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Converts angles to the range from -180 to 180 degrees.</span>
 
@@ -320,7 +323,7 @@
 
 <div class="viewcode-block" id="Cartesian3">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3">[docs]</a>
-<span class="k">class</span> <span class="nc">Cartesian3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Cartesian3</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system.</span>
 <span class="sd">    This class is inspired by the `CesiumJS library &lt;https://cesium.com/learn/cesiumjs/ref-doc/Cartesian3.html&gt;`_.</span>
@@ -359,7 +362,7 @@
 <span class="sd">        C = A + B</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="c1"># Convert input to numpy arrays</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -387,14 +390,14 @@
 
         <span class="k">return</span> <span class="n">obj</span>
 
-    <span class="k">def</span> <span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__array_finalize__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
         
         <span class="c1"># Set the local origin of the coordinate system</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;_local_origin&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a string representation of the XYZ Cartesian3 point(s).</span>
 
@@ -411,7 +414,7 @@
 <div class="viewcode-block" id="Cartesian3.from_array">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.from_array">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_array</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_array</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">array</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a Cartesian3 instance using a numpy array representing XYZ coordinates.</span>
 
@@ -454,7 +457,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">x</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The X component, in meters.</span>
 
@@ -466,7 +469,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">y</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Y component, in meters.</span>
 
@@ -478,7 +481,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">z</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The Z component, in meters.</span>
 
@@ -490,7 +493,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">local_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">local_origin</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the cartographic position of the origin of the local reference system, if the cartesian coordinate system used is one.</span>
 <span class="sd">        To obtain its expression in the cartesian ECEF reference system, use the following</span>
@@ -521,7 +524,7 @@
 <div class="viewcode-block" id="Cartesian3.UNIT_X">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.UNIT_X">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">UNIT_X</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UNIT_X</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartesian3 instance initialized to (x=1.0, y=0.0, z=0.0).</span>
 
@@ -541,7 +544,7 @@
 <div class="viewcode-block" id="Cartesian3.UNIT_Y">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.UNIT_Y">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">UNIT_Y</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UNIT_Y</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartesian3 instance initialized to (x=0.0, y=1.0, z=0.0).</span>
 
@@ -561,7 +564,7 @@
 <div class="viewcode-block" id="Cartesian3.UNIT_Z">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.UNIT_Z">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">UNIT_Z</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">UNIT_Z</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartesian3 instance initialized to (x=0.0, y=0.0, z=1.0).</span>
 
@@ -581,7 +584,7 @@
 <div class="viewcode-block" id="Cartesian3.ONE">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.ONE">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">ONE</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ONE</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartesian3 instance initialized to (x=1.0, y=1.0, z=1.0).</span>
 
@@ -601,7 +604,7 @@
 <div class="viewcode-block" id="Cartesian3.ZERO">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.ZERO">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">ZERO</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ZERO</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="p">(),</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartesian3 instance initialized to (x=0.0, y=0.0, z=0.0).</span>
 
@@ -620,7 +623,7 @@
 
 <div class="viewcode-block" id="Cartesian3.is_collection">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.is_collection">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the Cartographic instance represents a set of cartesian points.</span>
 
@@ -634,7 +637,7 @@
 
 <div class="viewcode-block" id="Cartesian3.is_local">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.is_local">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_local</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_local</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.</span>
 
@@ -648,7 +651,7 @@
 
 <div class="viewcode-block" id="Cartesian3.append">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.append">[docs]</a>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create a new Cartesian3 instance with the appended positions.</span>
 
@@ -685,7 +688,7 @@
             <span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares this cartesian point against the provided one componentwise and returns `True` if they are equal, `False` otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -693,7 +696,7 @@
 
 <div class="viewcode-block" id="Cartesian3.magnitude">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.magnitude">[docs]</a>
-    <span class="k">def</span> <span class="nf">magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">magnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the magnitude (length) of the supplied cartesian vector.</span>
 
@@ -716,7 +719,7 @@
 
 <div class="viewcode-block" id="Cartesian3.normalize">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.normalize">[docs]</a>
-    <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the normalized form of the supplied cartesian point.</span>
 
@@ -743,7 +746,7 @@
 
 <div class="viewcode-block" id="Cartesian3.proj_onto">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.proj_onto">[docs]</a>
-    <span class="k">def</span> <span class="nf">proj_onto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">proj_onto</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Projects the vector described by the current instance onto the provided vector.</span>
 
@@ -788,7 +791,7 @@
     
 <div class="viewcode-block" id="Cartesian3.reject_from">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.reject_from">[docs]</a>
-    <span class="k">def</span> <span class="nf">reject_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reject_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Rejects the vector described by the current instance from the provided vector.</span>
 
@@ -826,7 +829,7 @@
 
 <div class="viewcode-block" id="Cartesian3.interp">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.interp">[docs]</a>
-    <span class="k">def</span> <span class="nf">interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_sampling</span><span class="p">,</span> <span class="n">new_time_sampling</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">interp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_sampling</span><span class="p">,</span> <span class="n">new_time_sampling</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Interpolates the set of Cartesian coordinates on the basis of the sampling times supplied as input.</span>
 
@@ -875,7 +878,7 @@
 
 <div class="viewcode-block" id="Cartesian3.to_pandas">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.to_pandas">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts cartesian point coordinates into a Pandas DataFrame.</span>
 
@@ -894,7 +897,7 @@
 <span class="sd">            df = coordinates.to_pandas()</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html&quot;</span>
@@ -905,7 +908,7 @@
 
 <div class="viewcode-block" id="Cartesian3.to_array">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.to_array">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts cartesian point coordinates into a numpy array.</span>
 
@@ -928,7 +931,7 @@
 
 <div class="viewcode-block" id="Cartesian3.cross">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.cross">[docs]</a>
-    <span class="k">def</span> <span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cross</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the cross (outer) product with a provided cartesian point.</span>
 
@@ -957,7 +960,7 @@
 
 <div class="viewcode-block" id="Cartesian3.dot">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.dot">[docs]</a>
-    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the dot (scalar) product with a provided cartesian point.</span>
 
@@ -987,7 +990,7 @@
 <div class="viewcode-block" id="Cartesian3.distance">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.distance">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">distance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">distance</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the distance between two cartesian points.</span>
 
@@ -1019,7 +1022,7 @@
 <div class="viewcode-block" id="Cartesian3.middle">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.middle">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">middle</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">middle</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the midpoint between two cartesian points.</span>
 
@@ -1051,7 +1054,7 @@
 <div class="viewcode-block" id="Cartesian3.angle_btw">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.angle_btw">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">angle_btw</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">angle_btw</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the angle formed by two coordinate vectors (in degrees).</span>
 
@@ -1091,7 +1094,7 @@
 
 <div class="viewcode-block" id="CartesianECEF">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF">[docs]</a>
-<span class="k">class</span> <span class="nc">CartesianECEF</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartesianECEF</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A geocentric Earth-centered Earth-fixed (ECEF) system uses the Cartesian coordinates (*X*, *Y*, *Z*) to represent the 3D components of a position or a vector.</span>
 <span class="sd">    For example, the ECEF coordinates of Parc des Buttes-Chaumont are (4198945 m, 174747 m, 4781887 m).</span>
@@ -1136,7 +1139,7 @@
 <div class="viewcode-block" id="CartesianECEF.crs">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.crs">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">crs</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">crs</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the WGS84 Geocentric System `EPSG:4978 &lt;https://epsg.org/crs_4978/WGS-84.html&gt;`_.</span>
 
@@ -1150,7 +1153,7 @@
 
 <div class="viewcode-block" id="CartesianECEF.to_cartographic">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.to_cartographic">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_cartographic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_cartographic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts geocentric Earth-centered Earth-fixed (ECEF) coordinates to geodetic coordinates.</span>
 
@@ -1174,7 +1177,7 @@
 
 <div class="viewcode-block" id="CartesianECEF.to_ned">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.to_ned">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local North-East-Down (NED) system.</span>
 
@@ -1211,7 +1214,7 @@
 
 <div class="viewcode-block" id="CartesianECEF.to_nedv">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.to_nedv">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_nedv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_nedv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local North-East-Down (NED) system.</span>
 
@@ -1249,7 +1252,7 @@
 
 <div class="viewcode-block" id="CartesianECEF.to_enu">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.to_enu">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local East-North-Up (ENU) system.</span>
 
@@ -1286,7 +1289,7 @@
 
 <div class="viewcode-block" id="CartesianECEF.to_enuv">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF.to_enuv">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_enuv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_enuv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local East-North-Up (ENU) system.</span>
 
@@ -1326,7 +1329,7 @@
 
 <div class="viewcode-block" id="CartesianLocalENU">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU">[docs]</a>
-<span class="k">class</span> <span class="nc">CartesianLocalENU</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartesianLocalENU</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A local East-North-Up (ENU) system uses the Cartesian coordinates (*xEast*, *yNorth*, *zUp*) to represent position relative to a local origin.</span>
 <span class="sd">    The local origin is described by the geodetic coordinates (*lat0*, *lon0*, *h0*).</span>
@@ -1357,7 +1360,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the 3D Rotation SciPy instance for transforming geocentric ECEF coordinates of a vector to local ENU coordinates.</span>
 
@@ -1397,7 +1400,7 @@
 
 <div class="viewcode-block" id="CartesianLocalENU.to_ecef">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_ecef">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local East-North-Up (ENU) coordinates to Earth-centered Earth-fixed (ECEF) coordinates.</span>
 
@@ -1426,7 +1429,7 @@
 
 <div class="viewcode-block" id="CartesianLocalENU.to_ned">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_ned">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local East-North-Up (ENU) coordinates to local North-East-Down (NED) coordinates.</span>
 <span class="sd">        Both coordinate systems use the same local origin.</span>
@@ -1450,7 +1453,7 @@
 
 <div class="viewcode-block" id="CartesianLocalENU.to_aer">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_aer">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_aer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_aer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms local East-North-Up (ENU) coordinates to local Azimuth-Elevation-Range (AER) spherical coordinates.</span>
 <span class="sd">        Both coordinate systems use the same local origin.</span>
@@ -1496,7 +1499,7 @@
 
 <div class="viewcode-block" id="CartesianLocalNED">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED">[docs]</a>
-<span class="k">class</span> <span class="nc">CartesianLocalNED</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CartesianLocalNED</span><span class="p">(</span><span class="n">Cartesian3</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A North-East-Down (NED) system uses the Cartesian coordinates (*xNorth*, *yEast*, *zDown*) to represent position relative to a local origin.</span>
 <span class="sd">    The local origin is described by the geodetic coordinates (*lat0*, *lon0*, *h0*).</span>
@@ -1527,7 +1530,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the 3D Rotation SciPy instance for transforming geocentric ECEF coordinates of a vector to local NED coordinates.</span>
 
@@ -1571,7 +1574,7 @@
 
 <div class="viewcode-block" id="CartesianLocalNED.to_ecef">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_ecef">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local North-East-Down (NED) coordinates to Earth-centered Earth-fixed (ECEF) coordinates.</span>
 
@@ -1600,7 +1603,7 @@
 
 <div class="viewcode-block" id="CartesianLocalNED.to_enu">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_enu">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local North-East-Down (NED) coordinates to local East-North-Up (ENU) coordinates.</span>
 <span class="sd">        Both coordinate systems use the same local origin.</span>
@@ -1624,7 +1627,7 @@
 
 <div class="viewcode-block" id="CartesianLocalNED.to_aer">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_aer">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_aer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_aer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Transforms local North-East-Down (NED) coordinates to local Azimuth-Elevation-Range (AER) spherical coordinates.</span>
 <span class="sd">        Both coordinate systems use the same local origin.</span>
@@ -1670,7 +1673,7 @@
 
 <div class="viewcode-block" id="Cartographic">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic">[docs]</a>
-<span class="k">class</span> <span class="nc">Cartographic</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">Cartographic</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Cartographic object represents the position of a point in a geodetic coordinate system.</span>
 <span class="sd">    This class is inspired by the `CesiumJS library &lt;https://cesium.com/learn/cesiumjs/ref-doc/Cartographic.html&gt;`_.</span>
@@ -1710,7 +1713,7 @@
 <span class="sd">        cart2 = Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="c1"># Convert to degrees if necessary</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">degrees</span><span class="p">:</span>
             <span class="n">longitude</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">longitude</span><span class="p">)</span>
@@ -1751,7 +1754,7 @@
 <div class="viewcode-block" id="Cartographic.crs">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.crs">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">crs</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">crs</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the WGS84 Geocentric System `EPSG:4979 &lt;https://epsg.org/crs_4979/WGS-84.html&gt;`_.</span>
 
@@ -1763,7 +1766,7 @@
         <span class="k">return</span> <span class="n">wgs84_GCS</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns a string representation of the Lon.Lat.Height Cartographic position(s).</span>
 
@@ -1780,7 +1783,7 @@
 <div class="viewcode-block" id="Cartographic.from_array">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.from_array">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_array</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Initializes a Cartographic instance using a numpy array representing Lon-Lat-Height coordinates.</span>
 
@@ -1825,7 +1828,7 @@
 
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">longitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The longitude, in degrees, originates at the prime meridian.</span>
 
@@ -1841,7 +1844,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The latitude, in degrees, originates at the equator.</span>
 
@@ -1857,7 +1860,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">height</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        The ellipsoidal height, in meters, is measured along a normal of the reference spheroid.</span>
 
@@ -1871,7 +1874,7 @@
 <div class="viewcode-block" id="Cartographic.ZERO">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.ZERO">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">ZERO</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="p">()):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ZERO</span><span class="p">(</span><span class="n">N</span><span class="o">=</span><span class="p">()):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A Cartographic instance initialized to (0.0, 0.0, 0.0).</span>
 
@@ -1891,7 +1894,7 @@
 <div class="viewcode-block" id="Cartographic.ONERA_SDP">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.ONERA_SDP">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">ONERA_SDP</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ONERA_SDP</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A cartographic instance initialized at ONERA&#39;s position in Salon-de-Provence (5.117724, 43.619212, 0.0).</span>
 
@@ -1906,7 +1909,7 @@
 <div class="viewcode-block" id="Cartographic.ONERA_CP">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.ONERA_CP">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">ONERA_CP</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ONERA_CP</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A cartographic instance initialized at ONERA&#39;s position in Palaiseau (2.230784, 48.713028, 0.0).</span>
 
@@ -1920,7 +1923,7 @@
 
 <div class="viewcode-block" id="Cartographic.append">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.append">[docs]</a>
-    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a new Cartographic instance with the appended positions.</span>
 
@@ -1948,7 +1951,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The instance to append must be a Cartographic instance.&quot;</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares this Cartographic instance against the provided one componentwise and returns `True` if they are equal, `False` otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1962,7 +1965,7 @@
 
 <div class="viewcode-block" id="Cartographic.is_collection">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.is_collection">[docs]</a>
-    <span class="k">def</span> <span class="nf">is_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">is_collection</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the Cartographic instance represents a set of positions.</span>
 
@@ -1976,7 +1979,7 @@
 
 <div class="viewcode-block" id="Cartographic.bounding_box">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.bounding_box">[docs]</a>
-    <span class="k">def</span> <span class="nf">bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bounding_box</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get the bounding box of the Cartographic instance.</span>
 
@@ -2016,7 +2019,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_ecef">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_ecef">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert Cartographic positions to geocentric Earth-centered Earth-fixed (ECEF) coordinates.</span>
 
@@ -2036,7 +2039,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_kml">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_kml">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_kml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;positions.kml&quot;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_kml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;positions.kml&quot;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save Cartographic positions to a KML file.</span>
 
@@ -2056,7 +2059,7 @@
 <span class="sd">        &gt;&gt;&gt; cart.to_kml(&quot;my_positions.kml&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">simplekml</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">simplekml</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;SimpleKML is not installed. Please follow the instructions on https://simplekml.readthedocs.io/en/latest/index.html&quot;</span>
@@ -2075,7 +2078,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_geojson">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_geojson">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_geojson</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert Cartographic positions to GeoJSON format.</span>
 
@@ -2103,7 +2106,7 @@
 <span class="sd">        &#39;{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [10.0, 20.0, 30.0]}&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">geojson</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">geojson</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;GeoJSON is not installed. Please follow the instructions on https://geojson.readthedocs.io/en/latest/index.html#installation&quot;</span>
@@ -2129,7 +2132,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_shapely">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_shapely">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_shapely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_shapely</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts the Cartographic instance to a Shapely geometry object.</span>
 
@@ -2160,7 +2163,7 @@
 <span class="sd">        &#39;POINT Z (10 20 30)&#39;</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">from</span> <span class="nn">shapely</span> <span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">shapely</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;Shapely is not installed. Please follow the instructions on https://shapely.readthedocs.io/en/stable/installation.html&quot;</span>
@@ -2186,7 +2189,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_html">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_html">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;maps.html&quot;</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_html</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s2">&quot;maps.html&quot;</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert Cartographic position(s) to an interactive HTML map using Folium.</span>
 
@@ -2203,7 +2206,7 @@
 <span class="sd">        &gt;&gt;&gt; cart.to_html(&quot;my_map.html&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">folium</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">folium</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;Folium is not installed. Please follow the instructions on https://python-visualization.github.io/folium/latest/getting_started.html&quot;</span>
@@ -2227,7 +2230,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_pandas">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_pandas">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_pandas</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert Cartographic positions to a Pandas DataFrame.</span>
 
@@ -2245,7 +2248,7 @@
 <span class="sd">        0       10.0      20.0    30.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
         <span class="k">except</span> <span class="ne">ModuleNotFoundError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ModuleNotFoundError</span><span class="p">(</span>
                 <span class="s2">&quot;Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html&quot;</span>
@@ -2256,7 +2259,7 @@
 
 <div class="viewcode-block" id="Cartographic.to_array">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.to_array">[docs]</a>
-    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert Cartographic positions to a numpy array.</span>
 
@@ -2277,7 +2280,7 @@
 <div class="viewcode-block" id="Cartographic.dms_to_dd">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.dms_to_dd">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">dms_to_dd</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dms_to_dd</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts Degrees - Minutes - Seconds representation of geodetic coordinates to decimal degrees.</span>
 
@@ -2318,7 +2321,7 @@
 <div class="viewcode-block" id="Cartographic.dd_to_dms">
 <a class="viewcode-back" href="../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.dd_to_dms">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">dd_to_dms</span><span class="p">(</span><span class="n">dd</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dd_to_dms</span><span class="p">(</span><span class="n">dd</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts decimal degrees representation of geodetic coordinates to Degrees - Minutes - Seconds.</span>
 
@@ -2401,5 +2404,6 @@
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     </body>
 </html>
