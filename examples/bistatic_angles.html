@@ -3,10 +3,10 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Analyzing Trajectory Data and Bistatic Angles" href="bistatic_angles.html" />
+<link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Generating a Nominal Trajectory" href="nominal_trajectory.html" /><link rel="prev" title="Examples" href="../examples.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Generating a Nominal Trajectory - SARGeom</title>
+        <title>Analyzing Trajectory Data and Bistatic Angles - SARGeom</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
@@ -215,8 +215,8 @@
 </ul>
 </li>
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../examples.html">Examples</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="bistatic_angles.html">Analyzing Trajectory Data and Bistatic Angles</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Generating a Nominal Trajectory</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Analyzing Trajectory Data and Bistatic Angles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="nominal_trajectory.html">Generating a Nominal Trajectory</a></li>
 </ul>
 </li>
 </ul>
@@ -239,7 +239,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/examples/nominal_trajectory.ipynb.txt" title="View this page">
+  <a class="muted-link" href="../_sources/examples/bistatic_angles.ipynb.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -259,157 +259,223 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="Generating-a-Nominal-Trajectory">
-<h1>Generating a Nominal Trajectory<a class="headerlink" href="#Generating-a-Nominal-Trajectory" title="Link to this heading">¶</a></h1>
-<p>This notebook demonstrates how to generate a nominal trajectory in the North-East-Down (NED) local coordinate system and convert it to WGS84 geographic coordinates (longitude, latitude, and height). The trajectory is based on a defined starting point and direction, with the ability to save the resulting positions in a CSV file for further analysis or visualization.</p>
-<section id="Objective">
-<h2>Objective<a class="headerlink" href="#Objective" title="Link to this heading">¶</a></h2>
+          <section id="Analyzing-Trajectory-Data-and-Bistatic-Angles">
+<h1>Analyzing Trajectory Data and Bistatic Angles<a class="headerlink" href="#Analyzing-Trajectory-Data-and-Bistatic-Angles" title="Link to this heading">¶</a></h1>
+<p>In this notebook, we will analyze the trajectory data of two carriers, SETHI and BUSARD, and compute several key parameters, including the distance to a target, bistatic angles (both ‘ground’ and ‘radar’), and azimuths of observation of the target. We will also visualize these parameters over time. The dataset we use is in CSV format and contains positional information of the two carriers.</p>
+<p><img alt="e113c9c01400464799c8ed574aa29189" class="no-scaled-link" src="../_images/bistatic_angles.png" style="width: 800px;" /></p>
+<section id="1.-Importing-Required-Libraries">
+<h2>1. Importing Required Libraries<a class="headerlink" href="#1.-Importing-Required-Libraries" title="Link to this heading">¶</a></h2>
+<p>Before we begin analyzing the data, we first need to import the necessary libraries.</p>
 <ul class="simple">
-<li><p>Define the starting point in geographic coordinates (latitude, longitude, height).</p></li>
-<li><p>Specify a route direction (azimuth) and slope (pitch) to generate a trajectory.</p></li>
-<li><p>Compute a series of local NED coordinates based on the specified direction and slope.</p></li>
-<li><p>Convert the local NED coordinates to WGS84 geographic coordinates (latitude, longitude, height).</p></li>
-<li><p>Save the resulting trajectory as a CSV file with appropriate headers.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sargeom</span></code>: A Python library for working with geospatial coordinates and geometric transformations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>: Used for plotting the results.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pandas</span></code>: For data manipulation and reading CSV files.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>: For numerical computations.</p></li>
 </ul>
-</section>
-<section id="Step-1:-Import-Required-Libraries">
-<h2>Step 1: Import Required Libraries<a class="headerlink" href="#Step-1:-Import-Required-Libraries" title="Link to this heading">¶</a></h2>
-<p>We begin by importing necessary libraries:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sargeom.coordinates import Cartographic, CartesianLocalNED
-from scipy.spatial.transform import Rotation
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sargeom.coordinates import Cartographic, Cartesian3
+import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-2:-Define-the-NED-Frame-Origin">
-<h2>Step 2: Define the NED Frame Origin<a class="headerlink" href="#Step-2:-Define-the-NED-Frame-Origin" title="Link to this heading">¶</a></h2>
-<p>The origin of the NED coordinate system is defined in terms of latitude, longitude, and height. This point serves as the reference for all local NED coordinates. In this example, we use the following coordinates:</p>
+<section id="2.-Loading-and-Preparing-the-Data">
+<h2>2. Loading and Preparing the Data<a class="headerlink" href="#2.-Loading-and-Preparing-the-Data" title="Link to this heading">¶</a></h2>
+<p>Next, we load the trajectory data for SETHI and BUSARD. These datasets contain information about the longitude, latitude, and heading of each object.</p>
 <ul class="simple">
-<li><p>Latitude: 3.2431077847784763490°</p></li>
-<li><p>Longitude: 42.475181371623002°</p></li>
-<li><p>Height: 3818 meters</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">LON_WGS84_DEG</span></code>, <code class="docutils literal notranslate"><span class="pre">LAT_WGS84_DEG</span></code>, and <code class="docutils literal notranslate"><span class="pre">HEADING_DEG</span></code> columns represent the longitude, latitude, and heading (in degrees), respectively.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ned_frame_origin = Cartographic(
-    longitude=3.2431077847784763490, # degrees
-    latitude=42.475181371623002, # degrees
-    height=3818.0 # meters
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Loading trajectory data for SETHI
+sethi_trajectory_data = pd.read_csv(&#39;data/20230627_SETHI.traj.csv&#39;, delimiter=&#39;;&#39;, comment=&#39;#&#39;)
+
+# Loading trajectory data for BUSARD
+busard_trajectory_data = pd.read_csv(&#39;data/20230627_BUSARD.traj.csv&#39;, delimiter=&#39;;&#39;, comment=&#39;#&#39;)
+</pre></div>
+</div>
+</div>
+</section>
+<section id="3.-Defining-Cartographic-Objects">
+<h2>3. Defining Cartographic Objects<a class="headerlink" href="#3.-Defining-Cartographic-Objects" title="Link to this heading">¶</a></h2>
+<p>For each dataset, we create Cartographic objects that will allow us to perform geospatial transformations. The Cartographic object takes the longitude, latitude, and heading in degrees.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create Cartographic objects for SETHI, BUSARD, and the target
+sethi_cartographic = Cartographic(
+    longitude=sethi_trajectory_data.LON_WGS84_DEG.tolist(),
+    latitude=sethi_trajectory_data.LAT_WGS84_DEG.tolist(),
+    height=sethi_trajectory_data.HEADING_DEG.tolist()
+)
+
+busard_cartographic = Cartographic(
+    longitude=busard_trajectory_data.LON_WGS84_DEG.tolist(),
+    latitude=busard_trajectory_data.LAT_WGS84_DEG.tolist(),
+    height=busard_trajectory_data.HEADING_DEG.tolist()
+)
+
+target_cartographic = Cartographic(
+    longitude=-0.420314, # degrees
+    latitude=44.238512, # degrees
+    height=120.0 # meters
 )
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-3:-Specify-the-Route-and-Slope">
-<h2>Step 3: Specify the Route and Slope<a class="headerlink" href="#Step-3:-Specify-the-Route-and-Slope" title="Link to this heading">¶</a></h2>
-<p>The direction of travel (route) and the slope (pitch) of the trajectory are defined in degrees. In this example:</p>
-<ul class="simple">
-<li><p>Route (azimuth): 270.615° (heading direction)</p></li>
-<li><p>Slope (pitch): -0.087° (downward slope)</p></li>
-<li><p>Step size: 0.28 meters between each sample</p></li>
-<li><p>Number of trajectory samples: 100</p></li>
-<li><p>First sample distance from the origin: 10 meters (this will be the distance of the first trajectory point from the NED origin)</p></li>
-</ul>
+<section id="4.-Converting-Coordinates-to-ECEF-(Earth-Centered,-Earth-Fixed)">
+<h2>4. Converting Coordinates to ECEF (Earth-Centered, Earth-Fixed)<a class="headerlink" href="#4.-Converting-Coordinates-to-ECEF-(Earth-Centered,-Earth-Fixed)" title="Link to this heading">¶</a></h2>
+<p>The next step is to convert the Cartographic coordinates (longitude, latitude, and heading) into ECEF coordinates, which represent the positions in a 3D Cartesian coordinate system.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>heading_angle = 270.615 # degrees
-pitch_angle = -0.087 # degrees
-sample_step = 0.28 # meters
-number_of_samples = 30547
-initial_distance_from_origin = 3170 # meters
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the Cartographic coordinates to ECEF (x, y, z) for each object and the target
+sethi_ecef = sethi_cartographic.to_ecef()
+busard_ecef = busard_cartographic.to_ecef()
+target_ecef = target_cartographic.to_ecef()
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-4:-Compute-the-Direction-of-Travel">
-<h2>Step 4: Compute the Direction of Travel<a class="headerlink" href="#Step-4:-Compute-the-Direction-of-Travel" title="Link to this heading">¶</a></h2>
-<p>We compute the direction of the trajectory in the NED (North-East-Down) coordinate system using a rotation matrix. The <code class="docutils literal notranslate"><span class="pre">scipy.spatial.transform.Rotation</span></code> class allows us to define rotations based on Euler angles. Here we use the “ZYX” intrinsic rotation convention to apply the azimuth (route) and pitch (slope).</p>
+<section id="5.-Interpolating-BUSARD-Data-to-Match-SETHI's-Timestamps">
+<h2>5. Interpolating BUSARD Data to Match SETHI’s Timestamps<a class="headerlink" href="#5.-Interpolating-BUSARD-Data-to-Match-SETHI's-Timestamps" title="Link to this heading">¶</a></h2>
+<p>Since the timestamps for SETHI and BUSARD might not perfectly align, we will interpolate the BUSARD data to match the timestamps of SETHI.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>travel_direction = Rotation.from_euler(
-    &quot;ZYX&quot;,  # Intrinsic rotations
-    [heading_angle, pitch_angle, 0], # Route and slope angles (yaw, pitch, roll)
-    degrees=True,
-).apply([1, 0, 0]) # Apply the rotation to the x-axis direction
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Interpolate BUSARD&#39;s ECEF coordinates to match SETHI&#39;s timestamps
+busard_ecef_interpolated = busard_ecef.interp(busard_trajectory_data.TIMESTAMP_S, sethi_trajectory_data.TIMESTAMP_S)
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-5:-Define-the-Trajectory">
-<h2>Step 5: Define the Trajectory<a class="headerlink" href="#Step-5:-Define-the-Trajectory" title="Link to this heading">¶</a></h2>
-<p>The trajectory is created by generating a sequence of NED coordinates. We define the displacement along the trajectory by multiplying the direction vector by a step size and creating an array of sample points along the trajectory.</p>
+<section id="6.-Computing-Distances-to-the-Target">
+<h2>6. Computing Distances to the Target<a class="headerlink" href="#6.-Computing-Distances-to-the-Target" title="Link to this heading">¶</a></h2>
+<p>We then compute the distances from SETHI and BUSARD to the target using the <code class="docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3.distance</span></code> method, which calculates the Euclidean distance between two points in 3D space.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>distance_samples = initial_distance_from_origin + np.arange(0, number_of_samples) * sample_step # Create array of distances
-
-# Generate the trajectory in NED coordinates
-trajectory_ned = CartesianLocalNED.from_array(np.outer(distance_samples, travel_direction), origin=ned_frame_origin)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute distances to the target
+sethi_dist = Cartesian3.distance(sethi_ecef, target_ecef)
+busard_dist = Cartesian3.distance(busard_ecef_interpolated, target_ecef)
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-6:-Convert-NED-Coordinates-to-WGS84">
-<h2>Step 6: Convert NED Coordinates to WGS84<a class="headerlink" href="#Step-6:-Convert-NED-Coordinates-to-WGS84" title="Link to this heading">¶</a></h2>
-<p>Once the trajectory is defined in NED coordinates, we convert it to WGS84 geographic coordinates (latitude, longitude, and height) using the .to_ecef().to_cartographic() method chain. This will allow us to obtain the desired geographic positions in degrees and meters.</p>
+<section id="7.-Converting-Coordinates-from-ECEF-to-ENU-(East-North-Up)">
+<h2>7. Converting Coordinates from ECEF to ENU (East-North-Up)<a class="headerlink" href="#7.-Converting-Coordinates-from-ECEF-to-ENU-(East-North-Up)" title="Link to this heading">¶</a></h2>
+<p>Next, we convert the ECEF coordinates to ENU coordinates relative to the target. This transformation helps us interpret the positions in a local, target-centered coordinate system.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trajectory_wgs84 = trajectory_ned.to_ecef().to_cartographic()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert from ECEF to ENU coordinates, centered on the target
+sethi_enu = sethi_ecef.to_enu(target_cartographic)
+busard_enu = busard_ecef_interpolated.to_enu(target_cartographic)
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Step-7:-Save-the-Trajectory-to-a-CSV-File">
-<h2>Step 7: Save the Trajectory to a CSV File<a class="headerlink" href="#Step-7:-Save-the-Trajectory-to-a-CSV-File" title="Link to this heading">¶</a></h2>
-<p>Finally, we save the generated trajectory to a CSV file. The CSV file includes headers with descriptions of the coordinate fields, making it easy to understand the data. The file will store the coordinates with appropriate precision.</p>
+<section id="8.-Calculating-the-Bistatic-Angles">
+<h2>8. Calculating the Bistatic Angles<a class="headerlink" href="#8.-Calculating-the-Bistatic-Angles" title="Link to this heading">¶</a></h2>
+<p>We now calculate two sets of bistatic angles:</p>
+<ol class="arabic simple">
+<li><p><strong>Bistatic angle ‘ground’</strong>: The angle between the projections of the sensor positions onto the ground plane (z = 0).</p></li>
+<li><p><strong>Bistatic angle ‘radar’</strong>: The angle between the full 3D vectors.</p></li>
+</ol>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>output_filename = &quot;nominal_trajectory.csv&quot;
-CSV_HEADER_DESCRIPTION = &quot;&quot;&quot;# Fields descriptions:
-# -------------------
-#    o Positions as WGS84 Geographic coordinates:
-#        - LON_WGS84_DEG [°]: The longitude coordinate
-#        - LAT_WGS84_DEG [°]: The latitude coordinate
-#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate
-
-LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M&quot;&quot;&quot;
-
-np.savetxt(
-    output_filename, trajectory_wgs84.to_array(),
-    fmt=[&#39;%.12f&#39;, &#39;%.12f&#39;, &#39;%.6f&#39;],
-    delimiter=&#39;;&#39;, newline=&#39;\n&#39;, comments=&#39;&#39;,
-    encoding=&#39;utf8&#39;,
-    header=CSV_HEADER_DESCRIPTION
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate bistatic angles between SETHI and BUSARD, with respect to the ground plane
+angles_bist_ground = Cartesian3.angle_btw(
+    Cartesian3(sethi_enu.x, sethi_enu.y, np.zeros(sethi_enu.y.shape)),
+    Cartesian3(busard_enu.x, busard_enu.y, np.zeros(busard_enu.y.shape))
 )
+
+# Calculate bistatic angles &#39;radar&#39; in 3D
+angles_bist_radar = Cartesian3.angle_btw(sethi_enu, busard_enu)
 </pre></div>
+</div>
+</div>
+</section>
+<section id="9.-Computing-Azimuths-of-Observation">
+<h2>9. Computing Azimuths of Observation<a class="headerlink" href="#9.-Computing-Azimuths-of-Observation" title="Link to this heading">¶</a></h2>
+<p>Using the normalized ENU vectors for SETHI and BUSARD, we calculate the azimuths of the target from each sensor. This is done by transforming the vectors to AER (Azimuth-Elevation-Range) coordinates.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute azimuths of observation of the target
+az_bissection, _, _ = (sethi_enu.normalize() + busard_enu.normalize()).to_aer()
+</pre></div>
+</div>
+</div>
+</section>
+<section id="10.-Plotting-the-Results">
+<h2>10. Plotting the Results<a class="headerlink" href="#10.-Plotting-the-Results" title="Link to this heading">¶</a></h2>
+<p>Finally, we visualize the results by plotting the distances, bistatic angles, and azimuths over time.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a figure with multiple subplots for visualization
+fig, axs = plt.subplots(4, 1, figsize=(11.69,8.27), sharex=True)
+
+# Plot distance to target
+axs[0].plot(sethi_trajectory_data.TIMESTAMP_S, sethi_dist, color=&#39;tab:blue&#39;, label=&#39;SETHI&#39;)
+axs[0].plot(sethi_trajectory_data.TIMESTAMP_S, busard_dist, color=&#39;tab:orange&#39;, label=&#39;BUSARD&#39;)
+axs[0].grid()
+axs[0].legend()
+axs[0].set_xlabel(&quot;Time (s)&quot;)
+axs[0].set_ylabel(&quot;Distance to\nTarget (m)&quot;)
+
+# Plot bistatic angles (ground)
+axs[1].plot(sethi_trajectory_data.TIMESTAMP_S, np.unwrap(angles_bist_ground, period=360))
+axs[1].grid()
+axs[1].set_xlabel(&quot;Time (s)&quot;)
+axs[1].set_ylabel(&quot;Bistatic Angle\n&#39;Ground&#39; (deg)&quot;)
+
+# Plot bistatic angles (radar)
+axs[2].plot(sethi_trajectory_data.TIMESTAMP_S, np.unwrap(angles_bist_radar, period=360))
+axs[2].grid()
+axs[2].set_xlabel(&quot;Time (s)&quot;)
+axs[2].set_ylabel(&quot;Bistatic Angle\n&#39;Radar&#39; (deg)&quot;)
+
+# Plot azimuths of target observation
+axs[3].plot(sethi_trajectory_data.TIMESTAMP_S, az_bissection % 360)
+axs[3].grid()
+axs[3].set_xlabel(&quot;Time (s)&quot;)
+axs[3].set_ylabel(&quot;Azimuths of Target\nObservation (deg)&quot;)
+
+plt.tight_layout()
+plt.show()
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/examples_bistatic_angles_20_0.png" src="../_images/examples_bistatic_angles_20_0.png" />
 </div>
 </div>
 </section>
 <section id="Conclusion">
 <h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading">¶</a></h2>
-<p>In this notebook, we have demonstrated how to generate a nominal trajectory based on a given route and slope, starting from a specified geographic origin. We have also shown how to convert the local NED coordinates to the WGS84 geographic system and save the result in a CSV file. This process can be extended to more complex trajectory modeling or to visualize the trajectory in 3D space.</p>
-</section>
-<section id="Further-Reading">
-<h2>Further Reading<a class="headerlink" href="#Further-Reading" title="Link to this heading">¶</a></h2>
-<ul class="simple">
-<li><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/spatial.transform.html#module-scipy.spatial.transform">SciPy Spatial Transformations</a> for understanding rotation matrices and Euler angles.</p></li>
-</ul>
+<p>In this notebook, we demonstrated how to process trajectory data, calculate distances and angles, and visualize key parameters like bistatic angles and azimuths. This analysis is important for applications such as radar tracking and geospatial data analysis.</p>
 </section>
 </section>
 
@@ -418,15 +484,23 @@ np.savetxt(
       <footer>
         
         <div class="related-pages">
-          
-          <a class="prev-page" href="bistatic_angles.html">
+          <a class="next-page" href="nominal_trajectory.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Generating a Nominal Trajectory</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="../examples.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Analyzing Trajectory Data and Bistatic Angles</div>
+                <div class="title">Examples</div>
                 
               </div>
             </a>
@@ -460,17 +534,18 @@ np.savetxt(
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Generating a Nominal Trajectory</a><ul>
-<li><a class="reference internal" href="#Objective">Objective</a></li>
-<li><a class="reference internal" href="#Step-1:-Import-Required-Libraries">Step 1: Import Required Libraries</a></li>
-<li><a class="reference internal" href="#Step-2:-Define-the-NED-Frame-Origin">Step 2: Define the NED Frame Origin</a></li>
-<li><a class="reference internal" href="#Step-3:-Specify-the-Route-and-Slope">Step 3: Specify the Route and Slope</a></li>
-<li><a class="reference internal" href="#Step-4:-Compute-the-Direction-of-Travel">Step 4: Compute the Direction of Travel</a></li>
-<li><a class="reference internal" href="#Step-5:-Define-the-Trajectory">Step 5: Define the Trajectory</a></li>
-<li><a class="reference internal" href="#Step-6:-Convert-NED-Coordinates-to-WGS84">Step 6: Convert NED Coordinates to WGS84</a></li>
-<li><a class="reference internal" href="#Step-7:-Save-the-Trajectory-to-a-CSV-File">Step 7: Save the Trajectory to a CSV File</a></li>
+<li><a class="reference internal" href="#">Analyzing Trajectory Data and Bistatic Angles</a><ul>
+<li><a class="reference internal" href="#1.-Importing-Required-Libraries">1. Importing Required Libraries</a></li>
+<li><a class="reference internal" href="#2.-Loading-and-Preparing-the-Data">2. Loading and Preparing the Data</a></li>
+<li><a class="reference internal" href="#3.-Defining-Cartographic-Objects">3. Defining Cartographic Objects</a></li>
+<li><a class="reference internal" href="#4.-Converting-Coordinates-to-ECEF-(Earth-Centered,-Earth-Fixed)">4. Converting Coordinates to ECEF (Earth-Centered, Earth-Fixed)</a></li>
+<li><a class="reference internal" href="#5.-Interpolating-BUSARD-Data-to-Match-SETHI's-Timestamps">5. Interpolating BUSARD Data to Match SETHI’s Timestamps</a></li>
+<li><a class="reference internal" href="#6.-Computing-Distances-to-the-Target">6. Computing Distances to the Target</a></li>
+<li><a class="reference internal" href="#7.-Converting-Coordinates-from-ECEF-to-ENU-(East-North-Up)">7. Converting Coordinates from ECEF to ENU (East-North-Up)</a></li>
+<li><a class="reference internal" href="#8.-Calculating-the-Bistatic-Angles">8. Calculating the Bistatic Angles</a></li>
+<li><a class="reference internal" href="#9.-Computing-Azimuths-of-Observation">9. Computing Azimuths of Observation</a></li>
+<li><a class="reference internal" href="#10.-Plotting-the-Results">10. Plotting the Results</a></li>
 <li><a class="reference internal" href="#Conclusion">Conclusion</a></li>
-<li><a class="reference internal" href="#Further-Reading">Further Reading</a></li>
 </ul>
 </li>
 </ul>
