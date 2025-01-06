@@ -27,6 +27,7 @@ extensions = [
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
     "numpydoc",
+    "nbsphinx",
 ]
 
 templates_path = ['_templates']
