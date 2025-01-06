@@ -29,10 +29,10 @@ jobs:
           pip install -r requirements.txt
           pip install -e .
 
-      - name: Install pandoc
+      - name: Install pandoc and graphviz
         run: |
           sudo apt-get update
-          sudo apt-get install -y pandoc
+          sudo apt-get install -y pandoc graphviz
 
       - name: Build HTML documentation
         run: |
