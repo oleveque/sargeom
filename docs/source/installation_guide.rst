@@ -20,12 +20,12 @@ To begin, make sure that you have **Conda** installed on your system. Conda will
 Installing the Package
 ----------------------
 
-Once your environment is set up, you can install ``sargeom`` in one of two ways:
+Once your environment is set up, you can install ``sargeom`` in one of three ways:
 
 Option 1: Install from GitHub using pip
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can install the package directly from GitHub using `pip`:
+You can install the package directly from GitHub using ``pip``:
 
 .. code-block:: bash
 

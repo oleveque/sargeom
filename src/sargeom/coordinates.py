@@ -1,5 +1,5 @@
 """
-This module allows you to manipulate and transform terrestrial coordinates from the `WGS84 geodetic system <https://others.gitlab-pages.onera.net/sardocs/explanations/01_geometry.html#les-referentiels-geodesiques-courants>`_.
+This module allows you to manipulate and transform terrestrial coordinates in the WGS84 geodetic system.
 By default, distances are expressed in meters and angles in degrees.
 """
 from pathlib import Path
