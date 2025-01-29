@@ -149,9 +149,25 @@ class Cartesian3(np.ndarray):
             A string representation of the XYZ Cartesian3 point(s)).
         """
         if self.is_collection():
-            return f"XYZ {self.__class__.__name__} points\n{self.__str__()}"
+            return f"XYZ {self.__class__.__name__} points\n{self.__array__().__str__()}"
         else:
-            return f"XYZ {self.__class__.__name__} point\n{self.squeeze().__str__()}"
+            return f"XYZ {self.__class__.__name__} point\n{self.__array__().squeeze().__str__()}"
+
+    def __getitem__(self, index):
+        """
+        Allows access to the Cartesian3 elements using the bracket notation.
+
+        Parameters
+        ----------
+        index : int
+            The index of the element to access.
+
+        Returns
+        -------
+        :class:`Cartesian3`
+            The XYZ coordinates at the specified index.
+        """
+        return self.from_array(self.__array__()[index], origin=self._local_origin)
 
     @classmethod
     def from_array(cls, array, origin=None):
@@ -180,6 +196,8 @@ class Cartesian3(np.ndarray):
         # Convert input to numpy array
         if not isinstance(array, np.ndarray):
             array = np.array(array)
+        else:
+            array = array.__array__()
 
         # Check if the input array has one dimension and three elements
         if array.ndim == 1 and array.shape[0] == 3:
@@ -205,7 +223,7 @@ class Cartesian3(np.ndarray):
         :class:`float` or :class:`numpy.ndarray`
             The X component.
         """
-        return self[:, 0].__array__().squeeze()
+        return self.__array__()[:, 0].squeeze()
 
     @property
     def y(self):
@@ -217,7 +235,7 @@ class Cartesian3(np.ndarray):
         :class:`float` or :class:`numpy.ndarray`
             The Y component.
         """
-        return self[:, 1].__array__().squeeze()
+        return self.__array__()[:, 1].squeeze()
 
     @property
     def z(self):
@@ -229,7 +247,7 @@ class Cartesian3(np.ndarray):
         :class:`float` or :class:`numpy.ndarray`
             The Z component.
         """
-        return self[:, 2].__array__().squeeze()
+        return self.__array__()[:, 2].squeeze()
 
     @property
     def local_origin(self):
@@ -393,6 +411,7 @@ class Cartesian3(np.ndarray):
         >>> pos12 = pos1.append(pos2)
         >>> pos12
         """
+        # TODO: Remove this first check when slice array selection is implemented
         if np.prod(positions.shape) == 3 and isinstance(positions, self.__class__): # Case of ONE object appended only
             new_array = np.concatenate((self, positions.to_array()[None,:]), axis=0)
             new_instance = self.__class__.from_array(new_array)
