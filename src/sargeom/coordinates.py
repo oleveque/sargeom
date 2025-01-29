@@ -411,13 +411,7 @@ class Cartesian3(np.ndarray):
         >>> pos12 = pos1.append(pos2)
         >>> pos12
         """
-        # TODO: Remove this first check when slice array selection is implemented
-        if np.prod(positions.shape) == 3 and isinstance(positions, self.__class__): # Case of ONE object appended only
-            new_array = np.concatenate((self, positions.to_array()[None,:]), axis=0)
-            new_instance = self.__class__.from_array(new_array)
-            new_instance._local_origin = self._local_origin
-            return new_instance
-        elif np.all([isinstance(c, self.__class__) for c in positions]):
+        if np.all([isinstance(c, self.__class__) for c in positions]):
             new_array = np.concatenate((self, positions), axis=0)
             new_instance = self.__class__.from_array(new_array)
             new_instance._local_origin = self._local_origin
