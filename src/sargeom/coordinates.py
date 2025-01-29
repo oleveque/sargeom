@@ -702,6 +702,30 @@ class Cartesian3(np.ndarray):
         """
         return np.multiply(self.__array__(), right.__array__()).sum(axis=1)
 
+    def centroid(self):
+        """
+        Computes the centroid of a set of cartesian points.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartesian3`
+            The centroid of the set of cartesian points.
+
+        Examples
+        --------
+        Compute the centroid of a set of Cartesian3 objects:
+
+        .. code-block:: python
+        
+            points = Cartesian3(
+                x=[1.0, 2.0, 3.0],
+                y=[4.0, 5.0, 6.0],
+                z=[7.0, 8.0, 9.0]
+            )
+            centroid = points.centroid()
+        """
+        return self.from_array(np.mean(self.__array__(), axis=0), self._local_origin)
+
     @staticmethod
     def distance(left, right):
         """

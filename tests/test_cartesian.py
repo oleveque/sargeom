@@ -195,6 +195,13 @@ class TestCartesian3(unittest.TestCase):
         self.assertEqual(slice_result.y, 20.0)
         self.assertEqual(slice_result.z, 30.0)
 
+    def test_center_of_mass(self):
+        # Test center of mass calculation
+        centroid = self.cartesian_collection.centroid()
+        self.assertEqual(centroid.x, np.mean(self.cartesian_collection.x))
+        self.assertEqual(centroid.y, np.mean(self.cartesian_collection.y))
+        self.assertEqual(centroid.z, np.mean(self.cartesian_collection.z))
+
     def test_static_methods(self):
         # Test dot product
         A = self.cartesian_point
