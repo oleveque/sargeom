@@ -153,21 +153,21 @@ class Cartesian3(np.ndarray):
         else:
             return f"XYZ {self.__class__.__name__} point\n{self.__array__().squeeze().__str__()}"
 
-    def __getitem__(self, index):
+    def __getitem__(self, key):
         """
-        Allows access to the Cartesian3 elements using the bracket notation.
+        Allows access to the Cartesian3 element(s) using the bracket notation.
 
         Parameters
         ----------
-        index : int
-            The index of the element to access.
+        key : :class:`int`, :class:`slice`, or :class:`tuple`
+            The index or indices of the element(s) to access.
 
         Returns
         -------
         :class:`Cartesian3`
-            The XYZ coordinates at the specified index.
+            The element(s) at the specified index or indices.
         """
-        return self.from_array(self.__array__()[index], origin=self._local_origin)
+        return self.from_array(self.__array__()[key], origin=self._local_origin)
 
     @classmethod
     def from_array(cls, array, origin=None):
@@ -1428,9 +1428,25 @@ class Cartographic(np.ndarray):
             A string representation of the Lon.Lat.Height Cartographic position(s)).
         """
         if self.is_collection():
-            return f"Lon.Lat.Height Cartographic positions\n{self.__str__()}"
+            return f"Lon.Lat.Height Cartographic positions\n{self.__array__().__str__()}"
         else:
             return f"Lon.Lat.Height Cartographic position\n{self.__array__().squeeze().__str__()}"
+
+    def __getitem__(self, key):
+        """
+        Allows access to the Cartographic element(s) using the bracket notation.
+
+        Parameters
+        ----------
+        key : :class:`int`, :class:`slice`, or :class:`tuple`
+            The index or indices of the element(s) to access.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartographic`
+            The element(s) at the specified index or indices.
+        """
+        return Cartographic.from_array(self.__array__()[key])
 
     @staticmethod
     def from_array(array, degrees=True):
@@ -1461,6 +1477,8 @@ class Cartographic(np.ndarray):
         # Check if the input array is a numpy array
         if not isinstance(array, np.ndarray):
             array = np.array(array)
+        else:
+            array = array.__array__()
 
         # Check if the input array has one dimension and three elements
         if array.ndim == 1 and array.shape[0] == 3:
@@ -1490,7 +1508,7 @@ class Cartographic(np.ndarray):
         :class:`numpy.ndarray`
             The longitude, in degrees.
         """
-        return self[:, 0].__array__().squeeze()
+        return self.__array__()[:, 0].squeeze()
 
     @property
     def latitude(self):
@@ -1506,7 +1524,7 @@ class Cartographic(np.ndarray):
         :class:`numpy.ndarray`
             The latitude, in degrees.
         """
-        return self[:, 1].__array__().squeeze()
+        return self.__array__()[:, 1].squeeze()
 
     @property
     def height(self):
@@ -1518,7 +1536,7 @@ class Cartographic(np.ndarray):
         :class:`numpy.ndarray`
             The ellipsoidal height, in meters.
         """
-        return self[:, 2].__array__().squeeze()
+        return self.__array__()[:, 2].squeeze()
 
     @staticmethod
     def ZERO(N=()):
@@ -1736,7 +1754,7 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self[:, :2].__array__().T
+            coords = self.__array__()[:, :2].T
         else:
             coords = self.__array__().T
 
@@ -1790,7 +1808,7 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self[:, :2].__array__().T
+            coords = self.__array__()[:, :2].T
         else:
             coords = self.__array__().T
 
@@ -1833,9 +1851,9 @@ class Cartographic(np.ndarray):
         lat0 = (self.latitude.max() + self.latitude.min()) / 2
         m = folium.Map(location=(lat0, lon0))
         if link_markers:
-            folium.PolyLine(np.flip(self[:, :2].__array__(), axis=0).tolist()).add_to(m)
+            folium.PolyLine(np.flip(self.__array__()[:, :2], axis=0).tolist()).add_to(m)
         else:
-            for position in self[:, :2].__array__():
+            for position in self.__array__()[:, :2]:
                 folium.Marker(
                     np.flip(position).tolist(),
                     popup=folium.Popup(

@@ -20,12 +20,6 @@ class TestCartographic(unittest.TestCase):
         self.assertEqual(self.cartographic_point.latitude, 2.0)
         self.assertEqual(self.cartographic_point.height, 3.0)
 
-        # Test attribute access for collection
-        longitude, latitude, height = self.cartographic_collection[1]
-        self.assertEqual(longitude, 10.0)
-        self.assertEqual(latitude, 20.0)
-        self.assertEqual(height, 30.0)
-
     def test_creation_methods(self):
         # Test creation using predefined methods
         cp_point = Cartographic.ONERA_CP()
@@ -85,6 +79,23 @@ class TestCartographic(unittest.TestCase):
         ])
         collection = Cartographic.from_array(my_array)
         self.assertTrue(self.cartographic_collection == collection)
+
+    def test_slice_operations(self):
+        # Test slicing
+        self.assertTrue(np.all(self.cartographic_collection[0:2].to_array() == self.cartographic_collection.to_array()))
+
+        # Test single index slicing
+        sliced_collection = self.cartographic_collection[0]
+        self.assertIsInstance(sliced_collection, Cartographic)
+        self.assertEqual(sliced_collection.longitude, 1.0)
+        self.assertEqual(sliced_collection.latitude, 2.0)
+        self.assertEqual(sliced_collection.height, 3.0)
+        
+        # Test negative index slicing
+        sliced_collection = self.cartographic_collection[-1]
+        self.assertEqual(sliced_collection.longitude, 10.0)
+        self.assertEqual(sliced_collection.latitude, 20.0)
+        self.assertEqual(sliced_collection.height, 30.0)
 
     def test_export_functions(self):
         # Test conversion to numpy array

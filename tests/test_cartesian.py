@@ -20,12 +20,6 @@ class TestCartesian3(unittest.TestCase):
         self.assertEqual(self.cartesian_point.y, 2.0)
         self.assertEqual(self.cartesian_point.z, 3.0)
 
-        # Test collection attribute access
-        x, y, z = self.cartesian_collection[1]
-        self.assertEqual(x, 10.0)
-        self.assertEqual(y, 20.0)
-        self.assertEqual(z, 30.0)
-
     def test_creation_methods(self):
         # Test UNIT_X creation method
         unit_x = Cartesian3.UNIT_X()
@@ -184,6 +178,22 @@ class TestCartesian3(unittest.TestCase):
         ])
         collection = Cartesian3.from_array(my_array)
         self.assertTrue(self.cartesian_collection == collection)
+
+    def test_slice_operations(self):
+        # Test slicing
+        self.assertTrue(np.all(self.cartesian_collection[0:2].to_array() == self.cartesian_collection.to_array()))
+        
+        # Test single index slicing
+        slice_result = self.cartesian_collection[0]
+        self.assertEqual(slice_result.x, 1.0)
+        self.assertEqual(slice_result.y, 2.0)
+        self.assertEqual(slice_result.z, 3.0)
+        
+        # Test negative index slicing
+        slice_result = self.cartesian_collection[-1]
+        self.assertEqual(slice_result.x, 10.0)
+        self.assertEqual(slice_result.y, 20.0)
+        self.assertEqual(slice_result.z, 30.0)
 
     def test_static_methods(self):
         # Test dot product
