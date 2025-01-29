@@ -11,6 +11,15 @@ class TestCartesianECEF(unittest.TestCase):
         # Test if the ECEF coordinates are local
         self.assertFalse(self.ecef_coords.is_local())
 
+    def test_logical_operations(self):
+        # Test equality of two ECEF coordinates
+        ecef_coords_2 = CartesianECEF(4198945, 174747, 4781887)
+        self.assertTrue(self.ecef_coords == ecef_coords_2)
+        
+        # Test inequality of two ECEF coordinates
+        ecef_coords_3 = CartesianECEF(4198945, 174747, 4781888)
+        self.assertFalse(self.ecef_coords == ecef_coords_3)
+
     def test_to_cartographic(self):
         # Test conversion from ECEF to Cartographic and back to ECEF
         cartographic_coords = self.ecef_coords.to_cartographic()

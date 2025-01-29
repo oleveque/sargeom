@@ -13,6 +13,19 @@ class TestCartesianLocalENU(unittest.TestCase):
         # Test if the coordinate system is local
         self.assertTrue(self.enu_coords.is_local())
 
+    def test_logical_operations(self):
+        # Test equality of two ENU coordinates
+        enu_coords_2 = CartesianLocalENU(10.0, 20.0, 30.0, Cartographic.ONERA_CP())
+        self.assertTrue(self.enu_coords == enu_coords_2)
+        
+        # Test inequality of two ENU coordinates
+        enu_coords_3 = CartesianLocalENU(10.0, 20.0, 31.0, Cartographic.ONERA_CP())
+        self.assertFalse(self.enu_coords == enu_coords_3)
+        
+        # Test inequality of two ENU coordinates
+        enu_coords_4 = CartesianLocalENU(10.0, 20.0, 30.0, Cartographic.ONERA_SDP())
+        self.assertFalse(self.enu_coords == enu_coords_4)
+
     def test_rotation(self):
         # Test the rotation matrix
         rotation_matrix = self.enu_coords.rotation.as_matrix()

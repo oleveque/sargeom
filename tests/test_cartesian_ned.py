@@ -13,6 +13,19 @@ class TestCartesianLocalNED(unittest.TestCase):
         # Test if the coordinates are local
         self.assertTrue(self.ned_coords.is_local())
 
+    def test_logical_operations(self):
+        # Test equality of two NED coordinates
+        ned_coords_2 = CartesianLocalNED(20.0, 10.0, -30.0, Cartographic.ONERA_CP())
+        self.assertTrue(self.ned_coords == ned_coords_2)
+        
+        # Test inequality of two NED coordinates
+        ned_coords_3 = CartesianLocalNED(20.0, 10.0, -31.0, Cartographic.ONERA_CP())
+        self.assertFalse(self.ned_coords == ned_coords_3)
+        
+        # Test inequality of two NED coordinates
+        ned_coords_4 = CartesianLocalNED(20.0, 10.0, -30.0, Cartographic.ONERA_SDP())
+        self.assertFalse(self.ned_coords == ned_coords_4)
+
     def test_rotation(self):
         # Test the rotation matrix
         rotation_matrix = self.ned_coords.rotation.as_matrix()

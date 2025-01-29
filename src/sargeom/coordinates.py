@@ -431,7 +431,10 @@ class Cartesian3(np.ndarray):
         """
         Compares this cartesian point against the provided one componentwise and returns `True` if they are equal, `False` otherwise.
         """
-        return np.all([self.x == right.x, self.y == right.y, self.z == right.z])
+        if self.is_local() and right.is_local():
+            return np.all([self.x == right.x, self.y == right.y, self.z == right.z, self._local_origin == right._local_origin])
+        else:
+            return np.all([self.x == right.x, self.y == right.y, self.z == right.z])
 
     def magnitude(self):
         """
