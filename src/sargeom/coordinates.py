@@ -674,7 +674,7 @@ class Cartesian3(np.ndarray):
             B = Cartesian3(0.0, 1.0, 0.0)
             cross_product = A.cross(B)
         """
-        return self.__class__.from_array(np.cross(self.__array__(), right.__array__()), self._local_origin)
+        return self.from_array(np.cross(self.__array__(), right.__array__()), self._local_origin)
 
     def dot(self, right):
         """
