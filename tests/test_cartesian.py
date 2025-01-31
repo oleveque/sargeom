@@ -248,5 +248,45 @@ class TestCartesian3(unittest.TestCase):
         self.assertIsInstance(collection, pd.DataFrame)
         self.assertTrue(np.all(my_dataframe == collection))
 
+    def test_magnitude(self):
+        # Test magnitude calculation
+        magnitude = self.cartesian_point.magnitude()
+        self.assertAlmostEqual(magnitude, np.sqrt(14))
+
+    def test_normalize(self):
+        # Test normalization
+        normalized = self.cartesian_point.normalize()
+        self.assertAlmostEqual(np.linalg.norm(normalized.to_array()), 1.0)
+
+    def test_cross_product(self):
+        # Test cross product
+        cross_product = self.cartesian_point.cross(Cartesian3(4.0, 5.0, 6.0))
+        self.assertTrue(np.allclose(cross_product.to_array(), [-3.0, 6.0, -3.0]))
+
+    def test_dot_product(self):
+        # Test dot product
+        dot_product = self.cartesian_point.dot(Cartesian3(4.0, 5.0, 6.0))
+        self.assertEqual(dot_product, 32.0)
+
+    def test_centroid(self):
+        # Test centroid calculation
+        centroid = self.cartesian_collection.centroid()
+        self.assertTrue(np.allclose(centroid.to_array(), [5.5, 11.0, 16.5]))
+
+    def test_distance(self):
+        # Test distance calculation
+        distance = Cartesian3.distance(self.cartesian_point, Cartesian3(4.0, 5.0, 6.0))
+        self.assertAlmostEqual(distance, np.sqrt(27))
+
+    def test_middle(self):
+        # Test midpoint calculation
+        middle = Cartesian3.middle(self.cartesian_point, Cartesian3(4.0, 5.0, 6.0))
+        self.assertTrue(np.allclose(middle.to_array(), [2.5, 3.5, 4.5]))
+
+    def test_angle_btw(self):
+        # Test angle calculation
+        angle = Cartesian3.angle_btw(self.cartesian_point, Cartesian3(-1.0, 2.0, -1.0))
+        self.assertAlmostEqual(angle, 90.0)
+
 if __name__ == '__main__':
     unittest.main()
