@@ -167,7 +167,7 @@ class Cartesian3(np.ndarray):
         :class:`Cartesian3`
             The element(s) at the specified index or indices.
         """
-        return self.from_array(self.__array__()[key], origin=self._local_origin)
+        return self.from_array(self.__array__()[key], self._local_origin)
 
     @classmethod
     def from_array(cls, array, origin=None):
@@ -412,10 +412,7 @@ class Cartesian3(np.ndarray):
         >>> pos12
         """
         if np.all([isinstance(c, self.__class__) for c in positions]):
-            new_array = np.concatenate((self, positions), axis=0)
-            new_instance = self.__class__.from_array(new_array)
-            new_instance._local_origin = self._local_origin
-            return new_instance
+            return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0), self._local_origin)
         else:
             raise ValueError(
                 f"The instance to append must be a {self.__class__.__name__} instance."
@@ -1622,8 +1619,7 @@ class Cartographic(np.ndarray):
         >>> cart12
         """
         if np.all([isinstance(c, Cartographic) for c in positions]):
-            new_array = np.concatenate((self, positions), axis=0)
-            return self.__class__.from_array(new_array)
+            return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0))
         else:
             raise ValueError("The instance to append must be a Cartographic instance.")
 
