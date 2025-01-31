@@ -508,10 +508,8 @@ class Cartesian3(np.ndarray):
         # Check if the vector is a single Cartesian3 instance
         if vector.is_collection():
             raise ValueError("The vector must be a single Cartesian3 instance.")
-        
-        A = vector.dot(self)
-        B = vector.normalize()
-        return A[:, None] * B
+        else:
+            return vector.normalize() * vector.dot(self)[:, None]
     
     def reject_from(self, vector):
         """
@@ -744,7 +742,7 @@ class Cartesian3(np.ndarray):
             B = Cartesian3(4.0, 5.0, 6.0)
             distance = Cartesian3.distance(A, B)
         """
-        return np.linalg.norm(left - right, axis=1)
+        return np.linalg.norm(left.__array__() - right.__array__(), axis=1)
 
     @staticmethod
     def middle(left, right):
