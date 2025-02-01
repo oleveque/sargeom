@@ -1725,7 +1725,11 @@ class Cartographic(np.ndarray):
             )
 
         kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
-        lat, lon, alt = gcs2egm.transform(self.latitude, self.longitude, self.height)
+        lat, lon, alt = gcs2egm.transform(
+            self.__array__()[:, 1], # latitude array
+            self.__array__()[:, 0], # longitude array
+            self.__array__()[:, 2] # height array
+        )
         for coords in zip(lon, lat, alt):
             pnt = kml.newpoint()
             pnt.name = "Lat {lat:.6f}, Lon: {lon:.6f}, Alt: {alt:.6f}".format(
