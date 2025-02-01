@@ -53,10 +53,7 @@ todo_include_todos = True
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
-    "geopandas": ("https://geopandas.org/en/stable/", None),
-    "pymongo": ("https://pymongo.readthedocs.io/en/stable/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
-    "pymela": ("http://thor.sdp.onera/libs-sphinx/", None),
     "pyproj": ("https://pyproj4.github.io/pyproj/stable/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/", None)
 }
