@@ -95,13 +95,30 @@ class Cartesian3(np.ndarray):
 
     Examples
     --------
+    >>> Cartesian3(x=1.0, y=2.0, z=3.0)
+    XYZ Cartesian3 point
+    [1. 2. 3.]
 
-    .. code-block:: python
-
-        A = Cartesian3.ONE()
-        B = Cartesian3.UNIT_X()
-
-        C = A + B
+    >>> Cartesian3([1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0])
+    XYZ Cartesian3 points
+    [[1. 4. 7.]
+     [2. 5. 8.]
+     [3. 6. 9.]]
+    
+    >>> A = Cartesian3.UNIT_X()
+    >>> B = Cartesian3.ONE()
+    >>> A + B
+    XYZ Cartesian3 point
+    [2. 1. 1.]
+    >>> A - B
+    XYZ Cartesian3 point
+    [ 0. -1. -1.]
+    >>> A * B
+    XYZ Cartesian3 point
+    [1. 0. 0.]
+    >>> A / B
+    XYZ Cartesian3 point
+    [1. 0. 0.]
     """
 
     def __new__(cls, x, y, z, origin=None):
@@ -406,10 +423,12 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        >>> pos1 = Cartesian3(10.0, 20.0, 30.0)
-        >>> pos2 = Cartesian3(15.0, 25.0, 35.0)
-        >>> pos12 = pos1.append(pos2)
-        >>> pos12
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> B = Cartesian3(15.0, 25.0, 35.0)
+        >>> A.append(B)
+        XYZ Cartesian3 points
+        [[10. 20. 30.]
+         [15. 25. 35.]]
         """
         if np.all([isinstance(c, self.__class__) for c in positions]):
             return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0), self._local_origin)
@@ -438,12 +457,9 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Get the magnitude of a Cartesian3 object:
-
-        .. code-block:: python
-
-            A = Cartesian3(3.0, 4.0, 0.0)
-            magnitude_A = A.magnitude()  # Returns 5.0
+        >>> A = Cartesian3(3.0, 4.0, 0.0)
+        >>> A.magnitude()
+        array(5.)
         """
         return np.linalg.norm(self.__array__(), axis=1).squeeze()
 
@@ -462,12 +478,10 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Normalize a Cartesian3 object:
-
-        .. code-block:: python
-
-            A = Cartesian3(3.0, 4.0, 0.0)
-            normalized_A = A.normalize()  # Returns Cartesian3(0.6, 0.8, 0.0)
+        >>> A = Cartesian3(3.0, 4.0, 0.0)
+        >>> A.normalize()
+        XYZ Cartesian3 point
+        [0.6 0.8 0. ]
         """
         return self / np.linalg.norm(self.__array__(), axis=1)[:, None]
 
@@ -497,13 +511,11 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Project a Cartesian3 object onto another vector:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(2.0, 3.0, 4.0)
-            projection = A.proj_onto(B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(2.0, 3.0, 4.0)
+        >>> A.proj_onto(B)
+        XYZ Cartesian3 point
+        [ 7.42781353 11.14172029 14.85562705]
         """
         # Check if the vector is a single Cartesian3 instance
         if vector.is_collection():
@@ -536,13 +548,11 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Reject a Cartesian3 object from another vector:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(2.0, 3.0, 4.0)
-            rejection = A.reject_from(B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(2.0, 3.0, 4.0)
+        >>> A.reject_from(B)
+        XYZ Cartesian3 point
+        [ -6.42781353  -9.14172029 -11.85562705]
         """
         return self - self.proj_onto(vector)
 
@@ -573,14 +583,13 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Interpolate Cartesian3 coordinates:
-
-        .. code-block:: python
-
-            time = np.array([0.0, 1.0, 2.0])
-            coordinates = Cartesian3([1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0])
-            new_time = np.array([0.5, 1.5])
-            interpolated_coords = coordinates.interp(time, new_time)
+        >>> time = np.array([0.0, 1.0, 2.0])
+        >>> positions = Cartesian3([1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0])
+        >>> new_time = np.array([0.5, 1.5])
+        >>> positions.interp(time, new_time)
+        XYZ Cartesian3 points
+        [[1.5 4.5 7.5]
+         [2.5 5.5 8.5]]
         """
         if self.is_collection():
             x = np.interp(new_time_sampling, time_sampling, self.x)
@@ -603,12 +612,10 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Convert Cartesian3 coordinates to a Pandas DataFrame:
-
-        .. code-block:: python
-
-            coordinates = Cartesian3(1.0, 2.0, 3.0)
-            df = coordinates.to_pandas()
+        >>> positions = Cartesian3(1.0, 2.0, 3.0)
+        >>> positions.to_pandas()
+             x    y    z
+        0  1.0  2.0  3.0
         """
         try:
             import pandas as pd
@@ -630,12 +637,9 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Convert Cartesian3 coordinates to a numpy array:
-
-        .. code-block:: python
-
-            coordinates = Cartesian3(1.0, 2.0, 3.0)
-            array = coordinates.to_array()
+        >>> position = Cartesian3(1.0, 2.0, 3.0)
+        >>> position.to_array()
+        array([1., 2., 3.])
         """
         return self.__array__().squeeze()
 
@@ -655,13 +659,11 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the cross product of two Cartesian3 objects:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 0.0, 0.0)
-            B = Cartesian3(0.0, 1.0, 0.0)
-            cross_product = A.cross(B)
+        >>> A = Cartesian3(1.0, 0.0, 0.0)
+        >>> B = Cartesian3(0.0, 1.0, 0.0)
+        >>> A.cross(B)
+        XYZ Cartesian3 point
+        [0. 0. 1.]
         """
         return self.from_array(np.cross(self.__array__(), right.__array__()), self._local_origin)
 
@@ -681,13 +683,10 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the dot product of two Cartesian3 objects:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(4.0, 5.0, 6.0)
-            dot_product = A.dot(B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(4.0, 5.0, 6.0)
+        >>> A.dot(B)
+        array([32.])
         """
         return np.multiply(self.__array__(), right.__array__()).sum(axis=1)
 
@@ -702,16 +701,14 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the centroid of a set of Cartesian3 objects:
-
-        .. code-block:: python
-        
-            points = Cartesian3(
-                x=[1.0, 2.0, 3.0],
-                y=[4.0, 5.0, 6.0],
-                z=[7.0, 8.0, 9.0]
-            )
-            centroid = points.centroid()
+        >>> positions = Cartesian3(
+        ...     x=[1.0, 2.0, 3.0],
+        ...     y=[4.0, 5.0, 6.0],
+        ...     z=[7.0, 8.0, 9.0]
+        ... )
+        >>> positions.centroid()
+        XYZ Cartesian3 point
+        [2. 5. 8.]
         """
         return self.from_array(np.mean(self.__array__(), axis=0), self._local_origin)
 
@@ -734,13 +731,10 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the distance between two Cartesian3 objects:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(4.0, 5.0, 6.0)
-            distance = Cartesian3.distance(A, B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(4.0, 5.0, 6.0)
+        >>> Cartesian3.distance(A, B)
+        array([5.19615242])
         """
         return np.linalg.norm(left.__array__() - right.__array__(), axis=1)
 
@@ -763,13 +757,11 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the midpoint between two Cartesian3 objects:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(4.0, 5.0, 6.0)
-            midpoint = Cartesian3.middle(A, B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(4.0, 5.0, 6.0)
+        >>> Cartesian3.middle(A, B)
+        XYZ Cartesian3 point
+        [2.5 3.5 4.5]
         """
         return (left + right) / 2
 
@@ -794,13 +786,10 @@ class Cartesian3(np.ndarray):
 
         Examples
         --------
-        Compute the angle between two Cartesian3 objects:
-
-        .. code-block:: python
-
-            A = Cartesian3(1.0, 2.0, 3.0)
-            B = Cartesian3(4.0, 5.0, 6.0)
-            angle = Cartesian3.angle_btw(A, B)
+        >>> A = Cartesian3(1.0, 2.0, 3.0)
+        >>> B = Cartesian3(4.0, 5.0, 6.0)
+        >>> Cartesian3.angle_btw(A, B)
+        array([12.93315449])
         """
         angle = np.arccos(left.normalize().dot(right.normalize()))
 
@@ -845,11 +834,10 @@ class CartesianECEF(Cartesian3):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        # The ECEF coordinates of Parc des Buttes-Chaumont
-        PBC = CartesianECEF(4198945, 174747, 4781887)
+    The ECEF coordinates of Parc des Buttes-Chaumont:
+    >>> CartesianECEF(x=4198945, y=174747, z=4781887)
+    XYZ CartesianECEF point
+    [4198945  174747 4781887]
     """
 
     @staticmethod
@@ -875,12 +863,10 @@ class CartesianECEF(Cartesian3):
 
         Examples
         --------
-        Convert CartesianECEF coordinates to geodetic coordinates:
-
-        .. code-block:: python
-
-            ecef_coords = CartesianECEF(4198945, 174747, 4781887)
-            cartographic_coords = ecef_coords.to_cartographic()
+        >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
+        >>> ecef_coords.to_cartographic()
+        Lon.Lat.Height Cartographic position
+        [  2.38309654  48.8799982  124.84738935]
         """
         latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
         return Cartographic(longitude, latitude, height)
@@ -906,13 +892,11 @@ class CartesianECEF(Cartesian3):
 
         Examples
         --------
-        Transform geocentric ECEF coordinates to local NED coordinates:
-
-        .. code-block:: python
-
-            ecef_coords = CartesianECEF(4198945, 174747, 4781887)
-            origin = Cartographic(0.0, 0.0, 0.0)
-            ned_coords = ecef_coords.to_ned(origin)
+        >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
+        >>> origin = Cartographic.ONERA_SDP()
+        >>> ecef_coords.to_ned(origin)
+        XYZ CartesianLocalNED point
+        [ 587260.31938307 -200505.63947051   30171.74933361]
         """
         if isinstance(origin, Cartographic):
             return (self - origin.to_ecef()).to_nedv(origin)
@@ -940,13 +924,11 @@ class CartesianECEF(Cartesian3):
 
         Examples
         --------
-        Transform geocentric ECEF vector coordinates to NED vector coordinates:
-
-        .. code-block:: python
-
-            ecef_vector = CartesianECEF(1.0, 2.0, 3.0)
-            origin = Cartographic(0.0, 0.0, 0.0)
-            ned_vector = ecef_vector.to_nedv(origin)
+        >>> ecef_vector = CartesianECEF(1.0, 2.0, 3.0)
+        >>> origin = Cartographic.ONERA_SDP()
+        >>> ecef_vector.to_nedv(origin)
+        XYZ CartesianLocalNED point
+        [ 1.36163478  1.90282463 -2.91979608]
         """
         if isinstance(origin, Cartographic):
             new_array = CartesianLocalNED.ZERO(origin=origin).rotation.apply(self.__array__())
@@ -975,13 +957,11 @@ class CartesianECEF(Cartesian3):
 
         Examples
         --------
-        Transform geocentric ECEF coordinates to local ENU coordinates:
-
-        .. code-block:: python
-
-            ecef_coords = CartesianECEF(4198945, 174747, 4781887)
-            origin = Cartographic(0.0, 0.0, 0.0)
-            enu_coords = ecef_coords.to_enu(origin)
+        >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
+        >>> origin = Cartographic.ONERA_SDP()
+        >>> ecef_coords.to_enu(origin)
+        XYZ CartesianLocalENU point
+        [-200505.63947051  587260.31938307  -30171.74933361]
         """
         if isinstance(origin, Cartographic):
             return (self - origin.to_ecef()).to_enuv(origin)
@@ -1009,13 +989,11 @@ class CartesianECEF(Cartesian3):
 
         Examples
         --------
-        Transform geocentric ECEF vector coordinates to ENU vector coordinates:
-
-        .. code-block:: python
-
-            ecef_vector = CartesianECEF(1.0, 2.0, 3.0)
-            origin = Cartographic(0.0, 0.0, 0.0)
-            enu_vector = ecef_vector.to_enuv(origin)
+        >>> ecef_vector = CartesianECEF(1.0, 2.0, 3.0)
+        >>> origin = Cartographic(0.0, 0.0, 0.0)
+        >>> ecef_vector.to_enuv(origin)
+        XYZ CartesianLocalENU point
+        [2. 3. 1.]
         """
         if isinstance(origin, Cartographic):
             new_array = CartesianLocalENU.ZERO(origin=origin).rotation.apply(self.__array__())
@@ -1048,10 +1026,9 @@ class CartesianLocalENU(Cartesian3):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
+    >>> CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+    XYZ CartesianLocalENU point
+    [10. 20. 30.]
     """
 
     @property
@@ -1066,13 +1043,13 @@ class CartesianLocalENU(Cartesian3):
 
         Examples
         --------
-        Get the rotation matrix and quaternion for transforming geocentric ECEF of a vector to ENU coordinates:
-
-        .. code-block:: python
-
-            enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            rotation_matrix = enu_coords.rotation.as_matrix()
-            quaternion_matrix = enu_coords.rotation.as_quat()
+        >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
+        >>> enu_coords.rotation.as_matrix()
+        array([[0., 1., 0.],
+               [0., 0., 1.],
+               [1., 0., 0.]])
+        >>> enu_coords.rotation.as_quat()
+        array([ 0.5,  0.5,  0.5, -0.5])
         """
         lat0, lon0 = np.deg2rad(
             [self._local_origin.latitude, self._local_origin.longitude]
@@ -1104,12 +1081,10 @@ class CartesianLocalENU(Cartesian3):
 
         Examples
         --------
-        Convert local ENU coordinates to geocentric ECEF coordinates:
-
-        .. code-block:: python
-
-            enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            enu_coords.to_ecef()
+        >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> enu_coords.to_ecef()
+        XYZ CartesianECEF point
+        [4606335.62343558  412550.86552435 4377594.95021092]
         """
         if self._local_origin is None:
             raise ValueError(
@@ -1131,12 +1106,10 @@ class CartesianLocalENU(Cartesian3):
 
         Examples
         --------
-        Convert local ENU coordinates to local NED coordinates:
-
-        .. code-block:: python
-
-            enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            ned_coords = enu_coords.to_ned()
+        >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> enu_coords.to_ned()
+        XYZ CartesianLocalNED point
+        [ 20.  10. -30.]
         """
         return CartesianLocalNED(self.y, self.x, -self.z, self._local_origin)
 
@@ -1161,16 +1134,14 @@ class CartesianLocalENU(Cartesian3):
         elevation : :class:`numpy.ndarray`
             The elevation, the angle from the xEast-yNorth plane to the object.
         slant_range : :class:`numpy.ndarray`
-            The slant range, the Euclidean distance between the object and the local origin.
+            The slant range (in meters), the Euclidean distance between the object and the local origin.
 
         Examples
         --------
-        Convert local ENU coordinates to local AER coordinates:
-
-        .. code-block:: python
-
-            enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            azimuth, elevation, slant_range = enu_coords.to_aer()
+        >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
+        >>> azimuth, elevation, slant_range = enu_coords.to_aer()
+        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m")
+        26.56505117707799° 53.30077479951012° 37.416573867739416m
         """
         azimuth = np.arctan2(self.x, self.y)
         elevation = np.arctan2(self.z, np.sqrt(self.x**2 + self.y**2))
@@ -1206,10 +1177,9 @@ class CartesianLocalNED(Cartesian3):
 
     Examples
     --------
-
-    .. code-block:: python
-
-        ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
+    >>> CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+    XYZ CartesianLocalNED point
+    [10. 20. 30.]
     """
 
     @property
@@ -1224,13 +1194,13 @@ class CartesianLocalNED(Cartesian3):
 
         Examples
         --------
-        Get the rotation matrix and quaternion for transforming geocentric ECEF to NED coordinates of a vector:
-
-        .. code-block:: python
-
-            ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            rotation_matrix = ned_coords.rotation.as_matrix()
-            quaternion_matrix = ned_coords.rotation.as_quat()
+        >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
+        >>> ned_coords.rotation.as_matrix()
+        array([[ 0., -0.,  1.],
+               [ 0.,  1.,  0.],
+               [-1.,  0.,  0.]])
+        >>> ned_coords.rotation.as_quat()
+        array([-0.        ,  0.70710678,  0.        ,  0.70710678])
         """
         lat0, lon0 = np.deg2rad(
             [self._local_origin.latitude, self._local_origin.longitude]
@@ -1266,12 +1236,10 @@ class CartesianLocalNED(Cartesian3):
 
         Examples
         --------
-        Convert local NED coordinates to geocentric ECEF coordinates:
-
-        .. code-block:: python
-
-            ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            ecef_coords = ned_coords.to_ecef()
+        >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> ned_coords.to_ecef()
+        XYZ CartesianECEF point
+        [4606298.33925711  412557.56639868 4377546.31906536]
         """
         if self._local_origin is None:
             raise ValueError(
@@ -1293,12 +1261,10 @@ class CartesianLocalNED(Cartesian3):
 
         Examples
         --------
-        Convert local NED coordinates to local ENU coordinates:
-
-        .. code-block:: python
-
-            ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            enu_coords = ned_coords.to_enu()
+        >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> ned_coords.to_enu()
+        XYZ CartesianLocalENU point
+        [ 20.  10. -30.]
         """
         return CartesianLocalENU(self.y, self.x, -self.z, self._local_origin)
 
@@ -1323,16 +1289,14 @@ class CartesianLocalNED(Cartesian3):
         elevation : :class:`numpy.ndarray`
             The elevation, the angle from the xEast-yNorth plane to the object.
         slant_range : :class:`numpy.ndarray`
-            The slant range, the Euclidean distance between the object and the local origin.
+            The slant range (in meters), the Euclidean distance between the object and the local origin.
 
         Examples
         --------
-        Convert local NED coordinates to local AER coordinates:
-
-        .. code-block:: python
-
-            ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
-            azimuth, elevation, slant_range = ned_coords.to_aer()
+        >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> azimuth, elevation, slant_range = ned_coords.to_aer()
+        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m")
+        63.43494882292201° 53.30077479951012° 37.416573867739416m
         """
         azimuth = np.arctan2(self.y, self.x)
         elevation = np.arctan2(self.z, np.sqrt(self.x**2 + self.y**2))
@@ -1377,11 +1341,14 @@ class Cartographic(np.ndarray):
 
     Examples
     --------
+    >>> Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+    Lon.Lat.Height Cartographic position
+    [10. 20. 30.]
 
-    .. code-block:: python
-
-        cart1 = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        cart2 = Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])
+    >>> Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])
+    Lon.Lat.Height Cartographic positions
+    [[15. 30.  0.]
+     [25. 40.  0.]]
     """
 
     def __new__(cls, longitude, latitude, height=None, degrees=True):
@@ -1611,10 +1578,12 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart1 = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> cart2 = Cartographic(longitude=15.0, latitude=25.0, height=35.0)
-        >>> cart12 = cart1.append(cart2)
-        >>> cart12
+        >>> A = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> B = Cartographic(longitude=15.0, latitude=25.0, height=35.0)
+        >>> A.append(B)
+        Lon.Lat.Height Cartographic positions
+        [[10. 20. 30.]
+         [15. 25. 35.]]
         """
         if np.all([isinstance(c, Cartographic) for c in positions]):
             return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0))
@@ -1666,8 +1635,9 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart_multi = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
-        >>> cart_multi.bounding_box()
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
+        >>> positions.bounding_box()
+        (np.float64(15.0), np.float64(10.0), np.float64(25.0), np.float64(20.0))
         """
         if self.is_collection():
             east = self.longitude.max()
@@ -1692,8 +1662,10 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
-        >>> ecef = cart.to_ecef()
+        >>> position = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
+        >>> position.to_ecef()
+        XYZ CartesianECEF point
+        [4213272.20373947  164124.69534369 4769561.52151397]
         """
         x, y, z = gcs2ecef.transform(self.latitude, self.longitude, self.height)
         return CartesianECEF(x, y, z)
@@ -1714,8 +1686,8 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
-        >>> cart.to_kml("my_positions.kml")
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
+        >>> positions.to_kml("my_positions.kml")
         """
         try:
             import simplekml
@@ -1761,9 +1733,9 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> cart.to_geojson()
-        '{"type": "Point", "coordinates": [10.0, 20.0, 30.0]}'
+        >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> position.to_geojson()
+        {"coordinates": [[10.0], [20.0], [30.0]], "type": "Point"}
         """
         try:
             from geojson import Point, MultiPoint, LineString, Polygon
@@ -1815,9 +1787,9 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> cart.to_shapely()
-        'POINT Z (10 20 30)'
+        >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> position.to_shapely()
+        <POINT Z (10 20 30)>
         """
         try:
             from shapely import Point, MultiPoint, LineString, Polygon
@@ -1856,8 +1828,8 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(2.230784, 48.713028, 0.0)
-        >>> cart.to_html("my_map.html")
+        >>> position = Cartographic(longitude=2.230784, latitude=48.713028)
+        >>> position.to_html("my_map.html")
         """
         try:
             import folium
@@ -1892,9 +1864,8 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> df = cart.to_pandas()
-        >>> print(df)
+        >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> position.to_pandas()
            longitude  latitude  height
         0       10.0      20.0    30.0
         """
@@ -1918,8 +1889,8 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> cart = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
-        >>> cart.to_array()
+        >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> position.to_array()
         array([10., 20., 30.])
         """
         return self.__array__().squeeze()
@@ -1949,18 +1920,10 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> Cartographic.dms_to_dd(43, 5, 9.3)
-        43.08591666666666
-        >>> Cartographic.dms_to_dd(-43, 5, 9.3)
-        -43.08591666666666
-        >>> Cartographic.dd_to_dms(Cartographic.dms_to_dd(43, 5, 9.3))
-        (43, 5, 9.29999999998472)
+        >>> Cartographic.dms_to_dd([-5, 43], [39, 14], [17.114904,  7.709064])
+        array([-5.65475414, 43.23547474])
         """
-        if d >= 0:
-            sign = 1.0
-        else:
-            sign = -1.0
-        return sign * (np.abs(d) + m / 60 + s / 3600)
+        return np.sign(d) * (np.abs(d) + np.array(m) / 60 + np.array(s) / 3600)
 
     @staticmethod
     def dd_to_dms(dd):
@@ -1988,14 +1951,10 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> d, m, s = Cartographic.dd_to_dms([-5.65475414, 43.23547474])
-        >>> print(d)
-        [-5  43]
-        >>> print(m)
-        [39 14]
-        >>> print(s)
-        [17.114904  7.709064]
-        >>> print(Cartographic.dms_to_dd(*Cartographic.dd_to_dms(270.12336)))
-        -89.87664000000001
+        >>> print(f"{d[0]}°", f"{m[0]}'", f'{s[0]}"')
+        -5° 39' 17.114903999998745"
+        >>> print(f"{d[1]}°", f"{m[1]}'", f'{s[1]}"')
+        43° 14' 7.709064000002854"
         """
         dd = np.array(dd, ndmin=0)
         sign = np.sign(dd)
@@ -2004,3 +1963,7 @@ class Cartographic(np.ndarray):
         m = np.floor((dd - d) * 60)
         s = ((dd - d) * 60 - m) * 60
         return (sign * d).astype(np.int16), m.astype(np.int16), s
+   
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
