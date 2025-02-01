@@ -288,7 +288,9 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
+<span class="go">XYZ CartesianLocalENU point</span>
+<span class="go">[10. 20. 30.]</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes Summary</p>
@@ -331,10 +333,13 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Get the rotation matrix and quaternion for transforming geocentric ECEF of a vector to ENU coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-<span class="n">rotation_matrix</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
-<span class="n">quaternion_matrix</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+<span class="go">array([[0., 1., 0.],</span>
+<span class="go">       [0., 0., 1.],</span>
+<span class="go">       [1., 0., 0.]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span>
+<span class="go">array([ 0.5,  0.5,  0.5, -0.5])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -361,15 +366,16 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 </dd>
 <dt><strong>elevation</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The elevation, the angle from the xEast-yNorth plane to the object.</p>
 </dd>
-<dt><strong>slant_range</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The slant range, the Euclidean distance between the object and the local origin.</p>
+<dt><strong>slant_range</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.2)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The slant range (in meters), the Euclidean distance between the object and the local origin.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert local ENU coordinates to local AER coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-<span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">slant_range</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">to_aer</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">slant_range</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">to_aer</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">azimuth</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elevation</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slant_range</span><span class="si">}</span><span class="s2">m&quot;</span><span class="p">)</span>
+<span class="go">26.56505117707799° 53.30077479951012° 37.416573867739416m</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -387,9 +393,10 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert local ENU coordinates to geocentric ECEF coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-<span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<span class="go">XYZ CartesianECEF point</span>
+<span class="go">[4606335.62343558  412550.86552435 4377594.95021092]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -408,9 +415,10 @@ Both coordinate systems use the same local origin.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert local ENU coordinates to local NED coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-<span class="n">ned_coords</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">()</span>
+<span class="go">XYZ CartesianLocalNED point</span>
+<span class="go">[ 20.  10. -30.]</span>
 </pre></div>
 </div>
 </dd></dl>

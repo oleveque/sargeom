@@ -295,10 +295,32 @@ If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">ONE</span><span class="p">()</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">UNIT_X</span><span class="p">()</span>
-
-<span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 2. 3.]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="go">XYZ Cartesian3 points</span>
+<span class="go">[[1. 4. 7.]</span>
+<span class="go"> [2. 5. 8.]</span>
+<span class="go"> [3. 6. 9.]]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">UNIT_X</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">ONE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[2. 1. 1.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[ 0. -1. -1.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">*</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 0. 0.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">/</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 0. 0.]</span>
 </pre></div>
 </div>
 <p class="rubric">Attributes Summary</p>
@@ -582,10 +604,10 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the angle between two Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="n">angle</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="go">array([12.93315449])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -615,10 +637,12 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pos1</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos2</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos12</span> <span class="o">=</span> <span class="n">pos1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pos2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">pos12</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 points</span>
+<span class="go">[[10. 20. 30.]</span>
+<span class="go"> [15. 25. 35.]]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -636,13 +660,14 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the centroid of a set of Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">points</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
-    <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span>
-    <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]</span>
-<span class="p">)</span>
-<span class="n">centroid</span> <span class="o">=</span> <span class="n">points</span><span class="o">.</span><span class="n">centroid</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">centroid</span><span class="p">()</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[2. 5. 8.]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -666,10 +691,11 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the cross product of two Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">cross_product</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[0. 0. 1.]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -695,10 +721,10 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the distance between two Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="n">distance</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="go">array([5.19615242])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -722,10 +748,10 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the dot product of two Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="n">dot_product</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">array([32.])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -789,11 +815,13 @@ If not specified, the default local origin of the instance will be used.</p>
 <p class="rubric">Notes</p>
 <p>Interpolation is performed separately for each component (<em>X</em>, <em>Y</em>, and <em>Z</em>) using numpy’s <cite>interp</cite> function.</p>
 <p class="rubric">Examples</p>
-<p>Interpolate Cartesian3 coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
-<span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
-<span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
-<span class="n">interpolated_coords</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">new_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">new_time</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 points</span>
+<span class="go">[[1.5 4.5 7.5]</span>
+<span class="go"> [2.5 5.5 8.5]]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -839,9 +867,9 @@ If not specified, the default local origin of the instance will be used.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Get the magnitude of a Cartesian3 object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">magnitude_A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>  <span class="c1"># Returns 5.0</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">magnitude</span><span class="p">()</span>
+<span class="go">array(5.)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -867,10 +895,11 @@ If not specified, the default local origin of the instance will be used.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Compute the midpoint between two Cartesian3 objects:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="n">midpoint</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">middle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">middle</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[2.5 3.5 4.5]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -890,9 +919,10 @@ If not specified, the default local origin of the instance will be used.</p>
 <p class="rubric">Notes</p>
 <p>The normalized cartesian point is obtained by dividing each component by the Euclidean norm of the point.</p>
 <p class="rubric">Examples</p>
-<p>Normalize a Cartesian3 object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">normalized_A</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>  <span class="c1"># Returns Cartesian3(0.6, 0.8, 0.0)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[0.6 0.8 0. ]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -925,10 +955,11 @@ If not specified, the default local origin of the instance will be used.</p>
 <p>The projection vector is obtained by computing the dot product of the current instance with the provided vector,
 dividing by the magnitude of the provided vector, and multiplying the result by the normalized provided vector.</p>
 <p class="rubric">Examples</p>
-<p>Project a Cartesian3 object onto another vector:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="n">projection</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[ 7.42781353 11.14172029 14.85562705]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -960,10 +991,11 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 <p class="rubric">Notes</p>
 <p>The rejection vector is obtained by subtracting the projection vector from the current instance.</p>
 <p class="rubric">Examples</p>
-<p>Reject a Cartesian3 object from another vector:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="n">rejection</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">reject_from</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">reject_from</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[ -6.42781353  -9.14172029 -11.85562705]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -981,9 +1013,9 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert Cartesian3 coordinates to a numpy array:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">array</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_array</span><span class="p">()</span>
+<span class="go">array([1., 2., 3.])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1001,9 +1033,10 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert Cartesian3 coordinates to a Pandas DataFrame:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">coordinates</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">coordinates</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_pandas</span><span class="p">()</span>
+<span class="go">     x    y    z</span>
+<span class="go">0  1.0  2.0  3.0</span>
 </pre></div>
 </div>
 </dd></dl>

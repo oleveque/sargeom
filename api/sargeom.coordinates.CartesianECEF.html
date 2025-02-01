@@ -299,10 +299,10 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 <p class="rubric">Notes</p>
 <p>The coordinate reference system (CRS) used is the GPS satellite navigation and positioning system : WGS84 Geocentric System <a class="reference external" href="https://epsg.org/crs_4978/WGS-84.html">EPSG:4978</a>.</p>
 <p class="rubric">Examples</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># The ECEF coordinates of Parc des Buttes-Chaumont</span>
-<span class="n">PBC</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
-</pre></div>
-</div>
+<p>The ECEF coordinates of Parc des Buttes-Chaumont:
+&gt;&gt;&gt; CartesianECEF(x=4198945, y=174747, z=4781887)
+XYZ CartesianECEF point
+[4198945  174747 4781887]</p>
 <p class="rubric">Methods Summary</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -356,9 +356,10 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Convert CartesianECEF coordinates to geodetic coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
-<span class="n">cartographic_coords</span> <span class="o">=</span> <span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
+<span class="go">Lon.Lat.Height Cartographic position</span>
+<span class="go">[  2.38309654  48.8799982  124.84738935]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -388,10 +389,11 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Transform geocentric ECEF coordinates to local ENU coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
-<span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">enu_coords</span> <span class="o">=</span> <span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="go">XYZ CartesianLocalENU point</span>
+<span class="go">[-200505.63947051  587260.31938307  -30171.74933361]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -421,10 +423,11 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Transform geocentric ECEF vector coordinates to ENU vector coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">enu_vector</span> <span class="o">=</span> <span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_enuv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_enuv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="go">XYZ CartesianLocalENU point</span>
+<span class="go">[2. 3. 1.]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -454,10 +457,11 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Transform geocentric ECEF coordinates to local NED coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
-<span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ned_coords</span> <span class="o">=</span> <span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="go">XYZ CartesianLocalNED point</span>
+<span class="go">[ 587260.31938307 -200505.63947051   30171.74933361]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -487,10 +491,11 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Transform geocentric ECEF vector coordinates to NED vector coordinates:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">ned_vector</span> <span class="o">=</span> <span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="go">XYZ CartesianLocalNED point</span>
+<span class="go">[ 1.36163478  1.90282463 -2.91979608]</span>
 </pre></div>
 </div>
 </dd></dl>
