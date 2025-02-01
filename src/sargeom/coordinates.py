@@ -19,13 +19,13 @@ wgs84_GCS = pyproj.crs.CRS.from_epsg(
 )
 
 # Coordinate transformations
-ecef2gcs = pyproj.transformer.Transformer.from_crs(
+ecef2gcs = pyproj.Transformer.from_crs(
     crs_from=wgs84_ECEF, crs_to=wgs84_GCS
 )
-gcs2ecef = pyproj.transformer.Transformer.from_crs(
+gcs2ecef = pyproj.Transformer.from_crs(
     crs_from=wgs84_GCS, crs_to=wgs84_ECEF
 )
-gcs2egm = pyproj.transformer.Transformer.from_crs(
+gcs2egm = pyproj.Transformer.from_crs(
     crs_from=wgs84_GCS, crs_to=wgs84_EGM96
 )
 
