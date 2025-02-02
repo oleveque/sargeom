@@ -52,6 +52,7 @@ todo_include_todos = True
 #
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
+    "pathlib": ("https://docs.python.org/3/library/pathlib.html", None),
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pyproj": ("https://pyproj4.github.io/pyproj/stable/", None),
