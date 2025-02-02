@@ -580,10 +580,10 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 <p>The orientation of latitude (North or South) and longitude (West or East) is returned through the sign of the Degrees value.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">dd_to_dms</span><span class="p">([</span><span class="o">-</span><span class="mf">5.65475414</span><span class="p">,</span> <span class="mf">43.23547474</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-<span class="go">-5° 39&#39; 17.114903999998745&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-<span class="go">43° 14&#39; 7.709064000002854&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span> 
+<span class="go">-5° 39&#39; 17.114...&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;&#39;</span><span class="p">)</span> 
+<span class="go">43° 14&#39; 7.709...&quot;</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -613,8 +613,8 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 <p class="rubric">Notes</p>
 <p>The orientation of latitude (North or South) and longitude (West or East) must be passed through the sign of the Degrees value.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">dms_to_dd</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mf">17.114904</span><span class="p">,</span>  <span class="mf">7.709064</span><span class="p">])</span>
-<span class="go">array([-5.65475414, 43.23547474])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">dms_to_dd</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">43</span><span class="p">],</span> <span class="p">[</span><span class="mi">39</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mf">17.114904</span><span class="p">,</span>  <span class="mf">7.709064</span><span class="p">])</span> 
+<span class="go">array([-5.654..., 43.235...])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -699,9 +699,9 @@ If not specified, the default local origin of the instance will be used.</p>
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.230784</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">48.713028</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span> 
 <span class="go">XYZ CartesianECEF point</span>
-<span class="go">[4213272.20373947  164124.69534369 4769561.52151397]</span>
+<span class="go">[4213272.203...  164124.695... 4769561.521...]</span>
 </pre></div>
 </div>
 </dd></dl>

@@ -374,8 +374,8 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">slant_range</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">to_aer</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">azimuth</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elevation</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slant_range</span><span class="si">}</span><span class="s2">m&quot;</span><span class="p">)</span>
-<span class="go">26.56505117707799° 53.30077479951012° 37.416573867739416m</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">azimuth</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elevation</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slant_range</span><span class="si">}</span><span class="s2">m&quot;</span><span class="p">)</span> 
+<span class="go">26.565...° 53.300...° 37.416...m</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -394,9 +394,9 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span> 
 <span class="go">XYZ CartesianECEF point</span>
-<span class="go">[4606335.62343558  412550.86552435 4377594.95021092]</span>
+<span class="go">[4606335.623...  412550.865... 4377594.950...]</span>
 </pre></div>
 </div>
 </dd></dl>

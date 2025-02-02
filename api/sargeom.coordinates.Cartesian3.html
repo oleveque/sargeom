@@ -606,8 +606,8 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-<span class="go">array([12.93315449])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> 
+<span class="go">array([12.933...])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -723,8 +723,8 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-<span class="go">array([5.19615242])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> 
+<span class="go">array([5.196...])</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -957,9 +957,9 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">proj_onto</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> 
 <span class="go">XYZ Cartesian3 point</span>
-<span class="go">[ 7.42781353 11.14172029 14.85562705]</span>
+<span class="go">[ 7.427... 11.141... 14.855...]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -993,9 +993,9 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">reject_from</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">reject_from</span><span class="p">(</span><span class="n">B</span><span class="p">)</span> 
 <span class="go">XYZ Cartesian3 point</span>
-<span class="go">[ -6.42781353  -9.14172029 -11.85562705]</span>
+<span class="go">[ -6.427...  -9.141... -11.855...]</span>
 </pre></div>
 </div>
 </dd></dl>

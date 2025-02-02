@@ -357,9 +357,9 @@ XYZ CartesianECEF point
 </dl>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span> 
 <span class="go">Lon.Lat.Height Cartographic position</span>
-<span class="go">[  2.38309654  48.8799982  124.84738935]</span>
+<span class="go">[  2.383...  48.879...  124.847...]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -391,9 +391,9 @@ XYZ CartesianECEF point
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalENU point</span>
-<span class="go">[-200505.63947051  587260.31938307  -30171.74933361]</span>
+<span class="go">[-200505.639...  587260.319...  -30171.749...]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -459,9 +459,9 @@ XYZ CartesianECEF point
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalNED point</span>
-<span class="go">[ 587260.31938307 -200505.63947051   30171.74933361]</span>
+<span class="go">[ 587260.319... -200505.639...   30171.749...]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -493,9 +493,9 @@ XYZ CartesianECEF point
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalNED point</span>
-<span class="go">[ 1.36163478  1.90282463 -2.91979608]</span>
+<span class="go">[ 1.361...  1.902... -2.919...]</span>
 </pre></div>
 </div>
 </dd></dl>
