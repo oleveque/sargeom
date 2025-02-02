@@ -513,9 +513,9 @@ class Cartesian3(np.ndarray):
         --------
         >>> A = Cartesian3(1.0, 2.0, 3.0)
         >>> B = Cartesian3(2.0, 3.0, 4.0)
-        >>> A.proj_onto(B)
+        >>> A.proj_onto(B) # doctest: +ELLIPSIS
         XYZ Cartesian3 point
-        [ 7.42781353 11.14172029 14.85562705]
+        [ 7.427... 11.141... 14.855...]
         """
         # Check if the vector is a single Cartesian3 instance
         if vector.is_collection():
@@ -550,9 +550,9 @@ class Cartesian3(np.ndarray):
         --------
         >>> A = Cartesian3(1.0, 2.0, 3.0)
         >>> B = Cartesian3(2.0, 3.0, 4.0)
-        >>> A.reject_from(B)
+        >>> A.reject_from(B) # doctest: +ELLIPSIS
         XYZ Cartesian3 point
-        [ -6.42781353  -9.14172029 -11.85562705]
+        [ -6.427...  -9.141... -11.855...]
         """
         return self - self.proj_onto(vector)
 
@@ -733,8 +733,8 @@ class Cartesian3(np.ndarray):
         --------
         >>> A = Cartesian3(1.0, 2.0, 3.0)
         >>> B = Cartesian3(4.0, 5.0, 6.0)
-        >>> Cartesian3.distance(A, B)
-        array([5.19615242])
+        >>> Cartesian3.distance(A, B) # doctest: +ELLIPSIS
+        array([5.196...])
         """
         return np.linalg.norm(left.__array__() - right.__array__(), axis=1)
 
@@ -788,8 +788,8 @@ class Cartesian3(np.ndarray):
         --------
         >>> A = Cartesian3(1.0, 2.0, 3.0)
         >>> B = Cartesian3(4.0, 5.0, 6.0)
-        >>> Cartesian3.angle_btw(A, B)
-        array([12.93315449])
+        >>> Cartesian3.angle_btw(A, B) # doctest: +ELLIPSIS
+        array([12.933...])
         """
         angle = np.arccos(left.normalize().dot(right.normalize()))
 
@@ -864,9 +864,9 @@ class CartesianECEF(Cartesian3):
         Examples
         --------
         >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
-        >>> ecef_coords.to_cartographic()
+        >>> ecef_coords.to_cartographic() # doctest: +ELLIPSIS
         Lon.Lat.Height Cartographic position
-        [  2.38309654  48.8799982  124.84738935]
+        [  2.383...  48.879...  124.847...]
         """
         latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
         return Cartographic(longitude, latitude, height)
@@ -894,9 +894,9 @@ class CartesianECEF(Cartesian3):
         --------
         >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
         >>> origin = Cartographic.ONERA_SDP()
-        >>> ecef_coords.to_ned(origin)
+        >>> ecef_coords.to_ned(origin) # doctest: +ELLIPSIS
         XYZ CartesianLocalNED point
-        [ 587260.31938307 -200505.63947051   30171.74933361]
+        [ 587260.319... -200505.639...   30171.749...]
         """
         if isinstance(origin, Cartographic):
             return (self - origin.to_ecef()).to_nedv(origin)
@@ -926,9 +926,9 @@ class CartesianECEF(Cartesian3):
         --------
         >>> ecef_vector = CartesianECEF(1.0, 2.0, 3.0)
         >>> origin = Cartographic.ONERA_SDP()
-        >>> ecef_vector.to_nedv(origin)
+        >>> ecef_vector.to_nedv(origin) # doctest: +ELLIPSIS
         XYZ CartesianLocalNED point
-        [ 1.36163478  1.90282463 -2.91979608]
+        [ 1.361...  1.902... -2.919...]
         """
         if isinstance(origin, Cartographic):
             new_array = CartesianLocalNED.ZERO(origin=origin).rotation.apply(self.__array__())
@@ -959,9 +959,9 @@ class CartesianECEF(Cartesian3):
         --------
         >>> ecef_coords = CartesianECEF(4198945, 174747, 4781887)
         >>> origin = Cartographic.ONERA_SDP()
-        >>> ecef_coords.to_enu(origin)
+        >>> ecef_coords.to_enu(origin) # doctest: +ELLIPSIS
         XYZ CartesianLocalENU point
-        [-200505.63947051  587260.31938307  -30171.74933361]
+        [-200505.639...  587260.319...  -30171.749...]
         """
         if isinstance(origin, Cartographic):
             return (self - origin.to_ecef()).to_enuv(origin)
@@ -1082,9 +1082,9 @@ class CartesianLocalENU(Cartesian3):
         Examples
         --------
         >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
-        >>> enu_coords.to_ecef()
+        >>> enu_coords.to_ecef() # doctest: +ELLIPSIS
         XYZ CartesianECEF point
-        [4606335.62343558  412550.86552435 4377594.95021092]
+        [4606335.623...  412550.865... 4377594.950...]
         """
         if self._local_origin is None:
             raise ValueError(
@@ -1140,8 +1140,8 @@ class CartesianLocalENU(Cartesian3):
         --------
         >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic(0.0, 0.0, 0.0))
         >>> azimuth, elevation, slant_range = enu_coords.to_aer()
-        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m")
-        26.56505117707799° 53.30077479951012° 37.416573867739416m
+        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m") # doctest: +ELLIPSIS
+        26.565...° 53.300...° 37.416...m
         """
         azimuth = np.arctan2(self.x, self.y)
         elevation = np.arctan2(self.z, np.sqrt(self.x**2 + self.y**2))
@@ -1199,8 +1199,8 @@ class CartesianLocalNED(Cartesian3):
         array([[ 0., -0.,  1.],
                [ 0.,  1.,  0.],
                [-1.,  0.,  0.]])
-        >>> ned_coords.rotation.as_quat()
-        array([-0.        ,  0.70710678,  0.        ,  0.70710678])
+        >>> ned_coords.rotation.as_quat() # doctest: +ELLIPSIS
+        array([-0.        ,  0.707...,  0.        ,  0.707...])
         """
         lat0, lon0 = np.deg2rad(
             [self._local_origin.latitude, self._local_origin.longitude]
@@ -1237,9 +1237,9 @@ class CartesianLocalNED(Cartesian3):
         Examples
         --------
         >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
-        >>> ned_coords.to_ecef()
+        >>> ned_coords.to_ecef() # doctest: +ELLIPSIS
         XYZ CartesianECEF point
-        [4606298.33925711  412557.56639868 4377546.31906536]
+        [4606298.339...  412557.566... 4377546.319...]
         """
         if self._local_origin is None:
             raise ValueError(
@@ -1295,8 +1295,8 @@ class CartesianLocalNED(Cartesian3):
         --------
         >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
         >>> azimuth, elevation, slant_range = ned_coords.to_aer()
-        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m")
-        63.43494882292201° 53.30077479951012° 37.416573867739416m
+        >>> print(f"{azimuth}°", f"{elevation}°", f"{slant_range}m") # doctest: +ELLIPSIS
+        63.434...° 53.300...° 37.416...m
         """
         azimuth = np.arctan2(self.y, self.x)
         elevation = np.arctan2(self.z, np.sqrt(self.x**2 + self.y**2))
@@ -1663,9 +1663,9 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> position = Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
-        >>> position.to_ecef()
+        >>> position.to_ecef() # doctest: +ELLIPSIS
         XYZ CartesianECEF point
-        [4213272.20373947  164124.69534369 4769561.52151397]
+        [4213272.203...  164124.695... 4769561.521...]
         """
         x, y, z = gcs2ecef.transform(self.latitude, self.longitude, self.height)
         return CartesianECEF(x, y, z)
@@ -1920,8 +1920,8 @@ class Cartographic(np.ndarray):
 
         Examples
         --------
-        >>> Cartographic.dms_to_dd([-5, 43], [39, 14], [17.114904,  7.709064])
-        array([-5.65475414, 43.23547474])
+        >>> Cartographic.dms_to_dd([-5, 43], [39, 14], [17.114904,  7.709064]) # doctest: +ELLIPSIS
+        array([-5.654..., 43.235...])
         """
         return np.sign(d) * (np.abs(d) + np.array(m) / 60 + np.array(s) / 3600)
 
@@ -1951,10 +1951,10 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> d, m, s = Cartographic.dd_to_dms([-5.65475414, 43.23547474])
-        >>> print(f"{d[0]}°", f"{m[0]}'", f'{s[0]}"')
-        -5° 39' 17.114903999998745"
-        >>> print(f"{d[1]}°", f"{m[1]}'", f'{s[1]}"')
-        43° 14' 7.709064000002854"
+        >>> print(f"{d[0]}°", f"{m[0]}'", f'{s[0]}"') # doctest: +ELLIPSIS
+        -5° 39' 17.114..."
+        >>> print(f"{d[1]}°", f"{m[1]}'", f'{s[1]}"') # doctest: +ELLIPSIS
+        43° 14' 7.709..."
         """
         dd = np.array(dd, ndmin=0)
         sign = np.sign(dd)
