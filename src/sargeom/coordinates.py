@@ -805,21 +805,21 @@ class Cartesian3(np.ndarray):
         """
         return self.__array__().squeeze()
     
-    def to_csv(self, path):
+    def to_csv(self, filename):
         """
         Saves the cartesian point coordinates to a CSV file.
 
         Parameters
         ----------
-        path : :class:`str` or :class:`pathlib.Path`
-            The path to the CSV file.
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the coordinates.
 
         Examples
         --------
         >>> positions = Cartesian3(x=1.0, y=2.0, z=3.0)
         >>> positions.to_csv("positions.csv")
         """
-        filename = Path(path)
+        filename = Path(filename)
         np.savetxt(
             filename.with_suffix(".csv"),
             self.__array__(),
@@ -832,11 +832,11 @@ class Cartesian3(np.ndarray):
 # Fields descriptions:
 # -------------------
 #    o Positions as 3D cartesian coordinates:
-#        - X_WGS84_M [m]: 
-#        - Y_WGS84_M [m]: 
-#        - Z_WGS84_M [m]: 
+#        - X_M [m]: The X component in meters.
+#        - Y_M [m]: The Y component in meters.
+#        - Z_M [m]: The Z component in meters.
 
-X_WGS84_M;Y_WGS84_M;Z_WGS84_M"""
+X_M;Y_M;Z_M"""
         )
 
     def cross(self, right):
