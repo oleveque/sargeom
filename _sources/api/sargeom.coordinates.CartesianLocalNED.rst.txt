@@ -16,6 +16,7 @@ CartesianLocalNED
 
    .. autosummary::
 
+      ~CartesianLocalNED.save_csv
       ~CartesianLocalNED.to_aer
       ~CartesianLocalNED.to_ecef
       ~CartesianLocalNED.to_enu
@@ -26,6 +27,7 @@ CartesianLocalNED
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: save_csv
    .. automethod:: to_aer
    .. automethod:: to_ecef
    .. automethod:: to_enu

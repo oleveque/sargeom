@@ -296,17 +296,32 @@ If the longitude, latitude, and height are not 0- or 1-dimensional arrays.</p>
 <p class="rubric">Notes</p>
 <p>The coordinate reference system (CRS) used is the GPS satellite navigation and positioning system : WGS84 Geographic System <a class="reference external" href="https://epsg.org/crs_4979/WGS-84.html">EPSG:4979</a>.</p>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
-<span class="go">Lon.Lat.Height Cartographic position</span>
-<span class="go">[10. 20. 30.]</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])</span>
-<span class="go">Lon.Lat.Height Cartographic positions</span>
-<span class="go">[[15. 30.  0.]</span>
-<span class="go"> [25. 40.  0.]]</span>
-</pre></div>
-</div>
+<p>Define a Cartographic position:
+&gt;&gt;&gt; Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+Lon.Lat.Height Cartographic position
+[10. 20. 30.]</p>
+<p>Define multiple Cartographic positions:
+&gt;&gt;&gt; Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])
+Lon.Lat.Height Cartographic positions
+[[15. 30.  0.]</p>
+<blockquote>
+<div><p>[25. 40.  0.]]</p>
+</div></blockquote>
+<p>Define a Cartographic position using radians:
+&gt;&gt;&gt; Cartographic(longitude=np.pi/6, latitude=np.pi/3, degrees=False)
+Lon.Lat.Height Cartographic position
+[30. 60.  0.]</p>
+<p>Slice a Cartographic position:
+&gt;&gt;&gt; carto = Cartographic(longitude=[10.0, 20.0, 30.0], latitude=[40.0, 50.0, 60.0], height=[70.0, 80.0, 90.0])
+&gt;&gt;&gt; carto[1]
+Lon.Lat.Height Cartographic position
+[20. 50. 80.]
+&gt;&gt;&gt; carto[1:]
+Lon.Lat.Height Cartographic positions
+[[20. 50. 80.]</p>
+<blockquote>
+<div><p>[30. 60. 90.]]</p>
+</div></blockquote>
 <p class="rubric">Attributes Summary</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -357,25 +372,28 @@ If the longitude, latitude, and height are not 0- or 1-dimensional arrays.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.is_collection" title="sargeom.coordinates.Cartographic.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
 <td><p>Check if the Cartographic instance represents a set of positions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_array" title="sargeom.coordinates.Cartographic.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_csv" title="sargeom.coordinates.Cartographic.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<td><p>Saves the Cartographic positions to a CSV file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_html" title="sargeom.coordinates.Cartographic.save_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_html</span></code></a>(filename[, link_markers])</p></td>
+<td><p>Saves Cartographic positions to an HTML file using Folium.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_kml" title="sargeom.coordinates.Cartographic.save_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_kml</span></code></a>(filename)</p></td>
+<td><p>Saves Cartographic positions to a KML file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_array" title="sargeom.coordinates.Cartographic.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to a numpy array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_ecef" title="sargeom.coordinates.Cartographic.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_ecef" title="sargeom.coordinates.Cartographic.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to geocentric Earth-centered Earth-fixed (ECEF) coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson" title="sargeom.coordinates.Cartographic.to_geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_geojson</span></code></a>([clamp_to_Ground, link_markers])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson" title="sargeom.coordinates.Cartographic.to_geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_geojson</span></code></a>([clamp_to_Ground, link_markers])</p></td>
 <td><p>Convert Cartographic positions to GeoJSON format.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_html" title="sargeom.coordinates.Cartographic.to_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_html</span></code></a>([filename, link_markers])</p></td>
-<td><p>Convert Cartographic position(s) to an interactive HTML map using Folium.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_kml" title="sargeom.coordinates.Cartographic.to_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_kml</span></code></a>([filename])</p></td>
-<td><p>Save Cartographic positions to a KML file.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas" title="sargeom.coordinates.Cartographic.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas" title="sargeom.coordinates.Cartographic.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to a Pandas DataFrame.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely" title="sargeom.coordinates.Cartographic.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_shapely</span></code></a>([clamp_to_Ground, link_markers])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely" title="sargeom.coordinates.Cartographic.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_shapely</span></code></a>([clamp_to_Ground, link_markers])</p></td>
 <td><p>Converts the Cartographic instance to a Shapely geometry object.</p></td>
 </tr>
 </tbody>
@@ -394,6 +412,17 @@ If the longitude, latitude, and height are not 0- or 1-dimensional arrays.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">height</span>
+<span class="go">array(30.)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">height</span>
+<span class="go">array([30., 35.])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -411,6 +440,17 @@ Positive latitudes correspond to north and negative latitudes correspond to sout
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">latitude</span>
+<span class="go">array(20.)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">latitude</span>
+<span class="go">array([20., 25.])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py attribute">
@@ -428,6 +468,17 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">longitude</span>
+<span class="go">array(10.)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">longitude</span>
+<span class="go">array([10., 15.])</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
@@ -443,6 +494,12 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_CP</span><span class="p">()</span>
+<span class="go">Lon.Lat.Height Cartographic position</span>
+<span class="go">[ 2.230784 48.713028  0.      ]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -457,6 +514,12 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
+<span class="go">Lon.Lat.Height Cartographic position</span>
+<span class="go">[ 5.117724 43.619212  0.      ]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -477,6 +540,18 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ZERO</span><span class="p">()</span>
+<span class="go">Lon.Lat.Height Cartographic position</span>
+<span class="go">[0. 0. 0.]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ZERO</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">Lon.Lat.Height Cartographic positions</span>
+<span class="go">[[0. 0. 0.]</span>
+<span class="go"> [0. 0. 0.]]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -649,6 +724,20 @@ If not specified, the default local origin of the instance will be used.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="go">Lon.Lat.Height Cartographic position</span>
+<span class="go">[10. 20. 30.]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">15.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Cartographic</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
+<span class="go">Lon.Lat.Height Cartographic positions</span>
+<span class="go">[[10. 20. 30.]</span>
+<span class="go"> [15. 25. 35.]]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -663,6 +752,79 @@ If not specified, the default local origin of the instance will be used.</p>
 </dl>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">is_collection</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">is_collection</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.save_csv">
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.save_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the Cartographic positions to a CSV file.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a></span></dt><dd><p>The name of the file to save the positions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;positions.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.save_html">
+<span class="sig-name descname"><span class="pre">save_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.save_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.save_html" title="Link to this definition">¶</a></dt>
+<dd><p>Saves Cartographic positions to an HTML file using Folium.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a></span></dt><dd><p>The name of the file to save the positions.</p>
+</dd>
+<dt><strong>link_markers</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional</span></dt><dd><p>If True, link markers with a line. Default is False.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.230784</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">48.713028</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">save_html</span><span class="p">(</span><span class="s2">&quot;my_map.html&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.save_kml">
+<span class="sig-name descname"><span class="pre">save_kml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.save_kml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.save_kml" title="Link to this definition">¶</a></dt>
+<dd><p>Saves Cartographic positions to a KML file.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a></span></dt><dd><p>The name of the file to save the positions.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The ellipsoidal height is converted to orthometric height using the EGM96 geoid model.
+As a result, the output file is compatible with Google Earth and can be easily opened within the application.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">save_kml</span><span class="p">(</span><span class="s2">&quot;my_positions.kml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -733,49 +895,6 @@ If <cite>link_markers</cite> is False, a GeoJSON MultiPoint is returned.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_geojson</span><span class="p">()</span>
 <span class="go">{&quot;coordinates&quot;: [[10.0], [20.0], [30.0]], &quot;type&quot;: &quot;Point&quot;}</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.to_html">
-<span class="sig-name descname"><span class="pre">to_html</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'maps.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.to_html"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.to_html" title="Link to this definition">¶</a></dt>
-<dd><p>Convert Cartographic position(s) to an interactive HTML map using Folium.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>The name of the output HTML file. Default is “maps.html”.</p>
-</dd>
-<dt><strong>link_markers</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional</span></dt><dd><p>If True, link markers with a line. Default is False.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.230784</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">48.713028</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="s2">&quot;my_map.html&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.to_kml">
-<span class="sig-name descname"><span class="pre">to_kml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'positions.kml'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.to_kml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.to_kml" title="Link to this definition">¶</a></dt>
-<dd><p>Save Cartographic positions to a KML file.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
-<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>The name of the output KML file. Default is “positions.kml”.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The ellipsoidal height is converted to orthometric height using the EGM96 geoid model.
-As a result, the output file is compatible with Google Earth and can be easily opened within the application.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_kml</span><span class="p">(</span><span class="s2">&quot;my_positions.kml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -908,11 +1027,12 @@ If <cite>link_markers</cite> is False, a Shapely MultiPoint is returned.</p>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.dms_to_dd"><code class="docutils literal notranslate"><span class="pre">Cartographic.dms_to_dd()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.from_array"><code class="docutils literal notranslate"><span class="pre">Cartographic.from_array()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.is_collection"><code class="docutils literal notranslate"><span class="pre">Cartographic.is_collection()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_csv"><code class="docutils literal notranslate"><span class="pre">Cartographic.save_csv()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_html"><code class="docutils literal notranslate"><span class="pre">Cartographic.save_html()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_kml"><code class="docutils literal notranslate"><span class="pre">Cartographic.save_kml()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_array"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_array()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_ecef"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_ecef()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_geojson()</span></code></a></li>
-<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_html"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_html()</span></code></a></li>
-<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_kml"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_kml()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_pandas()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_shapely()</span></code></a></li>
 </ul>

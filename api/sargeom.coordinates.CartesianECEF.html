@@ -310,19 +310,22 @@ XYZ CartesianECEF point
 <tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.crs" title="sargeom.coordinates.CartesianECEF.crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crs</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_cartographic" title="sargeom.coordinates.CartesianECEF.to_cartographic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_cartographic</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.save_csv" title="sargeom.coordinates.CartesianECEF.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<td><p>Saves the cartesian ECEF coordinates to a CSV file.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_cartographic" title="sargeom.coordinates.CartesianECEF.to_cartographic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_cartographic</span></code></a>()</p></td>
 <td><p>Converts geocentric Earth-centered Earth-fixed (ECEF) coordinates to geodetic coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enu" title="sargeom.coordinates.CartesianECEF.to_enu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_enu</span></code></a>(origin)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enu" title="sargeom.coordinates.CartesianECEF.to_enu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_enu</span></code></a>(origin)</p></td>
 <td><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local East-North-Up (ENU) system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enuv" title="sargeom.coordinates.CartesianECEF.to_enuv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_enuv</span></code></a>(origin)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enuv" title="sargeom.coordinates.CartesianECEF.to_enuv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_enuv</span></code></a>(origin)</p></td>
 <td><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local East-North-Up (ENU) system.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_ned" title="sargeom.coordinates.CartesianECEF.to_ned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ned</span></code></a>(origin)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_ned" title="sargeom.coordinates.CartesianECEF.to_ned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ned</span></code></a>(origin)</p></td>
 <td><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local North-East-Down (NED) system.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_nedv" title="sargeom.coordinates.CartesianECEF.to_nedv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_nedv</span></code></a>(origin)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_nedv" title="sargeom.coordinates.CartesianECEF.to_nedv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_nedv</span></code></a>(origin)</p></td>
 <td><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local North-East-Down (NED) system.</p></td>
 </tr>
 </tbody>
@@ -344,6 +347,25 @@ XYZ CartesianECEF point
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.save_csv">
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.save_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the cartesian ECEF coordinates to a CSV file.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a></span></dt><dd><p>The name of the file to save the coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">4198945</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">174747</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">4781887</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;positions.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_cartographic">
 <span class="sig-name descname"><span class="pre">to_cartographic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_cartographic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_cartographic" title="Link to this definition">¶</a></dt>
 <dd><p>Converts geocentric Earth-centered Earth-fixed (ECEF) coordinates to geodetic coordinates.</p>
@@ -356,7 +378,7 @@ XYZ CartesianECEF point
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">4198945</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">174747</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">4781887</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span> 
 <span class="go">Lon.Lat.Height Cartographic position</span>
 <span class="go">[  2.383...  48.879...  124.847...]</span>
@@ -389,7 +411,7 @@ XYZ CartesianECEF point
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">4198945</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">174747</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">4781887</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalENU point</span>
@@ -423,11 +445,11 @@ XYZ CartesianECEF point
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_enuv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_enuv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalENU point</span>
-<span class="go">[2. 3. 1.]</span>
+<span class="go">[1.902... 1.361... 2.919...]</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -457,7 +479,7 @@ XYZ CartesianECEF point
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mi">4198945</span><span class="p">,</span> <span class="mi">174747</span><span class="p">,</span> <span class="mi">4781887</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">4198945</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">174747</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">4781887</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_coords</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalNED point</span>
@@ -491,7 +513,7 @@ XYZ CartesianECEF point
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ecef_vector</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span> 
 <span class="go">XYZ CartesianLocalNED point</span>
@@ -562,6 +584,7 @@ XYZ CartesianECEF point
 <li><a class="reference internal" href="#">CartesianECEF</a><ul>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF"><code class="docutils literal notranslate"><span class="pre">CartesianECEF</span></code></a><ul>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.crs"><code class="docutils literal notranslate"><span class="pre">CartesianECEF.crs()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.save_csv"><code class="docutils literal notranslate"><span class="pre">CartesianECEF.save_csv()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_cartographic"><code class="docutils literal notranslate"><span class="pre">CartesianECEF.to_cartographic()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enu"><code class="docutils literal notranslate"><span class="pre">CartesianECEF.to_enu()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianECEF.to_enuv"><code class="docutils literal notranslate"><span class="pre">CartesianECEF.to_enuv()</span></code></a></li>

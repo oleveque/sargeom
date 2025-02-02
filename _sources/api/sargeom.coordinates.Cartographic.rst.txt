@@ -28,11 +28,12 @@ Cartographic
       ~Cartographic.dms_to_dd
       ~Cartographic.from_array
       ~Cartographic.is_collection
+      ~Cartographic.save_csv
+      ~Cartographic.save_html
+      ~Cartographic.save_kml
       ~Cartographic.to_array
       ~Cartographic.to_ecef
       ~Cartographic.to_geojson
-      ~Cartographic.to_html
-      ~Cartographic.to_kml
       ~Cartographic.to_pandas
       ~Cartographic.to_shapely
 
@@ -54,10 +55,11 @@ Cartographic
    .. automethod:: dms_to_dd
    .. automethod:: from_array
    .. automethod:: is_collection
+   .. automethod:: save_csv
+   .. automethod:: save_html
+   .. automethod:: save_kml
    .. automethod:: to_array
    .. automethod:: to_ecef
    .. automethod:: to_geojson
-   .. automethod:: to_html
-   .. automethod:: to_kml
    .. automethod:: to_pandas
    .. automethod:: to_shapely

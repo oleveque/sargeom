@@ -16,6 +16,7 @@ CartesianLocalENU
 
    .. autosummary::
 
+      ~CartesianLocalENU.save_csv
       ~CartesianLocalENU.to_aer
       ~CartesianLocalENU.to_ecef
       ~CartesianLocalENU.to_ned
@@ -26,6 +27,7 @@ CartesianLocalENU
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: save_csv
    .. automethod:: to_aer
    .. automethod:: to_ecef
    .. automethod:: to_ned

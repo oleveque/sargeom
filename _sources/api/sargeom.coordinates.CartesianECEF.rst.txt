@@ -11,6 +11,7 @@ CartesianECEF
    .. autosummary::
 
       ~CartesianECEF.crs
+      ~CartesianECEF.save_csv
       ~CartesianECEF.to_cartographic
       ~CartesianECEF.to_enu
       ~CartesianECEF.to_enuv
@@ -20,6 +21,7 @@ CartesianECEF
    .. rubric:: Methods Documentation
 
    .. automethod:: crs
+   .. automethod:: save_csv
    .. automethod:: to_cartographic
    .. automethod:: to_enu
    .. automethod:: to_enuv

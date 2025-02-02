@@ -39,6 +39,7 @@ Cartesian3
       ~Cartesian3.normalize
       ~Cartesian3.proj_onto
       ~Cartesian3.reject_from
+      ~Cartesian3.save_csv
       ~Cartesian3.to_array
       ~Cartesian3.to_pandas
 
@@ -71,5 +72,6 @@ Cartesian3
    .. automethod:: normalize
    .. automethod:: proj_onto
    .. automethod:: reject_from
+   .. automethod:: save_csv
    .. automethod:: to_array
    .. automethod:: to_pandas

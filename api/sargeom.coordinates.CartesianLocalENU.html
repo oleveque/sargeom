@@ -307,13 +307,16 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_aer" title="sargeom.coordinates.CartesianLocalENU.to_aer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_aer</span></code></a>([degrees])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.save_csv" title="sargeom.coordinates.CartesianLocalENU.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<td><p>Saves the cartesian ENU coordinates to a CSV file.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_aer" title="sargeom.coordinates.CartesianLocalENU.to_aer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_aer</span></code></a>([degrees])</p></td>
 <td><p>Transforms local East-North-Up (ENU) coordinates to local Azimuth-Elevation-Range (AER) spherical coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ecef" title="sargeom.coordinates.CartesianLocalENU.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ecef" title="sargeom.coordinates.CartesianLocalENU.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
 <td><p>Converts local East-North-Up (ENU) coordinates to Earth-centered Earth-fixed (ECEF) coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ned" title="sargeom.coordinates.CartesianLocalENU.to_ned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ned</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ned" title="sargeom.coordinates.CartesianLocalENU.to_ned"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ned</span></code></a>()</p></td>
 <td><p>Converts local East-North-Up (ENU) coordinates to local North-East-Down (NED) coordinates.</p></td>
 </tr>
 </tbody>
@@ -333,18 +336,37 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
-<span class="go">array([[0., 1., 0.],</span>
-<span class="go">       [0., 0., 1.],</span>
-<span class="go">       [1., 0., 0.]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span>
-<span class="go">array([ 0.5,  0.5,  0.5, -0.5])</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span> 
+<span class="go">array([[-0.089...,  0.996...,  0.        ],</span>
+<span class="go">       [-0.687..., -0.061...,  0.723...],</span>
+<span class="go">       [ 0.721...,  0.064...,  0.689...]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">as_quat</span><span class="p">()</span> 
+<span class="go">array([ 0.265...,  0.290...,  0.678..., -0.620...])</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.save_csv">
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.save_csv" title="Link to this definition">¶</a></dt>
+<dd><p>Saves the cartesian ENU coordinates to a CSV file.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>filename</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pathlib.Path</span></code></a></span></dt><dd><p>The name of the file to save the coordinates.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;positions.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.to_aer">
 <span class="sig-name descname"><span class="pre">to_aer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.to_aer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_aer" title="Link to this definition">¶</a></dt>
@@ -372,7 +394,7 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">enu_coords</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">Cartographic</span><span class="o">.</span><span class="n">ONERA_SDP</span><span class="p">())</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">azimuth</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">slant_range</span> <span class="o">=</span> <span class="n">enu_coords</span><span class="o">.</span><span class="n">to_aer</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">azimuth</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">elevation</span><span class="si">}</span><span class="s2">°&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">slant_range</span><span class="si">}</span><span class="s2">m&quot;</span><span class="p">)</span> 
 <span class="go">26.565...° 53.300...° 37.416...m</span>
@@ -485,6 +507,7 @@ Both coordinate systems use the same local origin.</p>
 <li><a class="reference internal" href="#">CartesianLocalENU</a><ul>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU</span></code></a><ul>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.rotation"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU.rotation</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.save_csv"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU.save_csv()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_aer"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU.to_aer()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ecef"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU.to_ecef()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.CartesianLocalENU.to_ned"><code class="docutils literal notranslate"><span class="pre">CartesianLocalENU.to_ned()</span></code></a></li>
