@@ -805,7 +805,7 @@ class Cartesian3(np.ndarray):
         """
         return self.__array__().squeeze()
     
-    def to_csv(self, filename):
+    def save_csv(self, filename):
         """
         Saves the cartesian point coordinates to a CSV file.
 
@@ -817,7 +817,7 @@ class Cartesian3(np.ndarray):
         Examples
         --------
         >>> positions = Cartesian3(x=1.0, y=2.0, z=3.0)
-        >>> positions.to_csv("positions.csv")
+        >>> positions.save_csv("positions.csv")
         """
         filename = Path(filename)
         np.savetxt(
@@ -1228,6 +1228,40 @@ class CartesianECEF(Cartesian3):
         else:
             raise ValueError("The origin position must be a Cartographic instance.")
 
+    def save_csv(self, filename):
+        """
+        Saves the cartesian ECEF coordinates to a CSV file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the coordinates.
+
+        Examples
+        --------
+        >>> positions = CartesianECEF(x=4198945, y=174747, z=4781887)
+        >>> positions.save_csv("positions.csv")
+        """
+        filename = Path(filename)
+        np.savetxt(
+            filename.with_suffix(".csv"),
+            self.__array__(),
+            fmt=3*['%.6f'],
+            delimiter=';',
+            newline='\n',
+            comments='',
+            encoding='utf8',
+            header=f"""# {filename.stem}
+# Fields descriptions:
+# -------------------
+#    o Positions as 3D cartesian coordinates in the WGS84 Geocentric System (EPSG:4978):
+#        - X_WGS84_M [m]: The X component in meters.
+#        - Y_WGS84_M [m]: The Y component in meters.
+#        - Z_WGS84_M [m]: The Z component in meters.
+
+X_WGS84_M;Y_WGS84_M;Z_WGS84_M"""
+        )
+
 
 class CartesianLocalENU(Cartesian3):
     """
@@ -1378,6 +1412,47 @@ class CartesianLocalENU(Cartesian3):
             return np.rad2deg(azimuth), np.rad2deg(elevation), slant_range
         else:
             return azimuth, elevation, slant_range
+
+    def save_csv(self, filename):
+        """
+        Saves the cartesian ENU coordinates to a CSV file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the coordinates.
+
+        Examples
+        --------
+        >>> positions = CartesianLocalENU(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
+        >>> positions.save_csv("positions.csv")
+        """
+        filename = Path(filename)
+        np.savetxt(
+            filename.with_suffix(".csv"),
+            self.__array__(),
+            fmt=3*['%.6f'],
+            delimiter=';',
+            newline='\n',
+            comments='',
+            encoding='utf8',
+            header=f"""# {filename.stem}
+# Fields descriptions:
+# -------------------
+#    o Positions as 3D cartesian coordinates in the Local East-North-Up (ENU) system:
+#        - X_ENU_M [m]: The X component in meters.
+#        - Y_ENU_M [m]: The Y component in meters.
+#        - Z_ENU_M [m]: The Z component in meters.
+#
+# Local origin of the ENU system:
+# ------------------------------
+#    o Position in WG84 Geocentric System (EPSG:4979):
+#        - Latitude [°]: {self._local_origin.latitude}
+#        - Longitude [°]: {self._local_origin.longitude}
+#        - Height [m]: {self._local_origin.height}
+
+X_ENU_M;Y_ENU_M;Z_ENU_M"""
+        )
 
 
 class CartesianLocalNED(Cartesian3):
@@ -1534,6 +1609,46 @@ class CartesianLocalNED(Cartesian3):
         else:
             return azimuth, elevation, slant_range
 
+    def save_csv(self, filename):
+        """
+        Saves the cartesian NED coordinates to a CSV file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the coordinates.
+
+        Examples
+        --------
+        >>> positions = CartesianLocalNED(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
+        >>> positions.save_csv("positions.csv")
+        """
+        filename = Path(filename)
+        np.savetxt(
+            filename.with_suffix(".csv"),
+            self.__array__(),
+            fmt=3*['%.6f'],
+            delimiter=';',
+            newline='\n',
+            comments='',
+            encoding='utf8',
+            header=f"""# {filename.stem}
+# Fields descriptions:
+# -------------------
+#    o Positions as 3D cartesian coordinates in the Local North-East-Down (NED) system:
+#        - X_NED_M [m]: The X component in meters.
+#        - Y_NED_M [m]: The Y component in meters.
+#        - Z_NED_M [m]: The Z component in meters.
+#
+# Local origin of the NED system:
+# ------------------------------
+#    o Position in WG84 Geocentric System (EPSG:4979):
+#        - Latitude [°]: {self._local_origin.latitude}
+#        - Longitude [°]: {self._local_origin.longitude}
+#        - Height [m]: {self._local_origin.height}
+
+X_NED_M;Y_NED_M;Z_NED_M"""
+        )
 
 class Cartographic(np.ndarray):
     """
@@ -1990,14 +2105,14 @@ class Cartographic(np.ndarray):
         x, y, z = gcs2ecef.transform(self.latitude, self.longitude, self.height)
         return CartesianECEF(x, y, z)
 
-    def to_kml(self, filename="positions.kml"):
+    def save_kml(self, filename):
         """
-        Save Cartographic positions to a KML file.
+        Saves Cartographic positions to a KML file.
 
         Parameters
         ----------
-        filename : :class:`str`, optional
-            The name of the output KML file. Default is "positions.kml".
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the positions.
 
         Notes
         -----
@@ -2007,7 +2122,7 @@ class Cartographic(np.ndarray):
         Examples
         --------
         >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
-        >>> positions.to_kml("my_positions.kml")
+        >>> positions.save_kml("my_positions.kml")
         """
         try:
             import simplekml
@@ -2135,21 +2250,21 @@ class Cartographic(np.ndarray):
         else:
             return Point(coords.tolist())
 
-    def to_html(self, filename="maps.html", link_markers=False):
+    def save_html(self, filename, link_markers=False):
         """
-        Convert Cartographic position(s) to an interactive HTML map using Folium.
+        Saves Cartographic positions to an HTML file using Folium.
 
         Parameters
         ----------
-        filename : :class:`str`, optional
-            The name of the output HTML file. Default is "maps.html".
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the positions.
         link_markers : :class:`bool`, optional
             If True, link markers with a line. Default is False.
 
         Examples
         --------
         >>> position = Cartographic(longitude=2.230784, latitude=48.713028)
-        >>> position.to_html("my_map.html")
+        >>> position.save_html("my_map.html")
         """
         try:
             import folium
@@ -2172,6 +2287,40 @@ class Cartographic(np.ndarray):
                     ),
                 ).add_to(m)
         m.save(Path(filename).with_suffix(".html"))
+
+    def save_csv(self, filename):
+        """
+        Saves the Cartographic positions to a CSV file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The name of the file to save the positions.
+
+        Examples
+        --------
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
+        >>> positions.save_csv("positions.csv")
+        """
+        filename = Path(filename)
+        np.savetxt(
+            filename.with_suffix(".csv"),
+            self.__array__(),
+            fmt=['%.12f','%.12f','%.6f'],
+            delimiter=';',
+            newline='\n',
+            comments='',
+            encoding='utf8',
+            header=f"""# {filename.stem}
+# Fields descriptions:
+# -------------------
+#    o Positions as 3D geodetic coordinates in the WGS84 Geographic System (EPSG:4979):
+#        - LON_WGS84_DEG [°]: The longitude in degrees.
+#        - LAT_WGS84_DEG [°]: The latitude in degrees.
+#        - HEIGHT_M [m]: The height in meters.
+
+LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_M"""
+        )
 
     def to_pandas(self):
         """
