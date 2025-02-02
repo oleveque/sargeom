@@ -209,6 +209,19 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             The Cartesian3 instance initialized by the input numpy array.
+
+        Examples
+        --------
+        >>> array = np.array([1.0, 2.0, 3.0])
+        >>> Cartesian3.from_array(array)
+        XYZ Cartesian3 point
+        [1. 2. 3.]
+
+        >>> array = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+        >>> Cartesian3.from_array(array)
+        XYZ Cartesian3 points
+        [[1. 2. 3.]
+         [4. 5. 6.]]
         """
         # Convert input to numpy array
         if not isinstance(array, np.ndarray):
@@ -239,6 +252,16 @@ class Cartesian3(np.ndarray):
         -------
         :class:`float` or :class:`numpy.ndarray`
             The X component.
+
+        Examples
+        --------
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> A.x
+        array(10.)
+
+        >>> A = Cartesian3([10.0, 20.0, 30.0], [40.0, 50.0, 60.0], [70.0, 80.0, 90.0])
+        >>> A.x
+        array([10., 20., 30.])
         """
         return self.__array__()[:, 0].squeeze()
 
@@ -251,6 +274,16 @@ class Cartesian3(np.ndarray):
         -------
         :class:`float` or :class:`numpy.ndarray`
             The Y component.
+
+        Examples
+        --------
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> A.y
+        array(20.)
+
+        >>> A = Cartesian3([10.0, 20.0, 30.0], [40.0, 50.0, 60.0], [70.0, 80.0, 90.0])
+        >>> A.y
+        array([40., 50., 60.])
         """
         return self.__array__()[:, 1].squeeze()
 
@@ -263,6 +296,16 @@ class Cartesian3(np.ndarray):
         -------
         :class:`float` or :class:`numpy.ndarray`
             The Z component.
+
+        Examples
+        --------
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> A.z
+        array(30.)
+
+        >>> A = Cartesian3([10.0, 20.0, 30.0], [40.0, 50.0, 60.0], [70.0, 80.0, 90.0])
+        >>> A.z
+        array([70., 80., 90.])
         """
         return self.__array__()[:, 2].squeeze()
 
@@ -309,6 +352,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=1.0, y=0.0, z=0.0).
+
+        Examples
+        --------
+        >>> Cartesian3.UNIT_X()
+        XYZ Cartesian3 point
+        [1. 0. 0.]
         """
         return cls(np.ones(N), np.zeros(N), np.zeros(N), origin)
 
@@ -326,6 +375,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=1.0, z=0.0).
+
+        Examples
+        --------
+        >>> Cartesian3.UNIT_Y()
+        XYZ Cartesian3 point
+        [0. 1. 0.]
         """
         return cls(np.zeros(N), np.ones(N), np.zeros(N), origin)
 
@@ -343,6 +398,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=0.0, z=1.0).
+
+        Examples
+        --------
+        >>> Cartesian3.UNIT_Z()
+        XYZ Cartesian3 point
+        [0. 0. 1.]
         """
         return cls(np.zeros(N), np.zeros(N), np.ones(N), origin)
 
@@ -360,6 +421,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=1.0, y=1.0, z=1.0).
+
+        Examples
+        --------
+        >>> Cartesian3.ONE()
+        XYZ Cartesian3 point
+        [1. 1. 1.]
         """
         return cls(np.ones(N), np.ones(N), np.ones(N), origin)
 
@@ -377,6 +444,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartesian3`
             Instance initialized to (x=0.0, y=0.0, z=0.0).
+
+        Examples
+        --------
+        >>> Cartesian3.ZERO()
+        XYZ Cartesian3 point
+        [0. 0. 0.]
         """
         return cls(np.zeros(N), np.zeros(N), np.zeros(N), origin)
 
@@ -388,6 +461,16 @@ class Cartesian3(np.ndarray):
         -------
         :class:`bool`
             `true` if the instance is a collections of points, `false` otherwise.
+        
+        Examples
+        --------
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> A.is_collection()
+        False
+
+        >>> B = Cartesian3([10.0, 20.0, 30.0], [40.0, 50.0, 60.0], [70.0, 80.0, 90.0])
+        >>> B.is_collection()
+        True
         """
         return self.shape[0] > 1
 
@@ -399,6 +482,12 @@ class Cartesian3(np.ndarray):
         -------
         :class:`bool`
             `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.
+        
+        Examples
+        --------
+        >>> A = Cartesian3(10.0, 20.0, 30.0)
+        >>> A.is_local()
+        False
         """
         return (self._local_origin is not None) or ("Local" in self.__class__.__name__)
 
@@ -1456,6 +1545,19 @@ class Cartographic(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartographic`
             The Cartographic instance initialized by the input numpy array.
+
+        Examples
+        --------
+        >>> array = np.array([10.0, 20.0, 30.0])
+        >>> Cartographic.from_array(array)
+        Lon.Lat.Height Cartographic position
+        [10. 20. 30.]
+
+        >>> array = np.array([[10.0, 20.0, 30.0], [15.0, 25.0, 35.0]])
+        >>> Cartographic.from_array(array)
+        Lon.Lat.Height Cartographic positions
+        [[10. 20. 30.]
+         [15. 25. 35.]]
         """
         # Check if the input array is a numpy array
         if not isinstance(array, np.ndarray):
@@ -1490,6 +1592,16 @@ class Cartographic(np.ndarray):
         -------
         :class:`numpy.ndarray`
             The longitude, in degrees.
+        
+        Examples
+        --------
+        >>> position = Cartographic(longitude=10.0, latitude=20.0)
+        >>> position.longitude
+        array(10.)
+
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
+        >>> positions.longitude
+        array([10., 15.])
         """
         return self.__array__()[:, 0].squeeze()
 
@@ -1506,6 +1618,16 @@ class Cartographic(np.ndarray):
         -------
         :class:`numpy.ndarray`
             The latitude, in degrees.
+        
+        Examples
+        --------
+        >>> position = Cartographic(longitude=10.0, latitude=20.0)
+        >>> position.latitude
+        array(20.)
+
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
+        >>> positions.latitude
+        array([20., 25.])
         """
         return self.__array__()[:, 1].squeeze()
 
@@ -1518,6 +1640,16 @@ class Cartographic(np.ndarray):
         -------
         :class:`numpy.ndarray`
             The ellipsoidal height, in meters.
+        
+        Examples
+        --------
+        >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> position.height
+        array(30.)
+
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
+        >>> positions.height
+        array([30., 35.])
         """
         return self.__array__()[:, 2].squeeze()
 
@@ -1535,6 +1667,17 @@ class Cartographic(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (0.0, 0.0, 0.0).
+        
+        Examples
+        --------
+        >>> Cartographic.ZERO()
+        Lon.Lat.Height Cartographic position
+        [0. 0. 0.]
+
+        >>> Cartographic.ZERO(2)
+        Lon.Lat.Height Cartographic positions
+        [[0. 0. 0.]
+         [0. 0. 0.]]
         """
         return Cartographic(np.zeros(N), np.zeros(N), np.zeros(N))
 
@@ -1547,6 +1690,12 @@ class Cartographic(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (longitude=5.117724, latitude=43.619212, height=0.0).
+        
+        Examples
+        --------
+        >>> Cartographic.ONERA_SDP()
+        Lon.Lat.Height Cartographic position
+        [ 5.117724 43.619212  0.      ]
         """
         return Cartographic(longitude=5.117724, latitude=43.619212, height=0.0)
 
@@ -1559,6 +1708,12 @@ class Cartographic(np.ndarray):
         -------
         :class:`sargeom.coordinates.Cartographic`
             Instance initialized to (longitude=2.230784, latitude=48.713028, height=0.0).
+        
+        Examples
+        --------
+        >>> Cartographic.ONERA_CP()
+        Lon.Lat.Height Cartographic position
+        [ 2.230784 48.713028  0.      ]
         """
         return Cartographic(longitude=2.230784, latitude=48.713028, height=0.0)
 
@@ -1610,6 +1765,16 @@ class Cartographic(np.ndarray):
         -------
         :class:`bool`
             `true` if the instance is a collections of positions, `false` otherwise.
+        
+        Examples
+        --------
+        >>> position = Cartographic(longitude=10.0, latitude=20.0)
+        >>> position.is_collection()
+        False
+
+        >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0])
+        >>> positions.is_collection()
+        True
         """
         return self.shape[0] > 1
 
