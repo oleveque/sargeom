@@ -295,44 +295,48 @@ If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Define a single XYZ Cartesian3 point:
-&gt;&gt;&gt; Cartesian3(x=1.0, y=2.0, z=3.0)
-XYZ Cartesian3 point
-[1. 2. 3.]</p>
-<p>Define a set of XYZ Cartesian3 points:
-&gt;&gt;&gt; Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])
-XYZ Cartesian3 points
-[[1. 4. 7.]</p>
-<blockquote>
-<div><p>[2. 5. 8.]
-[3. 6. 9.]]</p>
-</div></blockquote>
-<p>Slice a Cartesian3 instance:
-&gt;&gt;&gt; A = Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])
-&gt;&gt;&gt; A[1]
-XYZ Cartesian3 point
-[2. 5. 8.]
-&gt;&gt;&gt; A[1:]
-XYZ Cartesian3 points
-[[2. 5. 8.]</p>
-<blockquote>
-<div><p>[3. 6. 9.]]</p>
-</div></blockquote>
-<p>Perform arithmetic operations on Cartesian3 points:
-&gt;&gt;&gt; A = Cartesian3.UNIT_X()
-&gt;&gt;&gt; B = Cartesian3.ONE()
-&gt;&gt;&gt; A + B
-XYZ Cartesian3 point
-[2. 1. 1.]
-&gt;&gt;&gt; A - B
-XYZ Cartesian3 point
-[ 0. -1. -1.]
-&gt;&gt;&gt; A * B
-XYZ Cartesian3 point
-[1. 0. 0.]
-&gt;&gt;&gt; A / B
-XYZ Cartesian3 point
-[1. 0. 0.]</p>
+<p>Define a single XYZ Cartesian3 point:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 2. 3.]</span>
+</pre></div>
+</div>
+<p>Define a set of XYZ Cartesian3 points:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="go">XYZ Cartesian3 points</span>
+<span class="go">[[1. 4. 7.]</span>
+<span class="go"> [2. 5. 8.]</span>
+<span class="go"> [3. 6. 9.]]</span>
+</pre></div>
+</div>
+<p>Slice a Cartesian3 instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">7.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">9.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[2. 5. 8.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="go">XYZ Cartesian3 points</span>
+<span class="go">[[2. 5. 8.]</span>
+<span class="go"> [3. 6. 9.]]</span>
+</pre></div>
+</div>
+<p>Perform arithmetic operations on Cartesian3 points:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">UNIT_X</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">ONE</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">+</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[2. 1. 1.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">-</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[ 0. -1. -1.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">*</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 0. 0.]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">/</span> <span class="n">B</span>
+<span class="go">XYZ Cartesian3 point</span>
+<span class="go">[1. 0. 0.]</span>
+</pre></div>
+</div>
 <p class="rubric">Attributes Summary</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">

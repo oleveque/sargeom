@@ -363,11 +363,13 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Define a single XYZ Cartesian3 point:</span>
+
 <span class="sd">    &gt;&gt;&gt; Cartesian3(x=1.0, y=2.0, z=3.0)</span>
 <span class="sd">    XYZ Cartesian3 point</span>
 <span class="sd">    [1. 2. 3.]</span>
 
 <span class="sd">    Define a set of XYZ Cartesian3 points:</span>
+
 <span class="sd">    &gt;&gt;&gt; Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])</span>
 <span class="sd">    XYZ Cartesian3 points</span>
 <span class="sd">    [[1. 4. 7.]</span>
@@ -375,6 +377,7 @@
 <span class="sd">     [3. 6. 9.]]</span>
 
 <span class="sd">    Slice a Cartesian3 instance:</span>
+
 <span class="sd">    &gt;&gt;&gt; A = Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])</span>
 <span class="sd">    &gt;&gt;&gt; A[1]</span>
 <span class="sd">    XYZ Cartesian3 point</span>
@@ -385,6 +388,7 @@
 <span class="sd">     [3. 6. 9.]]</span>
 
 <span class="sd">    Perform arithmetic operations on Cartesian3 points:</span>
+
 <span class="sd">    &gt;&gt;&gt; A = Cartesian3.UNIT_X()</span>
 <span class="sd">    &gt;&gt;&gt; B = Cartesian3.ONE()</span>
 <span class="sd">    &gt;&gt;&gt; A + B</span>
@@ -1393,6 +1397,7 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    The ECEF coordinates of Parc des Buttes-Chaumont:</span>
+
 <span class="sd">    &gt;&gt;&gt; CartesianECEF(x=4198945, y=174747, z=4781887)</span>
 <span class="sd">    XYZ CartesianECEF point</span>
 <span class="sd">    [4198945  174747 4781887]</span>
@@ -2069,22 +2074,26 @@
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    Define a Cartographic position:</span>
+
 <span class="sd">    &gt;&gt;&gt; Cartographic(longitude=10.0, latitude=20.0, height=30.0)</span>
 <span class="sd">    Lon.Lat.Height Cartographic position</span>
 <span class="sd">    [10. 20. 30.]</span>
 
 <span class="sd">    Define multiple Cartographic positions:</span>
+
 <span class="sd">    &gt;&gt;&gt; Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])</span>
 <span class="sd">    Lon.Lat.Height Cartographic positions</span>
 <span class="sd">    [[15. 30.  0.]</span>
 <span class="sd">     [25. 40.  0.]]</span>
 
 <span class="sd">    Define a Cartographic position using radians:</span>
+
 <span class="sd">    &gt;&gt;&gt; Cartographic(longitude=np.pi/6, latitude=np.pi/3, degrees=False)</span>
 <span class="sd">    Lon.Lat.Height Cartographic position</span>
 <span class="sd">    [30. 60.  0.]</span>
 
 <span class="sd">    Slice a Cartographic position:</span>
+<span class="sd">    </span>
 <span class="sd">    &gt;&gt;&gt; carto = Cartographic(longitude=[10.0, 20.0, 30.0], latitude=[40.0, 50.0, 60.0], height=[70.0, 80.0, 90.0])</span>
 <span class="sd">    &gt;&gt;&gt; carto[1]</span>
 <span class="sd">    Lon.Lat.Height Cartographic position</span>
