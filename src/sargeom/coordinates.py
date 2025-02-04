@@ -104,11 +104,13 @@ class Cartesian3(np.ndarray):
     Examples
     --------
     Define a single XYZ Cartesian3 point:
+
     >>> Cartesian3(x=1.0, y=2.0, z=3.0)
     XYZ Cartesian3 point
     [1. 2. 3.]
 
     Define a set of XYZ Cartesian3 points:
+
     >>> Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])
     XYZ Cartesian3 points
     [[1. 4. 7.]
@@ -116,6 +118,7 @@ class Cartesian3(np.ndarray):
      [3. 6. 9.]]
 
     Slice a Cartesian3 instance:
+
     >>> A = Cartesian3(x=[1.0, 2.0, 3.0], y=[4.0, 5.0, 6.0], z=[7.0, 8.0, 9.0])
     >>> A[1]
     XYZ Cartesian3 point
@@ -126,6 +129,7 @@ class Cartesian3(np.ndarray):
      [3. 6. 9.]]
 
     Perform arithmetic operations on Cartesian3 points:
+
     >>> A = Cartesian3.UNIT_X()
     >>> B = Cartesian3.ONE()
     >>> A + B
@@ -1062,6 +1066,7 @@ class CartesianECEF(Cartesian3):
     Examples
     --------
     The ECEF coordinates of Parc des Buttes-Chaumont:
+
     >>> CartesianECEF(x=4198945, y=174747, z=4781887)
     XYZ CartesianECEF point
     [4198945  174747 4781887]
@@ -1684,22 +1689,26 @@ class Cartographic(np.ndarray):
     Examples
     --------
     Define a Cartographic position:
+
     >>> Cartographic(longitude=10.0, latitude=20.0, height=30.0)
     Lon.Lat.Height Cartographic position
     [10. 20. 30.]
 
     Define multiple Cartographic positions:
+
     >>> Cartographic(longitude=[15.0, 25.0], latitude=[30.0, 40.0])
     Lon.Lat.Height Cartographic positions
     [[15. 30.  0.]
      [25. 40.  0.]]
 
     Define a Cartographic position using radians:
+
     >>> Cartographic(longitude=np.pi/6, latitude=np.pi/3, degrees=False)
     Lon.Lat.Height Cartographic position
     [30. 60.  0.]
 
     Slice a Cartographic position:
+    
     >>> carto = Cartographic(longitude=[10.0, 20.0, 30.0], latitude=[40.0, 50.0, 60.0], height=[70.0, 80.0, 90.0])
     >>> carto[1]
     Lon.Lat.Height Cartographic position
