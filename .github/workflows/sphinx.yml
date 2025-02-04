@@ -34,10 +34,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc graphviz
 
-      - name: Check Pygments version
-        run: |
-          python -m pip show Pygments
-
       - name: Build HTML documentation
         run: |
           cd docs
