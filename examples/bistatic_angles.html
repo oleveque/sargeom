@@ -262,7 +262,7 @@
           <section id="Analyzing-Trajectory-Data-and-Bistatic-Angles">
 <h1>Analyzing Trajectory Data and Bistatic Angles<a class="headerlink" href="#Analyzing-Trajectory-Data-and-Bistatic-Angles" title="Link to this heading">¶</a></h1>
 <p>In this notebook, we will analyze the trajectory data of two carriers, SETHI and BUSARD, and compute several key parameters, including the distance to a target, bistatic angles (both ‘ground’ and ‘radar’), and azimuths of observation of the target. We will also visualize these parameters over time. The dataset we use is in CSV format and contains positional information of the two carriers.</p>
-<p><img alt="bce066931e974edf8efa878fec9b4263" class="no-scaled-link" src="../_images/bistatic_angles.png" style="width: 800px;" /></p>
+<p><img alt="35e4740077544ef181def979dc75b29a" class="no-scaled-link" src="../_images/bistatic_angles.png" style="width: 800px;" /></p>
 <section id="1.-Importing-Required-Libraries">
 <h2>1. Importing Required Libraries<a class="headerlink" href="#1.-Importing-Required-Libraries" title="Link to this heading">¶</a></h2>
 <p>Before we begin analyzing the data, we first need to import the necessary libraries.</p>
@@ -276,10 +276,10 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[50]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sargeom.coordinates import Cartographic, Cartesian3
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cartographic</span><span class="p">,</span> <span class="n">Cartesian3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -294,11 +294,11 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[51]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Loading trajectory data for SETHI
-sethi_trajectory_data = pd.read_csv(&#39;data/20230627_SETHI.traj.csv&#39;, delimiter=&#39;;&#39;, comment=&#39;#&#39;)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loading trajectory data for SETHI</span>
+<span class="n">sethi_trajectory_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/20230627_SETHI.traj.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
 
-# Loading trajectory data for BUSARD
-busard_trajectory_data = pd.read_csv(&#39;data/20230627_BUSARD.traj.csv&#39;, delimiter=&#39;;&#39;, comment=&#39;#&#39;)
+<span class="c1"># Loading trajectory data for BUSARD</span>
+<span class="n">busard_trajectory_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/20230627_BUSARD.traj.csv&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -310,24 +310,24 @@ busard_trajectory_data = pd.read_csv(&#39;data/20230627_BUSARD.traj.csv&#39;, de
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[52]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create Cartographic objects for SETHI, BUSARD, and the target
-sethi_cartographic = Cartographic(
-    longitude=sethi_trajectory_data.LON_WGS84_DEG.tolist(),
-    latitude=sethi_trajectory_data.LAT_WGS84_DEG.tolist(),
-    height=sethi_trajectory_data.HEADING_DEG.tolist()
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create Cartographic objects for SETHI, BUSARD, and the target</span>
+<span class="n">sethi_cartographic</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">LON_WGS84_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">LAT_WGS84_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">HEADING_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
 
-busard_cartographic = Cartographic(
-    longitude=busard_trajectory_data.LON_WGS84_DEG.tolist(),
-    latitude=busard_trajectory_data.LAT_WGS84_DEG.tolist(),
-    height=busard_trajectory_data.HEADING_DEG.tolist()
-)
+<span class="n">busard_cartographic</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="n">busard_trajectory_data</span><span class="o">.</span><span class="n">LON_WGS84_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="n">busard_trajectory_data</span><span class="o">.</span><span class="n">LAT_WGS84_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+    <span class="n">height</span><span class="o">=</span><span class="n">busard_trajectory_data</span><span class="o">.</span><span class="n">HEADING_DEG</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
 
-target_cartographic = Cartographic(
-    longitude=-0.420314, # degrees
-    latitude=44.238512, # degrees
-    height=120.0 # meters
-)
+<span class="n">target_cartographic</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span>
+    <span class="n">longitude</span><span class="o">=-</span><span class="mf">0.420314</span><span class="p">,</span> <span class="c1"># degrees</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="mf">44.238512</span><span class="p">,</span> <span class="c1"># degrees</span>
+    <span class="n">height</span><span class="o">=</span><span class="mf">120.0</span> <span class="c1"># meters</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -339,10 +339,10 @@ target_cartographic = Cartographic(
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[53]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert the Cartographic coordinates to ECEF (x, y, z) for each object and the target
-sethi_ecef = sethi_cartographic.to_ecef()
-busard_ecef = busard_cartographic.to_ecef()
-target_ecef = target_cartographic.to_ecef()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert the Cartographic coordinates to ECEF (x, y, z) for each object and the target</span>
+<span class="n">sethi_ecef</span> <span class="o">=</span> <span class="n">sethi_cartographic</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<span class="n">busard_ecef</span> <span class="o">=</span> <span class="n">busard_cartographic</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
+<span class="n">target_ecef</span> <span class="o">=</span> <span class="n">target_cartographic</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -354,8 +354,8 @@ target_ecef = target_cartographic.to_ecef()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Interpolate BUSARD&#39;s ECEF coordinates to match SETHI&#39;s timestamps
-busard_ecef_interpolated = busard_ecef.interp(busard_trajectory_data.TIMESTAMP_S, sethi_trajectory_data.TIMESTAMP_S)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Interpolate BUSARD&#39;s ECEF coordinates to match SETHI&#39;s timestamps</span>
+<span class="n">busard_ecef_interpolated</span> <span class="o">=</span> <span class="n">busard_ecef</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">busard_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -367,9 +367,9 @@ busard_ecef_interpolated = busard_ecef.interp(busard_trajectory_data.TIMESTAMP_S
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute distances to the target
-sethi_dist = Cartesian3.distance(sethi_ecef, target_ecef)
-busard_dist = Cartesian3.distance(busard_ecef_interpolated, target_ecef)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute distances to the target</span>
+<span class="n">sethi_dist</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">sethi_ecef</span><span class="p">,</span> <span class="n">target_ecef</span><span class="p">)</span>
+<span class="n">busard_dist</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="n">busard_ecef_interpolated</span><span class="p">,</span> <span class="n">target_ecef</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -381,9 +381,9 @@ busard_dist = Cartesian3.distance(busard_ecef_interpolated, target_ecef)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Convert from ECEF to ENU coordinates, centered on the target
-sethi_enu = sethi_ecef.to_enu(target_cartographic)
-busard_enu = busard_ecef_interpolated.to_enu(target_cartographic)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert from ECEF to ENU coordinates, centered on the target</span>
+<span class="n">sethi_enu</span> <span class="o">=</span> <span class="n">sethi_ecef</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">target_cartographic</span><span class="p">)</span>
+<span class="n">busard_enu</span> <span class="o">=</span> <span class="n">busard_ecef_interpolated</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">target_cartographic</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -399,14 +399,14 @@ busard_enu = busard_ecef_interpolated.to_enu(target_cartographic)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Calculate bistatic angles between SETHI and BUSARD, with respect to the ground plane
-angles_bist_ground = Cartesian3.angle_btw(
-    Cartesian3(sethi_enu.x, sethi_enu.y, np.zeros(sethi_enu.y.shape)),
-    Cartesian3(busard_enu.x, busard_enu.y, np.zeros(busard_enu.y.shape))
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Calculate bistatic angles between SETHI and BUSARD, with respect to the ground plane</span>
+<span class="n">angles_bist_ground</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span>
+    <span class="n">Cartesian3</span><span class="p">(</span><span class="n">sethi_enu</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sethi_enu</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sethi_enu</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)),</span>
+    <span class="n">Cartesian3</span><span class="p">(</span><span class="n">busard_enu</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">busard_enu</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">busard_enu</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+<span class="p">)</span>
 
-# Calculate bistatic angles &#39;radar&#39; in 3D
-angles_bist_radar = Cartesian3.angle_btw(sethi_enu, busard_enu)
+<span class="c1"># Calculate bistatic angles &#39;radar&#39; in 3D</span>
+<span class="n">angles_bist_radar</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">angle_btw</span><span class="p">(</span><span class="n">sethi_enu</span><span class="p">,</span> <span class="n">busard_enu</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -418,8 +418,8 @@ angles_bist_radar = Cartesian3.angle_btw(sethi_enu, busard_enu)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Compute azimuths of observation of the target
-az_bissection, _, _ = (sethi_enu.normalize() + busard_enu.normalize()).to_aer()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute azimuths of observation of the target</span>
+<span class="n">az_bissection</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="p">(</span><span class="n">sethi_enu</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span> <span class="o">+</span> <span class="n">busard_enu</span><span class="o">.</span><span class="n">normalize</span><span class="p">())</span><span class="o">.</span><span class="n">to_aer</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -431,37 +431,37 @@ az_bissection, _, _ = (sethi_enu.normalize() + busard_enu.normalize()).to_aer()
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span># Create a figure with multiple subplots for visualization
-fig, axs = plt.subplots(4, 1, figsize=(11.69,8.27), sharex=True)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a figure with multiple subplots for visualization</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">11.69</span><span class="p">,</span><span class="mf">8.27</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-# Plot distance to target
-axs[0].plot(sethi_trajectory_data.TIMESTAMP_S, sethi_dist, color=&#39;tab:blue&#39;, label=&#39;SETHI&#39;)
-axs[0].plot(sethi_trajectory_data.TIMESTAMP_S, busard_dist, color=&#39;tab:orange&#39;, label=&#39;BUSARD&#39;)
-axs[0].grid()
-axs[0].legend()
-axs[0].set_xlabel(&quot;Time (s)&quot;)
-axs[0].set_ylabel(&quot;Distance to\nTarget (m)&quot;)
+<span class="c1"># Plot distance to target</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">sethi_dist</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;SETHI&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">busard_dist</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;tab:orange&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;BUSARD&#39;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Distance to</span><span class="se">\n</span><span class="s2">Target (m)&quot;</span><span class="p">)</span>
 
-# Plot bistatic angles (ground)
-axs[1].plot(sethi_trajectory_data.TIMESTAMP_S, np.unwrap(angles_bist_ground, period=360))
-axs[1].grid()
-axs[1].set_xlabel(&quot;Time (s)&quot;)
-axs[1].set_ylabel(&quot;Bistatic Angle\n&#39;Ground&#39; (deg)&quot;)
+<span class="c1"># Plot bistatic angles (ground)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">angles_bist_ground</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">360</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bistatic Angle</span><span class="se">\n</span><span class="s2">&#39;Ground&#39; (deg)&quot;</span><span class="p">)</span>
 
-# Plot bistatic angles (radar)
-axs[2].plot(sethi_trajectory_data.TIMESTAMP_S, np.unwrap(angles_bist_radar, period=360))
-axs[2].grid()
-axs[2].set_xlabel(&quot;Time (s)&quot;)
-axs[2].set_ylabel(&quot;Bistatic Angle\n&#39;Radar&#39; (deg)&quot;)
+<span class="c1"># Plot bistatic angles (radar)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">angles_bist_radar</span><span class="p">,</span> <span class="n">period</span><span class="o">=</span><span class="mi">360</span><span class="p">))</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Bistatic Angle</span><span class="se">\n</span><span class="s2">&#39;Radar&#39; (deg)&quot;</span><span class="p">)</span>
 
-# Plot azimuths of target observation
-axs[3].plot(sethi_trajectory_data.TIMESTAMP_S, az_bissection % 360)
-axs[3].grid()
-axs[3].set_xlabel(&quot;Time (s)&quot;)
-axs[3].set_ylabel(&quot;Azimuths of Target\nObservation (deg)&quot;)
+<span class="c1"># Plot azimuths of target observation</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sethi_trajectory_data</span><span class="o">.</span><span class="n">TIMESTAMP_S</span><span class="p">,</span> <span class="n">az_bissection</span> <span class="o">%</span> <span class="mi">360</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (s)&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Azimuths of Target</span><span class="se">\n</span><span class="s2">Observation (deg)&quot;</span><span class="p">)</span>
 
-plt.tight_layout()
-plt.show()
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>

@@ -279,9 +279,9 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sargeom.coordinates import Cartographic, CartesianLocalNED
-from scipy.spatial.transform import Rotation
-import numpy as np
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cartographic</span><span class="p">,</span> <span class="n">CartesianLocalNED</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 </pre></div>
 </div>
 </div>
@@ -298,11 +298,11 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>ned_frame_origin = Cartographic(
-    longitude=3.2431077847784763490, # degrees
-    latitude=42.475181371623002, # degrees
-    height=3818.0 # meters
-)
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ned_frame_origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span>
+    <span class="n">longitude</span><span class="o">=</span><span class="mf">3.2431077847784763490</span><span class="p">,</span> <span class="c1"># degrees</span>
+    <span class="n">latitude</span><span class="o">=</span><span class="mf">42.475181371623002</span><span class="p">,</span> <span class="c1"># degrees</span>
+    <span class="n">height</span><span class="o">=</span><span class="mf">3818.0</span> <span class="c1"># meters</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -321,11 +321,11 @@ import numpy as np
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>heading_angle = 270.615 # degrees
-pitch_angle = -0.087 # degrees
-sample_step = 0.28 # meters
-number_of_samples = 30547
-initial_distance_from_origin = 3170 # meters
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">heading_angle</span> <span class="o">=</span> <span class="mf">270.615</span> <span class="c1"># degrees</span>
+<span class="n">pitch_angle</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.087</span> <span class="c1"># degrees</span>
+<span class="n">sample_step</span> <span class="o">=</span> <span class="mf">0.28</span> <span class="c1"># meters</span>
+<span class="n">number_of_samples</span> <span class="o">=</span> <span class="mi">30547</span>
+<span class="n">initial_distance_from_origin</span> <span class="o">=</span> <span class="mi">3170</span> <span class="c1"># meters</span>
 </pre></div>
 </div>
 </div>
@@ -337,11 +337,11 @@ initial_distance_from_origin = 3170 # meters
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>travel_direction = Rotation.from_euler(
-    &quot;ZYX&quot;,  # Intrinsic rotations
-    [heading_angle, pitch_angle, 0], # Route and slope angles (yaw, pitch, roll)
-    degrees=True,
-).apply([1, 0, 0]) # Apply the rotation to the x-axis direction
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">travel_direction</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span>
+    <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span>  <span class="c1"># Intrinsic rotations</span>
+    <span class="p">[</span><span class="n">heading_angle</span><span class="p">,</span> <span class="n">pitch_angle</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="c1"># Route and slope angles (yaw, pitch, roll)</span>
+    <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="c1"># Apply the rotation to the x-axis direction</span>
 </pre></div>
 </div>
 </div>
@@ -353,10 +353,10 @@ initial_distance_from_origin = 3170 # meters
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>distance_samples = initial_distance_from_origin + np.arange(0, number_of_samples) * sample_step # Create array of distances
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">distance_samples</span> <span class="o">=</span> <span class="n">initial_distance_from_origin</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_samples</span><span class="p">)</span> <span class="o">*</span> <span class="n">sample_step</span> <span class="c1"># Create array of distances</span>
 
-# Generate the trajectory in NED coordinates
-trajectory_ned = CartesianLocalNED.from_array(np.outer(distance_samples, travel_direction), origin=ned_frame_origin)
+<span class="c1"># Generate the trajectory in NED coordinates</span>
+<span class="n">trajectory_ned</span> <span class="o">=</span> <span class="n">CartesianLocalNED</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">distance_samples</span><span class="p">,</span> <span class="n">travel_direction</span><span class="p">),</span> <span class="n">origin</span><span class="o">=</span><span class="n">ned_frame_origin</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -368,7 +368,7 @@ trajectory_ned = CartesianLocalNED.from_array(np.outer(distance_samples, travel_
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>trajectory_wgs84 = trajectory_ned.to_ecef().to_cartographic()
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory_wgs84</span> <span class="o">=</span> <span class="n">trajectory_ned</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -380,23 +380,23 @@ trajectory_ned = CartesianLocalNED.from_array(np.outer(distance_samples, travel_
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>output_filename = &quot;nominal_trajectory.csv&quot;
-CSV_HEADER_DESCRIPTION = &quot;&quot;&quot;# Fields descriptions:
-# -------------------
-#    o Positions as WGS84 Geographic coordinates:
-#        - LON_WGS84_DEG [°]: The longitude coordinate
-#        - LAT_WGS84_DEG [°]: The latitude coordinate
-#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_filename</span> <span class="o">=</span> <span class="s2">&quot;nominal_trajectory.csv&quot;</span>
+<span class="n">CSV_HEADER_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;# Fields descriptions:</span>
+<span class="s2"># -------------------</span>
+<span class="s2">#    o Positions as WGS84 Geographic coordinates:</span>
+<span class="s2">#        - LON_WGS84_DEG [°]: The longitude coordinate</span>
+<span class="s2">#        - LAT_WGS84_DEG [°]: The latitude coordinate</span>
+<span class="s2">#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate</span>
 
-LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M&quot;&quot;&quot;
+<span class="s2">LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M&quot;&quot;&quot;</span>
 
-np.savetxt(
-    output_filename, trajectory_wgs84.to_array(),
-    fmt=[&#39;%.12f&#39;, &#39;%.12f&#39;, &#39;%.6f&#39;],
-    delimiter=&#39;;&#39;, newline=&#39;\n&#39;, comments=&#39;&#39;,
-    encoding=&#39;utf8&#39;,
-    header=CSV_HEADER_DESCRIPTION
-)
+<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
+    <span class="n">output_filename</span><span class="p">,</span> <span class="n">trajectory_wgs84</span><span class="o">.</span><span class="n">to_array</span><span class="p">(),</span>
+    <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
+    <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span>
+    <span class="n">header</span><span class="o">=</span><span class="n">CSV_HEADER_DESCRIPTION</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
