@@ -27,7 +27,7 @@ scipy
 numpy
 pyproj
 
-# To run examples
+# To run tests or examples
 folium
 pandas
 shapely
