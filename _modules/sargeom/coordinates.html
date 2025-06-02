@@ -2596,7 +2596,7 @@
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)</span>
 <span class="sd">        &gt;&gt;&gt; position.to_geojson()</span>
-<span class="sd">        {&quot;coordinates&quot;: [[10.0], [20.0], [30.0]], &quot;type&quot;: &quot;Point&quot;}</span>
+<span class="sd">        {&quot;coordinates&quot;: [10.0, 20.0, 30.0], &quot;type&quot;: &quot;Point&quot;}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">geojson</span><span class="w"> </span><span class="kn">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">MultiPoint</span><span class="p">,</span> <span class="n">LineString</span><span class="p">,</span> <span class="n">Polygon</span>
@@ -2606,21 +2606,21 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">clamp_to_Ground</span><span class="p">:</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">link_markers</span><span class="p">:</span>
                 <span class="c1"># Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString</span>
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-                    <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">()])</span>
+                    <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">coords</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+                    <span class="k">return</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">MultiPoint</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+                <span class="k">return</span> <span class="n">MultiPoint</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cartographic.to_shapely">
@@ -2641,7 +2641,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Shapely geometry Shapely</span>
+<span class="sd">        Shapely geometry</span>
 <span class="sd">            A Shapely geometry object representing the Cartographic instance.</span>
 
 <span class="sd">        Notes</span>
@@ -2663,21 +2663,21 @@
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">clamp_to_Ground</span><span class="p">:</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">longitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="o">.</span><span class="n">tolist</span><span class="p">()]</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">link_markers</span><span class="p">:</span>
                 <span class="c1"># Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString</span>
                 <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
-                    <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">()])</span>
+                    <span class="k">return</span> <span class="n">Polygon</span><span class="p">([</span><span class="n">coords</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">return</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+                    <span class="k">return</span> <span class="n">LineString</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">MultiPoint</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+                <span class="k">return</span> <span class="n">MultiPoint</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span></div>
+            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Cartographic.save_html">

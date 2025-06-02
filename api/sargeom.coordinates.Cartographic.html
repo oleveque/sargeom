@@ -626,7 +626,7 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/crs/crs.html#pyproj.crs.CRS" title="(in pyproj v3.7.0)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a></dt><dd><p>A pythonic coordinate reference system (CRS) manager.</p>
+<dt><a class="reference external" href="https://pyproj4.github.io/pyproj/stable/api/crs/crs.html#pyproj.crs.CRS" title="(in pyproj v3.7.1)"><code class="xref py py-class docutils literal notranslate"><span class="pre">pyproj.crs.CRS</span></code></a></dt><dd><p>A pythonic coordinate reference system (CRS) manager.</p>
 </dd>
 </dl>
 </dd>
@@ -898,7 +898,7 @@ If <cite>link_markers</cite> is False, a GeoJSON MultiPoint is returned.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_geojson</span><span class="p">()</span>
-<span class="go">{&quot;coordinates&quot;: [[10.0], [20.0], [30.0]], &quot;type&quot;: &quot;Point&quot;}</span>
+<span class="go">{&quot;coordinates&quot;: [10.0, 20.0, 30.0], &quot;type&quot;: &quot;Point&quot;}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -941,7 +941,7 @@ geometric operations and manipulations commonly performed with Shapely.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><dl class="simple">
-<dt>Shapely geometry Shapely</dt><dd><p>A Shapely geometry object representing the Cartographic instance.</p>
+<dt>Shapely geometry</dt><dd><p>A Shapely geometry object representing the Cartographic instance.</p>
 </dd>
 </dl>
 </dd>
