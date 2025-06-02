@@ -2179,7 +2179,7 @@ class Cartographic(np.ndarray):
         --------
         >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
         >>> position.to_geojson()
-        {"coordinates": [[10.0], [20.0], [30.0]], "type": "Point"}
+        {"coordinates": [10.0, 20.0, 30.0], "type": "Point"}
         """
         try:
             from geojson import Point, MultiPoint, LineString, Polygon
