@@ -2180,21 +2180,21 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self.__array__()[:, :2].T
+            coords = [self.longitude.tolist(), self.latitude.tolist()]
         else:
-            coords = self.__array__().T
+            coords = [self.longitude.tolist(), self.latitude.tolist(), self.height.tolist()]
 
         if self.is_collection():
             if link_markers:
                 # Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString
                 if np.all(coords[0] == coords[-1]):
-                    return Polygon([coords.tolist()])
+                    return Polygon([coords])
                 else:
-                    return LineString(coords.tolist())
+                    return LineString(coords)
             else:
-                return MultiPoint(coords.tolist())
+                return MultiPoint(coords)
         else:
-            return Point(coords.tolist())
+            return Point(coords)
 
     def to_shapely(self, clamp_to_Ground=False, link_markers=False):
         """
@@ -2212,7 +2212,7 @@ class Cartographic(np.ndarray):
 
         Returns
         -------
-        Shapely geometry Shapely
+        Shapely geometry
             A Shapely geometry object representing the Cartographic instance.
 
         Notes
@@ -2234,21 +2234,21 @@ class Cartographic(np.ndarray):
             )
 
         if clamp_to_Ground:
-            coords = self.__array__()[:, :2].T
+            coords = [self.longitude.tolist(), self.latitude.tolist()]
         else:
-            coords = self.__array__().T
+            coords = [self.longitude.tolist(), self.latitude.tolist(), self.height.tolist()]
 
         if self.is_collection():
             if link_markers:
                 # Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString
                 if np.all(coords[0] == coords[-1]):
-                    return Polygon([coords.tolist()])
+                    return Polygon([coords])
                 else:
-                    return LineString(coords.tolist())
+                    return LineString(coords)
             else:
-                return MultiPoint(coords.tolist())
+                return MultiPoint(coords)
         else:
-            return Point(coords.tolist())
+            return Point(coords)
 
     def save_html(self, filename, link_markers=False):
         """
