@@ -16,6 +16,7 @@ sphinx-subfigure
 sphinx-automodapi
 numpydoc
 nbsphinx
+ipython
 
 # To build the package
 build
