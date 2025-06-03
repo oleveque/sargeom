@@ -262,8 +262,8 @@
 <h1>CartesianLocalENU<a class="headerlink" href="#cartesianlocalenu" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">CartesianLocalENU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cartesian3</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">CartesianLocalENU</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianLocalENU"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.cartesian.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cartesian3</span></code></a></p>
 <p>A local East-North-Up (ENU) system uses the Cartesian coordinates (<em>xEast</em>, <em>yNorth</em>, <em>zUp</em>) to represent position relative to a local origin.
 The local origin is described by the geodetic coordinates (<em>lat0</em>, <em>lon0</em>, <em>h0</em>).
 Note that the origin does not necessarily lie on the surface of the ellipsoid.</p>
@@ -350,7 +350,7 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.save_csv">
-<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.save_csv" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianLocalENU.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.save_csv" title="Link to this definition">¶</a></dt>
 <dd><p>Saves the cartesian ENU coordinates to a CSV file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -369,7 +369,7 @@ Note that the origin does not necessarily lie on the surface of the ellipsoid.</
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.to_aer">
-<span class="sig-name descname"><span class="pre">to_aer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.to_aer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_aer" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_aer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianLocalENU.to_aer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_aer" title="Link to this definition">¶</a></dt>
 <dd><p>Transforms local East-North-Up (ENU) coordinates to local Azimuth-Elevation-Range (AER) spherical coordinates.
 Both coordinate systems use the same local origin.</p>
 <p>An azimuth-elevation-range (AER) system uses the spherical coordinates (<em>az</em>, <em>elev</em>, <em>range</em>) to represent position relative to a local origin.
@@ -404,7 +404,7 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.to_ecef">
-<span class="sig-name descname"><span class="pre">to_ecef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.to_ecef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_ecef" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_ecef</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianLocalENU.to_ecef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_ecef" title="Link to this definition">¶</a></dt>
 <dd><p>Converts local East-North-Up (ENU) coordinates to Earth-centered Earth-fixed (ECEF) coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -425,7 +425,7 @@ Azimuth, elevation, and slant range are dependent on the local ENU Cartesian sys
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianLocalENU.to_ned">
-<span class="sig-name descname"><span class="pre">to_ned</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianLocalENU.to_ned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_ned" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_ned</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianLocalENU.to_ned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianLocalENU.to_ned" title="Link to this definition">¶</a></dt>
 <dd><p>Converts local East-North-Up (ENU) coordinates to local North-East-Down (NED) coordinates.
 Both coordinate systems use the same local origin.</p>
 <dl class="field-list simple">

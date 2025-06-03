@@ -262,8 +262,8 @@
 <h1>CartesianECEF<a class="headerlink" href="#cartesianecef" title="Link to this heading">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">CartesianECEF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cartesian3</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">CartesianECEF</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.cartesian.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cartesian3</span></code></a></p>
 <p>A geocentric Earth-centered Earth-fixed (ECEF) system uses the Cartesian coordinates (<em>X</em>, <em>Y</em>, <em>Z</em>) to represent the 3D components of a position or a vector.
 For example, the ECEF coordinates of Parc des Buttes-Chaumont are (4198945 m, 174747 m, 4781887 m).</p>
 <ul class="simple">
@@ -336,7 +336,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 <p class="rubric">Methods Documentation</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.crs">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">crs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.crs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.crs" title="Link to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">crs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.crs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.crs" title="Link to this definition">¶</a></dt>
 <dd><p>Returns the WGS84 Geocentric System <a class="reference external" href="https://epsg.org/crs_4978/WGS-84.html">EPSG:4978</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -350,7 +350,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.save_csv">
-<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.save_csv" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">save_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.save_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.save_csv" title="Link to this definition">¶</a></dt>
 <dd><p>Saves the cartesian ECEF coordinates to a CSV file.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -369,7 +369,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_cartographic">
-<span class="sig-name descname"><span class="pre">to_cartographic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_cartographic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_cartographic" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_cartographic</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.to_cartographic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_cartographic" title="Link to this definition">¶</a></dt>
 <dd><p>Converts geocentric Earth-centered Earth-fixed (ECEF) coordinates to geodetic coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -390,7 +390,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_enu">
-<span class="sig-name descname"><span class="pre">to_enu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_enu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_enu" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_enu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.to_enu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_enu" title="Link to this definition">¶</a></dt>
 <dd><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local East-North-Up (ENU) system.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -424,7 +424,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_enuv">
-<span class="sig-name descname"><span class="pre">to_enuv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_enuv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_enuv" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_enuv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.to_enuv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_enuv" title="Link to this definition">¶</a></dt>
 <dd><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local East-North-Up (ENU) system.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -458,7 +458,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_ned">
-<span class="sig-name descname"><span class="pre">to_ned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_ned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_ned" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_ned</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.to_ned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_ned" title="Link to this definition">¶</a></dt>
 <dd><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) coordinates to local North-East-Down (NED) system.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -492,7 +492,7 @@ If the X, Y, and Z components are not 0- or 1-dimensional arrays.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.CartesianECEF.to_nedv">
-<span class="sig-name descname"><span class="pre">to_nedv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#CartesianECEF.to_nedv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_nedv" title="Link to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">to_nedv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#CartesianECEF.to_nedv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.CartesianECEF.to_nedv" title="Link to this definition">¶</a></dt>
 <dd><p>Transforms geocentric Earth-centered Earth-fixed (ECEF) vector coordinates to local North-East-Down (NED) system.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
