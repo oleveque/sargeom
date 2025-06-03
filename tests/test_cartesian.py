@@ -1,7 +1,9 @@
 import unittest
 import numpy as np
+import numpy.testing as npt
 import pandas as pd
-from sargeom.coordinates import Cartesian3
+
+from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU
 
 class TestCartesian3(unittest.TestCase):
 
@@ -13,6 +15,30 @@ class TestCartesian3(unittest.TestCase):
             y=[2.0, 20.0],
             z=[3.0, 30.0]
         )
+    
+    def test_creation(self):
+        with self.assertRaises(ValueError):
+            Cartesian3(x=[1,2], y=[3], z=[4,5])
+
+        with self.assertRaises(ValueError):
+            Cartesian3(x=[[1,2]], y=2.0, z=3.0)
+
+        with self.assertRaises(ValueError):
+            Cartesian3.from_array(np.array([1.0,2.0]))
+
+        with self.assertRaises(ValueError):
+            Cartesian3.from_array(np.ones((2,4)))
+
+    def test_conversion_methods(self):
+        enu = CartesianLocalENU(1,2,3, origin=None)
+        with self.assertRaises(ValueError):
+            enu.to_ecef()
+
+        ecef = CartesianECEF(1,2,3)
+        with self.assertRaises(ValueError):
+            ecef.to_ned(origin="not a Cartographic")
+        with self.assertRaises(ValueError):
+            ecef.to_enuv(origin=12345)
 
     def test_attribute_access(self):
         # Test single point attribute access
@@ -52,22 +78,18 @@ class TestCartesian3(unittest.TestCase):
         self.assertEqual(zero_vector.z, 0.0)
 
         # Test from_array method
-        my_array = np.array([
-            [1.0, 2.0, 3.0],
-            [4.0, 5.0, 6.0],
-            [7.0, 8.0, 9.0],
-        ])
-        new_cartesian_collection = Cartesian3.from_array(my_array)
-        self.assertTrue(np.all(new_cartesian_collection.x == [1.0, 4.0, 7.0]))
-        self.assertTrue(np.all(new_cartesian_collection.y == [2.0, 5.0, 8.0]))
-        self.assertTrue(np.all(new_cartesian_collection.z == [3.0, 6.0, 9.0]))
+        arr = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
+        cart = Cartesian3.from_array(arr)
+        npt.assert_array_equal(cart.x, [1.0, 4.0, 7.0])
+        npt.assert_array_equal(cart.y, [2.0, 5.0, 8.0])
+        npt.assert_array_equal(cart.z, [3.0, 6.0, 9.0])
         
         # Test append method
-        new_instance = new_cartesian_collection.append(self.cartesian_point)
-        self.assertTrue(np.all(new_instance.x == [1.0, 4.0, 7.0, 1.0]))
-        self.assertTrue(np.all(new_instance.y == [2.0, 5.0, 8.0, 2.0]))
-        self.assertTrue(np.all(new_instance.z == [3.0, 6.0, 9.0, 3.0]))
-        
+        new_instance = cart.append(self.cartesian_point)
+        npt.assert_array_equal(new_instance.x, [1.0, 4.0, 7.0, 1.0])
+        npt.assert_array_equal(new_instance.y, [2.0, 5.0, 8.0, 2.0])
+        npt.assert_array_equal(new_instance.z, [3.0, 6.0, 9.0, 3.0])
+
     def test_is_collection(self):
         # Test is_collection method
         self.assertFalse(self.cartesian_point.is_collection())
@@ -212,7 +234,7 @@ class TestCartesian3(unittest.TestCase):
         
         # Test distance calculation
         distance = Cartesian3.distance(A, B)
-        self.assertAlmostEqual(distance, np.sqrt(27))
+        self.assertAlmostEqual(distance, np.sqrt(27), places=7)
         
         # Test midpoint calculation
         middle = Cartesian3.middle(A, B)
@@ -251,12 +273,12 @@ class TestCartesian3(unittest.TestCase):
     def test_magnitude(self):
         # Test magnitude calculation
         magnitude = self.cartesian_point.magnitude()
-        self.assertAlmostEqual(magnitude, np.sqrt(14))
+        self.assertAlmostEqual(magnitude, np.sqrt(14), places=7)
 
     def test_normalize(self):
         # Test normalization
         normalized = self.cartesian_point.normalize()
-        self.assertAlmostEqual(np.linalg.norm(normalized.to_array()), 1.0)
+        self.assertAlmostEqual(np.linalg.norm(normalized.to_array()), 1.0, places=7)
 
     def test_cross_product(self):
         # Test cross product
@@ -276,7 +298,7 @@ class TestCartesian3(unittest.TestCase):
     def test_distance(self):
         # Test distance calculation
         distance = Cartesian3.distance(self.cartesian_point, Cartesian3(4.0, 5.0, 6.0))
-        self.assertAlmostEqual(distance, np.sqrt(27))
+        self.assertAlmostEqual(distance, np.sqrt(27), places=7)
 
     def test_middle(self):
         # Test midpoint calculation
@@ -286,7 +308,7 @@ class TestCartesian3(unittest.TestCase):
     def test_angle_btw(self):
         # Test angle calculation
         angle = Cartesian3.angle_btw(self.cartesian_point, Cartesian3(-1.0, 2.0, -1.0))
-        self.assertAlmostEqual(angle, 90.0)
+        self.assertAlmostEqual(angle, 90.0, places=7)
 
 if __name__ == '__main__':
     unittest.main()

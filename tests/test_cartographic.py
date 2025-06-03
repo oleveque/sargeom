@@ -1,7 +1,9 @@
 import unittest
 import numpy as np
 import pandas as pd
-from sargeom.coordinates import Cartographic, CartesianECEF
+
+from sargeom.coordinates.cartographic import Cartographic
+from sargeom.coordinates.cartesian import CartesianECEF
 
 class TestCartographic(unittest.TestCase):
 
@@ -13,6 +15,19 @@ class TestCartographic(unittest.TestCase):
             latitude=[2.0, 20.0],
             height=[3.0, 30.0]
         )
+
+    def test_creation(self):
+        with self.assertRaises(ValueError):
+            Cartographic(longitude=[1,2], latitude=[3], height=[4,5])
+
+        with self.assertRaises(ValueError):
+            Cartographic(longitude=[[1,2],[3,4]], latitude=[10,20], height=[0,0])
+
+        with self.assertRaises(ValueError):
+            Cartographic.from_array(np.array([1.0, 2.0]))   # moins de 3 éléments
+        
+        with self.assertRaises(ValueError):
+            Cartographic.from_array(np.array([[1,2,3,4]])) # 4 colonnes au lieu de 3
 
     def test_attribute_access(self):
         # Test attribute access for single point
@@ -53,11 +68,18 @@ class TestCartographic(unittest.TestCase):
         self.assertTrue(np.all(new_instance.longitude == [1.0, 4.0, 7.0, 1.0]))
         self.assertTrue(np.all(new_instance.latitude == [2.0, 5.0, 8.0, 2.0]))
         self.assertTrue(np.all(new_instance.height == [3.0, 6.0, 9.0, 3.0]))
+
+        with self.assertRaises(ValueError):
+            Cartographic(1,2,3).append([42, 43, 44])
         
     def test_is_collection(self):
         # Test if the instance is a collection
         self.assertFalse(self.cartographic_point.is_collection())
         self.assertTrue(self.cartographic_collection.is_collection())
+
+        pt = Cartographic(10.0, 20.0, 0.0)
+        with self.assertRaises(ValueError):
+            pt.bounding_box()
 
     def test_inner_operations(self):
         # Test string representation
@@ -117,10 +139,10 @@ class TestCartographic(unittest.TestCase):
         # Test conversion to ECEF coordinates
         ecef_coords = self.cartographic_point.to_ecef()
         self.assertIsInstance(ecef_coords, CartesianECEF)
-        self.assertAlmostEqual(ecef_coords.x, 6373309.76229944)
-        self.assertAlmostEqual(ecef_coords.y, 111246.53570858)
-        self.assertAlmostEqual(ecef_coords.z, 221104.65000961)
-        
+        self.assertAlmostEqual(ecef_coords.x, 6373309.76229944, places=7)
+        self.assertAlmostEqual(ecef_coords.y, 111246.53570858, places=7)
+        self.assertAlmostEqual(ecef_coords.z, 221104.65000961, places=7)
+
     def test_bounding_box(self):
         # Test bounding box calculation
         east, west, north, south = self.cartographic_collection.bounding_box()
