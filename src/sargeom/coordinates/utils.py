@@ -29,8 +29,8 @@ def negativePiToPi(angle, degrees=True):
     if isinstance(angle, np.ndarray):
         angle = angle.tolist()
 
-    if isinstance(angle, list):
-        return np.array([negativePiToPi(a) for a in angle])
+    if isinstance(angle, list) or isinstance(angle, tuple):
+        return np.array([negativePiToPi(a, degrees) for a in angle])
     else:
         if degrees:
             if -180.0 <= angle <= 180.0:
