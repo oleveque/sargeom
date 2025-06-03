@@ -36,6 +36,7 @@ Cartographic
       ~Cartographic.to_geojson
       ~Cartographic.to_pandas
       ~Cartographic.to_shapely
+      ~Cartographic.to_trajviewer
 
    .. rubric:: Attributes Documentation
 
@@ -63,3 +64,4 @@ Cartographic
    .. automethod:: to_geojson
    .. automethod:: to_pandas
    .. automethod:: to_shapely
+   .. automethod:: to_trajviewer

@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Examples" href="../examples.html" /><link rel="prev" title="CartesianLocalNED" href="sargeom.coordinates.CartesianLocalNED.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Cartographic - SARGeom</title>
+        <title>Cartographic - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
@@ -170,7 +170,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="../index.html"><div class="brand">SARGeom</div></a>
+      <a href="../index.html"><div class="brand">sargeom</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -194,7 +194,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
   
-  <span class="sidebar-brand-text">SARGeom</span>
+  <span class="sidebar-brand-text">sargeom</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -399,6 +399,9 @@ If the longitude, latitude, and height are not 0- or 1-dimensional arrays.</p>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely" title="sargeom.coordinates.Cartographic.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_shapely</span></code></a>([clamp_to_Ground, link_markers])</p></td>
 <td><p>Converts the Cartographic instance to a Shapely geometry object.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_trajviewer" title="sargeom.coordinates.Cartographic.to_trajviewer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_trajviewer</span></code></a>([name, description, ...])</p></td>
+<td><p>Open the Cartographic instance in the TrajViewer web application.</p></td>
 </tr>
 </tbody>
 </table>
@@ -898,7 +901,12 @@ If <cite>link_markers</cite> is False, a GeoJSON MultiPoint is returned.</p>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_geojson</span><span class="p">()</span>
-<span class="go">{&quot;coordinates&quot;: [10.0, 20.0, 30.0], &quot;type&quot;: &quot;Point&quot;}</span>
+<span class="go">{&#39;coordinates&#39;: [10.0, 20.0, 30.0], &#39;type&#39;: &#39;Point&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_geojson</span><span class="p">()</span>
+<span class="go">{&#39;coordinates&#39;: [[10.0, 20.0, 30.0], [15.0, 25.0, 35.0], [20.0, 30.0, 40.0]], &#39;type&#39;: &#39;MultiPoint&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_geojson</span><span class="p">(</span><span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">{&#39;coordinates&#39;: [[10.0, 20.0], [15.0, 25.0], [20.0, 30.0]], &#39;type&#39;: &#39;LineString&#39;}</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -953,8 +961,38 @@ If <cite>link_markers</cite> is False, a Shapely MultiPoint is returned.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">position</span><span class="o">.</span><span class="n">to_shapely</span><span class="p">()</span>
 <span class="go">&lt;POINT Z (10 20 30)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">],</span> <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">20.0</span><span class="p">,</span> <span class="mf">25.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span> <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">35.0</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_shapely</span><span class="p">()</span>
+<span class="go">&lt;MULTIPOINT Z ((10 20 30), (15 25 35), (20 30 40))&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">to_shapely</span><span class="p">(</span><span class="n">clamp_to_Ground</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">link_markers</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&lt;LINESTRING (10 20, 15 25, 20 30)&gt;</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.to_trajviewer">
+<span class="sig-name descname"><span class="pre">to_trajviewer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clamp_to_Ground</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_markers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://oleveque.github.io/trajviewer'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates.html#Cartographic.to_trajviewer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.to_trajviewer" title="Link to this definition">¶</a></dt>
+<dd><p>Open the Cartographic instance in the TrajViewer web application.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>name</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>The name of the Cartographic instance. Default is None.</p>
+</dd>
+<dt><strong>description</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>The description of the Cartographic instance. Default is None.</p>
+</dd>
+<dt><strong>clamp_to_Ground</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional</span></dt><dd><p>If True, clamp positions to the ground. Default is False.</p>
+</dd>
+<dt><strong>link_markers</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a>, optional</span></dt><dd><p>If True, link markers with a line. Default is False.</p>
+</dd>
+<dt><strong>url</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, optional</span></dt><dd><p>The URL of the TrajViewer web application. Default is “<a class="reference external" href="https://oleveque.github.io/trajviewer">https://oleveque.github.io/trajviewer</a>”.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>TrajViewer is a web-based application for visualizing spatial data, such as trajectories, locations, and raster files.
+For more information, visit the GitHub repository: <a class="reference external" href="https://github.com/oleveque/trajviewer">https://github.com/oleveque/trajviewer</a></p>
 </dd></dl>
 
 </dd></dl>
@@ -1039,6 +1077,7 @@ If <cite>link_markers</cite> is False, a Shapely MultiPoint is returned.</p>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_geojson()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_pandas()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_shapely()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_trajviewer"><code class="docutils literal notranslate"><span class="pre">Cartographic.to_trajviewer()</span></code></a></li>
 </ul>
 </li>
 </ul>
