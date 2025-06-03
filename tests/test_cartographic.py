@@ -10,7 +10,7 @@ from sargeom.coordinates.cartesian import CartesianECEF
 
 class TestCartographic(unittest.TestCase):
     """Test suite for Cartographic coordinate conversions and utilities."""
-    
+
     def setUp(self):
         # Instances for single point and collection
         self.cart_point = Cartographic(longitude=1.0, latitude=2.0, height=3.0)

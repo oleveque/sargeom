@@ -5,6 +5,7 @@ import pandas as pd
 
 from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU
 
+
 class TestCartesian3(unittest.TestCase):
 
     def setUp(self):
@@ -309,6 +310,7 @@ class TestCartesian3(unittest.TestCase):
         # Test angle calculation
         angle = Cartesian3.angle_btw(self.cartesian_point, Cartesian3(-1.0, 2.0, -1.0))
         self.assertAlmostEqual(angle, 90.0, places=7)
+
 
 if __name__ == '__main__':
     unittest.main()
