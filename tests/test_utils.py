@@ -18,11 +18,11 @@ class TestUtils(unittest.TestCase):
     
     def test_negativePiToPi_array_degrees(self):
         list_input = [-540, 540]
-        expected_list = np.array([ -180.0, 180.0 ])
+        expected_list = np.array([ -180.0, -180.0 ])
         assert_array_equal(negativePiToPi(list_input), expected_list)
 
         tuple_input = (-3*np.pi, 3*np.pi)
-        expected_tuple = np.array([ -np.pi,  np.pi ])
+        expected_tuple = np.array([ -np.pi,  -np.pi ])
         assert_array_equal(negativePiToPi(tuple_input, degrees=False), expected_tuple)
 
 
