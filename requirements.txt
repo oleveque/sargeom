@@ -31,5 +31,4 @@ pyproj
 folium
 pandas
 shapely
-geojson
 simplekml

@@ -2179,31 +2179,26 @@ class Cartographic(np.ndarray):
         --------
         >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
         >>> position.to_geojson()
-        {"coordinates": [10.0, 20.0, 30.0], "type": "Point"}
+        {'coordinates': [10.0, 20.0, 30.0], 'type': 'Point'}
+        >>> positions = Cartographic(longitude=[10.0, 15.0, 20.0], latitude=[20.0, 25.0, 30.0], height=[30.0, 35.0, 40.0])
+        >>> positions.to_geojson()
+        {'coordinates': [[10.0, 20.0, 30.0], [15.0, 25.0, 35.0], [20.0, 30.0, 40.0]], 'type': 'MultiPoint'}
+        >>> positions.to_geojson(clamp_to_Ground=True, link_markers=True)
+        {'coordinates': [[10.0, 20.0], [15.0, 25.0], [20.0, 30.0]], 'type': 'LineString'}
         """
-        try:
-            from geojson import Point, MultiPoint, LineString, Polygon
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "GeoJSON is not installed. Please follow the instructions on https://geojson.readthedocs.io/en/latest/index.html#installation"
-            )
-
-        if clamp_to_Ground:
-            coords = [self.longitude.tolist(), self.latitude.tolist()]
-        else:
-            coords = [self.longitude.tolist(), self.latitude.tolist(), self.height.tolist()]
+        coords = self.__array__()[:, :2]  if clamp_to_Ground else self.__array__()
+        coords = coords.squeeze().tolist()
 
         if self.is_collection():
             if link_markers:
-                # Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString
                 if np.all(coords[0] == coords[-1]):
-                    return Polygon([coords])
+                    return {"coordinates": [coords], "type": "Polygon"}
                 else:
-                    return LineString(coords)
+                    return {"coordinates": coords, "type": "LineString"}
             else:
-                return MultiPoint(coords)
+                return {"coordinates": coords, "type": "MultiPoint"}
         else:
-            return Point(coords)
+            return {"coordinates": coords, "type": "Point"}
 
     def to_shapely(self, clamp_to_Ground=False, link_markers=False):
         """
@@ -2234,6 +2229,11 @@ class Cartographic(np.ndarray):
         >>> position = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
         >>> position.to_shapely()
         <POINT Z (10 20 30)>
+        >>> positions = Cartographic(longitude=[10.0, 15.0, 20.0], latitude=[20.0, 25.0, 30.0], height=[30.0, 35.0, 40.0])
+        >>> positions.to_shapely()
+        <MULTIPOINT Z ((10 20 30), (15 25 35), (20 30 40))>
+        >>> positions.to_shapely(clamp_to_Ground=True, link_markers=True)
+        <LINESTRING (10 20, 15 25, 20 30)>
         """
         try:
             from shapely import Point, MultiPoint, LineString, Polygon
@@ -2242,18 +2242,12 @@ class Cartographic(np.ndarray):
                 "Shapely is not installed. Please follow the instructions on https://shapely.readthedocs.io/en/stable/installation.html"
             )
 
-        if clamp_to_Ground:
-            coords = [self.longitude.tolist(), self.latitude.tolist()]
-        else:
-            coords = [self.longitude.tolist(), self.latitude.tolist(), self.height.tolist()]
+        coords = self.__array__()[:, :2]  if clamp_to_Ground else self.__array__()
+        coords = coords.squeeze().tolist()
 
         if self.is_collection():
             if link_markers:
-                # Check if the list of coordinates is cyclic for linking markers with a Polygon or a LineString
-                if np.all(coords[0] == coords[-1]):
-                    return Polygon([coords])
-                else:
-                    return LineString(coords)
+                return Polygon([coords]) if np.all(coords[0] == coords[-1]) else LineString(coords)
             else:
                 return MultiPoint(coords)
         else:
