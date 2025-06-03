@@ -2200,6 +2200,54 @@ class Cartographic(np.ndarray):
         else:
             return {"coordinates": coords, "type": "Point"}
 
+    def to_trajviewer(self, name=None, description=None, clamp_to_Ground=False, link_markers=False, url="https://oleveque.github.io/trajviewer"):
+        """
+        Open the Cartographic instance in the TrajViewer web application.
+
+        Parameters
+        ----------
+        name : :class:`str`, optional
+            The name of the Cartographic instance. Default is None.
+        description : :class:`str`, optional
+            The description of the Cartographic instance. Default is None.
+        clamp_to_Ground : :class:`bool`, optional
+            If True, clamp positions to the ground. Default is False.
+        link_markers : :class:`bool`, optional
+            If True, link markers with a line. Default is False.
+        url : :class:`str`, optional
+            The URL of the TrajViewer web application. Default is "https://oleveque.github.io/trajviewer".
+
+        Notes
+        -----
+        TrajViewer is a web-based application for visualizing spatial data, such as trajectories, locations, and raster files.
+        For more information, visit the GitHub repository: https://github.com/oleveque/trajviewer
+        """
+        import json
+        import base64
+        import urllib.parse
+        import webbrowser
+        
+        # Convert the Cartographic instance to GeoJSON format
+        geometry = self.to_geojson(clamp_to_Ground=clamp_to_Ground, link_markers=link_markers)
+
+        # Create a GeoJSON Feature with the provided name and description
+        geojson = {
+            "type": "Feature",
+            "geometry": geometry,
+            "properties": {
+                "name": name,
+                "description": description
+            }
+        }
+
+        # Convert the GeoJSON Feature to a string and encode it in base64
+        geojson_str = json.dumps(geojson, separators=(',', ':'))
+        geojson_b64 = base64.b64encode(geojson_str.encode('utf-8')).decode('ascii')
+        geojson_enc = urllib.parse.quote(geojson_b64)
+
+        # Open the TrajViewer web application with the encoded GeoJSON data
+        webbrowser.open(f"{url}?geojsonData={geojson_enc}")
+
     def to_shapely(self, clamp_to_Ground=False, link_markers=False):
         """
         Converts the Cartographic instance to a Shapely geometry object.
