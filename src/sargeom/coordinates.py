@@ -1655,6 +1655,7 @@ class CartesianLocalNED(Cartesian3):
 X_NED_M;Y_NED_M;Z_NED_M"""
         )
 
+
 class Cartographic(np.ndarray):
     """
     A Cartographic object represents the position of a point in a geodetic coordinate system.
