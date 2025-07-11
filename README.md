@@ -31,6 +31,17 @@ If you want to add the package to your dependencies file, you can add the follow
 sargeom @ git+https://github.com/oleveque/sargeom@main
 ```
 
+## Dependency relationships
+
+```mermaid
+graph TD
+    ndarray --> Cartographic
+    ndarray --> Cartesian3
+    Cartesian3 --> CartesianECEF
+    Cartesian3 --> CartesianLocalENU
+    Cartesian3 --> CartesianLocalNED
+```
+
 ## Issues
 
 If you encounter any problems, please [file an issue](https://github.com/oleveque/sargeom/issues) with a detailed description.
