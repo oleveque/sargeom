@@ -380,23 +380,7 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output_filename</span> <span class="o">=</span> <span class="s2">&quot;nominal_trajectory.csv&quot;</span>
-<span class="n">CSV_HEADER_DESCRIPTION</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;# Fields descriptions:</span>
-<span class="s2"># -------------------</span>
-<span class="s2">#    o Positions as WGS84 Geographic coordinates:</span>
-<span class="s2">#        - LON_WGS84_DEG [°]: The longitude coordinate</span>
-<span class="s2">#        - LAT_WGS84_DEG [°]: The latitude coordinate</span>
-<span class="s2">#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate</span>
-
-<span class="s2">LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M&quot;&quot;&quot;</span>
-
-<span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
-    <span class="n">output_filename</span><span class="p">,</span> <span class="n">trajectory_wgs84</span><span class="o">.</span><span class="n">to_array</span><span class="p">(),</span>
-    <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
-    <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
-    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span><span class="p">,</span>
-    <span class="n">header</span><span class="o">=</span><span class="n">CSV_HEADER_DESCRIPTION</span>
-<span class="p">)</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">trajectory_wgs84</span><span class="o">.</span><span class="n">save_csv</span><span class="p">(</span><span class="s2">&quot;nominal_trajectory.csv&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
