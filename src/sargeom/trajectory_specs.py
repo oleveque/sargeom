@@ -14,6 +14,15 @@ TRAJ_DTYPE = [
     ('BANK_DEG', '<f8'),
 ]
 
+PAMELA_TRAJ_DTYPE = [
+    ('lon_rad', '<f8'),
+    ('lat_rad', '<f8'),
+    ('height_m', '<f8'),
+    ('heading_rad', '<f4'),
+    ('elevation_rad', '<f4'),
+    ('bank_rad', '<f4'),
+]
+
 class Trajectory:
     def __init__(self, timestamps, positions, orientations=None):
         self._timestamps = np.asarray(timestamps)
@@ -215,18 +224,8 @@ class Trajectory:
         time_step = header[9]
         header_size = header_count * 8  # bytes for 11 doubles
 
-        # Define dtype for each record
-        record_dtype = np.dtype([
-            ('lon_rad', '<f8'),
-            ('lat_rad', '<f8'),
-            ('height_m', '<f8'),
-            ('heading_rad', '<f4'),
-            ('elevation_rad', '<f4'),
-            ('bank_rad', '<f4'),
-        ])
-
         # Read all records in a single operation
-        records = np.fromfile(filename, dtype=record_dtype, offset=header_size)
+        records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
         n = records.shape[0]
 
         # Create output structured array
