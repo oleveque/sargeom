@@ -214,6 +214,18 @@ class Trajectory:
             raise ValueError("File must have a .traj extension.")
 
         # Read header (11 doubles, little endian)
+        # Format:
+        #    0: origin longitude (rad)
+        #    1: origin latitude (rad)
+        #    2: origin height (m)
+        #    3: nominal horizontal velocity (m/s)
+        #    4: nominal course (rad)
+        #    5: nominal slope (rad)
+        #    6: nominal leeway (rad) - course minus heading
+        #    7: mean elevation (rad)
+        #    8: mean bank (rad)
+        #    9: std position (m)
+        #   10: std velocity (m/s)
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
