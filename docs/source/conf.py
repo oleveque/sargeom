@@ -38,7 +38,7 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_title = "sargeom"
-html_static_path = ['_static']
+# html_static_path = ['_static']
 
 # -- Options for Numpydoc ----------------------------------------------------
 #
