@@ -153,8 +153,9 @@ class Trajectory:
             return Trajectory(new_timestamps, new_positions, serl(new_timestamps))
 
     def plot(self, **kwargs):
-        # https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
-        pass
+        # TODO: Implement plotting functionality
+        # See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
+        raise NotImplementedError("Plotting functionality is not implemented yet.")
 
     def from_numpy(self, data):
         if not isinstance(data, np.ndarray):
@@ -345,4 +346,5 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         raise NotImplementedError("Saving to pivot files is not implemented yet.")
 
     def save_kml(self, filename, **kwargs):
-        pass
+        # TODO: Implement saving to KML format
+        raise NotImplementedError("Saving to KML format is not implemented yet.")
