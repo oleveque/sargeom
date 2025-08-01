@@ -15,8 +15,8 @@ TRAJ_DTYPE = [
 ]
 
 PAMELA_TRAJ_DTYPE = [
-    ('lon_rad', '<f8'),
-    ('lat_rad', '<f8'),
+    ('longitude_rad', '<f8'),
+    ('latitude_deg', '<f8'),
     ('height_m', '<f8'),
     ('heading_rad', '<f4'),
     ('elevation_rad', '<f4'),
@@ -231,8 +231,8 @@ class Trajectory:
         # Create output structured array
         data = np.empty(n, dtype=TRAJ_DTYPE)
         data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
-        data['LON_WGS84_DEG'] = np.degrees(records['lon_rad'])
-        data['LAT_WGS84_DEG'] = np.degrees(records['lat_rad'])
+        data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])
+        data['LAT_WGS84_DEG'] = np.degrees(records['latitude_rad'])
         data['HEIGHT_WGS84_M'] = records['height_m']
         data['HEADING_DEG'] = np.degrees(records['heading_rad'])
         data['ELEVATION_DEG'] = np.degrees(records['elevation_rad'])
