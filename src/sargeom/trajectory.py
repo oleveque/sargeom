@@ -1,35 +1,209 @@
-from coordinates.cartesian import CartesianECEF, Cartographic
-from scipy.spatial.transform import Rotation, Slerp
-from pathlib import Path
+# https://gereon-t.github.io/trajectopy/Documentation/Trajectory/
 import numpy as np
+from pathlib import Path
+from scipy.spatial.transform import Rotation, Slerp
+from coordinates.cartesian import Cartesian3, CartesianECEF, Cartographic
+
+TRAJ_DTYPE = [
+    ('TIMESTAMP_S', '<f8'),
+    ('LON_WGS84_DEG', '<f8'),
+    ('LAT_WGS84_DEG', '<f8'),
+    ('HEIGHT_WGS84_M', '<f8'),
+    ('HEADING_DEG', '<f8'),
+    ('ELEVATION_DEG', '<f8'),
+    ('BANK_DEG', '<f8'),
+]
+
+PAMELA_TRAJ_DTYPE = [
+    ('longitude_rad', '<f8'),
+    ('latitude_deg', '<f8'),
+    ('height_m', '<f8'),
+    ('heading_rad', '<f4'),
+    ('elevation_rad', '<f4'),
+    ('bank_rad', '<f4'),
+]
+
+PAMELA_POS_DTYPE = [
+    ('timestamp_s', '<f8'),
+    ('latitude_deg', '<f8'),
+    ('longitude_deg', '<f8'),
+    ('height_m', '<f8'),
+    ('velocity_north_m_s', '<f4'),
+    ('velocity_east_m_s', '<f4'),
+    ('velocity_up_m_s', '<f4'),
+    ('bank_deg', '<f4'),
+    ('elevation_deg', '<f4'),
+    ('heading_deg', '<f4'),
+    ('std_latitude_m', '<f4'),
+    ('std_longitude_m', '<f4'),
+    ('std_height_m', '<f4')
+]
 
 class Trajectory:
-    def __init__(self, timestamp, x, y, z, heading_angle=None, elevation_angle=None, bank_angle=None, degrees=True):
-        self.timestamp = timestamp
-        self.positions = CartesianECEF(x, y, z)
-        if heading_angle is None or elevation_angle is None or bank_angle is None:
-            self.orientations = None
+    def __init__(self, timestamps, positions, orientations=None):
+        self._timestamps = np.asarray(timestamps)
+        if isinstance(positions, CartesianECEF):
+            self._positions = positions
+        elif isinstance(positions, Cartographic):
+            self._positions = positions.to_ecef()
         else:
-            self.orientations = Rotation.from_euler(
-                "ZYX",  # Intrinsic rotations
-                [heading_angle, elevation_angle, bank_angle],
-                degrees,
+            raise TypeError("Positions must be of type CartesianECEF or Cartographic.")
+        if orientations is not None:
+            if isinstance(orientations, Rotation):
+                self._orientations = orientations
+            else:
+                raise TypeError("Orientations must be of type scipy.spatial.transform.Rotation.")
+
+    def __len__(self):
+        return len(self._timestamps)
+
+    def __getitem__(self, item):
+        return Trajectory(
+            timestamps=self._timestamps[item],
+            positions=self._positions[item],
+            orientations=self._orientations[item] if self._orientations is not None else None
+        )
+
+    def __repr__(self):
+        return f"Trajectory(timestamps={self._timestamps}, positions={self._positions}, orientations={self._orientations})"
+
+    def sort(self, inplace=True, reverse=False):
+        indices = np.argsort(self._timestamps)
+        if reverse:
+            indices = indices[::-1]
+        if inplace:
+            self._timestamps = self._timestamps[indices]
+            self._positions = self._positions[indices]
+            if self._orientations is not None:
+                self._orientations = self._orientations[indices]
+            return self
+        else:
+            return Trajectory(
+                timestamps=self._timestamps[indices],
+                positions=self._positions[indices],
+                orientations=self._orientations[indices] if self._orientations is not None else None
             )
 
-    @classmethod
-    def from_cartographic(cls, timestamp, latitude, longitude, altitude, heading_angle, elevation_angle, bank_angle, degrees=True):
-        pos = Cartographic(latitude, longitude, altitude, degrees).to_ecef()
-        return cls(timestamp, pos.x, pos.y, pos.z, heading_angle, elevation_angle, bank_angle, degrees)
+    @property
+    def timestamps(self):
+        return self._timestamps
 
-    def interp(self, timestamp):
-        pos = self.positions.interp(self.timestamp, timestamp)
-        if self.orientations is None:
-            return Trajectory(timestamp, pos.x, pos.y, pos.z)
-        else:
-            serl = Slerp(self.timestamp, self.orientations)
-            angles = serl(timestamp).as_euler("ZYX", degrees=True)
-            return Trajectory(timestamp, pos.x, pos.y, pos.z, *angles, degrees=True)
+    @property
+    def positions(self):
+        return self._positions
+
+    @property
+    def velocities(self):
+        if len(self._timestamps) < 2:
+            raise ValueError("Not enough timestamps to compute velocities.")
+        dt = np.diff(self._timestamps)
+        return self.arc_lengths() / dt
+
+    def has_orientation(self):
+        return self._orientations is not None
+
+    @property
+    def orientations(self):
+        if self._orientations is None:
+            raise ValueError("This trajectory does not have orientations.")
+        return self._orientations
+
+    @property
+    def arc_lengths(self):
+        return Cartesian3.distance(self._positions[1:], self._positions[:-1])
+
+    def total_arc_length(self):
+        return np.sum(self.arc_lengths)
+
+    @property
+    def sampling_rate(self):
+        if len(self._timestamps) < 2:
+            raise ValueError("Not enough timestamps to compute sampling rate.")
+        dt = np.diff(self._timestamps)
+        return 1 / np.mean(dt)
+
+    def resample(self, sampling_rate):
+        if not isinstance(sampling_rate, (int, float)):
+            raise TypeError("Sampling rate must be a number.")
+        if sampling_rate <= 0:
+            raise ValueError("Sampling rate must be positive.")
+
+        new_timestamps = np.arange(self._timestamps[0], self._timestamps[-1], 1 / sampling_rate)
+        new_positions = self._positions.interp(self._timestamps, new_timestamps)
         
+        if self._orientations is None:
+            return Trajectory(new_timestamps, new_positions)
+        else:
+            serl = Slerp(self._timestamps, self._orientations)
+            return Trajectory(new_timestamps, new_positions, serl(new_timestamps))
+
+    def interp(self, new_timestamps):
+        if not isinstance(new_timestamps, np.ndarray):
+            new_timestamps = np.asarray(new_timestamps)
+        if len(new_timestamps) == 0:
+            raise ValueError("Timestamps array cannot be empty.")
+        if new_timestamps[0] < self._timestamps[0] or new_timestamps[-1] > self._timestamps[-1]:
+            raise ValueError("New timestamps must be within the range of existing timestamps.")
+
+        new_positions = self.positions.interp(self._timestamps, new_timestamps)
+        if self.orientations is None:
+            return Trajectory(new_timestamps, new_positions)
+        else:
+            serl = Slerp(self._timestamps, self.orientations)
+            return Trajectory(new_timestamps, new_positions, serl(new_timestamps))
+
+    def plot(self, **kwargs):
+        # https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
+        pass
+
+    def from_numpy(self, data):
+        if not isinstance(data, np.ndarray):
+            raise TypeError("Input data must be a numpy array.")
+        if data.dtype != TRAJ_DTYPE:
+            raise ValueError(f"Input data must have dtype {TRAJ_DTYPE}.")
+        
+        timestamps = data['TIMESTAMP_S']
+        positions = Cartographic(
+            latitude=data['LAT_WGS84_DEG'],
+            longitude=data['LON_WGS84_DEG'],
+            height=data['HEIGHT_WGS84_M']
+        ).to_ecef()
+        
+        if 'HEADING_DEG' in data.dtype.names:
+            orientations = Rotation.from_euler(
+                "ZYX",
+                [data['HEADING_DEG'], data['ELEVATION_DEG'], data['BANK_DEG']],
+                degrees=True
+            )
+        else:
+            orientations = None
+        
+        return Trajectory(timestamps, positions, orientations)
+
+    def to_numpy(self):
+        cartographic_positions = self._positions.to_cartographic()
+        if self._orientations is None:
+            return np.array(list(zip(
+                self._timestamps,
+                cartographic_positions.longitude,
+                cartographic_positions.latitude,
+                cartographic_positions.height,
+                np.nan(len(self._timestamps)),  # HEADING_DEG
+                np.nan(len(self._timestamps)),  # ELEVATION_DEG
+                np.nan(len(self._timestamps))   # BANK_DEG
+            )), dtype=TRAJ_DTYPE)
+        else:
+            [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True)
+            return np.array(list(zip(
+                self._timestamps,
+                cartographic_positions.longitude,
+                cartographic_positions.latitude,
+                cartographic_positions.height,
+                heading,
+                elevation,
+                bank
+            )), dtype=TRAJ_DTYPE)
+
     def to_pandas(self):
         try:
             import pandas as pd
@@ -37,64 +211,111 @@ class Trajectory:
             raise ModuleNotFoundError(
                 "Pandas is not installed. Please follow the instructions on https://pandas.pydata.org/pandas-docs/stable/getting_started/install.html"
             )
-        
-        pos = self.positions.to_cartographic()
-        if self.orientations is None:
-            return pd.DataFrame({
-                "TIMESTAMP_S": self.timestamp,
-                "LON_WGS84_DEG": pos.longitude,
-                "LAT_WGS84_DEG": pos.latitude,
-                "HEIGHT_WGS84_M": pos.height
-            })
-        else:
-            angles = self.orientations.as_euler("ZYX", degrees=True)
-            return pd.DataFrame({
-                "TIMESTAMP_S": self.timestamp,
-                "LON_WGS84_DEG": pos.longitude,
-                "LAT_WGS84_DEG": pos.latitude,
-                "HEIGHT_WGS84_M": pos.height,
-                "HEADING_DEG": angles[0],
-                "ELEVATION_DEG": angles[1],
-                "BANK_DEG": angles[2]
-            })
+
+        data = self.to_numpy()
+        return pd.DataFrame(data)
+
+    def read_pivot(self, filename):
+        # TODO: Implement reading from a pivot file
+        raise NotImplementedError("Reading from pivot files is not implemented yet.")
+
+    def read_pamela_pos(self, filename):
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.pos':
+            raise ValueError("File must have a .pos extension.")
+
+        record = np.loadtxt(filename, dtype=PAMELA_POS_DTYPE)
+        n = record.shape[0]
+
+        data = np.empty(n, dtype=TRAJ_DTYPE)
+        data['TIMESTAMP_S'] = record['timestamp_s']
+        data['LON_WGS84_DEG'] = record['longitude_deg']
+        data['LAT_WGS84_DEG'] = record['latitude_deg']
+        data['HEIGHT_WGS84_M'] = record['height_m']
+        data['HEADING_DEG'] = record['heading_deg']
+        data['ELEVATION_DEG'] = record['elevation_deg']
+        data['BANK_DEG'] = record['bank_deg']
+
+        return Trajectory.from_numpy(data)
+
+    def read_pamela_traj(self, filename):
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.traj':
+            raise ValueError("File must have a .traj extension.")
+
+        # Read header (11 doubles, little endian)
+        # Format:
+        #    0: origin longitude (rad)
+        #    1: origin latitude (rad)
+        #    2: origin height (m)
+        #    3: nominal horizontal velocity (m/s)
+        #    4: nominal course (rad)
+        #    5: nominal slope (rad)
+        #    6: nominal leeway (rad) - course minus heading
+        #    7: mean elevation (rad)
+        #    8: mean bank (rad)
+        #    9: std position (m)
+        #   10: std velocity (m/s)
+        header_count = 11
+        header = np.fromfile(filename, dtype='<f8', count=header_count)
+
+        # Check format
+        if header[10] > -0.5:
+            raise ValueError("Old PAMELA file format detected, please check the file format!")
+
+        time_step = header[9]
+        header_size = header_count * 8  # bytes for 11 doubles
+
+        # Read all records in a single operation
+        records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
+        n = records.shape[0]
+
+        # Create output structured array
+        data = np.empty(n, dtype=TRAJ_DTYPE)
+        data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
+        data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])
+        data['LAT_WGS84_DEG'] = np.degrees(records['latitude_rad'])
+        data['HEIGHT_WGS84_M'] = records['height_m']
+        data['HEADING_DEG'] = np.degrees(records['heading_rad'])
+        data['ELEVATION_DEG'] = np.degrees(records['elevation_rad'])
+        data['BANK_DEG'] = np.degrees(records['bank_rad'])
+
+        return Trajectory.from_numpy(data)
+
+    def read_csv(self, filename):
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.traj.csv':
+            raise ValueError("File must have a .traj.csv extension.")
+
+        data = np.genfromtxt(
+            filename,
+            delimiter=';',
+            comments='#',
+            names=None,
+            dtype=TRAJ_DTYPE,
+            encoding='utf8'
+        )
+
+        return Trajectory.from_numpy(data)
 
     def save_csv(self, filename):
         filename = Path(filename)
-
-        pos = self.positions.to_cartographic()
-        if self.orientations is None:
-            np.savetxt(
-                filename.with_suffix(".traj.csv"),
-                [self.timestamp, pos.longitude, pos.latitude, pos.height],
-                fmt=['%.3f', '%.12f', '%.12f', '%.6f'],
-                delimiter=';',
-                newline='\n',
-                comments='',
-                encoding='utf8',
-                header=f"""# {filename.name}
-# Fields descriptions:
-# -------------------
-#    o Time representation
-#        - TIMESTAMP_S [s]: Trajectory timestamp in seconds. May be UTC/GPS Seconds Of Week (SOW) or Time Of Day (TOD) or custom
-#    o Positions as WGS84 Geographic coordinates:
-#        - LON_WGS84_DEG [°]: The longitude coordinate
-#        - LAT_WGS84_DEG [°]: The latitude coordinate
-#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate
-
-TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M"""
-            )
-        else:
-            angles = self.orientations.as_euler("ZYX", degrees=True)
-
-            np.savetxt(
-                filename.with_suffix(".traj.csv"),
-                [self.timestamp, pos.longitude, pos.latitude, pos.height, *angles],
-                fmt=['%.3f', '%.12f', '%.12f', '%.6f', '%.6f', '%.6f', '%.6f'],
-                delimiter=';',
-                newline='\n',
-                comments='',
-                encoding='utf8',
-                header=f"""# {filename.name}
+        data = self.to_numpy()
+        np.savetxt(
+            filename.with_suffix(".traj.csv"),
+            data,
+            fmt=['%.3f', '%.12f', '%.12f', '%.6f', '%.6f', '%.6f', '%.6f'],
+            delimiter=';',
+            newline='\n',
+            comments='',
+            encoding='utf8',
+            header=f"""# {filename.name}
 # Fields descriptions:
 # -------------------
 #    o Time representation
@@ -109,22 +330,19 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M"""
 #        - BANK_DEG [°]: The bank angle in degrees
 
 TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG;BANK_DEG"""
-            )
+        )
+
+    def save_pamela_pos(self, filename):
+        pass
+
+    def save_npy(self, filename):
+        filename = Path(filename)
+        data = self.to_numpy()
+        np.save(filename.with_suffix('.npy'), data)
 
     def save_pivot(self, filename):
-        try:
-            from pivot.darpy import Axis, AxisLabelEnum
-            from pivot.piactor import Actor, ActorTypeEnum
-            from pivot.pivotutil import pivot_version, Metadata, ProtectionTag
-            print("Pivot version:", pivot_version())
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError(
-                "Pivot modules are not installed. Please follow the instructions on http://125.40.2.23:3000/PIVOT/-/packages/pypi/pivot/2.3.0"
-            )
-        
-        filename = Path(filename)
+        # TODO: Implement saving to a pivot file
+        raise NotImplementedError("Saving to pivot files is not implemented yet.")
 
-        # TODO: Implement pivot saving functionality
-        raise NotImplementedError(
-            "Pivot saving is not implemented yet. Please use save_csv instead."
-        )
+    def save_kml(self, filename, **kwargs):
+        pass
