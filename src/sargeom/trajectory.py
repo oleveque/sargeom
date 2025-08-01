@@ -2,7 +2,8 @@
 import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation, Slerp
-from coordinates.cartesian import Cartesian3, CartesianECEF, Cartographic
+from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, Cartographic
+
 
 TRAJ_DTYPE = [
     ('TIMESTAMP_S', '<f8'),
