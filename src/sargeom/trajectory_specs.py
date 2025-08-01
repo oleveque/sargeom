@@ -194,10 +194,10 @@ class Trajectory:
         # TODO: Implement reading from a pivot file
         raise NotImplementedError("Reading from pivot files is not implemented yet.")
 
-    def read_pos_pamela(self, filename):
+    def read_pamela_pos(self, filename):
         pass
 
-    def read_traj_pamela(self, filename):
+    def read_pamela_traj(self, filename):
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
@@ -287,10 +287,10 @@ class Trajectory:
 TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG;BANK_DEG"""
         )
 
-    def save_pos_pamela(self, filename):
+    def save_pamela_pos(self, filename):
         pass
 
-    def save_traj_pamela(self, filename):
+    def save_pamela_traj(self, filename):
         pass
 
     def save_pivot(self, filename):
