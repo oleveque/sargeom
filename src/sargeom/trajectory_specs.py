@@ -198,7 +198,46 @@ class Trajectory:
         pass
 
     def read_traj_pamela(self, filename):
-        pass
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+
+        # Read header (11 doubles, little endian)
+        header_count = 11
+        header = np.fromfile(filename, dtype='<f8', count=header_count)
+
+        # Check format
+        if header[10] > -0.5:
+            raise ValueError("Old PAMELA file format detected, please check the file format!")
+
+        time_step = header[9]
+        header_size = header_count * 8  # bytes for 11 doubles
+
+        # Define dtype for each record
+        record_dtype = np.dtype([
+            ('lon_rad', '<f8'),
+            ('lat_rad', '<f8'),
+            ('height', '<f8'),
+            ('heading_rad', '<f4'),
+            ('elevation_rad', '<f4'),
+            ('bank_rad', '<f4'),
+        ])
+
+        # Read all records in a single operation
+        records = np.fromfile(filename, dtype=record_dtype, offset=header_size)
+        n = records.shape[0]
+
+        # Create output structured array
+        data = np.empty(n, dtype=TRAJ_DTYPE)
+        data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
+        data['LON_WGS84_DEG'] = np.degrees(records['lon_rad'])
+        data['LAT_WGS84_DEG'] = np.degrees(records['lat_rad'])
+        data['HEIGHT_WGS84_M'] = records['height']
+        data['HEADING_DEG'] = np.degrees(records['heading_rad'])
+        data['ELEVATION_DEG'] = np.degrees(records['elevation_rad'])
+        data['BANK_DEG'] = np.degrees(records['bank_rad'])
+
+        return Trajectory.from_numpy(data)
 
     def read_csv(self, filename):
         pass
