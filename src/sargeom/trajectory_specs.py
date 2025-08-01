@@ -23,6 +23,22 @@ PAMELA_TRAJ_DTYPE = [
     ('bank_rad', '<f4'),
 ]
 
+PAMELA_POS_DTYPE = [
+    ('timestamp_s', '<f8'),
+    ('latitude_deg', '<f8'),
+    ('longitude_deg', '<f8'),
+    ('height_m', '<f8'),
+    ('velocity_north_m_s', '<f4'),
+    ('velocity_east_m_s', '<f4'),
+    ('velocity_up_m_s', '<f4'),
+    ('bank_deg', '<f4'),
+    ('elevation_deg', '<f4'),
+    ('heading_deg', '<f4'),
+    ('std_latitude_m', '<f4'),
+    ('std_longitude_m', '<f4'),
+    ('std_height_m', '<f4')
+]
+
 class Trajectory:
     def __init__(self, timestamps, positions, orientations=None):
         self._timestamps = np.asarray(timestamps)
@@ -204,7 +220,25 @@ class Trajectory:
         raise NotImplementedError("Reading from pivot files is not implemented yet.")
 
     def read_pamela_pos(self, filename):
-        pass
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.pos':
+            raise ValueError("File must have a .pos extension.")
+
+        record = np.loadtxt(filename, dtype=PAMELA_POS_DTYPE)
+        n = record.shape[0]
+
+        data = np.empty(n, dtype=TRAJ_DTYPE)
+        data['TIMESTAMP_S'] = record['timestamp_s']
+        data['LON_WGS84_DEG'] = record['longitude_deg']
+        data['LAT_WGS84_DEG'] = record['latitude_deg']
+        data['HEIGHT_WGS84_M'] = record['height_m']
+        data['HEADING_DEG'] = record['heading_deg']
+        data['ELEVATION_DEG'] = record['elevation_deg']
+        data['BANK_DEG'] = record['bank_deg']
+
+        return Trajectory.from_numpy(data)
 
     def read_pamela_traj(self, filename):
         filename = Path(filename)
