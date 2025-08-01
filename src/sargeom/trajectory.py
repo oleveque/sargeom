@@ -334,7 +334,29 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         )
 
     def save_pamela_pos(self, filename):
-        pass
+        filename = Path(filename)
+        
+        data = self.to_numpy()
+        n = data.shape[0]
+
+        pos = np.zeros(n, dtype=PAMELA_POS_DTYPE)
+        pos['timestamp_s'] = data['TIMESTAMP_S']
+        pos['latitude_deg'] = data['LAT_WGS84_DEG']
+        pos['longitude_deg'] = data['LON_WGS84_DEG']
+        pos['height_m'] = data['HEIGHT_WGS84_M']
+        pos['bank_deg'] = data['BANK_DEG']
+        pos['elevation_deg'] = data['ELEVATION_DEG']
+        pos['heading_deg'] = data['HEADING_DEG']
+
+        np.savetxt(
+            filename.with_suffix(".pos"),
+            pos,
+            fmt=['%.3f', '%.10f', '%.10f', '%.5f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f'],
+            delimiter='\t',
+            newline='\n',
+            comments='',
+            encoding='utf8'
+        )
 
     def save_npy(self, filename):
         filename = Path(filename)
