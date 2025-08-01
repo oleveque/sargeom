@@ -335,8 +335,10 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
     def save_pamela_pos(self, filename):
         pass
 
-    def save_pamela_traj(self, filename):
-        pass
+    def save_npy(self, filename):
+        filename = Path(filename)
+        data = self.to_numpy()
+        np.save(filename.with_suffix('.npy'), data)
 
     def save_pivot(self, filename):
         # TODO: Implement saving to a pivot file
