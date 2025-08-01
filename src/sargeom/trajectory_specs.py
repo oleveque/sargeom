@@ -201,6 +201,8 @@ class Trajectory:
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.traj':
+            raise ValueError("File must have a .traj extension.")
 
         # Read header (11 doubles, little endian)
         header_count = 11
@@ -217,7 +219,7 @@ class Trajectory:
         record_dtype = np.dtype([
             ('lon_rad', '<f8'),
             ('lat_rad', '<f8'),
-            ('height', '<f8'),
+            ('height_m', '<f8'),
             ('heading_rad', '<f4'),
             ('elevation_rad', '<f4'),
             ('bank_rad', '<f4'),
@@ -232,7 +234,7 @@ class Trajectory:
         data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
         data['LON_WGS84_DEG'] = np.degrees(records['lon_rad'])
         data['LAT_WGS84_DEG'] = np.degrees(records['lat_rad'])
-        data['HEIGHT_WGS84_M'] = records['height']
+        data['HEIGHT_WGS84_M'] = records['height_m']
         data['HEADING_DEG'] = np.degrees(records['heading_rad'])
         data['ELEVATION_DEG'] = np.degrees(records['elevation_rad'])
         data['BANK_DEG'] = np.degrees(records['bank_rad'])
@@ -240,7 +242,22 @@ class Trajectory:
         return Trajectory.from_numpy(data)
 
     def read_csv(self, filename):
-        pass
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.traj.csv':
+            raise ValueError("File must have a .traj.csv extension.")
+
+        data = np.genfromtxt(
+            filename,
+            delimiter=';',
+            comments='#',
+            names=None,
+            dtype=TRAJ_DTYPE,
+            encoding='utf8'
+        )
+
+        return Trajectory.from_numpy(data)
 
     def save_csv(self, filename):
         filename = Path(filename)
