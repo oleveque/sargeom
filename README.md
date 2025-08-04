@@ -7,7 +7,7 @@ A Python package for Synthetic Aperture Radar (SAR) geometry calculations.
 1. **Pre-requisites**: Make sure you have [Conda](https://docs.anaconda.com/miniconda/) installed on your system. Then, create a new environment and activate it:
 
 ```bash
-conda create -n sargeom-env python=3.12
+conda create -n sargeom-env python=3.13
 conda activate sargeom-env
 ```
 
