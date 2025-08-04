@@ -70,12 +70,20 @@ class Trajectory:
     Create a Trajectory instance using ECEF (Cartesian) coordinates:
 
     >>> timestamps = np.array([0, 1, 2])
-    >>> positions = CartesianECEF(x=[4614831.06382533, 4583825.9258778, 4610933.91105407], y=[312803.18870294, 388064.96749322, 440116.57314554], z=[4377307.25608437, 4403747.15229078, 4370795.76589696])
+    >>> positions = CartesianECEF(
+    ...     x=[4614831.06382533, 4583825.9258778, 4610933.91105407],
+    ...     y=[312803.18870294, 388064.96749322, 440116.57314554],
+    ...     z=[4377307.25608437, 4403747.15229078, 4370795.76589696]
+    ... )
     >>> trajectory = Trajectory(timestamps, positions)
 
     Create a Trajectory instance using geographic (Cartographic) coordinates:
 
-    >>> positions = Cartographic(longitude=[3.8777, 4.8391, 5.4524], latitude=[43.6135, 43.9422, 43.5309], height=[300.0, 400.0, 500.0])
+    >>> positions = Cartographic(
+    ...     longitude=[3.8777, 4.8391, 5.4524],
+    ...     latitude=[43.6135, 43.9422, 43.5309],
+    ...     height=[300.0, 400.0, 500.0]
+    ... )
     >>> trajectory = Trajectory(timestamps, positions)
 
     Create a Trajectory instance with orientations:
