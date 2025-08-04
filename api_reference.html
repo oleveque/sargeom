@@ -3,37 +3,37 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="negativePiToPi" href="api/sargeom.coordinates.negativePiToPi.html" /><link rel="prev" title="Installation Guide" href="installation_guide.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Trajectory" href="api/sargeom.Trajectory.html" /><link rel="prev" title="Installation Guide" href="installation_guide.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>sargeom.coordinates Package - sargeom</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.07.19 -->
+        <title>API Reference - sargeom</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   
       }
     }
@@ -193,7 +193,6 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
-  
   <span class="sidebar-brand-text">sargeom</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
@@ -205,6 +204,8 @@
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation_guide.html">Installation Guide</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.Trajectory.html">Trajectory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
@@ -258,12 +259,48 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="module-sargeom.coordinates">
-<span id="sargeom-coordinates-package"></span><h1>sargeom.coordinates Package<a class="headerlink" href="#module-sargeom.coordinates" title="Link to this heading">¶</a></h1>
+          <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
+<p>This section provides a detailed reference for the <cite>sargeom</cite> package, including its modules, classes, and functions.</p>
+<section id="module-sargeom">
+<span id="sargeom"></span><h2>sargeom<a class="headerlink" href="#module-sargeom" title="Link to this heading">¶</a></h2>
+<section id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.Trajectory.html#sargeom.Trajectory" title="sargeom.Trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trajectory</span></code></a>(timestamps, positions[, orientations])</p></td>
+<td><p>A Trajectory object represents a sequence of positions and orientations over time.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.TRAJ_DTYPE.html#sargeom.TRAJ_DTYPE" title="sargeom.TRAJ_DTYPE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TRAJ_DTYPE</span></code></a></p></td>
+<td><p>Built-in mutable sequence.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Link to this heading">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-6e73e35e4002cae3e93a9bf09bc92021ef819065.png" alt="Inheritance diagram of sargeom.trajectory.Trajectory" usemap="#inheritance32a6b88990" class="inheritance graphviz" /></div>
+<map id="inheritance32a6b88990" name="inheritance32a6b88990">
+<area shape="rect" id="node1" href="api/sargeom.Trajectory.html#sargeom.Trajectory" target="_top" title="A Trajectory object represents a sequence of positions and orientations over time." alt="" coords="5,5,92,31"/>
+</map></section>
+</section>
+<section id="module-sargeom.coordinates">
+<span id="sargeom-coordinates"></span><h2>sargeom.coordinates<a class="headerlink" href="#module-sargeom.coordinates" title="Link to this heading">¶</a></h2>
 <p>This module allows you to manipulate and transform terrestrial coordinates in the WGS84 geodetic system.
 By default, distances are expressed in meters and angles in degrees.</p>
 <section id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h2>
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
@@ -274,8 +311,8 @@ By default, distances are expressed in meters and angles in degrees.</p>
 </table>
 </div>
 </section>
-<section id="classes">
-<h2>Classes<a class="headerlink" href="#classes" title="Link to this heading">¶</a></h2>
+<section id="id1">
+<h3>Classes<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
@@ -298,8 +335,8 @@ By default, distances are expressed in meters and angles in degrees.</p>
 </table>
 </div>
 </section>
-<section id="class-inheritance-diagram">
-<h2>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Link to this heading">¶</a></h2>
+<section id="id2">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-5b05f3436ccbd073cfc9f2a1feff532c628328b9.png" alt="Inheritance diagram of sargeom.coordinates.cartesian.Cartesian3, sargeom.coordinates.cartesian.CartesianECEF, sargeom.coordinates.cartesian.CartesianLocalENU, sargeom.coordinates.cartesian.CartesianLocalNED, sargeom.coordinates.cartographic.Cartographic" usemap="#inheritancee210123d5c" class="inheritance graphviz" /></div>
 <map id="inheritancee210123d5c" name="inheritancee210123d5c">
 <area shape="rect" id="node1" href="api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" target="_top" title="A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system." alt="" coords="132,55,224,80"/>
@@ -310,18 +347,19 @@ By default, distances are expressed in meters and angles in degrees.</p>
 <area shape="rect" id="node6" href="api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic" target="_top" title="A Cartographic object represents the position of a point in a geodetic coordinate system." alt="" coords="125,104,231,129"/>
 </map></section>
 </section>
+</section>
 
         </article>
       </div>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api/sargeom.coordinates.negativePiToPi.html">
+          <a class="next-page" href="api/sargeom.Trajectory.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">negativePiToPi</div>
+                <div class="title">Trajectory</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -366,10 +404,19 @@ By default, distances are expressed in meters and angles in degrees.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">sargeom.coordinates Package</a><ul>
-<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#">API Reference</a><ul>
+<li><a class="reference internal" href="#module-sargeom">sargeom</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#variables">Variables</a></li>
 <li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-sargeom.coordinates">sargeom.coordinates</a><ul>
+<li><a class="reference internal" href="#functions">Functions</a></li>
+<li><a class="reference internal" href="#id1">Classes</a></li>
+<li><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -384,7 +431,7 @@ By default, distances are expressed in meters and angles in degrees.</p>
 </div><script src="_static/documentation_options.js?v=d45e8c67"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="_static/tabs.js?v=3ee01567"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>

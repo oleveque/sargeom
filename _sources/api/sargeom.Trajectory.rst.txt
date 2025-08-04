@@ -1,0 +1,71 @@
+Trajectory
+==========
+
+.. currentmodule:: sargeom
+
+.. autoclass:: Trajectory
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~Trajectory.arc_lengths
+      ~Trajectory.orientations
+      ~Trajectory.positions
+      ~Trajectory.sampling_rate
+      ~Trajectory.timestamps
+      ~Trajectory.velocities
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Trajectory.from_numpy
+      ~Trajectory.has_orientation
+      ~Trajectory.interp
+      ~Trajectory.plot
+      ~Trajectory.read_csv
+      ~Trajectory.read_pamela_pos
+      ~Trajectory.read_pamela_traj
+      ~Trajectory.read_pivot
+      ~Trajectory.resample
+      ~Trajectory.save_csv
+      ~Trajectory.save_kml
+      ~Trajectory.save_npy
+      ~Trajectory.save_pamela_pos
+      ~Trajectory.save_pivot
+      ~Trajectory.sort
+      ~Trajectory.to_numpy
+      ~Trajectory.to_pandas
+      ~Trajectory.total_arc_length
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: arc_lengths
+   .. autoattribute:: orientations
+   .. autoattribute:: positions
+   .. autoattribute:: sampling_rate
+   .. autoattribute:: timestamps
+   .. autoattribute:: velocities
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: from_numpy
+   .. automethod:: has_orientation
+   .. automethod:: interp
+   .. automethod:: plot
+   .. automethod:: read_csv
+   .. automethod:: read_pamela_pos
+   .. automethod:: read_pamela_traj
+   .. automethod:: read_pivot
+   .. automethod:: resample
+   .. automethod:: save_csv
+   .. automethod:: save_kml
+   .. automethod:: save_npy
+   .. automethod:: save_pamela_pos
+   .. automethod:: save_pivot
+   .. automethod:: sort
+   .. automethod:: to_numpy
+   .. automethod:: to_pandas
+   .. automethod:: total_arc_length

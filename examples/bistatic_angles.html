@@ -5,36 +5,36 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Generating a Nominal Trajectory" href="nominal_trajectory.html" /><link rel="prev" title="Examples" href="../examples.html" />
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.07.19 -->
         <title>Analyzing Trajectory Data and Bistatic Angles - sargeom</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=354aac6f" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=25af2a20" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
-    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
     
     
 
 
 <style>
   body {
-    --color-code-background: #f8f8f8;
-  --color-code-foreground: black;
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+      --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #202020;
-  --color-code-foreground: #d0d0d0;
+        --color-code-background: #2b2b2b;
+  --color-code-foreground: #f8f8f2;
   
       }
     }
@@ -194,7 +194,6 @@
       
       <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
   
-  
   <span class="sidebar-brand-text">sargeom</span>
   
 </a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
@@ -206,6 +205,8 @@
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../installation_guide.html">Installation Guide</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../api_reference.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.Trajectory.html">Trajectory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../api/sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
@@ -262,7 +263,7 @@
           <section id="Analyzing-Trajectory-Data-and-Bistatic-Angles">
 <h1>Analyzing Trajectory Data and Bistatic Angles<a class="headerlink" href="#Analyzing-Trajectory-Data-and-Bistatic-Angles" title="Link to this heading">¶</a></h1>
 <p>In this notebook, we will analyze the trajectory data of two carriers, SETHI and BUSARD, and compute several key parameters, including the distance to a target, bistatic angles (both ‘ground’ and ‘radar’), and azimuths of observation of the target. We will also visualize these parameters over time. The dataset we use is in CSV format and contains positional information of the two carriers.</p>
-<p><img alt="8a8ed11fc20541efa454c2a8059f653a" class="no-scaled-link" src="../_images/bistatic_angles.png" style="width: 800px;" /></p>
+<p><img alt="aaecd968542346e0b7520eef416fec62" class="no-scaled-link" src="../_images/bistatic_angles.png" style="width: 800px;" /></p>
 <section id="1.-Importing-Required-Libraries">
 <h2>1. Importing Required Libraries<a class="headerlink" href="#1.-Importing-Required-Libraries" title="Link to this heading">¶</a></h2>
 <p>Before we begin analyzing the data, we first need to import the necessary libraries.</p>
@@ -560,7 +561,7 @@
 </div><script src="../_static/documentation_options.js?v=d45e8c67"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../_static/tabs.js?v=3ee01567"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>

@@ -1,0 +1,6 @@
+TRAJ_DTYPE
+==========
+
+.. currentmodule:: sargeom
+
+.. autodata:: TRAJ_DTYPE
