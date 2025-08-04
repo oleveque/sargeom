@@ -42,6 +42,10 @@ graph TD
     Cartesian3 --> CartesianECEF
     Cartesian3 --> CartesianLocalENU
     Cartesian3 --> CartesianLocalNED
+    ndarray --> Trajectory
+    Cartographic --> Trajectory
+    CartesianECEF --> Trajectory
+    Rotation --> Trajectory
 ```
 
 ## Issues
