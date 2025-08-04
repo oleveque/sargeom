@@ -156,9 +156,6 @@ class Trajectory:
         ...         height=[300.0, 400.0, 500.0]
         ...     )
         ... )
-        >>> traj[0]
-        Trajectory samples (t, x, y, z, h, e, b)
-        [(0., 3.8777, 43.6135, 300., 0., 0., 0.)]
         >>> traj[:2]
         Trajectory samples (t, x, y, z, h, e, b)
         [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
@@ -190,10 +187,10 @@ class Trajectory:
         ...     )
         ... )
         >>> traj
-        'Trajectory samples (t, x, y, z, h, e, b)
-         [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
-          (1., 4.8391, 43.9422, 400., 0., 0., 0.)
-          (2., 5.4524, 43.5309, 500., 0., 0., 0.)]'
+        Trajectory samples (t, x, y, z, h, e, b)
+        [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
+         (1., 4.8391, 43.9422, 400., 0., 0., 0.)
+         (2., 5.4524, 43.5309, 500., 0., 0., 0.)]
         """
         return f"Trajectory samples (t, x, y, z, h, e, b)\n{self.to_numpy()}"
 
@@ -342,7 +339,7 @@ class Trajectory:
         Notes
         -----
         The orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
-        The orientations can be converted to quaternions, Euler angles, or other representations using the methods provided by the :class:`scipy.spatial.transform.Rotation` class.
+        The orientations can be converted to quaternions, Euler angles, or other representations using the methods provided by the `Rotation` class.
 
         Examples
         --------
