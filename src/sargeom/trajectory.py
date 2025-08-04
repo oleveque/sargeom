@@ -160,43 +160,186 @@ class Trajectory:
 
     @property
     def timestamps(self):
+        """
+        Timestamps of the trajectory samples, in seconds.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            1D array of timestamps (e.g., UTC, GPS SOW, TOD).
+
+        Examples
+        --------
+        >>> trajectory.timestamps
+        array([0, 1, 2])
+        """
         return self._timestamps
 
     @property
     def positions(self):
+        """
+        Positions of the trajectory samples, in ECEF coordinates.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.CartesianECEF`
+            3D positions expressed in the WGS84 geocentric frame (EPSG:4978).
+
+        Examples
+        --------
+        >>> trajectory.positions
+        CartesianECEF([[0, 0, 0], [1, 1, 1], [2, 2, 2]])
+        """
         return self._positions
 
     @property
     def velocities(self):
+        """
+        Velocities between consecutive trajectory samples.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            1D array of velocity magnitudes, in meters per second.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If there are fewer than two timestamps.
+
+        Examples
+        --------
+        >>> trajectory.velocities
+        array([1.41421356, 1.41421356])
+        """
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute velocities.")
         dt = np.diff(self._timestamps)
         return self.arc_lengths() / dt
 
     def has_orientation(self):
+        """
+        Whether the trajectory has orientation data.
+
+        Returns
+        -------
+        :class:`bool`
+            True if orientations are defined, False otherwise.
+
+        Examples
+        --------
+        >>> trajectory.has_orientation()
+        True
+        """
         return self._orientations is not None
 
     @property
     def orientations(self):
+        """
+        Orientations of the trajectory samples, in the NED frame.
+
+        Returns
+        -------
+        :class:`scipy.spatial.transform.Rotation`
+            Sequence of orientations as a `Rotation` object.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If the trajectory has no orientations.
+
+        Examples
+        --------
+        >>> trajectory.orientations
+        <scipy.spatial.transform._rotation.Rotation object at 0x...>
+        """
         if self._orientations is None:
             raise ValueError("This trajectory does not have orientations.")
         return self._orientations
 
     @property
     def arc_lengths(self):
+        """
+        Arc lengths between consecutive trajectory positions.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            1D array of distances in meters.
+
+        Examples
+        --------
+        >>> trajectory.arc_lengths
+        array([1.73205081, 1.73205081])
+        """
         return Cartesian3.distance(self._positions[1:], self._positions[:-1])
 
     def total_arc_length(self):
+        """
+        Compute the total arc length of the trajectory.
+
+        Returns
+        -------
+        :class:`float`
+            Sum of distances between consecutive positions, in meters.
+
+        Examples
+        --------
+        >>> trajectory.total_arc_length()
+        3.46410162
+        """
         return np.sum(self.arc_lengths)
 
     @property
     def sampling_rate(self):
+        """
+        Compute the sampling rate of the trajectory.
+
+        Returns
+        -------
+        :class:`float`
+            Sampling frequency in Hz.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If there are fewer than two timestamps.
+
+        Examples
+        --------
+        >>> trajectory.sampling_rate
+        1.0
+        """
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute sampling rate.")
         dt = np.diff(self._timestamps)
         return 1 / np.mean(dt)
 
     def resample(self, sampling_rate):
+        """
+        Resample the trajectory at a specified sampling rate.
+
+        Parameters
+        ----------
+        sampling_rate : :class:`float`
+            The desired sampling rate in Hz.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance with resampled data.
+
+        Raises
+        ------
+        :class:`TypeError`
+            If the sampling rate is not a number.
+        :class:`ValueError`
+            If the sampling rate is not positive.
+
+        Examples
+        --------
+        >>> resampled_trajectory = trajectory.resample(2.0)
+        """
         if not isinstance(sampling_rate, (int, float)):
             raise TypeError("Sampling rate must be a number.")
         if sampling_rate <= 0:
