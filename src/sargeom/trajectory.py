@@ -70,7 +70,7 @@ class Trajectory:
     Create a Trajectory instance using ECEF (Cartesian) coordinates:
 
     >>> timestamps = np.array([0, 1, 2])
-    >>> positions = CartesianECEF(np.array([[0, 0, 0], [1, 1, 1], [2, 2, 2]]))
+    >>> positions = CartesianECEF(x=[0, 0, 0], y=[1, 1, 1], z=[2, 2, 2])
     >>> trajectory = Trajectory(timestamps, positions)
 
     Create a Trajectory instance using geographic (Cartographic) coordinates:
@@ -91,6 +91,8 @@ class Trajectory:
                 self._orientations = orientations
             else:
                 raise TypeError("Orientations must be of type scipy.spatial.transform.Rotation.")
+        else:
+            self._orientations = None
 
     def __len__(self):
         """
