@@ -20,7 +20,7 @@ pip install git+https://github.com/oleveque/sargeom.git@latest
 If you want to add the package to your dependencies file, you can add the following line to your `requirements.txt` file:
 
 ```bash
-sargeom @ git+https://github.com/oleveque/sargeom@v0.1.0
+sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
 ```
 
 For more information on the latest updates, check the [CHANGELOG](CHANGELOG.md).
