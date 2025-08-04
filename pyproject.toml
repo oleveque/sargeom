@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sargeom"
-version = "0.0.1"
+version = "0.2.0"
 authors = [
   { name="Olivier LEVEQUE", email="olivier.leveque@onera.fr" },
 ]
@@ -12,4 +12,4 @@ description = "A Python package for Synthetic Aperture Radar (SAR) geometry calc
 readme = "README.md"
 
 [project.urls]
-homepage = "https://github.com/oleveque/sar-geometry.git"
+homepage = "https://github.com/oleveque/sargeom.git"
