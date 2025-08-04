@@ -195,6 +195,43 @@ class Trajectory:
         return f"Trajectory samples (t, x, y, z, h, e, b)\n{self.to_numpy()}"
 
     def sort(self, inplace=True, reverse=False):
+        """
+        Sort the trajectory by timestamps.
+
+        Parameters
+        ----------
+        inplace : :class:`bool`, optional
+            If True, sort the trajectory in place. Default is True.
+        reverse : :class:`bool`, optional
+            If True, sort in descending order. Default is False.
+
+        Returns
+        -------
+        :class:`Trajectory` or None
+            The sorted Trajectory instance if inplace is False, otherwise None.
+
+        Examples
+        --------
+        Sort the trajectory in place:
+
+        >>> traj = Trajectory(
+        ...     timestamps=[2, 0, 1],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.sort()
+        Trajectory samples (t, x, y, z, h, e, b)
+        [(0., 4.8391, 43.9422, 400., 0., 0., 0.)
+         (1., 5.4524, 43.5309, 500., 0., 0., 0.)
+         (2., 3.8777, 43.6135, 300., 0., 0., 0.)]
+
+        Sort the trajectory and return a new instance:
+
+        >>> sorted_traj = traj.sort(inplace=False)
+        """
         indices = np.argsort(self._timestamps)
         if reverse:
             indices = indices[::-1]
@@ -493,6 +530,36 @@ class Trajectory:
             return Trajectory(new_timestamps, new_positions)
 
     def interp(self, new_timestamps):
+        """
+        Interpolate the trajectory to new timestamps.
+
+        Parameters
+        ----------
+        new_timestamps : array_like
+            Array of new timestamps to interpolate the trajectory to.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance with interpolated data.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If the new timestamps are not within the range of existing timestamps.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> interp_traj = traj.interp([0.5, 1.5])
+        """
         if not isinstance(new_timestamps, np.ndarray):
             new_timestamps = np.asarray(new_timestamps)
         if len(new_timestamps) == 0:
@@ -513,6 +580,36 @@ class Trajectory:
         raise NotImplementedError("Plotting functionality is not implemented yet.")
 
     @staticmethod
+    def from_numpy(data):
+        """
+        Create a Trajectory instance from a numpy structured array.
+
+        Parameters
+        ----------
+        data : :class:`numpy.ndarray`
+            Input data as a numpy structured array using the :data:`TRAJ_DTYPE` type.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance.
+
+        Raises
+        ------
+        :class:`TypeError`
+            If the input data is not a numpy array.
+        :class:`ValueError`
+            If the input data does not have the correct dtype.
+
+        Examples
+        --------
+        >>> data = np.array([
+        ...     (0., 3.8777, 43.6135, 300., 0., 0., 0.),
+        ...     (1., 4.8391, 43.9422, 400., 0., 0., 0.),
+        ...     (2., 5.4524, 43.5309, 500., 0., 0., 0.)
+        ... ], dtype=TRAJ_DTYPE)
+        >>> traj = Trajectory.from_numpy(data)
+        """
         if not isinstance(data, np.ndarray):
             raise TypeError("Input data must be a numpy array.")
         if data.dtype != TRAJ_DTYPE:
@@ -537,6 +634,26 @@ class Trajectory:
         return Trajectory(timestamps, positions, orientations)
 
     def to_numpy(self):
+        """
+        Convert the Trajectory instance to a numpy structured array.
+
+        Returns
+        -------
+        :class:`numpy.ndarray`
+            The trajectory data as a numpy structured array using the :data:`TRAJ_DTYPE` type.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> data = traj.to_numpy()
+        """
         cartographic_positions = self._positions.to_cartographic()
         [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True) if self.has_orientation() else np.zeros((3, self.__len__()))
         return np.array(list(zip(
@@ -550,6 +667,31 @@ class Trajectory:
         )), dtype=TRAJ_DTYPE)
 
     def to_pandas(self):
+        """
+        Convert the Trajectory instance to a pandas DataFrame.
+
+        Returns
+        -------
+        :class:`pandas.DataFrame`
+            The trajectory data as a pandas DataFrame.
+
+        Raises
+        ------
+        :class:`ModuleNotFoundError`
+            If pandas is not installed.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> df = traj.to_pandas()
+        """
         try:
             import pandas as pd
         except ModuleNotFoundError:
@@ -565,6 +707,26 @@ class Trajectory:
         raise NotImplementedError("Reading from pivot files is not implemented yet.")
 
     def read_pamela_pos(self, filename):
+        """
+        Read a PAMELA .pos file and create a Trajectory instance.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to the .pos file.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance.
+
+        Raises
+        ------
+        :class:`FileNotFoundError`
+            If the file does not exist.
+        :class:`ValueError`
+            If the file does not have a .pos extension.
+        """
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
@@ -586,6 +748,28 @@ class Trajectory:
         return Trajectory.from_numpy(data)
 
     def read_pamela_traj(self, filename):
+        """
+        Read a PAMELA .traj file and create a Trajectory instance.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to the .traj file.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance.
+
+        Raises
+        ------
+        :class:`FileNotFoundError`
+            If the file does not exist.
+        :class:`ValueError`
+            If the file does not have a .traj extension.
+        :class:`ValueError`
+            If the old PAMELA file format is detected.
+        """
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
@@ -632,6 +816,26 @@ class Trajectory:
         return Trajectory.from_numpy(data)
 
     def read_csv(self, filename):
+        """
+        Read a TRAJ CSV file and create a Trajectory instance.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to the .traj.csv file.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance.
+
+        Raises
+        ------
+        :class:`FileNotFoundError`
+            If the file does not exist.
+        :class:`ValueError`
+            If the file does not have a .traj.csv extension.
+        """
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
@@ -650,6 +854,26 @@ class Trajectory:
         return Trajectory.from_numpy(data)
 
     def save_csv(self, filename):
+        """
+        Save the Trajectory instance to a TRAJ CSV file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .traj.csv file.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.save_csv("output.traj.csv")
+        """
         filename = Path(filename)
         np.savetxt(
             filename.with_suffix(".traj.csv"),
@@ -677,6 +901,26 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         )
 
     def save_pamela_pos(self, filename):
+        """
+        Save the Trajectory instance to a PAMELA .pos file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .pos file.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.save_pamela_pos("output.pos")
+        """
         filename = Path(filename)
         
         data = self.to_numpy()
@@ -702,6 +946,26 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         )
 
     def save_npy(self, filename):
+        """
+        Save the Trajectory instance to a numpy .npy file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .npy file.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.save_npy("output.npy")
+        """
         filename = Path(filename)
         np.save(filename.with_suffix('.npy'), self.to_numpy())
 
