@@ -75,7 +75,7 @@ class Trajectory:
     ...     y=[312803.18870294, 388064.96749322, 440116.57314554],
     ...     z=[4377307.25608437, 4403747.15229078, 4370795.76589696]
     ... )
-    >>> trajectory = Trajectory(timestamps, positions)
+    >>> traj = Trajectory(timestamps, positions)
 
     Create a Trajectory instance using geographic (Cartographic) coordinates:
 
@@ -84,13 +84,13 @@ class Trajectory:
     ...     latitude=[43.6135, 43.9422, 43.5309],
     ...     height=[300.0, 400.0, 500.0]
     ... )
-    >>> trajectory = Trajectory(timestamps, positions)
+    >>> traj = Trajectory(timestamps, positions)
 
     Create a Trajectory instance with orientations:
 
     >>> from scipy.spatial.transform import Rotation
     >>> orientations = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)
-    >>> trajectory = Trajectory(timestamps, positions, orientations)
+    >>> traj = Trajectory(timestamps, positions, orientations)
     """
     def __init__(self, timestamps, positions, orientations=None):
         self._timestamps = np.asarray(timestamps)
@@ -148,20 +148,54 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory[0]
-        Trajectory(timestamps=[0], positions=[[0, 0, 0]])
-
-        >>> trajectory[:2]
-        Trajectory(timestamps=[0, 1], positions=[[0, 0, 0], [1, 1, 1]])
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj[0]
+        Trajectory samples (t, x, y, z, h, e, b)
+        [(0., 3.8777, 43.6135, 300., 0., 0., 0.)]
+        >>> traj[:2]
+        Trajectory samples (t, x, y, z, h, e, b)
+        [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
+         (1., 4.8391, 43.9422, 400., 0., 0., 0.)]
         """
         return Trajectory(
-            timestamps=self._timestamps[item],
-            positions=self._positions[item],
-            orientations=self._orientations[item] if self._orientations is not None else None
+            timestamps=self.timestamps[item],
+            positions=self.positions[item],
+            orientations=self.orientations[item] if self.has_orientation() else None
         )
 
     def __repr__(self):
-        return f"Trajectory(timestamps={self._timestamps}, positions={self._positions}, orientations={self._orientations})"
+        """
+        Returns a string representation of the Trajectory instance.
+
+        Returns
+        -------
+        :class:`str`
+            A string representation of the Trajectory instance.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj
+        'Trajectory samples (t, x, y, z, h, e, b)
+         [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
+          (1., 4.8391, 43.9422, 400., 0., 0., 0.)
+          (2., 5.4524, 43.5309, 500., 0., 0., 0.)]'
+        """
+        return f"Trajectory samples (t, x, y, z, h, e, b)\n{self.to_numpy()}"
 
     def sort(self, inplace=True, reverse=False):
         indices = np.argsort(self._timestamps)
@@ -170,14 +204,14 @@ class Trajectory:
         if inplace:
             self._timestamps = self._timestamps[indices]
             self._positions = self._positions[indices]
-            if self._orientations is not None:
+            if self.has_orientation():
                 self._orientations = self._orientations[indices]
             return self
         else:
             return Trajectory(
                 timestamps=self._timestamps[indices],
                 positions=self._positions[indices],
-                orientations=self._orientations[indices] if self._orientations is not None else None
+                orientations=self._orientations[indices] if self.has_orientation() else None
             )
 
     @property
@@ -328,7 +362,7 @@ class Trajectory:
                [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, 7.07106781e-01],
                [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17]])
         """
-        if self._orientations is None:
+        if not self.has_orientation():
             raise ValueError("This trajectory does not have orientations.")
         return self._orientations
 
@@ -407,7 +441,7 @@ class Trajectory:
         ...     )
         ... )
         >>> traj.sampling_rate
-        1.0
+        np.float64(1.0)
         """
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute sampling rate.")
@@ -455,11 +489,11 @@ class Trajectory:
         new_timestamps = np.arange(self._timestamps[0], self._timestamps[-1], 1 / sampling_rate)
         new_positions = self._positions.interp(self._timestamps, new_timestamps)
         
-        if self._orientations is None:
-            return Trajectory(new_timestamps, new_positions)
-        else:
+        if self.has_orientation():
             serl = Slerp(self._timestamps, self._orientations)
             return Trajectory(new_timestamps, new_positions, serl(new_timestamps))
+        else:
+            return Trajectory(new_timestamps, new_positions)
 
     def interp(self, new_timestamps):
         if not isinstance(new_timestamps, np.ndarray):
@@ -470,11 +504,11 @@ class Trajectory:
             raise ValueError("New timestamps must be within the range of existing timestamps.")
 
         new_positions = self.positions.interp(self._timestamps, new_timestamps)
-        if self.orientations is None:
-            return Trajectory(new_timestamps, new_positions)
-        else:
+        if self.has_orientation():
             serl = Slerp(self._timestamps, self.orientations)
             return Trajectory(new_timestamps, new_positions, serl(new_timestamps))
+        else:
+            return Trajectory(new_timestamps, new_positions)
 
     def plot(self, **kwargs):
         # TODO: Implement plotting functionality
@@ -507,7 +541,7 @@ class Trajectory:
 
     def to_numpy(self):
         cartographic_positions = self._positions.to_cartographic()
-        [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True) if self._orientations is None else np.zeros((3, self.__len__()))
+        [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True) if self.has_orientation() else np.zeros((3, self.__len__()))
         return np.array(list(zip(
             self._timestamps,
             cartographic_positions.longitude,
@@ -620,10 +654,9 @@ class Trajectory:
 
     def save_csv(self, filename):
         filename = Path(filename)
-        data = self.to_numpy()
         np.savetxt(
             filename.with_suffix(".traj.csv"),
-            data,
+            self.to_numpy(),
             fmt=['%.3f', '%.12f', '%.12f', '%.6f', '%.6f', '%.6f', '%.6f'],
             delimiter=';',
             newline='\n',
@@ -673,8 +706,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
     def save_npy(self, filename):
         filename = Path(filename)
-        data = self.to_numpy()
-        np.save(filename.with_suffix('.npy'), data)
+        np.save(filename.with_suffix('.npy'), self.to_numpy())
 
     def save_pivot(self, filename):
         # TODO: Implement saving to a pivot file
