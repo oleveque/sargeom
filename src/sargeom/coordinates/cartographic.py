@@ -162,7 +162,7 @@ class Cartographic(np.ndarray):
             The cartographic position describing the location of the local origin of the coordinate system.
             If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
             If not specified, the default local origin of the instance will be used.
-        degrees : bool, optional
+        degrees : :class:`bool`, optional
             If True (default), takes input angles in degrees. If False, takes input angles in radians.
 
         Raises
