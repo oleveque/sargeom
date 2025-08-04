@@ -41,6 +41,43 @@ PAMELA_POS_DTYPE = [
 ]
 
 class Trajectory:
+    """
+    A Trajectory object represents a sequence of positions and orientations over time.
+
+    It is defined by the following characteristics:
+
+    - Timestamps are expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.
+    - Positions are provided in either the WGS84 geographic coordinate system (EPSG:4979) or the WGS84 geocentric coordinate system (EPSG:4978).
+    - Orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
+
+    Parameters
+    ----------
+    timestamps : :class:`numpy.ndarray`
+        1D array of timestamps corresponding to each trajectory sample.
+    positions : :class:`sargeom.coordinates.CartesianECEF` or :class:`sargeom.coordinates.Cartographic`
+        Array of positions in either ECEF (x, y, z) or geographic (latitude, longitude, altitude) format.
+    orientations : :class:`scipy.spatial.transform.Rotation`, optional
+        Sequence of orientations as `Rotation objects`. Defined in the NED frame. Default is `None`.
+
+    Raises
+    ------
+    :class:`TypeError`
+        - If positions are not of type CartesianECEF or Cartographic.
+        - If orientations are provided but not of type scipy.spatial.transform.Rotation.
+
+    Examples
+    --------
+    Create a Trajectory instance using ECEF (Cartesian) coordinates:
+
+    >>> timestamps = np.array([0, 1, 2])
+    >>> positions = CartesianECEF(np.array([[0, 0, 0], [1, 1, 1], [2, 2, 2]]))
+    >>> trajectory = Trajectory(timestamps, positions)
+
+    Create a Trajectory instance using geographic (Cartographic) coordinates:
+
+    >>> positions = Cartographic(longitude=[10, 20, 30], latitude=[40, 50, 60], height=[70, 80, 90])
+    >>> trajectory = Trajectory(timestamps, positions)
+    """
     def __init__(self, timestamps, positions, orientations=None):
         self._timestamps = np.asarray(timestamps)
         if isinstance(positions, CartesianECEF):
@@ -56,9 +93,43 @@ class Trajectory:
                 raise TypeError("Orientations must be of type scipy.spatial.transform.Rotation.")
 
     def __len__(self):
+        """
+        Return the number of samples in the trajectory.
+
+        Returns
+        -------
+        :class:`int`
+            Number of trajectory samples.
+
+        Examples
+        --------
+        >>> len(trajectory)
+        3
+        """
         return len(self._timestamps)
 
     def __getitem__(self, item):
+        """
+        Return a subset of the trajectory.
+
+        Parameters
+        ----------
+        item : :class:`int` or :class:`slice`
+            Index or slice to extract a subset of the trajectory.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance containing the subset.
+
+        Examples
+        --------
+        >>> trajectory[0]
+        Trajectory(timestamps=[0], positions=[[0, 0, 0]])
+
+        >>> trajectory[:2]
+        Trajectory(timestamps=[0, 1], positions=[[0, 0, 0], [1, 1, 1]])
+        """
         return Trajectory(
             timestamps=self._timestamps[item],
             positions=self._positions[item],
