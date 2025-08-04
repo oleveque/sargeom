@@ -47,12 +47,12 @@ class Trajectory:
     It is defined by the following characteristics:
 
     - Timestamps are expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.
-    - Positions are provided in either the WGS84 geographic coordinate system (EPSG:4979) or the WGS84 geocentric coordinate system (EPSG:4978).
+    - Positions are provided in either the WGS84 geographic coordinate system (`EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_) or the WGS84 geocentric coordinate system (`EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_).
     - Orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
 
     Parameters
     ----------
-    timestamps : :class:`numpy.ndarray`
+    timestamps : array_like
         1D array of timestamps corresponding to each trajectory sample.
     positions : :class:`sargeom.coordinates.CartesianECEF` or :class:`sargeom.coordinates.Cartographic`
         Array of positions in either ECEF (x, y, z) or geographic (latitude, longitude, altitude) format.
@@ -70,13 +70,19 @@ class Trajectory:
     Create a Trajectory instance using ECEF (Cartesian) coordinates:
 
     >>> timestamps = np.array([0, 1, 2])
-    >>> positions = CartesianECEF(x=[0, 0, 0], y=[1, 1, 1], z=[2, 2, 2])
+    >>> positions = CartesianECEF(x=[4614831.06382533, 4583825.9258778, 4610933.91105407], y=[312803.18870294, 388064.96749322, 440116.57314554], z=[4377307.25608437, 4403747.15229078, 4370795.76589696])
     >>> trajectory = Trajectory(timestamps, positions)
 
     Create a Trajectory instance using geographic (Cartographic) coordinates:
 
-    >>> positions = Cartographic(longitude=[10, 20, 30], latitude=[40, 50, 60], height=[70, 80, 90])
+    >>> positions = Cartographic(longitude=[3.8777, 4.8391, 5.4524], latitude=[43.6135, 43.9422, 43.5309], height=[300.0, 400.0, 500.0])
     >>> trajectory = Trajectory(timestamps, positions)
+
+    Create a Trajectory instance with orientations:
+
+    >>> from scipy.spatial.transform import Rotation
+    >>> orientations = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)
+    >>> trajectory = Trajectory(timestamps, positions, orientations)
     """
     def __init__(self, timestamps, positions, orientations=None):
         self._timestamps = np.asarray(timestamps)
@@ -105,7 +111,15 @@ class Trajectory:
 
         Examples
         --------
-        >>> len(trajectory)
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> len(traj)
         3
         """
         return len(self._timestamps)
@@ -170,7 +184,15 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.timestamps
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.timestamps
         array([0, 1, 2])
         """
         return self._timestamps
@@ -187,8 +209,19 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.positions
-        CartesianECEF([[0, 0, 0], [1, 1, 1], [2, 2, 2]])
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.positions
+        XYZ CartesianECEF points
+        [[4614831.06382533  312803.18870294 4377307.25608437]
+         [4583825.9258778   388064.96749322 4403747.15229078]
+         [4610933.91105407  440116.57314554 4370795.76589696]]
         """
         return self._positions
 
@@ -209,8 +242,16 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.velocities
-        array([1.41421356, 1.41421356])
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.velocities
+        array([85584.58995186, 67305.32205239])
         """
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute velocities.")
@@ -228,8 +269,16 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.has_orientation()
-        True
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.has_orientation()
+        False
         """
         return self._orientations is not None
 
@@ -248,10 +297,28 @@ class Trajectory:
         :class:`ValueError`
             If the trajectory has no orientations.
 
+        Notes
+        -----
+        The orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
+        The orientations can be converted to quaternions, Euler angles, or other representations using the methods provided by the :class:`scipy.spatial.transform.Rotation` class.
+
         Examples
         --------
-        >>> trajectory.orientations
-        <scipy.spatial.transform._rotation.Rotation object at 0x...>
+        >>> from scipy.spatial.transform import Rotation
+        >>> attitude = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     ),
+        ...     orientations=attitude
+        ... )
+        >>> traj.orientations.as_quat()
+        array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00],
+               [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, 7.07106781e-01],
+               [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17]])
         """
         if self._orientations is None:
             raise ValueError("This trajectory does not have orientations.")
@@ -269,8 +336,16 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.arc_lengths
-        array([1.73205081, 1.73205081])
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.arc_lengths
+        array([85584.58995186, 67305.32205239])
         """
         return Cartesian3.distance(self._positions[1:], self._positions[:-1])
 
@@ -285,15 +360,23 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.total_arc_length()
-        3.46410162
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.total_arc_length()
+        np.float64(152889.9120042545)
         """
         return np.sum(self.arc_lengths)
 
     @property
     def sampling_rate(self):
         """
-        Compute the sampling rate of the trajectory.
+        Sampling rate of the trajectory.
 
         Returns
         -------
@@ -307,7 +390,15 @@ class Trajectory:
 
         Examples
         --------
-        >>> trajectory.sampling_rate
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> traj.sampling_rate
         1.0
         """
         if len(self._timestamps) < 2:
@@ -338,7 +429,15 @@ class Trajectory:
 
         Examples
         --------
-        >>> resampled_trajectory = trajectory.resample(2.0)
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524],
+        ...         latitude=[43.6135, 43.9422, 43.5309],
+        ...         height=[300.0, 400.0, 500.0]
+        ...     )
+        ... )
+        >>> resampled_traj = traj.resample(2.0)
         """
         if not isinstance(sampling_rate, (int, float)):
             raise TypeError("Sampling rate must be a number.")
@@ -374,7 +473,7 @@ class Trajectory:
         # See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
         raise NotImplementedError("Plotting functionality is not implemented yet.")
 
-    def from_numpy(self, data):
+    @staticmethod
         if not isinstance(data, np.ndarray):
             raise TypeError("Input data must be a numpy array.")
         if data.dtype != TRAJ_DTYPE:
@@ -400,27 +499,16 @@ class Trajectory:
 
     def to_numpy(self):
         cartographic_positions = self._positions.to_cartographic()
-        if self._orientations is None:
-            return np.array(list(zip(
-                self._timestamps,
-                cartographic_positions.longitude,
-                cartographic_positions.latitude,
-                cartographic_positions.height,
-                np.empty(self.__len__()),  # HEADING_DEG
-                np.empty(self.__len__()),  # ELEVATION_DEG
-                np.empty(self.__len__())   # BANK_DEG
-            )), dtype=TRAJ_DTYPE)
-        else:
-            [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True)
-            return np.array(list(zip(
-                self._timestamps,
-                cartographic_positions.longitude,
-                cartographic_positions.latitude,
-                cartographic_positions.height,
-                heading,
-                elevation,
-                bank
-            )), dtype=TRAJ_DTYPE)
+        [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True) if self._orientations is None else np.zeros((3, self.__len__()))
+        return np.array(list(zip(
+            self._timestamps,
+            cartographic_positions.longitude,
+            cartographic_positions.latitude,
+            cartographic_positions.height,
+            heading,
+            elevation,
+            bank
+        )), dtype=TRAJ_DTYPE)
 
     def to_pandas(self):
         try:
