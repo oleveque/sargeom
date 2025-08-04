@@ -14,21 +14,23 @@ conda activate sargeom-env
 2. **Install the package**: Next, you can install the plugin directly from GitHub using [pip](https://pypi.org/project/pip/):
 
 ```bash
-pip install git+https://github.com/oleveque/sargeom.git
-```
-
-or in development mode:
-
-```bash
-git clone https://github.com/oleveque/sargeom.git
-pip install -r ./sargeom/requirements.txt
-pip install -e ./sargeom
+pip install git+https://github.com/oleveque/sargeom.git@latest
 ```
 
 If you want to add the package to your dependencies file, you can add the following line to your `requirements.txt` file:
 
 ```bash
-sargeom @ git+https://github.com/oleveque/sargeom@main
+sargeom @ git+https://github.com/oleveque/sargeom@v0.1.0
+```
+
+For more information on the latest updates, check the [CHANGELOG](CHANGELOG.md).
+
+3. **Development mode**: If you want to contribute to the package or run it in development mode, clone the repository and install the requirements:
+
+```bash
+git clone https://github.com/oleveque/sargeom.git
+pip install -r ./sargeom/requirements.txt
+pip install -e ./sargeom
 ```
 
 ## Dependency relationships
@@ -46,3 +48,7 @@ graph TD
 
 If you encounter any problems, please [file an issue](https://github.com/oleveque/sargeom/issues) with a detailed description.
 Your feedback is valuable in improving the package.
+
+## License
+
+This project is licensed under the [ISC License](LICENSE.md).
