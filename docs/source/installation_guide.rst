@@ -14,7 +14,7 @@ To begin, make sure that you have **Conda** installed on your system. Conda will
    
    .. code-block:: bash
 
-    conda create -n sargeom-env python=3.12
+    conda create -n sargeom-env python=3.13
     conda activate sargeom-env
 
 Installing the Package
@@ -29,7 +29,7 @@ You can install the package directly from GitHub using ``pip``:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/oleveque/sargeom.git
+    pip install git+https://github.com/oleveque/sargeom.git@latest
 
 Option 2: Install in Development Mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,10 +49,12 @@ If you're managing your project's dependencies using a `requirements.txt` file, 
 
 .. code-block:: bash
 
-    sargeom @ git+https://github.com/oleveque/sargeom@main
+    sargeom @ git+https://github.com/oleveque/sargeom@v0.1.0
 
 This will allow you to install ``sargeom`` by running:
 
 .. code-block:: bash
 
     pip install -r requirements.txt
+
+For more information on the latest updates, check the `CHANGELOG <https://github.com/oleveque/sargeom/blob/main/CHANGELOG.md>`_.
