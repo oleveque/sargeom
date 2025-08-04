@@ -215,7 +215,7 @@ class Trajectory:
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute velocities.")
         dt = np.diff(self._timestamps)
-        return self.arc_lengths() / dt
+        return self.arc_lengths / dt
 
     def has_orientation(self):
         """
@@ -406,9 +406,9 @@ class Trajectory:
                 cartographic_positions.longitude,
                 cartographic_positions.latitude,
                 cartographic_positions.height,
-                np.nan(len(self._timestamps)),  # HEADING_DEG
-                np.nan(len(self._timestamps)),  # ELEVATION_DEG
-                np.nan(len(self._timestamps))   # BANK_DEG
+                np.empty(self.__len__()),  # HEADING_DEG
+                np.empty(self.__len__()),  # ELEVATION_DEG
+                np.empty(self.__len__())   # BANK_DEG
             )), dtype=TRAJ_DTYPE)
         else:
             [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True)
