@@ -49,7 +49,7 @@ If you're managing your project's dependencies using a `requirements.txt` file, 
 
 .. code-block:: bash
 
-    sargeom @ git+https://github.com/oleveque/sargeom@v0.1.0
+    sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
 
 This will allow you to install ``sargeom`` by running:
 
