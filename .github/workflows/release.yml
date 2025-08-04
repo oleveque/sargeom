@@ -32,6 +32,9 @@ jobs:
     - name: Build the package
       run: python -m build
 
+    - name: Check build artifacts
+      run: ls -l dist/
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
