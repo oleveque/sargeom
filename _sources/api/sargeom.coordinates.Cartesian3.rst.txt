@@ -27,7 +27,6 @@ Cartesian3
       ~Cartesian3.angle_btw
       ~Cartesian3.append
       ~Cartesian3.centroid
-      ~Cartesian3.concatenate
       ~Cartesian3.cross
       ~Cartesian3.distance
       ~Cartesian3.dot
@@ -61,7 +60,6 @@ Cartesian3
    .. automethod:: angle_btw
    .. automethod:: append
    .. automethod:: centroid
-   .. automethod:: concatenate
    .. automethod:: cross
    .. automethod:: distance
    .. automethod:: dot

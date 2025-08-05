@@ -23,7 +23,6 @@ Cartographic
       ~Cartographic.ZERO
       ~Cartographic.append
       ~Cartographic.bounding_box
-      ~Cartographic.concatenate
       ~Cartographic.crs
       ~Cartographic.dd_to_dms
       ~Cartographic.dms_to_dd
@@ -52,7 +51,6 @@ Cartographic
    .. automethod:: ZERO
    .. automethod:: append
    .. automethod:: bounding_box
-   .. automethod:: concatenate
    .. automethod:: crs
    .. automethod:: dd_to_dms
    .. automethod:: dms_to_dd
