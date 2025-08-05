@@ -374,6 +374,38 @@ class Cartographic(np.ndarray):
         else:
             raise ValueError("The instance to append must be a Cartographic instance.")
 
+    @classmethod
+    def concatenate(cls, *positions):
+        """
+        Concatenate a sequence of Cartographic instances into a single instance.
+
+        Parameters
+        ----------
+        positions : :class:`sargeom.coordinates.Cartographic`
+            The sequence of Cartographic instances to concatenate.
+        
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartographic`
+            A new Cartographic instance containing all positions from the input instances.
+
+        Raises
+        ------
+        :class:`ValueError`
+            - If the input list is empty.
+            - If not all items in the list are instances of Cartographic.
+        """
+        # Check if the input list is empty
+        if not positions:
+            raise ValueError("Input list is empty.")
+
+        # Check if all items in the list are instances of Cartographic
+        if not all(isinstance(pos, cls) for pos in positions):
+            raise ValueError("All items in the list must be Cartographic instances.")
+
+        # Concatenate the positions into a single Cartographic instance
+        return cls.from_array(np.concatenate([pos.__array__() for pos in positions], axis=0))
+
     def __eq__(self, right):
         """
         Compares this Cartographic instance against the provided one componentwise and returns `True` if they are equal, `False` otherwise.

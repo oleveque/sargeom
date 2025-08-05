@@ -514,6 +514,43 @@ class Cartesian3(np.ndarray):
                 f"The instance to append must be a {self.__class__.__name__} instance."
             )
 
+    @classmethod
+    def concatenate(cls, *positions):
+        """
+        Concatenate a sequence of Cartesian3 instances into a single instance.
+
+        Parameters
+        ----------
+        positions : list of :class:`sargeom.coordinates.Cartesian3`
+            The Cartesian3 instances to concatenate.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartesian3`
+            A new Cartesian3 instance containing the concatenated data.
+
+        Raises
+        ------
+        :class:`ValueError`
+            - If the input list is empty.
+            - If not all items in the list are instances of Cartesian3.
+            - If the local origin of the positions is not the same for all instances.
+        """
+        # Check if the input list is empty
+        if not positions:
+            raise ValueError("Input list is empty.")
+        
+        # Check if all items in the list are instances of Cartesian3
+        if not all(isinstance(pos, cls) for pos in positions):
+            raise ValueError(f"All items in the list must be {cls.__name__} instances.")
+        
+        # Check if all positions have the same local origin
+        if not all(pos._local_origin == positions[0]._local_origin for pos in positions):
+            raise ValueError("All positions must have the same local origin.")
+
+        # Concatenate the positions into a single Cartesian3 instance
+        return cls.from_array(np.concatenate([pos.__array__() for pos in positions], axis=0), origin=positions[0]._local_origin)
+
     def __eq__(self, right):
         """
         Compares this cartesian point against the provided one componentwise and returns `True` if they are equal, `False` otherwise.

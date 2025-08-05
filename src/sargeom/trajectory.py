@@ -574,6 +574,44 @@ class Trajectory:
         else:
             return Trajectory(new_timestamps, new_positions)
 
+    @classmethod
+    def concatenate(cls, *trajectories):
+        """
+        Concatenate a sequence of Trajectory objects into a single object.
+        
+        Parameters
+        ----------
+        trajectories : list of :class:`sargeom.Trajectory`
+            The trajectories to concatenate.
+
+        Returns
+        -------
+        :class:`sargeom.Trajectory`
+            A new Trajectory instance containing the concatenated data.
+
+        Raises
+        ------
+        :class:`ValueError`
+            - If the input list is empty.
+            - If any item in the list is not a Trajectory instance.
+        """
+        if not trajectories:
+            raise ValueError("No trajectories to concatenate.")
+        if not all(isinstance(traj, Trajectory) for traj in trajectories):
+            raise ValueError("All items in the list must be Trajectory instances.")
+
+        # Concatenate timestamps and positions
+        timestamps = np.concatenate([traj._timestamps for traj in trajectories])
+        positions = CartesianECEF.concatenate([traj._positions for traj in trajectories])
+
+        # Concatenate orientations if they exist
+        if all(traj.has_orientation() for traj in trajectories):
+            orientations = Rotation.concatenate([traj._orientations for traj in trajectories])
+        else:
+            orientations = None
+
+        return cls(timestamps, positions, orientations)
+
     def plot(self, **kwargs):
         # TODO: Implement plotting functionality
         # See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
