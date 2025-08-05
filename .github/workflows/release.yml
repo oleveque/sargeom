@@ -32,30 +32,11 @@ jobs:
     - name: Build the package
       run: python -m build
 
-    - name: Check build artifacts
-      run: ls -l dist/
-
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Release
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref }}
-        release_name: sargeom ${{ github.ref }}
+        name: sargeom ${{ github.ref_name }}
         body: |
-            **sargeom** is a Python package dedicated for Synthetic Aperture Radar (SAR) geometry calculations.
-            This new release introduces important features and improvements. For detailed information on changes, please consult the [CHANGELOG](./CHANGELOG.md).
-        draft: false
-        prerelease: false
-
-    - name: Upload Release Asset
-      id: upload-release-asset 
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/*.whl
-        asset_name: sargeom-${{ github.ref }}.whl
-        asset_content_type: application/zip
+          **sargeom** is a Python package dedicated for Synthetic Aperture Radar (SAR) geometry calculations.
+          This new release introduces important features and improvements. For detailed information on changes, please consult the [CHANGELOG](./CHANGELOG.md).
+        files: dist/*.whl
