@@ -21,6 +21,7 @@ Trajectory
 
    .. autosummary::
 
+      ~Trajectory.concatenate
       ~Trajectory.from_numpy
       ~Trajectory.has_orientation
       ~Trajectory.interp
@@ -51,6 +52,7 @@ Trajectory
 
    .. rubric:: Methods Documentation
 
+   .. automethod:: concatenate
    .. automethod:: from_numpy
    .. automethod:: has_orientation
    .. automethod:: interp

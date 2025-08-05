@@ -362,46 +362,49 @@ If the longitude, latitude, and height are not 0- or 1-dimensional arrays.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.bounding_box" title="sargeom.coordinates.Cartographic.bounding_box"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bounding_box</span></code></a>()</p></td>
 <td><p>Get the bounding box of the Cartographic instance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.crs" title="sargeom.coordinates.Cartographic.crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crs</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.concatenate" title="sargeom.coordinates.Cartographic.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a>(*positions)</p></td>
+<td><p>Concatenate a sequence of Cartographic instances into a single instance.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.crs" title="sargeom.coordinates.Cartographic.crs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">crs</span></code></a>()</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.dd_to_dms" title="sargeom.coordinates.Cartographic.dd_to_dms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dd_to_dms</span></code></a>(dd)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.dd_to_dms" title="sargeom.coordinates.Cartographic.dd_to_dms"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dd_to_dms</span></code></a>(dd)</p></td>
 <td><p>Converts decimal degrees representation of geodetic coordinates to Degrees - Minutes - Seconds.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.dms_to_dd" title="sargeom.coordinates.Cartographic.dms_to_dd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dms_to_dd</span></code></a>(d, m, s)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.dms_to_dd" title="sargeom.coordinates.Cartographic.dms_to_dd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dms_to_dd</span></code></a>(d, m, s)</p></td>
 <td><p>Converts Degrees - Minutes - Seconds representation of geodetic coordinates to decimal degrees.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.from_array" title="sargeom.coordinates.Cartographic.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, degrees])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.from_array" title="sargeom.coordinates.Cartographic.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, degrees])</p></td>
 <td><p>Initializes a Cartographic instance using a numpy array representing Lon-Lat-Height coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.is_collection" title="sargeom.coordinates.Cartographic.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.is_collection" title="sargeom.coordinates.Cartographic.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
 <td><p>Check if the Cartographic instance represents a set of positions.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_csv" title="sargeom.coordinates.Cartographic.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_csv" title="sargeom.coordinates.Cartographic.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
 <td><p>Saves the Cartographic positions to a CSV file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_html" title="sargeom.coordinates.Cartographic.save_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_html</span></code></a>(filename[, link_markers])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_html" title="sargeom.coordinates.Cartographic.save_html"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_html</span></code></a>(filename[, link_markers])</p></td>
 <td><p>Saves Cartographic positions to an HTML file using Folium.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_kml" title="sargeom.coordinates.Cartographic.save_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_kml</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.save_kml" title="sargeom.coordinates.Cartographic.save_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_kml</span></code></a>(filename)</p></td>
 <td><p>Saves Cartographic positions to a KML file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_array" title="sargeom.coordinates.Cartographic.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_array" title="sargeom.coordinates.Cartographic.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to a numpy array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_ecef" title="sargeom.coordinates.Cartographic.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_ecef" title="sargeom.coordinates.Cartographic.to_ecef"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ecef</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to geocentric Earth-centered Earth-fixed (ECEF) coordinates.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson" title="sargeom.coordinates.Cartographic.to_geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_geojson</span></code></a>([clamp_to_Ground, link_markers])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_geojson" title="sargeom.coordinates.Cartographic.to_geojson"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_geojson</span></code></a>([clamp_to_Ground, link_markers])</p></td>
 <td><p>Convert Cartographic positions to GeoJSON format.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas" title="sargeom.coordinates.Cartographic.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_pandas" title="sargeom.coordinates.Cartographic.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
 <td><p>Convert Cartographic positions to a Pandas DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely" title="sargeom.coordinates.Cartographic.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_shapely</span></code></a>([clamp_to_Ground, link_markers])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_shapely" title="sargeom.coordinates.Cartographic.to_shapely"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_shapely</span></code></a>([clamp_to_Ground, link_markers])</p></td>
 <td><p>Converts the Cartographic instance to a Shapely geometry object.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_trajviewer" title="sargeom.coordinates.Cartographic.to_trajviewer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_trajviewer</span></code></a>([name, description, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartographic.to_trajviewer" title="sargeom.coordinates.Cartographic.to_trajviewer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_trajviewer</span></code></a>([name, description, ...])</p></td>
 <td><p>Open the Cartographic instance in the TrajViewer web application.</p></td>
 </tr>
 </tbody>
@@ -621,6 +624,35 @@ Typically, longitude is within the range [-180°, 180°] or [0°, 360°].</p>
 <span class="go">(np.float64(15.0), np.float64(10.0), np.float64(25.0), np.float64(20.0))</span>
 </pre></div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartographic.concatenate">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartographic.html#Cartographic.concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartographic.concatenate" title="Link to this definition">¶</a></dt>
+<dd><p>Concatenate a sequence of Cartographic instances into a single instance.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>positions</strong><span class="classifier"><a class="reference internal" href="#sargeom.coordinates.Cartographic" title="sargeom.coordinates.Cartographic"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartographic</span></code></a></span></dt><dd><p>The sequence of Cartographic instances to concatenate.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#sargeom.coordinates.Cartographic" title="sargeom.coordinates.Cartographic"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartographic</span></code></a></dt><dd><p>A new Cartographic instance containing all positions from the input instances.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><ul class="simple">
+<li><p>If the input list is empty.</p></li>
+<li><p>If not all items in the list are instances of Cartographic.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1065,6 +1097,7 @@ For more information, visit the GitHub repository: <a class="reference external"
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.ZERO"><code class="docutils literal notranslate"><span class="pre">Cartographic.ZERO()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.append"><code class="docutils literal notranslate"><span class="pre">Cartographic.append()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.bounding_box"><code class="docutils literal notranslate"><span class="pre">Cartographic.bounding_box()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartographic.concatenate"><code class="docutils literal notranslate"><span class="pre">Cartographic.concatenate()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.crs"><code class="docutils literal notranslate"><span class="pre">Cartographic.crs()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.dd_to_dms"><code class="docutils literal notranslate"><span class="pre">Cartographic.dd_to_dms()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartographic.dms_to_dd"><code class="docutils literal notranslate"><span class="pre">Cartographic.dms_to_dd()</span></code></a></li>

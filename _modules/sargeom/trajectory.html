@@ -846,6 +846,47 @@
             <span class="k">return</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">new_timestamps</span><span class="p">,</span> <span class="n">new_positions</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="Trajectory.concatenate">
+<a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.concatenate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">trajectories</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Concatenate a sequence of Trajectory objects into a single object.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        trajectories : list of :class:`sargeom.Trajectory`</span>
+<span class="sd">            The trajectories to concatenate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.Trajectory`</span>
+<span class="sd">            A new Trajectory instance containing the concatenated data.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            - If the input list is empty.</span>
+<span class="sd">            - If any item in the list is not a Trajectory instance.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">trajectories</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No trajectories to concatenate.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">traj</span><span class="p">,</span> <span class="n">Trajectory</span><span class="p">)</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All items in the list must be Trajectory instances.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate timestamps and positions</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">traj</span><span class="o">.</span><span class="n">_timestamps</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">])</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">traj</span><span class="o">.</span><span class="n">_positions</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">])</span>
+
+        <span class="c1"># Concatenate orientations if they exist</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">traj</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">()</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">):</span>
+            <span class="n">orientations</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">traj</span><span class="o">.</span><span class="n">_orientations</span> <span class="k">for</span> <span class="n">traj</span> <span class="ow">in</span> <span class="n">trajectories</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">orientations</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">orientations</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="Trajectory.plot">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
