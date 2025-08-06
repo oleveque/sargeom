@@ -428,7 +428,6 @@
 <span class="sd">        ------</span>
 <span class="sd">        :class:`ValueError`</span>
 <span class="sd">            - If the input array does not have the shape (3,) or (N, 3).</span>
-<span class="sd">        :class:`IndexError`</span>
 <span class="sd">            - If the numpy array is empty.</span>
 
 <span class="sd">        Returns</span>
@@ -465,7 +464,7 @@
         
         <span class="c1"># Handle case where array is empty or has wrong shape after indexing</span>
         <span class="k">elif</span> <span class="n">array</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Cannot create Cartesian3 from empty array&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot create Cartesian3 from empty array&quot;</span><span class="p">)</span>
         
         <span class="c1"># Raise an error if the input array does not meet the requirements</span>
         <span class="k">else</span><span class="p">:</span>
@@ -918,12 +917,12 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_local</span><span class="p">()</span> <span class="ow">or</span> <span class="n">right</span><span class="o">.</span><span class="n">is_local</span><span class="p">():</span>
             <span class="c1"># Compare coordinates and local origin for local coordinate systems</span>
-            <span class="n">coords_equal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span>
+            <span class="n">coords_equal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
             <span class="n">origin_equal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span> <span class="o">==</span> <span class="n">right</span><span class="o">.</span><span class="n">_local_origin</span>
             <span class="k">return</span> <span class="n">coords_equal</span> <span class="ow">and</span> <span class="n">origin_equal</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Compare only coordinates for non-local coordinate systems</span>
-            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-12</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Cartesian3.magnitude">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.magnitude">[docs]</a>
