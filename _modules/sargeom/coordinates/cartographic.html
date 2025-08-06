@@ -347,7 +347,7 @@
             <span class="n">height</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
 
         <span class="c1"># Check if the input arrays have the same size</span>
-        <span class="k">if</span> <span class="n">longitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">latitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">height</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">longitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">latitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">height</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="s2">&quot;The longitude, latitude and height must be of equal size.&quot;</span>
             <span class="p">)</span>
@@ -420,10 +420,6 @@
 <span class="sd">        ----------</span>
 <span class="sd">        array : array_like</span>
 <span class="sd">            A numpy array object representing a list of Lon-Lat-Height coordinates.</span>
-<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
-<span class="sd">            The cartographic position describing the location of the local origin of the coordinate system.</span>
-<span class="sd">            If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.</span>
-<span class="sd">            If not specified, the default local origin of the instance will be used.</span>
 <span class="sd">        degrees : :class:`bool`, optional</span>
 <span class="sd">            If True (default), takes input angles in degrees. If False, takes input angles in radians.</span>
 
@@ -624,10 +620,13 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Creates a new Cartographic instance with the appended positions.</span>
 
+<span class="sd">        This is a convenience method for concatenating this instance with another single instance.</span>
+<span class="sd">        For concatenating multiple instances, use the concatenate() class method.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        positions : :class:`sargeom.coordinates.Cartographic`</span>
-<span class="sd">            The sequence of Cartographic instances to append.</span>
+<span class="sd">            The Cartographic instance to append.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -642,24 +641,106 @@
 <span class="sd">        Lon.Lat.Height Cartographic positions</span>
 <span class="sd">        [[10. 20. 30.]</span>
 <span class="sd">         [15. 25. 35.]]</span>
+<span class="sd">         </span>
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        concatenate : Class method for concatenating multiple instances</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Cartographic</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">]):</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">positions</span><span class="o">.</span><span class="n">__array__</span><span class="p">()),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">Cartographic</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">positions</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The instance to append must be a Cartographic instance.&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Cartographic.concatenate">
+<a class="viewcode-back" href="../../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.concatenate">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">positions</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Concatenate a sequence of Cartographic instances into a single instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        positions : sequence of :class:`sargeom.coordinates.Cartographic`</span>
+<span class="sd">            The sequence of Cartographic instances to concatenate. Can be a list, tuple, or any iterable.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.Cartographic`</span>
+<span class="sd">            A new Cartographic instance containing all positions from the input instances.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            - If the input list is empty.</span>
+<span class="sd">            - If not all items in the list are instances of Cartographic.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Concatenate multiple Cartographic positions:</span>
+
+<span class="sd">        &gt;&gt;&gt; pos_1 = Cartographic(longitude=[1.0, 2.0], latitude=[45.0, 46.0], height=[100, 200])</span>
+<span class="sd">        &gt;&gt;&gt; pos_2 = Cartographic(longitude=3.0, latitude=47.0, height=300)</span>
+<span class="sd">        &gt;&gt;&gt; pos_3 = Cartographic(longitude=[4.0, 5.0], latitude=[48.0, 49.0], height=[400, 500])</span>
+<span class="sd">        &gt;&gt;&gt; combined = Cartographic.concatenate([pos_1, pos_2, pos_3])</span>
+<span class="sd">        &gt;&gt;&gt; len(combined)</span>
+<span class="sd">        5</span>
+<span class="sd">        &gt;&gt;&gt; combined.longitude</span>
+<span class="sd">        array([1., 2., 3., 4., 5.])</span>
+
+<span class="sd">        Concatenate single positions:</span>
+
+<span class="sd">        &gt;&gt;&gt; paris = Cartographic(longitude=2.3522, latitude=48.8566, height=35.0)</span>
+<span class="sd">        &gt;&gt;&gt; london = Cartographic(longitude=-0.1276, latitude=51.5074, height=11.0)</span>
+<span class="sd">        &gt;&gt;&gt; cities = Cartographic.concatenate([paris, london])</span>
+<span class="sd">        &gt;&gt;&gt; len(cities)</span>
+<span class="sd">        2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert to list if not already a sequence</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;positions must be an iterable (list, tuple, etc.)&quot;</span><span class="p">)</span>
+        
+        <span class="n">positions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        
+        <span class="c1"># Check if the input list is empty</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">positions</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input list is empty.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Check if all items in the list are instances of Cartographic</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;All items in the list must be Cartographic instances.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Concatenate the positions into a single Cartographic instance</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">pos</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Compares this Cartographic instance against the provided one componentwise and returns `True` if they are equal, `False` otherwise.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        right : :class:`sargeom.coordinates.Cartographic`</span>
+<span class="sd">            The cartographic position to compare against.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`bool`</span>
+<span class="sd">            `True` if the cartographic positions are equal, `False` otherwise.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; A = Cartographic(longitude=10.0, latitude=20.0, height=30.0)</span>
+<span class="sd">        &gt;&gt;&gt; B = Cartographic(longitude=10.0, latitude=20.0, height=30.0)</span>
+<span class="sd">        &gt;&gt;&gt; A == B</span>
+<span class="sd">        True</span>
+
+<span class="sd">        &gt;&gt;&gt; A = Cartographic(longitude=10.0, latitude=20.0, height=30.0)</span>
+<span class="sd">        &gt;&gt;&gt; B = Cartographic(longitude=15.0, latitude=25.0, height=35.0)</span>
+<span class="sd">        &gt;&gt;&gt; A == B</span>
+<span class="sd">        False</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span>
-            <span class="p">[</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">longitude</span> <span class="o">==</span> <span class="n">right</span><span class="o">.</span><span class="n">longitude</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">latitude</span> <span class="o">==</span> <span class="n">right</span><span class="o">.</span><span class="n">latitude</span><span class="p">,</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">==</span> <span class="n">right</span><span class="o">.</span><span class="n">height</span><span class="p">,</span>
-            <span class="p">]</span>
-        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span> <span class="n">right</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span>
 
 <div class="viewcode-block" id="Cartographic.is_collection">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic.is_collection">[docs]</a>
@@ -1010,7 +1091,7 @@
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
             <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">),</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">(),</span>
-            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span><span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
             <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span>
             <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>

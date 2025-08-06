@@ -348,58 +348,61 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.from_numpy" title="sargeom.Trajectory.from_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_numpy</span></code></a>(data)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.concatenate" title="sargeom.Trajectory.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a>(trajectories)</p></td>
+<td><p>Concatenate a sequence of Trajectory objects into a single object.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.from_numpy" title="sargeom.Trajectory.from_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_numpy</span></code></a>(data)</p></td>
 <td><p>Create a Trajectory instance from a numpy structured array.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.has_orientation" title="sargeom.Trajectory.has_orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_orientation</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.has_orientation" title="sargeom.Trajectory.has_orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">has_orientation</span></code></a>()</p></td>
 <td><p>Whether the trajectory has orientation data.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.interp" title="sargeom.Trajectory.interp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp</span></code></a>(new_timestamps)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.interp" title="sargeom.Trajectory.interp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp</span></code></a>(new_timestamps)</p></td>
 <td><p>Interpolate the trajectory to new timestamps.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.plot" title="sargeom.Trajectory.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(**kwargs)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.plot" title="sargeom.Trajectory.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(**kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_csv" title="sargeom.Trajectory.read_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_csv</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_csv" title="sargeom.Trajectory.read_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_csv</span></code></a>(filename)</p></td>
 <td><p>Read a TRAJ CSV file and create a Trajectory instance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pamela_pos" title="sargeom.Trajectory.read_pamela_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pamela_pos</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pamela_pos" title="sargeom.Trajectory.read_pamela_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pamela_pos</span></code></a>(filename)</p></td>
 <td><p>Read a PAMELA .pos file and create a Trajectory instance.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pamela_traj" title="sargeom.Trajectory.read_pamela_traj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pamela_traj</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pamela_traj" title="sargeom.Trajectory.read_pamela_traj"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pamela_traj</span></code></a>(filename)</p></td>
 <td><p>Read a PAMELA .traj file and create a Trajectory instance.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pivot" title="sargeom.Trajectory.read_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pivot</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.read_pivot" title="sargeom.Trajectory.read_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_pivot</span></code></a>(filename)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.resample" title="sargeom.Trajectory.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code></a>(sampling_rate)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.resample" title="sargeom.Trajectory.resample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">resample</span></code></a>(sampling_rate)</p></td>
 <td><p>Resample the trajectory at a specified sampling rate.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_csv" title="sargeom.Trajectory.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_csv" title="sargeom.Trajectory.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
 <td><p>Save the Trajectory instance to a TRAJ CSV file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_kml" title="sargeom.Trajectory.save_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_kml</span></code></a>(filename, **kwargs)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_kml" title="sargeom.Trajectory.save_kml"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_kml</span></code></a>(filename, **kwargs)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_npy" title="sargeom.Trajectory.save_npy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_npy</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_npy" title="sargeom.Trajectory.save_npy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_npy</span></code></a>(filename)</p></td>
 <td><p>Save the Trajectory instance to a numpy .npy file.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_pamela_pos" title="sargeom.Trajectory.save_pamela_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_pamela_pos</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_pamela_pos" title="sargeom.Trajectory.save_pamela_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_pamela_pos</span></code></a>(filename)</p></td>
 <td><p>Save the Trajectory instance to a PAMELA .pos file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_pivot" title="sargeom.Trajectory.save_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_pivot</span></code></a>(filename)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.save_pivot" title="sargeom.Trajectory.save_pivot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_pivot</span></code></a>(filename)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.sort" title="sargeom.Trajectory.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([inplace, reverse])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.sort" title="sargeom.Trajectory.sort"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sort</span></code></a>([inplace, reverse])</p></td>
 <td><p>Sort the trajectory by timestamps.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.to_numpy" title="sargeom.Trajectory.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.to_numpy" title="sargeom.Trajectory.to_numpy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_numpy</span></code></a>()</p></td>
 <td><p>Convert the Trajectory instance to a numpy structured array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.to_pandas" title="sargeom.Trajectory.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.to_pandas" title="sargeom.Trajectory.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
 <td><p>Convert the Trajectory instance to a pandas DataFrame.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.Trajectory.total_arc_length" title="sargeom.Trajectory.total_arc_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_arc_length</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.Trajectory.total_arc_length" title="sargeom.Trajectory.total_arc_length"><code class="xref py py-obj docutils literal notranslate"><span class="pre">total_arc_length</span></code></a>()</p></td>
 <td><p>Compute the total arc length of the trajectory.</p></td>
 </tr>
 </tbody>
@@ -598,6 +601,85 @@ The orientations can be converted to quaternions, Euler angles, or other represe
 </dd></dl>
 
 <p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.Trajectory.concatenate">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trajectories</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/trajectory.html#Trajectory.concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.Trajectory.concatenate" title="Link to this definition">¶</a></dt>
+<dd><p>Concatenate a sequence of Trajectory objects into a single object.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>trajectories</strong><span class="classifier">sequence of <a class="reference internal" href="#sargeom.Trajectory" title="sargeom.Trajectory"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.Trajectory</span></code></a></span></dt><dd><p>The trajectories to concatenate. Can be a list, tuple, or any iterable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#sargeom.Trajectory" title="sargeom.Trajectory"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.Trajectory</span></code></a></dt><dd><p>A new Trajectory instance containing the concatenated data.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><ul class="simple">
+<li><p>If the input list is empty.</p></li>
+<li><p>If any item in the list is not a Trajectory instance.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Timestamps and positions are always concatenated.</p></li>
+<li><p>Orientations are concatenated only if ALL input trajectories have orientations.</p></li>
+<li><p>If any trajectory lacks orientations, the result will have no orientations.</p></li>
+<li><p>The order of concatenation follows the order of input trajectories.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<p>Concatenate two trajectories with orientations:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions_1</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1100</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">2000</span><span class="p">,</span> <span class="mi">2100</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mi">3000</span><span class="p">,</span> <span class="mi">3100</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">orientations_1</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traj_1</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps_1</span><span class="p">,</span> <span class="n">positions_1</span><span class="p">,</span> <span class="n">orientations_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">timestamps_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">positions_2</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">1200</span><span class="p">,</span> <span class="mi">1300</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">2200</span><span class="p">,</span> <span class="mi">2300</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mi">3200</span><span class="p">,</span> <span class="mi">3300</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">orientations_2</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="p">[[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traj_2</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps_2</span><span class="p">,</span> <span class="n">positions_2</span><span class="p">,</span> <span class="n">orientations_2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combined</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">traj_1</span><span class="p">,</span> <span class="n">traj_2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combined</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>Concatenate trajectories without orientations:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">traj_no_orient_1</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps_1</span><span class="p">,</span> <span class="n">positions_1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">traj_no_orient_2</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps_2</span><span class="p">,</span> <span class="n">positions_2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combined_no_orient</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">traj_no_orient_1</span><span class="p">,</span> <span class="n">traj_no_orient_2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combined_no_orient</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">()</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+<p>Concatenate single trajectory with multiple points:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">single_position</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">46.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">single_traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">],</span> <span class="n">positions</span><span class="o">=</span><span class="n">single_position</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multi_positions</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">longitude</span><span class="o">=</span><span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> 
+<span class="gp">... </span>    <span class="n">latitude</span><span class="o">=</span><span class="p">[</span><span class="mf">47.0</span><span class="p">,</span> <span class="mf">48.0</span><span class="p">],</span> 
+<span class="gp">... </span>    <span class="n">height</span><span class="o">=</span><span class="p">[</span><span class="mf">100.0</span><span class="p">,</span> <span class="mf">200.0</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">multi_traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="p">(</span><span class="n">timestamps</span><span class="o">=</span><span class="p">[</span><span class="mf">11.0</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">],</span> <span class="n">positions</span><span class="o">=</span><span class="n">multi_positions</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">single_traj</span><span class="p">,</span> <span class="n">multi_traj</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.Trajectory.from_numpy">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_numpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/trajectory.html#Trajectory.from_numpy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.Trajectory.from_numpy" title="Link to this definition">¶</a></dt>
@@ -1119,6 +1201,7 @@ The orientations can be converted to quaternions, Euler angles, or other represe
 <li><a class="reference internal" href="#sargeom.Trajectory.sampling_rate"><code class="docutils literal notranslate"><span class="pre">Trajectory.sampling_rate</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.Trajectory.timestamps"><code class="docutils literal notranslate"><span class="pre">Trajectory.timestamps</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.Trajectory.velocities"><code class="docutils literal notranslate"><span class="pre">Trajectory.velocities</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.Trajectory.concatenate"><code class="docutils literal notranslate"><span class="pre">Trajectory.concatenate()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.Trajectory.from_numpy"><code class="docutils literal notranslate"><span class="pre">Trajectory.from_numpy()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.Trajectory.has_orientation"><code class="docutils literal notranslate"><span class="pre">Trajectory.has_orientation()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.Trajectory.interp"><code class="docutils literal notranslate"><span class="pre">Trajectory.interp()</span></code></a></li>

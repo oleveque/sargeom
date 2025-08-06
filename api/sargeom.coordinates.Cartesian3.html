@@ -338,6 +338,13 @@ If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
 <span class="go">[1. 0. 0.]</span>
 </pre></div>
 </div>
+<p>Use with local coordinate systems:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">45.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local_enu</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">100.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">200.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">50.0</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">local_enu</span><span class="o">.</span><span class="n">is_local</span><span class="p">()</span>
+<span class="go">True</span>
+</pre></div>
+</div>
 <p class="rubric">Attributes Summary</p>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
@@ -385,49 +392,52 @@ If the X, Y and Z components are not 0- or 1-dimensional arrays.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.centroid" title="sargeom.coordinates.Cartesian3.centroid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">centroid</span></code></a>()</p></td>
 <td><p>Computes the centroid of a set of cartesian points.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.cross" title="sargeom.coordinates.Cartesian3.cross"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross</span></code></a>(right)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.concatenate" title="sargeom.coordinates.Cartesian3.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a>(positions)</p></td>
+<td><p>Concatenate a sequence of Cartesian3 instances into a single instance.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.cross" title="sargeom.coordinates.Cartesian3.cross"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cross</span></code></a>(right)</p></td>
 <td><p>Computes the cross (outer) product with a provided cartesian point.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance" title="sargeom.coordinates.Cartesian3.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(left, right)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance" title="sargeom.coordinates.Cartesian3.distance"><code class="xref py py-obj docutils literal notranslate"><span class="pre">distance</span></code></a>(left, right)</p></td>
 <td><p>Computes the distance between two cartesian points.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot" title="sargeom.coordinates.Cartesian3.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(right)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot" title="sargeom.coordinates.Cartesian3.dot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dot</span></code></a>(right)</p></td>
 <td><p>Computes the dot (scalar) product with a provided cartesian point.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.from_array" title="sargeom.coordinates.Cartesian3.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, origin])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.from_array" title="sargeom.coordinates.Cartesian3.from_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_array</span></code></a>(array[, origin])</p></td>
 <td><p>Initializes a Cartesian3 instance using a numpy array representing XYZ coordinates.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.interp" title="sargeom.coordinates.Cartesian3.interp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp</span></code></a>(time_sampling, new_time_sampling)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.interp" title="sargeom.coordinates.Cartesian3.interp"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interp</span></code></a>(time_sampling, new_time_sampling)</p></td>
 <td><p>Interpolates the set of Cartesian coordinates on the basis of the sampling times supplied as input.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_collection" title="sargeom.coordinates.Cartesian3.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
-<td><p>Check if the Cartographic instance represents a set of cartesian points.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_collection" title="sargeom.coordinates.Cartesian3.is_collection"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_collection</span></code></a>()</p></td>
+<td><p>Check if the Cartesian3 instance represents a set of cartesian points.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_local" title="sargeom.coordinates.Cartesian3.is_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_local</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.is_local" title="sargeom.coordinates.Cartesian3.is_local"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_local</span></code></a>()</p></td>
 <td><p>Returns <cite>true</cite> if the cartesian coordinate system is local and the local origin is defined, <cite>false</cite> otherwise.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.magnitude" title="sargeom.coordinates.Cartesian3.magnitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.magnitude" title="sargeom.coordinates.Cartesian3.magnitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">magnitude</span></code></a>()</p></td>
 <td><p>Computes the magnitude (length) of the supplied cartesian vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.middle" title="sargeom.coordinates.Cartesian3.middle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">middle</span></code></a>(left, right)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.middle" title="sargeom.coordinates.Cartesian3.middle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">middle</span></code></a>(left, right)</p></td>
 <td><p>Computes the midpoint between two cartesian points.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.normalize" title="sargeom.coordinates.Cartesian3.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.normalize" title="sargeom.coordinates.Cartesian3.normalize"><code class="xref py py-obj docutils literal notranslate"><span class="pre">normalize</span></code></a>()</p></td>
 <td><p>Computes the normalized form of the supplied cartesian point.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.proj_onto" title="sargeom.coordinates.Cartesian3.proj_onto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_onto</span></code></a>(vector)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.proj_onto" title="sargeom.coordinates.Cartesian3.proj_onto"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proj_onto</span></code></a>(vector)</p></td>
 <td><p>Projects the vector described by the current instance onto the provided vector.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.reject_from" title="sargeom.coordinates.Cartesian3.reject_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reject_from</span></code></a>(vector)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.reject_from" title="sargeom.coordinates.Cartesian3.reject_from"><code class="xref py py-obj docutils literal notranslate"><span class="pre">reject_from</span></code></a>(vector)</p></td>
 <td><p>Rejects the vector described by the current instance from the provided vector.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.save_csv" title="sargeom.coordinates.Cartesian3.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.save_csv" title="sargeom.coordinates.Cartesian3.save_csv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_csv</span></code></a>(filename)</p></td>
 <td><p>Saves the cartesian point coordinates to a CSV file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_array" title="sargeom.coordinates.Cartesian3.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_array" title="sargeom.coordinates.Cartesian3.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>()</p></td>
 <td><p>Converts cartesian point coordinates into a numpy array.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_pandas" title="sargeom.coordinates.Cartesian3.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Cartesian3.to_pandas" title="sargeom.coordinates.Cartesian3.to_pandas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_pandas</span></code></a>()</p></td>
 <td><p>Converts cartesian point coordinates into a Pandas DataFrame.</p></td>
 </tr>
 </tbody>
@@ -738,10 +748,12 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 <dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.append">
 <span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#Cartesian3.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.append" title="Link to this definition">¶</a></dt>
 <dd><p>Create a new Cartesian3 instance with the appended positions.</p>
+<p>This is a convenience method for concatenating this instance with another single instance.
+For concatenating multiple instances, use the concatenate() class method.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>positions</strong><span class="classifier">sequence of <a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The sequence of Cartesian3 instances to append.</p>
+<dt><strong>positions</strong><span class="classifier"><a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The Cartesian3 instance to append.</p>
 </dd>
 </dl>
 </dd>
@@ -758,6 +770,13 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 </dl>
 </dd>
 </dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="#sargeom.coordinates.Cartesian3.concatenate" title="sargeom.coordinates.Cartesian3.concatenate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">concatenate</span></code></a></dt><dd><p>Class method for concatenating multiple instances</p>
+</dd>
+</dl>
+</div>
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">25.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">35.0</span><span class="p">)</span>
@@ -790,6 +809,57 @@ method <code class="xref py py-meth docutils literal notranslate"><span class="p
 <span class="gp">&gt;&gt;&gt; </span><span class="n">positions</span><span class="o">.</span><span class="n">centroid</span><span class="p">()</span>
 <span class="go">XYZ Cartesian3 point</span>
 <span class="go">[2. 5. 8.]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.concatenate">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concatenate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#Cartesian3.concatenate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.concatenate" title="Link to this definition">¶</a></dt>
+<dd><p>Concatenate a sequence of Cartesian3 instances into a single instance.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>positions</strong><span class="classifier">sequence of <a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></span></dt><dd><p>The Cartesian3 instances to concatenate. Can be a list, tuple, or any iterable.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt><a class="reference internal" href="#sargeom.coordinates.Cartesian3" title="sargeom.coordinates.Cartesian3"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Cartesian3</span></code></a></dt><dd><p>A new Cartesian3 instance containing the concatenated data.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><ul class="simple">
+<li><p>If the input list is empty.</p></li>
+<li><p>If not all items in the list are instances of Cartesian3.</p></li>
+<li><p>If the local origin of the positions is not the same for all instances.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<p>Concatenate multiple Cartesian3 instances:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">3.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">6.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">7.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">9.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">C</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">11.0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">12.0</span><span class="p">,</span> <span class="mf">13.0</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">14.0</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">C</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">result</span><span class="o">.</span><span class="n">x</span>
+<span class="go">array([ 1.,  2.,  7., 10., 11.])</span>
+</pre></div>
+</div>
+<p>Concatenate local coordinate systems (same origin required):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">origin</span> <span class="o">=</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">latitude</span><span class="o">=</span><span class="mf">46.0</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_1</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">enu_2</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="n">origin</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combined</span> <span class="o">=</span> <span class="n">CartesianLocalENU</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">enu_1</span><span class="p">,</span> <span class="n">enu_2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">combined</span><span class="p">)</span>
+<span class="go">3</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -922,7 +992,13 @@ If not specified, the default local origin of the instance will be used.</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><p>If the numpy array has not at least 1 row and only 3 columns.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a></dt><dd><ul class="simple">
+<li><p>If the input array does not have the shape (3,) or (N, 3).</p></li>
+</ul>
+</dd>
+<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#IndexError" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexError</span></code></a></dt><dd><ul class="simple">
+<li><p>If the numpy array is empty.</p></li>
+</ul>
 </dd>
 </dl>
 </dd>
@@ -986,21 +1062,23 @@ If not specified, the default local origin of the instance will be used.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.Cartesian3.is_collection">
 <span class="sig-name descname"><span class="pre">is_collection</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/cartesian.html#Cartesian3.is_collection"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Cartesian3.is_collection" title="Link to this definition">¶</a></dt>
-<dd><p>Check if the Cartographic instance represents a set of cartesian points.</p>
+<dd><p>Check if the Cartesian3 instance represents a set of cartesian points.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p><cite>true</cite> if the instance is a collections of points, <cite>false</cite> otherwise.</p>
+<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p><cite>true</cite> if the instance is a collection of points, <cite>false</cite> otherwise.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
+<p>Single point:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">A</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">A</span><span class="o">.</span><span class="n">is_collection</span><span class="p">()</span>
 <span class="go">False</span>
 </pre></div>
 </div>
+<p>Multiple points:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">B</span> <span class="o">=</span> <span class="n">Cartesian3</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="mf">10.0</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">30.0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="p">[</span><span class="mf">40.0</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">,</span> <span class="mf">60.0</span><span class="p">],</span> <span class="n">z</span><span class="o">=</span><span class="p">[</span><span class="mf">70.0</span><span class="p">,</span> <span class="mf">80.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">B</span><span class="o">.</span><span class="n">is_collection</span><span class="p">()</span>
 <span class="go">True</span>
@@ -1316,6 +1394,7 @@ dividing by the magnitude of the provided vector, and multiplying the result by 
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.angle_btw"><code class="docutils literal notranslate"><span class="pre">Cartesian3.angle_btw()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.append"><code class="docutils literal notranslate"><span class="pre">Cartesian3.append()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.centroid"><code class="docutils literal notranslate"><span class="pre">Cartesian3.centroid()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.concatenate"><code class="docutils literal notranslate"><span class="pre">Cartesian3.concatenate()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.cross"><code class="docutils literal notranslate"><span class="pre">Cartesian3.cross()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.distance"><code class="docutils literal notranslate"><span class="pre">Cartesian3.distance()</span></code></a></li>
 <li><a class="reference internal" href="#sargeom.coordinates.Cartesian3.dot"><code class="docutils literal notranslate"><span class="pre">Cartesian3.dot()</span></code></a></li>
