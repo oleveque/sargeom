@@ -350,10 +350,13 @@ class Cartographic(np.ndarray):
         """
         Creates a new Cartographic instance with the appended positions.
 
+        This is a convenience method for concatenating this instance with another single instance.
+        For concatenating multiple instances, use the concatenate() class method.
+
         Parameters
         ----------
         positions : :class:`sargeom.coordinates.Cartographic`
-            The sequence of Cartographic instances to append.
+            The Cartographic instance to append.
 
         Raises
         ------
@@ -368,21 +371,25 @@ class Cartographic(np.ndarray):
         Lon.Lat.Height Cartographic positions
         [[10. 20. 30.]
          [15. 25. 35.]]
+         
+        See Also
+        --------
+        concatenate : Class method for concatenating multiple instances
         """
-        if np.all([isinstance(c, Cartographic) for c in positions]):
-            return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0))
+        if isinstance(positions, Cartographic):
+            return self.concatenate([self, positions])
         else:
             raise ValueError("The instance to append must be a Cartographic instance.")
 
     @classmethod
-    def concatenate(cls, *positions):
+    def concatenate(cls, positions):
         """
         Concatenate a sequence of Cartographic instances into a single instance.
 
         Parameters
         ----------
-        positions : :class:`sargeom.coordinates.Cartographic`
-            The sequence of Cartographic instances to concatenate.
+        positions : sequence of :class:`sargeom.coordinates.Cartographic`
+            The sequence of Cartographic instances to concatenate. Can be a list, tuple, or any iterable.
         
         Returns
         -------
@@ -394,7 +401,34 @@ class Cartographic(np.ndarray):
         :class:`ValueError`
             - If the input list is empty.
             - If not all items in the list are instances of Cartographic.
+
+        Examples
+        --------
+        Concatenate multiple Cartographic positions:
+
+        >>> pos_1 = Cartographic(longitude=[1.0, 2.0], latitude=[45.0, 46.0], height=[100, 200])
+        >>> pos_2 = Cartographic(longitude=3.0, latitude=47.0, height=300)
+        >>> pos_3 = Cartographic(longitude=[4.0, 5.0], latitude=[48.0, 49.0], height=[400, 500])
+        >>> combined = Cartographic.concatenate([pos_1, pos_2, pos_3])
+        >>> len(combined)
+        5
+        >>> combined.longitude
+        array([1., 2., 3., 4., 5.])
+
+        Concatenate single positions:
+
+        >>> paris = Cartographic(longitude=2.3522, latitude=48.8566, height=35.0)
+        >>> london = Cartographic(longitude=-0.1276, latitude=51.5074, height=11.0)
+        >>> cities = Cartographic.concatenate([paris, london])
+        >>> len(cities)
+        2
         """
+        # Convert to list if not already a sequence
+        if not hasattr(positions, '__iter__'):
+            raise TypeError("positions must be an iterable (list, tuple, etc.)")
+        
+        positions = list(positions)
+        
         # Check if the input list is empty
         if not positions:
             raise ValueError("Input list is empty.")

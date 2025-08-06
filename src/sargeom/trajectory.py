@@ -575,14 +575,14 @@ class Trajectory:
             return Trajectory(new_timestamps, new_positions)
 
     @classmethod
-    def concatenate(cls, *trajectories):
+    def concatenate(cls, trajectories):
         """
         Concatenate a sequence of Trajectory objects into a single object.
         
         Parameters
         ----------
-        trajectories : list of :class:`sargeom.Trajectory`
-            The trajectories to concatenate.
+        trajectories : sequence of :class:`sargeom.Trajectory`
+            The trajectories to concatenate. Can be a list, tuple, or any iterable.
 
         Returns
         -------
@@ -594,7 +594,50 @@ class Trajectory:
         :class:`ValueError`
             - If the input list is empty.
             - If any item in the list is not a Trajectory instance.
+
+        Notes
+        -----
+        - Timestamps and positions are always concatenated.
+        - Orientations are concatenated only if ALL input trajectories have orientations.
+        - If any trajectory lacks orientations, the result will have no orientations.
+        - The order of concatenation follows the order of input trajectories.
+
+        Examples
+        --------
+        Concatenate two trajectories with orientations:
+
+        >>> import numpy as np
+        >>> from scipy.spatial.transform import Rotation
+        >>> timestamps_1 = np.array([0.0, 1.0])
+        >>> positions_1 = CartesianECEF(x=[1000, 1100], y=[2000, 2100], z=[3000, 3100])
+        >>> orientations_1 = Rotation.from_euler("ZYX", [[0, 0, 0], [10, 0, 0]], degrees=True)
+        >>> traj_1 = Trajectory(timestamps_1, positions_1, orientations_1)
+        >>> 
+        >>> timestamps_2 = np.array([2.0, 3.0])
+        >>> positions_2 = CartesianECEF(x=[1200, 1300], y=[2200, 2300], z=[3200, 3300])
+        >>> orientations_2 = Rotation.from_euler("ZYX", [[20, 0, 0], [30, 0, 0]], degrees=True)
+        >>> traj_2 = Trajectory(timestamps_2, positions_2, orientations_2)
+        >>> 
+        >>> combined = Trajectory.concatenate([traj_1, traj_2])
+        >>> len(combined)
+        4
+        >>> combined.has_orientation()
+        True
+
+        Concatenate trajectories without orientations:
+
+        >>> traj_no_orient_1 = Trajectory(timestamps_1, positions_1)
+        >>> traj_no_orient_2 = Trajectory(timestamps_2, positions_2)
+        >>> combined_no_orient = Trajectory.concatenate([traj_no_orient_1, traj_no_orient_2])
+        >>> combined_no_orient.has_orientation()
+        False
         """
+        # Convert to list if not already a sequence
+        if not hasattr(trajectories, '__iter__'):
+            raise TypeError("trajectories must be an iterable (list, tuple, etc.)")
+        
+        trajectories = list(trajectories)
+        
         if not trajectories:
             raise ValueError("No trajectories to concatenate.")
         if not all(isinstance(traj, Trajectory) for traj in trajectories):
