@@ -90,7 +90,7 @@ class Cartographic(np.ndarray):
             height = np.array(height)
 
         # Check if the input arrays have the same size
-        if longitude.shape != latitude.shape != height.shape:
+        if not (longitude.shape == latitude.shape == height.shape):
             raise ValueError(
                 "The longitude, latitude and height must be of equal size."
             )
@@ -158,10 +158,6 @@ class Cartographic(np.ndarray):
         ----------
         array : array_like
             A numpy array object representing a list of Lon-Lat-Height coordinates.
-        origin : :class:`sargeom.coordinates.Cartographic`, optional
-            The cartographic position describing the location of the local origin of the coordinate system.
-            If the cartesian coordinate system used is not a local systems such as ENU, NED, and AER, this parameter is None.
-            If not specified, the default local origin of the instance will be used.
         degrees : :class:`bool`, optional
             If True (default), takes input angles in degrees. If False, takes input angles in radians.
 
@@ -443,14 +439,30 @@ class Cartographic(np.ndarray):
     def __eq__(self, right):
         """
         Compares this Cartographic instance against the provided one componentwise and returns `True` if they are equal, `False` otherwise.
+
+        Parameters
+        ----------
+        right : :class:`sargeom.coordinates.Cartographic`
+            The cartographic position to compare against.
+
+        Returns
+        -------
+        :class:`bool`
+            `True` if the cartographic positions are equal, `False` otherwise.
+
+        Examples
+        --------
+        >>> A = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> B = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> A == B
+        True
+
+        >>> A = Cartographic(longitude=10.0, latitude=20.0, height=30.0)
+        >>> B = Cartographic(longitude=15.0, latitude=25.0, height=35.0)
+        >>> A == B
+        False
         """
-        return np.all(
-            [
-                self.longitude == right.longitude,
-                self.latitude == right.latitude,
-                self.height == right.height,
-            ]
-        )
+        return np.allclose(self.__array__(), right.__array__())
 
     def is_collection(self):
         """

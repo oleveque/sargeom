@@ -77,6 +77,13 @@ class Cartesian3(np.ndarray):
     >>> A / B
     XYZ Cartesian3 point
     [1. 0. 0.]
+
+    Use with local coordinate systems:
+
+    >>> origin = Cartographic(longitude=5.0, latitude=45.0, height=0.0)
+    >>> local_enu = CartesianLocalENU(x=100.0, y=200.0, z=50.0, origin=origin)
+    >>> local_enu.is_local()
+    True
     """
 
     def __new__(cls, x, y, z, origin=None):
@@ -89,7 +96,7 @@ class Cartesian3(np.ndarray):
             z = np.array(z)
 
         # Check if the input arrays have the same shape
-        if x.shape != y.shape != z.shape:
+        if not (x.shape == y.shape == z.shape):
             raise ValueError("The X, Y and Z components must be of equal size.")
 
         # Check if the input arrays are 0- or 1-dimensional
@@ -161,7 +168,9 @@ class Cartesian3(np.ndarray):
         Raises
         ------
         :class:`ValueError`
-            If the numpy array has not at least 1 row and only 3 columns.
+            - If the input array does not have the shape (3,) or (N, 3).
+        :class:`IndexError`
+            - If the numpy array is empty.
 
         Returns
         -------
@@ -195,10 +204,14 @@ class Cartesian3(np.ndarray):
         elif array.ndim == 2 and array.shape[1] == 3:
             return cls(array[:, 0], array[:, 1], array[:, 2], origin)
         
+        # Handle case where array is empty or has wrong shape after indexing
+        elif array.size == 0:
+            raise IndexError("Cannot create Cartesian3 from empty array")
+        
         # Raise an error if the input array does not meet the requirements
         else:
             raise ValueError(
-                "The numpy array must have at least 1 row and only 3 columns."
+                f"The numpy array must have shape (3,) or (N, 3), got {array.shape}."
             )
 
     @property
@@ -443,18 +456,22 @@ class Cartesian3(np.ndarray):
 
     def is_collection(self):
         """
-        Check if the Cartographic instance represents a set of cartesian points.
+        Check if the Cartesian3 instance represents a set of cartesian points.
 
         Returns
         -------
         :class:`bool`
-            `true` if the instance is a collections of points, `false` otherwise.
+            `true` if the instance is a collection of points, `false` otherwise.
         
         Examples
         --------
+        Single point:
+
         >>> A = Cartesian3(x=10.0, y=20.0, z=30.0)
         >>> A.is_collection()
         False
+
+        Multiple points:
 
         >>> B = Cartesian3(x=[10.0, 20.0, 30.0], y=[40.0, 50.0, 60.0], z=[70.0, 80.0, 90.0])
         >>> B.is_collection()
@@ -613,9 +630,13 @@ class Cartesian3(np.ndarray):
         False
         """
         if self.is_local() or right.is_local():
-            return bool(np.all([self.x == right.x, self.y == right.y, self.z == right.z, self._local_origin == right._local_origin]))
+            # Compare coordinates and local origin for local coordinate systems
+            coords_equal = np.allclose(self.__array__(), right.__array__())
+            origin_equal = self._local_origin == right._local_origin
+            return coords_equal and origin_equal
         else:
-            return bool(np.all([self.x == right.x, self.y == right.y, self.z == right.z]))
+            # Compare only coordinates for non-local coordinate systems
+            return np.allclose(self.__array__(), right.__array__())
 
     def magnitude(self):
         """

@@ -1,4 +1,3 @@
-# https://gereon-t.github.io/trajectopy/Documentation/Trajectory/
 import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation, Slerp
@@ -37,9 +36,11 @@ PAMELA_POS_DTYPE = [
     ('heading_deg', '<f4'),
     ('std_latitude_m', '<f4'),
     ('std_longitude_m', '<f4'),
-    ('std_height_m', '<f4')
+    ('std_height_m', '<f4'),
 ]
 
+# This class represents a trajectory of positions and orientations over time.
+# Inspired by https://gereon-t.github.io/trajectopy/Documentation/Trajectory/
 class Trajectory:
     """
     A Trajectory object represents a sequence of positions and orientations over time.
@@ -631,6 +632,20 @@ class Trajectory:
         >>> combined_no_orient = Trajectory.concatenate([traj_no_orient_1, traj_no_orient_2])
         >>> combined_no_orient.has_orientation()
         False
+
+        Concatenate single trajectory with multiple points:
+
+        >>> single_position = Cartographic(longitude=2.0, latitude=46.0, height=0.0)
+        >>> single_traj = Trajectory(timestamps=[10.0], positions=single_position)
+        >>> multi_positions = Cartographic(
+        ...     longitude=[3.0, 4.0], 
+        ...     latitude=[47.0, 48.0], 
+        ...     height=[100.0, 200.0]
+        ... )
+        >>> multi_traj = Trajectory(timestamps=[11.0, 12.0], positions=multi_positions)
+        >>> result = Trajectory.concatenate([single_traj, multi_traj])
+        >>> len(result)
+        3
         """
         # Convert to list if not already a sequence
         if not hasattr(trajectories, '__iter__'):
@@ -736,16 +751,24 @@ class Trajectory:
         >>> data = traj.to_numpy()
         """
         cartographic_positions = self._positions.to_cartographic()
-        [heading, elevation, bank] = self._orientations.as_euler("ZYX", degrees=True) if self.has_orientation() else np.zeros((3, self.__len__()))
-        return np.array(list(zip(
-            self._timestamps,
-            cartographic_positions.longitude,
-            cartographic_positions.latitude,
-            cartographic_positions.height,
-            heading,
-            elevation,
-            bank
-        )), dtype=TRAJ_DTYPE)
+        
+        # Extract orientations if available
+        if self.has_orientation():
+            heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
+        else:
+            heading = elevation = bank = np.zeros(len(self))
+        
+        # Create the structured array
+        data = np.empty(len(self), dtype=TRAJ_DTYPE)
+        data['TIMESTAMP_S'] = self._timestamps
+        data['LON_WGS84_DEG'] = cartographic_positions.longitude
+        data['LAT_WGS84_DEG'] = cartographic_positions.latitude
+        data['HEIGHT_WGS84_M'] = cartographic_positions.height
+        data['HEADING_DEG'] = heading
+        data['ELEVATION_DEG'] = elevation
+        data['BANK_DEG'] = bank
+        
+        return data
 
     def to_pandas(self):
         """
