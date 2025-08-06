@@ -169,7 +169,6 @@ class Cartesian3(np.ndarray):
         ------
         :class:`ValueError`
             - If the input array does not have the shape (3,) or (N, 3).
-        :class:`IndexError`
             - If the numpy array is empty.
 
         Returns
@@ -206,7 +205,7 @@ class Cartesian3(np.ndarray):
         
         # Handle case where array is empty or has wrong shape after indexing
         elif array.size == 0:
-            raise IndexError("Cannot create Cartesian3 from empty array")
+            raise ValueError("Cannot create Cartesian3 from empty array")
         
         # Raise an error if the input array does not meet the requirements
         else:
@@ -631,12 +630,12 @@ class Cartesian3(np.ndarray):
         """
         if self.is_local() or right.is_local():
             # Compare coordinates and local origin for local coordinate systems
-            coords_equal = np.allclose(self.__array__(), right.__array__())
+            coords_equal = np.allclose(self.__array__(), right.__array__(), rtol=1e-12, atol=1e-9)
             origin_equal = self._local_origin == right._local_origin
             return coords_equal and origin_equal
         else:
             # Compare only coordinates for non-local coordinate systems
-            return np.allclose(self.__array__(), right.__array__())
+            return np.allclose(self.__array__(), right.__array__(), rtol=1e-12, atol=1e-9)
 
     def magnitude(self):
         """

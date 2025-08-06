@@ -462,7 +462,7 @@ class Cartographic(np.ndarray):
         >>> A == B
         False
         """
-        return np.allclose(self.__array__(), right.__array__())
+        return np.allclose(self.__array__(), right.__array__(), rtol=1e-12, atol=1e-9)
 
     def is_collection(self):
         """
