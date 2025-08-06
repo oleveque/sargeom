@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updated `append()` methods to use `concatenate()` internally for better consistency and maintainability
 
+### Fixed
+- Fixed longitude and latitude precision in CSV output from `%.12f` to `%.15f` format by @oboisot in #1
+  - Affects `Trajectory.save_csv()` and `Cartographic.save_csv()` methods
+  - Preserves full double precision accuracy for geographic coordinates
+
 ## [0.2.0] - 2025-08-04
 
 ### Added

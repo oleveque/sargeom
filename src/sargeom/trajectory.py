@@ -982,7 +982,7 @@ class Trajectory:
         np.savetxt(
             filename.with_suffix(".traj.csv"),
             self.to_numpy(),
-            fmt=['%.3f', '%.12f', '%.12f', '%.6f', '%.6f', '%.6f', '%.6f'],
+            fmt=['%.3f', '%.15f', '%.15f', '%.6f', '%.6f', '%.6f', '%.6f'],
             delimiter=';',
             newline='\n',
             comments='',

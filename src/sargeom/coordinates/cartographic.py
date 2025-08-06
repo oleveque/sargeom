@@ -787,7 +787,7 @@ class Cartographic(np.ndarray):
         np.savetxt(
             filename.with_suffix(".csv"),
             self.__array__(),
-            fmt=['%.12f','%.12f','%.6f'],
+            fmt=['%.15f','%.15f','%.6f'],
             delimiter=';',
             newline='\n',
             comments='',
