@@ -1,7 +1,7 @@
 Examples
 ========
 
-TODO: Add examples here.
+This section contains practical examples demonstrating ``sargeom`` capabilities.
 
 .. nbgallery::
    examples/bistatic_angles.ipynb

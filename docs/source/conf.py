@@ -22,9 +22,9 @@ extensions = [
     "sphinx_design",
     "sphinx.ext.todo",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx.ext.viewcode",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.autosummary",
     "sphinx_automodapi.automodapi",
     "sphinx_automodapi.smart_resolver",
     "numpydoc",
@@ -39,6 +39,8 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_title = "sargeom"
+# html_logo = None
+# html_favicon = None
 # html_static_path = ['_static']
 
 # -- Options for Numpydoc ----------------------------------------------------
@@ -56,5 +58,6 @@ intersphinx_mapping = {
     "pandas": ("https://pandas.pydata.org/docs/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "pyproj": ("https://pyproj4.github.io/pyproj/stable/", None),
-    "scipy": ("https://docs.scipy.org/doc/scipy/", None)
+    "scipy": ("https://docs.scipy.org/doc/scipy/", None),
+    "matplotlib": ("https://matplotlib.org/stable/", None),
 }
