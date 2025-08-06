@@ -483,10 +483,13 @@ class Cartesian3(np.ndarray):
         """
         Create a new Cartesian3 instance with the appended positions.
 
+        This is a convenience method for concatenating this instance with another single instance.
+        For concatenating multiple instances, use the concatenate() class method.
+
         Parameters
         ----------
-        positions : sequence of :class:`sargeom.coordinates.Cartesian3`
-            The sequence of Cartesian3 instances to append.
+        positions : :class:`sargeom.coordinates.Cartesian3`
+            The Cartesian3 instance to append.
 
         Raises
         ------
@@ -506,13 +509,82 @@ class Cartesian3(np.ndarray):
         XYZ Cartesian3 points
         [[10. 20. 30.]
          [15. 25. 35.]]
+        
+        See Also
+        --------
+        concatenate : Class method for concatenating multiple instances
         """
-        if np.all([isinstance(c, self.__class__) for c in positions]):
-            return self.from_array(np.concatenate((self.__array__(), positions.__array__()), axis=0), self._local_origin)
+        if isinstance(positions, self.__class__):
+            return self.concatenate([self, positions])
         else:
             raise ValueError(
                 f"The instance to append must be a {self.__class__.__name__} instance."
             )
+
+    @classmethod
+    def concatenate(cls, positions):
+        """
+        Concatenate a sequence of Cartesian3 instances into a single instance.
+
+        Parameters
+        ----------
+        positions : sequence of :class:`sargeom.coordinates.Cartesian3`
+            The Cartesian3 instances to concatenate. Can be a list, tuple, or any iterable.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.Cartesian3`
+            A new Cartesian3 instance containing the concatenated data.
+
+        Raises
+        ------
+        :class:`ValueError`
+            - If the input list is empty.
+            - If not all items in the list are instances of Cartesian3.
+            - If the local origin of the positions is not the same for all instances.
+
+        Examples
+        --------
+        Concatenate multiple Cartesian3 instances:
+
+        >>> A = Cartesian3(x=[1.0, 2.0], y=[3.0, 4.0], z=[5.0, 6.0])
+        >>> B = Cartesian3(x=7.0, y=8.0, z=9.0)
+        >>> C = Cartesian3(x=[10.0, 11.0], y=[12.0, 13.0], z=[14.0, 15.0])
+        >>> result = Cartesian3.concatenate([A, B, C])
+        >>> len(result)
+        5
+        >>> result.x
+        array([ 1.,  2.,  7., 10., 11.])
+
+        Concatenate local coordinate systems (same origin required):
+
+        >>> origin = Cartographic(longitude=2.0, latitude=46.0, height=0.0)
+        >>> enu_1 = CartesianLocalENU(x=[100, 200], y=[300, 400], z=[10, 20], origin=origin)
+        >>> enu_2 = CartesianLocalENU(x=500, y=600, z=30, origin=origin)
+        >>> combined = CartesianLocalENU.concatenate([enu_1, enu_2])
+        >>> len(combined)
+        3
+        """
+        # Convert to list if not already a sequence
+        if not hasattr(positions, '__iter__'):
+            raise TypeError("positions must be an iterable (list, tuple, etc.)")
+        
+        positions = list(positions)
+        
+        # Check if the input list is empty
+        if not positions:
+            raise ValueError("Input list is empty.")
+        
+        # Check if all items in the list are instances of Cartesian3
+        if not all(isinstance(pos, cls) for pos in positions):
+            raise ValueError(f"All items in the list must be {cls.__name__} instances.")
+        
+        # Check if all positions have the same local origin
+        if not all(pos._local_origin == positions[0]._local_origin for pos in positions):
+            raise ValueError("All positions must have the same local origin.")
+
+        # Concatenate the positions into a single Cartesian3 instance
+        return cls.from_array(np.concatenate([pos.__array__() for pos in positions], axis=0), origin=positions[0]._local_origin)
 
     def __eq__(self, right):
         """
