@@ -1,9 +1,9 @@
-name: Build and Deploy Sphinx Documentation
+name: Deploy Sphinx Documentation
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - v[0-9]+.*
 
 jobs:
   build:

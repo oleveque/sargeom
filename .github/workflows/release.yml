@@ -1,13 +1,9 @@
-name: Build and Release Python Package
+name: Release Python Package
 
 on:
   push:
     tags:
       - v[0-9]+.*
-  workflow_run:
-    workflows: ["Run Unit Tests"]
-    types:
-      - completed
 
 jobs:
   build:
