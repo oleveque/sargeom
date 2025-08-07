@@ -721,7 +721,7 @@ class Trajectory:
         if 'HEADING_DEG' in data.dtype.names:
             orientations = Rotation.from_euler(
                 "ZYX",
-                [data['HEADING_DEG'], data['ELEVATION_DEG'], data['BANK_DEG']],
+                np.column_stack([data['HEADING_DEG'], data['ELEVATION_DEG'], data['BANK_DEG']]),
                 degrees=True
             )
         else:
