@@ -806,11 +806,13 @@ class Trajectory:
         data = self.to_numpy()
         return pd.DataFrame(data)
 
-    def read_pivot(self, filename):
+    @classmethod
+    def read_pivot(cls, filename):
         # TODO: Implement reading from a pivot file
         raise NotImplementedError("Reading from pivot files is not implemented yet.")
 
-    def read_pamela_pos(self, filename):
+    @classmethod
+    def read_pamela_pos(cls, filename):
         """
         Read a PAMELA .pos file and create a Trajectory instance.
 
@@ -849,9 +851,10 @@ class Trajectory:
         data['ELEVATION_DEG'] = record['elevation_deg']
         data['BANK_DEG'] = record['bank_deg']
 
-        return Trajectory.from_numpy(data)
+        return cls.from_numpy(data)
 
-    def read_pamela_traj(self, filename):
+    @classmethod
+    def read_pamela_traj(cls, filename):
         """
         Read a PAMELA .traj file and create a Trajectory instance.
 
@@ -917,9 +920,10 @@ class Trajectory:
         data['ELEVATION_DEG'] = np.degrees(records['elevation_rad'])
         data['BANK_DEG'] = np.degrees(records['bank_rad'])
 
-        return Trajectory.from_numpy(data)
+        return cls.from_numpy(data)
 
-    def read_csv(self, filename):
+    @classmethod
+    def read_csv(cls, filename):
         """
         Read a TRAJ CSV file and create a Trajectory instance.
 
@@ -943,7 +947,7 @@ class Trajectory:
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
-        if not filename.suffix == '.traj.csv':
+        if not filename.name.endswith('.traj.csv'):
             raise ValueError("File must have a .traj.csv extension.")
 
         data = np.genfromtxt(
@@ -953,9 +957,9 @@ class Trajectory:
             names=None,
             dtype=TRAJ_DTYPE,
             encoding='utf8'
-        )
+        )[1:]  # Skip the header line
 
-        return Trajectory.from_numpy(data)
+        return cls.from_numpy(data)
 
     def save_csv(self, filename):
         """
