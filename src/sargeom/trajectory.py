@@ -16,7 +16,7 @@ TRAJ_DTYPE = [
 
 PAMELA_TRAJ_DTYPE = [
     ('longitude_rad', '<f8'),
-    ('latitude_deg', '<f8'),
+    ('latitude_rad', '<f8'),
     ('height_m', '<f8'),
     ('heading_rad', '<f4'),
     ('elevation_rad', '<f4'),
