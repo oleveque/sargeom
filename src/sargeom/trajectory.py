@@ -980,13 +980,18 @@ class Trajectory:
         ...         height=[300.0, 400.0, 500.0]
         ...     )
         ... )
-        >>> traj.save_csv("output.traj.csv")
+        >>> filename = traj.save_csv("output")
+        >>> print(filename)
+        output.traj.csv
         """
         filename = Path(filename)
+        while filename.suffix in {'.traj', '.csv'}:
+            filename = filename.with_suffix('')
+        filename = filename.with_suffix(".traj.csv")
         np.savetxt(
-            filename.with_suffix(".traj.csv"),
+            filename,
             self.to_numpy(),
-            fmt=['%.3f', '%.15f', '%.15f', '%.6f', '%.6f', '%.6f', '%.6f'],
+            fmt=['%.12f', '%.15f', '%.15f', '%.6f', '%.6f', '%.6f', '%.6f'],
             delimiter=';',
             newline='\n',
             comments='',
@@ -1007,6 +1012,7 @@ class Trajectory:
 
 TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG;BANK_DEG"""
         )
+        return filename
 
     def save_pamela_pos(self, filename):
         """
@@ -1027,9 +1033,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ...         height=[300.0, 400.0, 500.0]
         ...     )
         ... )
-        >>> traj.save_pamela_pos("output.pos")
+        >>> filename = traj.save_pamela_pos("output")
+        >>> print(filename)
+        output.pos
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".pos")
         
         data = self.to_numpy()
         n = data.shape[0]
@@ -1044,7 +1052,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         pos['heading_deg'] = data['HEADING_DEG']
 
         np.savetxt(
-            filename.with_suffix(".pos"),
+            filename,
             pos,
             fmt=['%.3f', '%.10f', '%.10f', '%.5f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f', '%.4f'],
             delimiter='\t',
@@ -1052,6 +1060,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             comments='',
             encoding='utf8'
         )
+
+        return filename
 
     def save_npy(self, filename):
         """
@@ -1072,10 +1082,14 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ...         height=[300.0, 400.0, 500.0]
         ...     )
         ... )
-        >>> traj.save_npy("output.npy")
+        >>> filename = traj.save_npy("output")
+        >>> print(filename)
+        toto.npy
         """
-        filename = Path(filename)
-        np.save(filename.with_suffix('.npy'), self.to_numpy())
+        filename = Path(filename).with_suffix(".npy")
+        np.save(filename, self.to_numpy())
+
+        return filename
 
     def save_pivot(self, filename):
         # TODO: Implement saving to a pivot file
