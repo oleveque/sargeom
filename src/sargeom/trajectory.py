@@ -1123,8 +1123,60 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         return filename
 
     def save_pivot(self, filename):
-        # TODO: Implement saving to a pivot file
-        raise NotImplementedError("Saving to pivot files is not implemented yet.")
+        try:
+            from pivot.darpy import Axis, AxisLabelEnum
+            from pivot.piactor import Actor, ActorTypeEnum
+            from pivot.pivotutil import pivot_version, Metadata, ProtectionTag
+            print("Pivot version:", pivot_version())
+        except ImportError:
+            raise ImportError("Required pivot modules are not available. Please ensure that the pivot library is installed. For more information, visit http://125.40.2.23:3000/PIVOT/-/packages/pypi/pivot/2.3.0")
+
+        filename = Path(filename).with_suffix('.h5')
+
+        # Compute direction vectors in ECEF frame
+        local_origins = self._positions.to_cartographic()
+        rot_ned2ecef = Rotation.from_matrix([
+            [
+                [ -np.cos(lon) * np.sin(lat), -np.sin(lon) * np.sin(lat), np.cos(lat) ],
+                [ -np.sin(lon), np.cos(lon), 0.0 ],
+                [ -np.cos(lon) * np.cos(lat), -np.sin(lon) * np.cos(lat), -np.sin(lat) ],
+            ]
+            for lat, lon in zip(local_origins.latitude, local_origins.longitude)
+        ]).inv()
+
+        if self.has_orientation():
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])   # X-axis direction
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (negative for NED to ENU conversion)
+        else:
+            x_axis_dir = rot_ned2ecef.apply([1.0, 0.0, 0.0])   # X-axis direction
+            y_axis_dir = rot_ned2ecef.apply([0.0, -1.0, 0.0])  # Y-axis direction (negative for NED to ENU conversion)
+
+        states = [
+            Axis(AxisLabelEnum.TIME, self._timestamps.tolist()),
+            Axis(AxisLabelEnum.POS_X_ECEF, self._positions.x.tolist()),
+            Axis(AxisLabelEnum.POS_Y_ECEF, self._positions.y.tolist()),
+            Axis(AxisLabelEnum.POS_Z_ECEF, self._positions.z.tolist()),
+            Axis(AxisLabelEnum.DIR_x_X_ECEF, x_axis_dir[0].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Y_ECEF, x_axis_dir[1].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Z_ECEF, x_axis_dir[2].tolist()),
+            Axis(AxisLabelEnum.DIR_y_X_ECEF, y_axis_dir[0].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Y_ECEF, y_axis_dir[1].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[2].tolist())
+        ]
+
+        tx_actor = Actor(
+            ActorTypeEnum.TX_PLATFORM,
+            filename.stem,
+            states
+        )
+
+        meta = Metadata({ 'Rights': { 'dataOwner': 'EMPRISE', 'dataCoowner': 'EMPRISE', 'confid': ProtectionTag.NON_PROTEGE } })
+
+        tx_actor.save(filename, mode='override')
+        # rx_actor.save(h5_filename, mode='append')
+        meta.save(filename)
+
+        return filename
 
     def save_kml(self, filename, **kwargs):
         # TODO: Implement saving to KML format
