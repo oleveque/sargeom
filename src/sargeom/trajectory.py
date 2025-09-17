@@ -970,6 +970,11 @@ class Trajectory:
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .traj.csv file.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .traj.csv file.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -988,6 +993,7 @@ class Trajectory:
         while filename.suffix in {'.traj', '.csv'}:
             filename = filename.with_suffix('')
         filename = filename.with_suffix(".traj.csv")
+
         np.savetxt(
             filename,
             self.to_numpy(),
@@ -1022,6 +1028,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .pos file.
+
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .pos file.
 
         Examples
         --------
@@ -1072,6 +1083,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .npy file.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .npy file.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -1084,7 +1100,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ... )
         >>> filename = traj.save_npy("output")
         >>> print(filename)
-        toto.npy
+        output.npy
         """
         filename = Path(filename).with_suffix(".npy")
         np.save(filename, self.to_numpy())
