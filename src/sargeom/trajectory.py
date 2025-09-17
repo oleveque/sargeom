@@ -869,7 +869,7 @@ class Trajectory:
         return cls.from_numpy(data)
 
     @classmethod
-    def read_pamela_traj(cls, filename):
+    def read_pamela_traj(cls, filename, sampling_time_s=None):
         """
         Read a PAMELA .traj file and create a Trajectory instance.
 
@@ -915,15 +915,35 @@ class Trajectory:
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
         # Check format
-        if header[10] > -0.5:
-            raise ValueError("Old PAMELA file format detected, please check the file format!")
+        needs_conversion = False
+        if header[10] >= 0.0: # Old "NTF" format
+            needs_conversion = True
+            print(
+                f"Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = {header[10]}]!\n"
+                " ↳ Trajectory will be automatically converted to geographic WGS84 CRS format."
+            )
 
-        time_step = header[9]
-        header_size = header_count * 8  # bytes for 11 doubles
+        # Check trajectory time sampling
+        if sampling_time_s is not None:
+            time_step = sampling_time_s
+        else:
+            time_step = header[9]
+            if time_step <= 0.0:
+                print(
+                    "Sampling time step is non-positive or non defined !\n"
+                    " ↳ This value is set to 1.0 second by default."
+                )
+                time_step = 1.0
+        print(f"Sampling time step is set to {time_step}s. To modify the timestamp axis set a new one in the newly created Trajectory object.")
 
         # Read all records in a single operation
+        header_size = header_count * 8  # bytes for 11 doubles
         records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
         n = records.shape[0]
+
+        if needs_conversion:
+            from sargeom.coordinates.compat import transform_trajectory_from_local_lambert_ntf_to_wgs84
+            records = transform_trajectory_from_local_lambert_ntf_to_wgs84(header, records)
 
         # Create output structured array
         data = np.empty(n, dtype=TRAJ_DTYPE)
