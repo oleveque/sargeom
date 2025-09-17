@@ -1148,8 +1148,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])   # X-axis direction
             y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (negative for NED to ENU conversion)
         else:
-            x_axis_dir = rot_ned2ecef.apply([1.0, 0.0, 0.0])   # X-axis direction
-            y_axis_dir = rot_ned2ecef.apply([0.0, -1.0, 0.0])  # Y-axis direction (negative for NED to ENU conversion)
+            # TODO: if no orientation, compute the direction vector from the velocity vector
+            raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
 
         states = [
             Axis(AxisLabelEnum.TIME, self._timestamps.tolist()),
