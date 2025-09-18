@@ -1124,9 +1124,8 @@ class CartesianECEF(Cartesian3):
         Lon.Lat.Height Cartographic position
         [  2.383...  48.879...  124.847...]
         """
-        # latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
         longitude, latitude,height = WGS84.to_cartographic(self.x, self.y, self.z)
-        return Cartographic(longitude, latitude, height)
+        return Cartographic(np.rad2deg(longitude), np.rad2deg(latitude), height)
 
     def to_ned(self, origin):
         """

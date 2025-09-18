@@ -1,7 +1,6 @@
 from pathlib import Path
 import numpy as np
 
-# from sargeom.coordinates.transforms import gcs2egm, wgs84_GCS
 from sargeom.coordinates.transforms import WGS84
 from sargeom.coordinates.utils import negativePiToPi
 
@@ -541,7 +540,6 @@ class Cartographic(np.ndarray):
         [4213272.203...  164124.695... 4769561.521...]
         """
         from sargeom.coordinates.cartesian import CartesianECEF
-        from sargeom.coordinates.transforms import WGS84
         x, y, z = WGS84.to_cartesian_ecef(
             np.deg2rad(self.longitude),
             np.deg2rad(self.latitude),
@@ -576,11 +574,6 @@ class Cartographic(np.ndarray):
             )
 
         kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
-        # lat, lon, alt = gcs2egm.transform(
-        #     self.__array__()[:, 1], # latitude array
-        #     self.__array__()[:, 0], # longitude array
-        #     self.__array__()[:, 2] # height array
-        # )
         lon    = self.__array__()[:, 0]
         lat    = self.__array__()[:, 1]
         height = self.__array__()[:, 2]
