@@ -70,7 +70,7 @@ class Trajectory:
     --------
     Create a Trajectory instance using ECEF (Cartesian) coordinates:
 
-    >>> timestamps = np.array([0, 1, 2])
+    >>> timestamps = np.array([0, 1, 2, 3])
     >>> positions = CartesianECEF(
     ...     x=[4614831.06382533, 4583825.9258778, 4610933.91105407],
     ...     y=[312803.18870294, 388064.96749322, 440116.57314554],
@@ -81,16 +81,16 @@ class Trajectory:
     Create a Trajectory instance using geographic (Cartographic) coordinates:
 
     >>> positions = Cartographic(
-    ...     longitude=[3.8777, 4.8391, 5.4524],
-    ...     latitude=[43.6135, 43.9422, 43.5309],
-    ...     height=[300.0, 400.0, 500.0]
+    ...     longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+    ...     latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+    ...     height=[300.0, 400.0, 500.0, 600.0]
     ... )
     >>> traj = Trajectory(timestamps, positions)
 
     Create a Trajectory instance with orientations:
 
     >>> from scipy.spatial.transform import Rotation
-    >>> orientations = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)
+    >>> orientations = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0], [270, 0, 0]], degrees=True)
     >>> traj = Trajectory(timestamps, positions, orientations)
     """
     def __init__(self, timestamps, positions, orientations=None):
@@ -121,15 +121,15 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> len(traj)
-        3
+        4
         """
         return len(self._timestamps)
 
@@ -150,11 +150,11 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj[:2]
@@ -180,18 +180,19 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj
         Trajectory samples (t, x, y, z, h, e, b)
         [(0., 3.8777, 43.6135, 300., 0., 0., 0.)
          (1., 4.8391, 43.9422, 400., 0., 0., 0.)
-         (2., 5.4524, 43.5309, 500., 0., 0., 0.)]
+         (2., 5.4524, 43.5309, 500., 0., 0., 0.)
+         (3., 6.2345, 43.7891, 600., 0., 0., 0.)]
         """
         return f"Trajectory samples (t, x, y, z, h, e, b)\n{self.to_numpy()}"
 
@@ -216,18 +217,19 @@ class Trajectory:
         Sort the trajectory in place:
 
         >>> traj = Trajectory(
-        ...     timestamps=[2, 0, 1],
+        ...     timestamps=[2, 0, 1, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.sort()
         Trajectory samples (t, x, y, z, h, e, b)
         [(0., 4.8391, 43.9422, 400., 0., 0., 0.)
          (1., 5.4524, 43.5309, 500., 0., 0., 0.)
-         (2., 3.8777, 43.6135, 300., 0., 0., 0.)]
+         (2., 3.8777, 43.6135, 300., 0., 0., 0.)
+         (3., 6.2345, 43.7891, 600., 0., 0., 0.)]
 
         Sort the trajectory and return a new instance:
 
@@ -262,15 +264,15 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.timestamps
-        array([0, 1, 2])
+        array([0, 1, 2, 3])
         """
         return self._timestamps
 
@@ -287,18 +289,19 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.positions
         XYZ CartesianECEF points
         [[4614831.06382533  312803.18870294 4377307.25608437]
          [4583825.9258778   388064.96749322 4403747.15229078]
-         [4610933.91105407  440116.57314554 4370795.76589696]]
+         [4610933.91105407  440116.57314554 4370795.76589696]
+         [4584879.02442076  500870.74890955 4391620.5067715 ]]
         """
         return self._positions
 
@@ -320,15 +323,15 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.velocities
-        array([85584.58995186, 67305.32205239])
+        array([85584.58995186, 67305.32205239, 69307.98527392])
         """
         if len(self._timestamps) < 2:
             raise ValueError("Not enough timestamps to compute velocities.")
@@ -347,11 +350,11 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.has_orientation()
@@ -382,20 +385,21 @@ class Trajectory:
         Examples
         --------
         >>> from scipy.spatial.transform import Rotation
-        >>> attitude = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)
+        >>> attitude = Rotation.from_euler("ZYX", [[0, 0, 0], [90, 0, 0], [180, 0, 0], [270, 0, 0]], degrees=True)
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     ),
         ...     orientations=attitude
         ... )
         >>> traj.orientations.as_quat()
         array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00],
                [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, 7.07106781e-01],
-               [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17]])
+               [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17],
+               [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, -7.07106781e-01]])
         """
         if not self.has_orientation():
             raise ValueError("This trajectory does not have orientations.")
@@ -414,15 +418,15 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.arc_lengths
-        array([85584.58995186, 67305.32205239])
+        array([85584.58995186, 67305.32205239, 69307.98527392])
         """
         return Cartesian3.distance(self._positions[1:], self._positions[:-1])
 
@@ -438,15 +442,15 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.total_arc_length()
-        np.float64(152889.9120042545)
+        np.float64(231835.03546103595)
         """
         return np.sum(self.arc_lengths)
 
@@ -468,11 +472,11 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> traj.sampling_rate
@@ -507,11 +511,11 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> resampled_traj = traj.resample(2.0)
@@ -552,14 +556,14 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> interp_traj = traj.interp([0.5, 1.5])
+        >>> interp_traj = traj.interp([0.5, 1.5, 2.5])
         """
         if not isinstance(new_timestamps, np.ndarray):
             new_timestamps = np.asarray(new_timestamps)
@@ -638,14 +642,14 @@ class Trajectory:
         >>> single_position = Cartographic(longitude=2.0, latitude=46.0, height=0.0)
         >>> single_traj = Trajectory(timestamps=[10.0], positions=single_position)
         >>> multi_positions = Cartographic(
-        ...     longitude=[3.0, 4.0], 
-        ...     latitude=[47.0, 48.0], 
-        ...     height=[100.0, 200.0]
+        ...     longitude=[3.0, 4.0, 5.0], 
+        ...     latitude=[47.0, 48.0, 49.0], 
+        ...     height=[100.0, 200.0, 300.0]
         ... )
-        >>> multi_traj = Trajectory(timestamps=[11.0, 12.0], positions=multi_positions)
+        >>> multi_traj = Trajectory(timestamps=[11.0, 12.0, 13.0], positions=multi_positions)
         >>> result = Trajectory.concatenate([single_traj, multi_traj])
         >>> len(result)
-        3
+        4
         """
         # Convert to list if not already a sequence
         if not hasattr(trajectories, '__iter__'):
@@ -702,7 +706,8 @@ class Trajectory:
         >>> data = np.array([
         ...     (0., 3.8777, 43.6135, 300., 0., 0., 0.),
         ...     (1., 4.8391, 43.9422, 400., 0., 0., 0.),
-        ...     (2., 5.4524, 43.5309, 500., 0., 0., 0.)
+        ...     (2., 5.4524, 43.5309, 500., 0., 0., 0.),
+        ...     (3., 6.2345, 43.7891, 600., 0., 0., 0.)
         ... ], dtype=TRAJ_DTYPE)
         >>> traj = Trajectory.from_numpy(data)
         """
@@ -741,14 +746,19 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> data = traj.to_numpy()
+        >>> traj.to_numpy()
+        array([(0., 3.8777, 43.6135, 300., 0., 0., 0.),
+               (1., 4.8391, 43.9422, 400., 0., 0., 0.),
+               (2., 5.4524, 43.5309, 500., 0., 0., 0.),
+               (3., 6.2345, 43.7891, 600., 0., 0., 0.)],
+              dtype=[('TIMESTAMP_S', '<f8'), ('LON_WGS84_DEG', '<f8'), ('LAT_WGS84_DEG', '<f8'), ('HEIGHT_WGS84_M', '<f8'), ('HEADING_DEG', '<f8'), ('ELEVATION_DEG', '<f8'), ('BANK_DEG', '<f8')])
         """
         cartographic_positions = self._positions.to_cartographic()
         
@@ -787,14 +797,19 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> df = traj.to_pandas()
+        >>> traj.to_pandas()
+                TIMESTAMP_S  LON_WGS84_DEG  LAT_WGS84_DEG  HEIGHT_WGS84_M  HEADING_DEG  ELEVATION_DEG  BANK_DEG
+        0          0.0         3.8777        43.6135           300.0          0.0            0.0       0.0
+        1          1.0         4.8391        43.9422           400.0          0.0            0.0       0.0
+        2          2.0         5.4524        43.5309           500.0          0.0            0.0       0.0
+        3          3.0         6.2345        43.7891           600.0          0.0            0.0       0.0
         """
         try:
             import pandas as pd
@@ -978,11 +993,11 @@ class Trajectory:
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> filename = traj.save_csv("output")
@@ -1035,11 +1050,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> filename = traj.save_pamela_pos("output")
@@ -1089,11 +1104,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         Examples
         --------
         >>> traj = Trajectory(
-        ...     timestamps=[0, 1, 2],
+        ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
-        ...         longitude=[3.8777, 4.8391, 5.4524],
-        ...         latitude=[43.6135, 43.9422, 43.5309],
-        ...         height=[300.0, 400.0, 500.0]
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
         >>> filename = traj.save_npy("output")
