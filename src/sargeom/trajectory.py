@@ -990,9 +990,7 @@ class Trajectory:
         output.traj.csv
         """
         filename = Path(filename)
-        while filename.suffix in {'.traj', '.csv'}:
-            filename = filename.with_suffix('')
-        filename = filename.with_suffix(".traj.csv")
+        filename = filename.with_name(filename.stem).with_suffix(".traj.csv")
 
         np.savetxt(
             filename,
