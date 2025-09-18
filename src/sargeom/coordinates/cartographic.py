@@ -1,7 +1,8 @@
 from pathlib import Path
 import numpy as np
 
-from sargeom.coordinates.transforms import gcs2ecef, gcs2egm, wgs84_GCS
+# from sargeom.coordinates.transforms import gcs2egm, wgs84_GCS
+from sargeom.coordinates.transforms import WGS84
 from sargeom.coordinates.utils import negativePiToPi
 
 
@@ -107,17 +108,17 @@ class Cartographic(np.ndarray):
 
         return obj
 
-    @staticmethod
-    def crs():
-        """
-        Returns the WGS84 Geocentric System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
+    # @staticmethod
+    # def crs():
+    #     """
+    #     Returns the WGS84 Geocentric System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
 
-        Returns
-        -------
-        :class:`pyproj.crs.CRS`
-            A pythonic coordinate reference system (CRS) manager.
-        """
-        return wgs84_GCS
+    #     Returns
+    #     -------
+    #     :class:`pyproj.crs.CRS`
+    #         A pythonic coordinate reference system (CRS) manager.
+    #     """
+    #     return wgs84_GCS
 
     def __repr__(self):
         """
@@ -540,8 +541,12 @@ class Cartographic(np.ndarray):
         [4213272.203...  164124.695... 4769561.521...]
         """
         from sargeom.coordinates.cartesian import CartesianECEF
-
-        x, y, z = gcs2ecef.transform(self.latitude, self.longitude, self.height)
+        from sargeom.coordinates.transforms import WGS84
+        x, y, z = WGS84.to_cartesian_ecef(
+            np.deg2rad(self.longitude),
+            np.deg2rad(self.latitude),
+            self.height
+        )
         return CartesianECEF(x, y, z)
 
     def save_kml(self, filename):
@@ -571,15 +576,18 @@ class Cartographic(np.ndarray):
             )
 
         kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
-        lat, lon, alt = gcs2egm.transform(
-            self.__array__()[:, 1], # latitude array
-            self.__array__()[:, 0], # longitude array
-            self.__array__()[:, 2] # height array
-        )
-        for coords in zip(lon, lat, alt):
+        # lat, lon, alt = gcs2egm.transform(
+        #     self.__array__()[:, 1], # latitude array
+        #     self.__array__()[:, 0], # longitude array
+        #     self.__array__()[:, 2] # height array
+        # )
+        lon    = self.__array__()[:, 0]
+        lat    = self.__array__()[:, 1]
+        height = self.__array__()[:, 2]
+        for coords in zip(lon, lat, height):
             pnt = kml.newpoint()
-            pnt.name = "Lat {lat:.6f}, Lon: {lon:.6f}, Alt: {alt:.6f}".format(
-                lat=coords[1], lon=coords[0], alt=coords[2]
+            pnt.name = "Lon {lon:.6f}, Lat: {lat:.6f}, Height: {height:.6f}".format(
+                lon=coords[0], lat=coords[1], height=coords[2]
             )
             pnt.coords = [coords]
         kml.save(Path(filename).with_suffix(".kml"))
