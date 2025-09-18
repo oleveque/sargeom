@@ -3,8 +3,7 @@ import numpy as np
 
 from scipy.spatial.transform import Rotation
 from sargeom.coordinates.cartographic import Cartographic
-from sargeom.coordinates.transforms import ecef2gcs, wgs84_ECEF
-
+from sargeom.coordinates.transforms import WGS84
 
 class Cartesian3(np.ndarray):
     """
@@ -1097,17 +1096,17 @@ class CartesianECEF(Cartesian3):
     [4198945  174747 4781887]
     """
 
-    @staticmethod
-    def crs():
-        """
-        Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
+    # @staticmethod
+    # def crs():
+    #     """
+    #     Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
 
-        Returns
-        -------
-        :class:`pyproj.crs.CRS`
-            A pythonic coordinate reference system (CRS) manager.
-        """
-        return wgs84_ECEF
+    #     Returns
+    #     -------
+    #     :class:`pyproj.crs.CRS`
+    #         A pythonic coordinate reference system (CRS) manager.
+    #     """
+    #     return wgs84_ECEF
 
     def to_cartographic(self):
         """
@@ -1125,7 +1124,8 @@ class CartesianECEF(Cartesian3):
         Lon.Lat.Height Cartographic position
         [  2.383...  48.879...  124.847...]
         """
-        latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
+        # latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
+        longitude, latitude,height = WGS84.to_cartographic(self.x, self.y, self.z)
         return Cartographic(longitude, latitude, height)
 
     def to_ned(self, origin):
