@@ -110,7 +110,7 @@ class Cartographic(np.ndarray):
     @staticmethod
     def crs():
         """
-        Returns the WGS84 Geographic 3D System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
+        Returns the coordinate reference system (CRS) for the WGS84 Geographic 3D System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
 
         Returns
         -------
@@ -121,6 +121,7 @@ class Cartographic(np.ndarray):
             "name": "WGS 84 (Geographic 3D)",
             "epsg": 4979,
             "ellipsoid": ELPS_WGS84,
+            "proj_string": "+proj=longlat +datum=WGS84 +no_defs +type=crs"  # based on https://epsg.io/4979.proj4
         }
 
     def __repr__(self):

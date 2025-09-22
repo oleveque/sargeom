@@ -1100,7 +1100,7 @@ class CartesianECEF(Cartesian3):
     @staticmethod
     def crs():
         """
-        Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
+        Returns the coordinate reference system (CRS) for the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
 
         Returns
         -------
@@ -1111,6 +1111,7 @@ class CartesianECEF(Cartesian3):
             "name": "WGS 84 (Geocentric)",
             "epsg": 4978,
             "ellipsoid": ELPS_WGS84,
+            "proj_string": "+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs"  # based on https://epsg.io/4978.proj4
         }
 
     def to_cartographic(self):
