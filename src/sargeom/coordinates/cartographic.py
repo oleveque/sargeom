@@ -544,7 +544,7 @@ class Cartographic(np.ndarray):
         [4213272.203...  164124.695... 4769561.521...]
         """
         from sargeom.coordinates.cartesian import CartesianECEF
-        x, y, z = WGS84.to_cartesian_ecef(
+        x, y, z = ELPS_WGS84.to_ecef(
             np.deg2rad(self.longitude),
             np.deg2rad(self.latitude),
             self.height
