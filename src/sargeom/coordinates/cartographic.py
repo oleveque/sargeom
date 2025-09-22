@@ -1,7 +1,7 @@
 from pathlib import Path
 import numpy as np
 
-from sargeom.coordinates.transforms import WGS84
+from sargeom.coordinates.ellipsoids import ELPS_WGS84
 from sargeom.coordinates.utils import negativePiToPi
 
 

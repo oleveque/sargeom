@@ -3,7 +3,8 @@ import numpy as np
 
 from scipy.spatial.transform import Rotation
 from sargeom.coordinates.cartographic import Cartographic
-from sargeom.coordinates.transforms import WGS84
+from sargeom.coordinates.ellipsoids import ELPS_WGS84
+
 
 class Cartesian3(np.ndarray):
     """

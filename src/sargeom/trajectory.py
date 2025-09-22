@@ -942,7 +942,7 @@ class Trajectory:
         n = records.shape[0]
 
         if needs_conversion:
-            from sargeom.coordinates.compat import transform_trajectory_from_local_lambert_ntf_to_wgs84
+            from sargeom.coordinates.transforms import transform_trajectory_from_local_lambert_ntf_to_wgs84
             records = transform_trajectory_from_local_lambert_ntf_to_wgs84(header, records)
 
         # Create output structured array
