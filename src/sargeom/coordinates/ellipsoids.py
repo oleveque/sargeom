@@ -15,15 +15,15 @@ class Ellipsoid:
     
     Parameters
     ----------
-    a : :class:`float`
+    semi_major_axis : :class:`float`
         Equatorial radius of the ellipsoid in meters.
-    b : :class:`float`, optional
-        Polar radius of the ellipsoid in meters. Default to `None`.
-    f : :class:`float`, optional
-        Flattening factor of the ellipsoid. Default to `None`.
+    semi_minor_axis : :class:`float`, optional
+        Polar radius of the ellipsoid in meters. Default is None.
+    flattening : :class:`float`, optional
+        Flattening factor of the ellipsoid. Default is None.
     """
-    def __init__(self, a, b=None, f=None):
-        self._a, self._b, self._f = a, b, f
+    def __init__(self, semi_major_axis, semi_minor_axis=None, flattening=None):
+        self._a, self._b, self._f = semi_major_axis, semi_minor_axis, flattening
         if self._b is None:
             if self._f is None:
                 raise ValueError(
@@ -367,11 +367,11 @@ class Ellipsoid:
         return lamb, phi, h
 
 # Official ellipsoid definitions
-ELPS_WGS84 = Ellipsoid(a=6378137.0, f=1/298.257223563) # WGS84 ellipsoid
+ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563) # WGS 84
+ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0) # Clarke 1880 (IGN)
 
 # PamelaX11 ellipsoid definitions
-ELPS_PAM_NTF = Ellipsoid(a=6378249.2, b=6356515.0) # Clarke 1880 (IGN)
-ELPS_PAM_WGS84 = Ellipsoid(a=6378137.0, b=6356752.3142) # Custom PamelaX11 WGS84
+ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142) # Custom PamelaX11 WGS84
 
 
 if __name__ == "__main__":

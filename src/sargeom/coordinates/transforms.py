@@ -1,5 +1,5 @@
 import numpy as np
-from sargeom.coordinates.ellipsoids import ELPS_PAM_NTF, ELPS_PAM_WGS84
+from sargeom.coordinates.ellipsoids import ELPS_CLARKE_1880, ELPS_PAM_WGS84
 
 # Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84
 _ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
@@ -175,7 +175,7 @@ def transform_trajectory_from_local_lambert_ntf_to_wgs84(header, records):
 
     # Lambert Conic Conformal projection initialization
     locLambertNTF = LambertConicConformal(
-        ELPS_PAM_NTF,
+        ELPS_CLARKE_1880,
         lon_origin_ntf_rad,
         lat_origin_ntf_rad
     )
@@ -184,7 +184,7 @@ def transform_trajectory_from_local_lambert_ntf_to_wgs84(header, records):
     lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
 
     # Step 2: Transform from geographic NTF to cartesian ECEF NTF
-    x_ntf_m, y_ntf_m, z_ntf_m = ELPS_PAM_NTF.to_ecef(
+    x_ntf_m, y_ntf_m, z_ntf_m = ELPS_CLARKE_1880.to_ecef(
         lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
     )
 
