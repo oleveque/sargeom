@@ -107,17 +107,21 @@ class Cartographic(np.ndarray):
 
         return obj
 
-    # @staticmethod
-    # def crs():
-    #     """
-    #     Returns the WGS84 Geocentric System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
+    @staticmethod
+    def crs():
+        """
+        Returns the WGS84 Geographic 3D System `EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_.
 
-    #     Returns
-    #     -------
-    #     :class:`pyproj.crs.CRS`
-    #         A pythonic coordinate reference system (CRS) manager.
-    #     """
-    #     return wgs84_GCS
+        Returns
+        -------
+        :class:`dict`
+            A dictionary containing the name, EPSG code, and ellipsoid of the coordinate reference system (CRS).
+        """
+        return {
+            "name": "WGS 84 (Geographic 3D)",
+            "epsg": 4979,
+            "ellipsoid": ELPS_WGS84,
+        }
 
     def __repr__(self):
         """

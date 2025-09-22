@@ -1097,17 +1097,21 @@ class CartesianECEF(Cartesian3):
     [4198945  174747 4781887]
     """
 
-    # @staticmethod
-    # def crs():
-    #     """
-    #     Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
+    @staticmethod
+    def crs():
+        """
+        Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
 
-    #     Returns
-    #     -------
-    #     :class:`pyproj.crs.CRS`
-    #         A pythonic coordinate reference system (CRS) manager.
-    #     """
-    #     return wgs84_ECEF
+        Returns
+        -------
+        :class:`dict`
+            A dictionary containing the name, EPSG code, and ellipsoid of the coordinate reference system (CRS).
+        """
+        return {
+            "name": "WGS 84 (Geocentric)",
+            "epsg": 4978,
+            "ellipsoid": ELPS_WGS84,
+        }
 
     def to_cartographic(self):
         """
@@ -1125,8 +1129,8 @@ class CartesianECEF(Cartesian3):
         Lon.Lat.Height Cartographic position
         [  2.383...  48.879...  124.847...]
         """
-        longitude, latitude,height = WGS84.to_cartographic(self.x, self.y, self.z)
-        return Cartographic(np.rad2deg(longitude), np.rad2deg(latitude), height)
+        longitude, latitude,height = ELPS_WGS84.to_cartographic(self.x, self.y, self.z)
+        return Cartographic(longitude, latitude, height, degrees=False)
 
     def to_ned(self, origin):
         """
