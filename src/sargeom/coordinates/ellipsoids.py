@@ -370,9 +370,6 @@ class Ellipsoid:
 ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563) # WGS 84
 ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0) # Clarke 1880 (IGN)
 
-# PamelaX11 ellipsoid definitions
-ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142) # Custom PamelaX11 WGS84
-
 
 if __name__ == "__main__":
     import doctest

@@ -1,11 +1,4 @@
 import numpy as np
-from sargeom.coordinates.ellipsoids import ELPS_CLARKE_1880, ELPS_PAM_WGS84
-
-# Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84
-_ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
-_DX_NTF_TO_WGS84_M = -168.0
-_DY_NTF_TO_WGS84_M = -72.0
-_DZ_NTF_TO_WGS84_M = 318.5
 
 class LambertConicConformal:
     """
@@ -138,72 +131,6 @@ class LambertConicConformal:
             -np.log(np.abs(np.hypot(dx, dy) / self._C)) / self._sin_lat_origin
         )
         return lon_rad, lat_rad
-
-
-def transform_trajectory_from_local_lambert_ntf_to_wgs84(header, records):
-    """
-    Transforms trajectory coordinates from local Lambert NTF projection to WGS84 geographic CRS
-    with "custom" parameters.
-    
-    This function performs a multi-step transformation:
-    1. From local Lambert NTF to geographic NTF
-    2. From geographic NTF to cartesian ECEF NTF
-    3. From cartesian ECEF NTF to cartesian ECEF WGS84 (custom)
-    4. From cartesian ECEF WGS84 to geographic WGS84
-    
-    Parameters
-    ----------
-    header : array_like
-        Header containing origin coordinates [lon_origin_ntf_rad, lat_origin_ntf_rad, height_origin_ntf_m].
-    records : dict
-        Dictionary containing trajectory records with keys 'longitude_rad', 'latitude_rad', 'height_m'.
-        
-    Returns
-    -------
-    records : dict
-        Updated records with transformed coordinates in WGS84 geographic CRS.
-    """
-    # Unpack NTF trajectory origin coordinates
-    lon_origin_ntf_rad = header[0]
-    lat_origin_ntf_rad = header[1]
-    height_origin_ntf_m = header[2]
-
-    # Unpack position records (note: attitude angles are kept unchanged)
-    x_loc_m = records['longitude_rad']
-    y_loc_m = records['latitude_rad']
-    height_ntf_m = records['height_m']
-
-    # Lambert Conic Conformal projection initialization
-    locLambertNTF = LambertConicConformal(
-        ELPS_CLARKE_1880,
-        lon_origin_ntf_rad,
-        lat_origin_ntf_rad
-    )
-
-    # Step 1: from local Lambert NTF to geographic NTF
-    lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
-
-    # Step 2: Transform from geographic NTF to cartesian ECEF NTF
-    x_ntf_m, y_ntf_m, z_ntf_m = ELPS_CLARKE_1880.to_ecef(
-        lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
-    )
-
-    # Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom)
-    x_wgs84_m = 1.0000002198 * x_ntf_m - _ANGLE_Z_NTF_TO_WGS84_RAD * y_ntf_m + _DX_NTF_TO_WGS84_M
-    y_wgs84_m = 1.0000002198 * y_ntf_m + _ANGLE_Z_NTF_TO_WGS84_RAD * x_ntf_m + _DY_NTF_TO_WGS84_M
-    z_wgs84_m = 1.0000002198 * z_ntf_m                                       + _DZ_NTF_TO_WGS84_M
-
-    # Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84
-    lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m = ELPS_PAM_WGS84.to_cartographic(
-        x_wgs84_m, y_wgs84_m, z_wgs84_m
-    )
-
-    # Update records geographic coordinates
-    records['longitude_rad'] = lon_wgs84_rad
-    records['latitude_rad'] = lat_wgs84_rad
-    records['height_m'] = height_wgs84_m
-
-    return records
 
 
 if __name__ == "__main__":
