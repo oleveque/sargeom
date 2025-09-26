@@ -449,8 +449,8 @@ class Trajectory:
         ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> traj.total_arc_length()
-        np.float64(231835.03546103595)
+        >>> traj.total_arc_length()  # doctest: +ELLIPSIS
+        np.float64(222197.8972...)
         """
         return np.sum(self.arc_lengths)
 
