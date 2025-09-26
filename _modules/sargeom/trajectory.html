@@ -1,13 +1,13 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="../../">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html"><link rel="search" title="Search" href="../../search.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
         <title>sargeom.trajectory - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
@@ -25,14 +25,14 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
       }
     }
@@ -147,14 +147,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -164,8 +160,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -173,8 +168,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -182,8 +176,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -201,8 +194,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../installation_guide.html">Installation Guide</a></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../api_reference.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api_reference.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
@@ -211,9 +204,11 @@
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/bistatic_angles.html">Analyzing Trajectory Data and Bistatic Angles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../examples/nominal_trajectory.html">Generating a Nominal Trajectory</a></li>
 </ul>
@@ -238,8 +233,7 @@
         </a>
         <div class="content-icon-container">
           <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -247,8 +241,7 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
@@ -271,7 +264,7 @@
 
 <span class="n">PAMELA_TRAJ_DTYPE</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;latitude_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">&#39;height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">&#39;heading_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="s1">&#39;elevation_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
@@ -327,7 +320,7 @@
 <span class="sd">    --------</span>
 <span class="sd">    Create a Trajectory instance using ECEF (Cartesian) coordinates:</span>
 
-<span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1, 2])</span>
+<span class="sd">    &gt;&gt;&gt; timestamps = np.array([0, 1, 2, 3])</span>
 <span class="sd">    &gt;&gt;&gt; positions = CartesianECEF(</span>
 <span class="sd">    ...     x=[4614831.06382533, 4583825.9258778, 4610933.91105407],</span>
 <span class="sd">    ...     y=[312803.18870294, 388064.96749322, 440116.57314554],</span>
@@ -338,16 +331,16 @@
 <span class="sd">    Create a Trajectory instance using geographic (Cartographic) coordinates:</span>
 
 <span class="sd">    &gt;&gt;&gt; positions = Cartographic(</span>
-<span class="sd">    ...     longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">    ...     latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">    ...     height=[300.0, 400.0, 500.0]</span>
+<span class="sd">    ...     longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">    ...     latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">    ...     height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">    ... )</span>
 <span class="sd">    &gt;&gt;&gt; traj = Trajectory(timestamps, positions)</span>
 
 <span class="sd">    Create a Trajectory instance with orientations:</span>
 
 <span class="sd">    &gt;&gt;&gt; from scipy.spatial.transform import Rotation</span>
-<span class="sd">    &gt;&gt;&gt; orientations = Rotation.from_euler(&quot;ZYX&quot;, [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)</span>
+<span class="sd">    &gt;&gt;&gt; orientations = Rotation.from_euler(&quot;ZYX&quot;, [[0, 0, 0], [90, 0, 0], [180, 0, 0], [270, 0, 0]], degrees=True)</span>
 <span class="sd">    &gt;&gt;&gt; traj = Trajectory(timestamps, positions, orientations)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">timestamps</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">orientations</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -378,15 +371,15 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; len(traj)</span>
-<span class="sd">        3</span>
+<span class="sd">        4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timestamps</span><span class="p">)</span>
 
@@ -407,11 +400,11 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj[:2]</span>
@@ -437,18 +430,19 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj</span>
 <span class="sd">        Trajectory samples (t, x, y, z, h, e, b)</span>
 <span class="sd">        [(0., 3.8777, 43.6135, 300., 0., 0., 0.)</span>
 <span class="sd">         (1., 4.8391, 43.9422, 400., 0., 0., 0.)</span>
-<span class="sd">         (2., 5.4524, 43.5309, 500., 0., 0., 0.)]</span>
+<span class="sd">         (2., 5.4524, 43.5309, 500., 0., 0., 0.)</span>
+<span class="sd">         (3., 6.2345, 43.7891, 600., 0., 0., 0.)]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Trajectory samples (t, x, y, z, h, e, b)</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 
@@ -475,18 +469,19 @@
 <span class="sd">        Sort the trajectory in place:</span>
 
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[2, 0, 1],</span>
+<span class="sd">        ...     timestamps=[2, 0, 1, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.sort()</span>
 <span class="sd">        Trajectory samples (t, x, y, z, h, e, b)</span>
 <span class="sd">        [(0., 4.8391, 43.9422, 400., 0., 0., 0.)</span>
 <span class="sd">         (1., 5.4524, 43.5309, 500., 0., 0., 0.)</span>
-<span class="sd">         (2., 3.8777, 43.6135, 300., 0., 0., 0.)]</span>
+<span class="sd">         (2., 3.8777, 43.6135, 300., 0., 0., 0.)</span>
+<span class="sd">         (3., 6.2345, 43.7891, 600., 0., 0., 0.)]</span>
 
 <span class="sd">        Sort the trajectory and return a new instance:</span>
 
@@ -522,15 +517,15 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.timestamps</span>
-<span class="sd">        array([0, 1, 2])</span>
+<span class="sd">        array([0, 1, 2, 3])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timestamps</span>
 
@@ -547,18 +542,19 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.positions</span>
 <span class="sd">        XYZ CartesianECEF points</span>
 <span class="sd">        [[4614831.06382533  312803.18870294 4377307.25608437]</span>
 <span class="sd">         [4583825.9258778   388064.96749322 4403747.15229078]</span>
-<span class="sd">         [4610933.91105407  440116.57314554 4370795.76589696]]</span>
+<span class="sd">         [4610933.91105407  440116.57314554 4370795.76589696]</span>
+<span class="sd">         [4584879.02442076  500870.74890955 4391620.5067715 ]]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span>
 
@@ -580,15 +576,15 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.velocities</span>
-<span class="sd">        array([85584.58995186, 67305.32205239])</span>
+<span class="sd">        array([85584.58995186, 67305.32205239, 69307.98527392])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_timestamps</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not enough timestamps to compute velocities.&quot;</span><span class="p">)</span>
@@ -609,11 +605,11 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.has_orientation()</span>
@@ -645,20 +641,21 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; from scipy.spatial.transform import Rotation</span>
-<span class="sd">        &gt;&gt;&gt; attitude = Rotation.from_euler(&quot;ZYX&quot;, [[0, 0, 0], [90, 0, 0], [180, 0, 0]], degrees=True)</span>
+<span class="sd">        &gt;&gt;&gt; attitude = Rotation.from_euler(&quot;ZYX&quot;, [[0, 0, 0], [90, 0, 0], [180, 0, 0], [270, 0, 0]], degrees=True)</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     ),</span>
 <span class="sd">        ...     orientations=attitude</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.orientations.as_quat()</span>
 <span class="sd">        array([[0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 1.00000000e+00],</span>
 <span class="sd">               [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, 7.07106781e-01],</span>
-<span class="sd">               [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17]])</span>
+<span class="sd">               [0.00000000e+00, 0.00000000e+00, 1.00000000e+00, 6.12323400e-17],</span>
+<span class="sd">               [0.00000000e+00, 0.00000000e+00, 7.07106781e-01, -7.07106781e-01]])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This trajectory does not have orientations.&quot;</span><span class="p">)</span>
@@ -677,15 +674,15 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.arc_lengths</span>
-<span class="sd">        array([85584.58995186, 67305.32205239])</span>
+<span class="sd">        array([85584.58995186, 67305.32205239, 69307.98527392])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">Cartesian3</span><span class="o">.</span><span class="n">distance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
@@ -703,15 +700,15 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.total_arc_length()</span>
-<span class="sd">        np.float64(152889.9120042545)</span>
+<span class="sd">        np.float64(231835.03546103595)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arc_lengths</span><span class="p">)</span></div>
 
@@ -734,11 +731,11 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; traj.sampling_rate</span>
@@ -775,11 +772,11 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
 <span class="sd">        &gt;&gt;&gt; resampled_traj = traj.resample(2.0)</span>
@@ -823,14 +820,14 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; interp_traj = traj.interp([0.5, 1.5])</span>
+<span class="sd">        &gt;&gt;&gt; interp_traj = traj.interp([0.5, 1.5, 2.5])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_timestamps</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
             <span class="n">new_timestamps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">new_timestamps</span><span class="p">)</span>
@@ -912,14 +909,14 @@
 <span class="sd">        &gt;&gt;&gt; single_position = Cartographic(longitude=2.0, latitude=46.0, height=0.0)</span>
 <span class="sd">        &gt;&gt;&gt; single_traj = Trajectory(timestamps=[10.0], positions=single_position)</span>
 <span class="sd">        &gt;&gt;&gt; multi_positions = Cartographic(</span>
-<span class="sd">        ...     longitude=[3.0, 4.0], </span>
-<span class="sd">        ...     latitude=[47.0, 48.0], </span>
-<span class="sd">        ...     height=[100.0, 200.0]</span>
+<span class="sd">        ...     longitude=[3.0, 4.0, 5.0], </span>
+<span class="sd">        ...     latitude=[47.0, 48.0, 49.0], </span>
+<span class="sd">        ...     height=[100.0, 200.0, 300.0]</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; multi_traj = Trajectory(timestamps=[11.0, 12.0], positions=multi_positions)</span>
+<span class="sd">        &gt;&gt;&gt; multi_traj = Trajectory(timestamps=[11.0, 12.0, 13.0], positions=multi_positions)</span>
 <span class="sd">        &gt;&gt;&gt; result = Trajectory.concatenate([single_traj, multi_traj])</span>
 <span class="sd">        &gt;&gt;&gt; len(result)</span>
-<span class="sd">        3</span>
+<span class="sd">        4</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert to list if not already a sequence</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trajectories</span><span class="p">,</span> <span class="s1">&#39;__iter__&#39;</span><span class="p">):</span>
@@ -982,7 +979,8 @@
 <span class="sd">        &gt;&gt;&gt; data = np.array([</span>
 <span class="sd">        ...     (0., 3.8777, 43.6135, 300., 0., 0., 0.),</span>
 <span class="sd">        ...     (1., 4.8391, 43.9422, 400., 0., 0., 0.),</span>
-<span class="sd">        ...     (2., 5.4524, 43.5309, 500., 0., 0., 0.)</span>
+<span class="sd">        ...     (2., 5.4524, 43.5309, 500., 0., 0., 0.),</span>
+<span class="sd">        ...     (3., 6.2345, 43.7891, 600., 0., 0., 0.)</span>
 <span class="sd">        ... ], dtype=TRAJ_DTYPE)</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory.from_numpy(data)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -1001,7 +999,7 @@
         <span class="k">if</span> <span class="s1">&#39;HEADING_DEG&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
             <span class="n">orientations</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span>
                 <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span>
-                <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;HEADING_DEG&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">]],</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;HEADING_DEG&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">]]),</span>
                 <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1024,14 +1022,19 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; data = traj.to_numpy()</span>
+<span class="sd">        &gt;&gt;&gt; traj.to_numpy()</span>
+<span class="sd">        array([(0., 3.8777, 43.6135, 300., 0., 0., 0.),</span>
+<span class="sd">               (1., 4.8391, 43.9422, 400., 0., 0., 0.),</span>
+<span class="sd">               (2., 5.4524, 43.5309, 500., 0., 0., 0.),</span>
+<span class="sd">               (3., 6.2345, 43.7891, 600., 0., 0., 0.)],</span>
+<span class="sd">              dtype=[(&#39;TIMESTAMP_S&#39;, &#39;&lt;f8&#39;), (&#39;LON_WGS84_DEG&#39;, &#39;&lt;f8&#39;), (&#39;LAT_WGS84_DEG&#39;, &#39;&lt;f8&#39;), (&#39;HEIGHT_WGS84_M&#39;, &#39;&lt;f8&#39;), (&#39;HEADING_DEG&#39;, &#39;&lt;f8&#39;), (&#39;ELEVATION_DEG&#39;, &#39;&lt;f8&#39;), (&#39;BANK_DEG&#39;, &#39;&lt;f8&#39;)])</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cartographic_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
         
@@ -1073,14 +1076,19 @@
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; df = traj.to_pandas()</span>
+<span class="sd">        &gt;&gt;&gt; traj.to_pandas()</span>
+<span class="sd">                TIMESTAMP_S  LON_WGS84_DEG  LAT_WGS84_DEG  HEIGHT_WGS84_M  HEADING_DEG  ELEVATION_DEG  BANK_DEG</span>
+<span class="sd">        0          0.0         3.8777        43.6135           300.0          0.0            0.0       0.0</span>
+<span class="sd">        1          1.0         4.8391        43.9422           400.0          0.0            0.0       0.0</span>
+<span class="sd">        2          2.0         5.4524        43.5309           500.0          0.0            0.0       0.0</span>
+<span class="sd">        3          3.0         6.2345        43.7891           600.0          0.0            0.0       0.0</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -1095,14 +1103,16 @@
 
 <div class="viewcode-block" id="Trajectory.read_pivot">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.read_pivot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_pivot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_pivot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
         <span class="c1"># TODO: Implement reading from a pivot file</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Reading from pivot files is not implemented yet.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.read_pamela_pos">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.read_pamela_pos">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_pamela_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_pamela_pos</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read a PAMELA .pos file and create a Trajectory instance.</span>
 
@@ -1141,12 +1151,13 @@
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;elevation_deg&#39;</span><span class="p">]</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;bank_deg&#39;</span><span class="p">]</span>
 
-        <span class="k">return</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.read_pamela_traj">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.read_pamela_traj">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_pamela_traj</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_pamela_traj</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">sampling_time_s</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read a PAMELA .traj file and create a Trajectory instance.</span>
 
@@ -1154,6 +1165,10 @@
 <span class="sd">        ----------</span>
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to the .traj file.</span>
+<span class="sd">        sampling_time_s : :class:`float`, optional</span>
+<span class="sd">            If provided, overrides the time step between trajectory points (in seconds).</span>
+<span class="sd">        crs : :class:`str`, optional</span>
+<span class="sd">            Coordinate reference system of the trajectory. Options are: &#39;auto&#39; (default, WGS84 if new format, NTF if old format), &#39;WGS84&#39;, &#39;NTF&#39;.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1168,12 +1183,16 @@
 <span class="sd">            If the file does not have a .traj extension.</span>
 <span class="sd">        :class:`ValueError`</span>
 <span class="sd">            If the old PAMELA file format is detected.</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the crs parameter is not one of the accepted values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;.traj&#39;</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;File must have a .traj extension.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">crs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;WGS84&#39;</span><span class="p">,</span> <span class="s1">&#39;NTF&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;crs must be &#39;auto&#39;, &#39;WGS84&#39;, or &#39;NTF&#39;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Read header (11 doubles, little endian)</span>
         <span class="c1"># Format:</span>
@@ -1191,18 +1210,88 @@
         <span class="n">header_count</span> <span class="o">=</span> <span class="mi">11</span>
         <span class="n">header</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;f8&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">header_count</span><span class="p">)</span>
 
-        <span class="c1"># Check format</span>
-        <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Old PAMELA file format detected, please check the file format!&quot;</span><span class="p">)</span>
-
-        <span class="n">time_step</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
-        <span class="n">header_size</span> <span class="o">=</span> <span class="n">header_count</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># bytes for 11 doubles</span>
-
         <span class="c1"># Read all records in a single operation</span>
+        <span class="n">header_size</span> <span class="o">=</span> <span class="n">header_count</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># bytes for 11 doubles</span>
         <span class="n">records</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">PAMELA_TRAJ_DTYPE</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">header_size</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Determine coordinate reference system</span>
+        <span class="k">if</span> <span class="n">crs</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">:</span>
+                <span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;NTF&#39;</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = </span><span class="si">{</span><span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">]!</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot; ↳ Trajectory will be automatically converted to geographic WGS84 CRS format.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;WGS84&#39;</span>
+
+        <span class="c1"># Convert trajectory to WGS84 if needed</span>
+        <span class="k">if</span> <span class="n">crs</span> <span class="o">==</span> <span class="s1">&#39;NTF&#39;</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambertConicConformal</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.ellipsoids</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">ELPS_CLARKE_1880</span>
+
+            <span class="c1"># Unpack NTF trajectory origin coordinates</span>
+            <span class="n">lon_origin_ntf_rad</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">lat_origin_ntf_rad</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">height_origin_ntf_m</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="c1"># Unpack position records (note: attitude angles are kept unchanged)</span>
+            <span class="n">x_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">]</span>
+            <span class="n">y_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">]</span>
+            <span class="n">height_ntf_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;height_m&#39;</span><span class="p">]</span>
+
+            <span class="c1"># Lambert Conic Conformal projection initialization</span>
+            <span class="n">locLambertNTF</span> <span class="o">=</span> <span class="n">LambertConicConformal</span><span class="p">(</span>
+                <span class="n">ELPS_CLARKE_1880</span><span class="p">,</span>
+                <span class="n">lon_origin_ntf_rad</span><span class="p">,</span>
+                <span class="n">lat_origin_ntf_rad</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Step 1: from local Lambert NTF to geographic NTF</span>
+            <span class="n">lon_ntf_rad</span><span class="p">,</span> <span class="n">lat_ntf_rad</span> <span class="o">=</span> <span class="n">locLambertNTF</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">x_loc_m</span><span class="p">,</span> <span class="n">y_loc_m</span><span class="p">)</span>
+
+            <span class="c1"># Step 2: Transform from geographic NTF to cartesian ECEF NTF</span>
+            <span class="n">x_ntf_m</span><span class="p">,</span> <span class="n">y_ntf_m</span><span class="p">,</span> <span class="n">z_ntf_m</span> <span class="o">=</span> <span class="n">ELPS_CLARKE_1880</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">(</span>
+                <span class="n">lon_ntf_rad</span><span class="p">,</span> <span class="n">lat_ntf_rad</span><span class="p">,</span> <span class="n">height_ntf_m</span> <span class="o">+</span> <span class="n">height_origin_ntf_m</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84</span>
+            <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">0.554</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">)</span>
+            <span class="n">_DX_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="o">-</span><span class="mf">168.0</span>
+            <span class="n">_DY_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="o">-</span><span class="mf">72.0</span>
+            <span class="n">_DZ_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="mf">318.5</span>
+
+            <span class="c1"># Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom)</span>
+            <span class="n">x_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">x_ntf_m</span> <span class="o">-</span> <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">*</span> <span class="n">y_ntf_m</span> <span class="o">+</span> <span class="n">_DX_NTF_TO_WGS84_M</span>
+            <span class="n">y_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">y_ntf_m</span> <span class="o">+</span> <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">*</span> <span class="n">x_ntf_m</span> <span class="o">+</span> <span class="n">_DY_NTF_TO_WGS84_M</span>
+            <span class="n">z_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">z_ntf_m</span>                                       <span class="o">+</span> <span class="n">_DZ_NTF_TO_WGS84_M</span>
+
+            <span class="c1"># Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84</span>
+            <span class="n">ELPS_PAM_WGS84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356752.3142</span><span class="p">)</span> <span class="c1"># Custom PamelaX11 WGS84</span>
+            <span class="n">lon_wgs84_rad</span><span class="p">,</span> <span class="n">lat_wgs84_rad</span><span class="p">,</span> <span class="n">height_wgs84_m</span> <span class="o">=</span> <span class="n">ELPS_PAM_WGS84</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">(</span>
+                <span class="n">x_wgs84_m</span><span class="p">,</span> <span class="n">y_wgs84_m</span><span class="p">,</span> <span class="n">z_wgs84_m</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Update records geographic coordinates</span>
+            <span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_wgs84_rad</span>
+            <span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_wgs84_rad</span>
+            <span class="n">records</span><span class="p">[</span><span class="s1">&#39;height_m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height_wgs84_m</span>
+
+        <span class="c1"># Check trajectory time sampling</span>
+        <span class="k">if</span> <span class="n">sampling_time_s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">time_step</span> <span class="o">=</span> <span class="n">sampling_time_s</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">time_step</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">time_step</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
+                <span class="n">time_step</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="s2">&quot;Sampling time step is non-positive or non defined !</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot; ↳ This value is set to 1.0 second by default.&quot;</span>
+                <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sampling time step is set to </span><span class="si">{</span><span class="n">time_step</span><span class="si">}</span><span class="s2">s. To modify the timestamp axis set a new one in the newly created Trajectory object.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Create output structured array</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">TRAJ_DTYPE</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TIMESTAMP_S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_step</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LON_WGS84_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">])</span>
@@ -1212,12 +1301,13 @@
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;elevation_rad&#39;</span><span class="p">])</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;bank_rad&#39;</span><span class="p">])</span>
 
-        <span class="k">return</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.read_csv">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.read_csv">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_csv</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read a TRAJ CSV file and create a Trajectory instance.</span>
 
@@ -1241,7 +1331,7 @@
         <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;.traj.csv&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.traj.csv&#39;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;File must have a .traj.csv extension.&quot;</span><span class="p">)</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">genfromtxt</span><span class="p">(</span>
@@ -1251,9 +1341,9 @@
             <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">dtype</span><span class="o">=</span><span class="n">TRAJ_DTYPE</span><span class="p">,</span>
             <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
-        <span class="p">)</span>
+        <span class="p">)[</span><span class="mi">1</span><span class="p">:]</span>  <span class="c1"># Skip the header line</span>
 
-        <span class="k">return</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.save_csv">
@@ -1267,23 +1357,32 @@
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .traj.csv file.</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pathlib.Path`</span>
+<span class="sd">            The path to the saved .traj.csv file.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; traj.save_csv(&quot;output.traj.csv&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; filename = traj.save_csv(&quot;output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(filename)</span>
+<span class="sd">        output.traj.csv</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">with_name</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.traj.csv&quot;</span><span class="p">)</span>
+
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
-            <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.traj.csv&quot;</span><span class="p">),</span>
+            <span class="n">filename</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(),</span>
-            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
+            <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.12f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.15f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.6f</span><span class="s1">&#39;</span><span class="p">],</span>
             <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">,</span>
             <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
@@ -1303,7 +1402,8 @@
 <span class="s2">#        - BANK_DEG [°]: The bank angle in degrees</span>
 
 <span class="s2">TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG;BANK_DEG&quot;&quot;&quot;</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">filename</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.save_pamela_pos">
@@ -1317,19 +1417,26 @@
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .pos file.</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pathlib.Path`</span>
+<span class="sd">            The path to the saved .pos file.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; traj.save_pamela_pos(&quot;output.pos&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; filename = traj.save_pamela_pos(&quot;output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(filename)</span>
+<span class="sd">        output.pos</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pos&quot;</span><span class="p">)</span>
         
         <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -1344,14 +1451,16 @@
         <span class="n">pos</span><span class="p">[</span><span class="s1">&#39;heading_deg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;HEADING_DEG&#39;</span><span class="p">]</span>
 
         <span class="n">np</span><span class="o">.</span><span class="n">savetxt</span><span class="p">(</span>
-            <span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.pos&quot;</span><span class="p">),</span>
+            <span class="n">filename</span><span class="p">,</span>
             <span class="n">pos</span><span class="p">,</span>
             <span class="n">fmt</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="si">%.3f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.10f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.10f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.5f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="si">%.4f</span><span class="s1">&#39;</span><span class="p">],</span>
             <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="n">newline</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
             <span class="n">comments</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
             <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf8&#39;</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filename</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.save_npy">
@@ -1365,20 +1474,29 @@
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .npy file.</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pathlib.Path`</span>
+<span class="sd">            The path to the saved .npy file.</span>
+
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
-<span class="sd">        ...     timestamps=[0, 1, 2],</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
 <span class="sd">        ...     positions=Cartographic(</span>
-<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524],</span>
-<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309],</span>
-<span class="sd">        ...         height=[300.0, 400.0, 500.0]</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
 <span class="sd">        ...     )</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &gt;&gt;&gt; traj.save_npy(&quot;output.npy&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; filename = traj.save_npy(&quot;output&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(filename)</span>
+<span class="sd">        output.npy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.npy&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span></div>
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.npy&quot;</span><span class="p">)</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">())</span>
+
+        <span class="k">return</span> <span class="n">filename</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.save_pivot">
@@ -1407,7 +1525,7 @@
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; ONERA/DEMR
+                Copyright &#169; 2024, Olivier LEVEQUE
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -1427,7 +1545,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=d45e8c67"></script>
+</div><script src="../../_static/documentation_options.js?v=938c9ccc"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

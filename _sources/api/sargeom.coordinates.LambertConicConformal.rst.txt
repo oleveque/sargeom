@@ -1,0 +1,19 @@
+LambertConicConformal
+=====================
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: LambertConicConformal
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~LambertConicConformal.forward
+      ~LambertConicConformal.inverse
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: forward
+   .. automethod:: inverse

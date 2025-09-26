@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Cartesian3" href="sargeom.coordinates.Cartesian3.html"><link rel="prev" title="TRAJ_DTYPE" href="sargeom.TRAJ_DTYPE.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Examples" href="../examples.html"><link rel="prev" title="Ellipsoid" href="sargeom.coordinates.Ellipsoid.html">
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
-        <title>negativePiToPi - sargeom</title>
+        <title>LambertConicConformal - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
@@ -199,14 +199,14 @@
 <li class="toctree-l1 current has-children"><a class="reference internal" href="../api_reference.html">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">negativePiToPi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartesian3.html">Cartesian3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianECEF.html">CartesianECEF</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">LambertConicConformal</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -234,7 +234,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/api/sargeom.coordinates.negativePiToPi.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/api/sargeom.coordinates.LambertConicConformal.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -252,37 +252,122 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="negativepitopi">
-<h1>negativePiToPi<a class="headerlink" href="#negativepitopi" title="Link to this heading">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="sargeom.coordinates.negativePiToPi">
-<span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">negativePiToPi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">degrees</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/utils.html#negativePiToPi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.negativePiToPi" title="Link to this definition">¶</a></dt>
-<dd><p>Converts angles to the range from -180 to 180 degrees.</p>
+          <section id="lambertconicconformal">
+<h1>LambertConicConformal<a class="headerlink" href="#lambertconicconformal" title="Link to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">LambertConicConformal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ellipsoid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Lambert Conic Conformal projection class.</p>
+<p>This class implements the Lambert Conic Conformal projection, a conformal
+map projection that preserves angles and is commonly used for mapping
+regions in the middle latitudes with primarily east-west extent.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>angle</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or array_like</span></dt><dd><p>The input angle or a list/array of angles.</p>
+<dt><strong>ellipsoid</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargom.coordinates.ellipsoids.Ellipsoid</span></code></span></dt><dd><p>Reference ellipsoid used for the projection.</p>
 </dd>
-<dt><strong>degrees</strong><span class="classifier">bool, optional</span></dt><dd><p>If True (default), takes input angles in degrees and returns the angle in degrees. If False, takes input radians and returns the angle in radians.</p>
+<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Longitude of the origin of the Lambert Conic Conformal projection in radians.</p>
+</dd>
+<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Latitude of the origin of the Lambert Conic Conformal projection in radians.</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Scale factor of the projection. Default is 1.0.</p>
+</dd>
+<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the x-direction in meters. Default is 0.0.</p>
+</dd>
+<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the y-direction in meters. Default is 0.0.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>ellipsoid</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargom.coordinates.ellipsoids.Ellipsoid</span></code></span></dt><dd><p>The reference ellipsoid.</p>
+</dd>
+<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The longitude origin in radians.</p>
+</dd>
+<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The latitude origin in radians.</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The scale factor.</p>
+</dd>
+<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The x-offset in meters.</p>
+</dd>
+<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The y-offset in meters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods Summary</p>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.forward" title="sargeom.coordinates.LambertConicConformal.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(lon_rad, lat_rad)</p></td>
+<td><p>Forward transformation from geographic coordinates to projected coordinates.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.inverse" title="sargeom.coordinates.LambertConicConformal.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(x_m, y_m)</p></td>
+<td><p>Inverse transformation from projected coordinates to geographic coordinates.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class="rubric">Methods Documentation</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_rad</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal.forward" title="Link to this definition">¶</a></dt>
+<dd><p>Forward transformation from geographic coordinates to projected coordinates.</p>
+<p>Transforms geographic coordinates (longitude, latitude) to projected coordinates 
+(x, y) in the Lambert Conic Conformal projection.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>lon_rad</strong><span class="classifier">array_like</span></dt><dd><p>The geographic longitude in radians.</p>
+</dd>
+<dt><strong>lat_rad</strong><span class="classifier">array_like</span></dt><dd><p>The geographic latitude in radians.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> or <a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></dt><dd><p>The converted angle or an array of converted angles (in degrees or radians).</p>
+<dd class="field-even"><dl>
+<dt><strong>x_m</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The projected x-coordinate in meters.</p>
+</dd>
+<dt><strong>y_m</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The projected y-coordinate in meters.</p>
 </dd>
 </dl>
 </dd>
 </dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">negativePiToPi</span><span class="p">(</span><span class="mi">190</span><span class="p">)</span>
-<span class="go">-170.0</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">negativePiToPi</span><span class="p">([</span><span class="o">-</span><span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">])</span>
-<span class="go">array([ 170., -170.])</span>
-</pre></div>
-</div>
+<p class="rubric">Notes</p>
+<p>The transformation uses the standard Lambert Conic Conformal projection 
+formulas with the ellipsoid parameters and projection constants.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal.inverse">
+<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal.inverse" title="Link to this definition">¶</a></dt>
+<dd><p>Inverse transformation from projected coordinates to geographic coordinates.</p>
+<p>Transforms projected coordinates (x, y) in the Lambert Conic Conformal 
+projection to geographic coordinates (longitude, latitude).</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x_m</strong><span class="classifier">array_like</span></dt><dd><p>The projected x-coordinate in meters.</p>
+</dd>
+<dt><strong>y_m</strong><span class="classifier">array_like</span></dt><dd><p>The projected y-coordinate in meters.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>lon_rad</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geographic longitude in radians.</p>
+</dd>
+<dt><strong>lat_rad</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geographic latitude in radians.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>The transformation uses the inverse Lambert Conic Conformal projection 
+formulas with the ellipsoid parameters and projection constants.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -292,23 +377,23 @@
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="sargeom.coordinates.Cartesian3.html">
+          <a class="next-page" href="../examples.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Cartesian3</div>
+                <div class="title">Examples</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="sargeom.TRAJ_DTYPE.html">
+          <a class="prev-page" href="sargeom.coordinates.Ellipsoid.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">TRAJ_DTYPE</div>
+                <div class="title">Ellipsoid</div>
                 
               </div>
             </a>
@@ -342,8 +427,12 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">negativePiToPi</a><ul>
-<li><a class="reference internal" href="#sargeom.coordinates.negativePiToPi"><code class="docutils literal notranslate"><span class="pre">negativePiToPi()</span></code></a></li>
+<li><a class="reference internal" href="#">LambertConicConformal</a><ul>
+<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal</span></code></a><ul>
+<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.forward"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal.forward()</span></code></a></li>
+<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.inverse"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal.inverse()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

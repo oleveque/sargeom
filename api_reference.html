@@ -1,14 +1,14 @@
 <!doctype html>
 <html class="no-js" lang="en" data-content_root="./">
-  <head><meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Trajectory" href="api/sargeom.Trajectory.html" /><link rel="prev" title="Installation Guide" href="installation_guide.html" />
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Trajectory" href="api/sargeom.Trajectory.html"><link rel="prev" title="Quickstart" href="quickstart.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2025.07.19 -->
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
         <title>API Reference - sargeom</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=25af2a20" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -26,14 +26,14 @@
   }
   @media not print {
     body[data-theme="dark"] {
-      --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
     }
     @media (prefers-color-scheme: dark) {
       body:not([data-theme="light"]) {
-        --color-code-background: #2b2b2b;
-  --color-code-foreground: #f8f8f2;
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
   
       }
     }
@@ -148,14 +148,10 @@
   </symbol>
 </svg>
 
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
-<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
-<label class="overlay sidebar-overlay" for="__navigation">
-  <div class="visually-hidden">Hide navigation sidebar</div>
-</label>
-<label class="overlay toc-overlay" for="__toc">
-  <div class="visually-hidden">Hide table of contents sidebar</div>
-</label>
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
 
 <a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
 
@@ -165,8 +161,7 @@
   <header class="mobile-header">
     <div class="header-left">
       <label class="nav-overlay-icon" for="__navigation">
-        <div class="visually-hidden">Toggle site navigation sidebar</div>
-        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
       </label>
     </div>
     <div class="header-center">
@@ -174,8 +169,7 @@
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
-        <button class="theme-toggle">
-          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
           <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
           <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
           <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -183,8 +177,7 @@
         </button>
       </div>
       <label class="toc-overlay-icon toc-header-icon" for="__toc">
-        <div class="visually-hidden">Toggle table of contents sidebar</div>
-        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
   </header>
@@ -202,8 +195,8 @@
 </form>
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation_guide.html">Installation Guide</a></li>
-<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
@@ -212,9 +205,11 @@
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.CartesianLocalENU.html">CartesianLocalENU</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Examples</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
 <li class="toctree-l2"><a class="reference internal" href="examples/bistatic_angles.html">Analyzing Trajectory Data and Bistatic Angles</a></li>
 <li class="toctree-l2"><a class="reference internal" href="examples/nominal_trajectory.html">Generating a Nominal Trajectory</a></li>
 </ul>
@@ -245,8 +240,7 @@
   </a>
 </div>
 <div class="theme-toggle-container theme-toggle-content">
-            <button class="theme-toggle">
-              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
               <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
               <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
               <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
@@ -254,14 +248,13 @@
             </button>
           </div>
           <label class="toc-overlay-icon toc-content-icon" for="__toc">
-            <div class="visually-hidden">Toggle table of contents sidebar</div>
-            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
-<p>This section provides a detailed reference for the <cite>sargeom</cite> package, including its modules, classes, and functions.</p>
+<p>This section provides a detailed reference for the <code class="docutils literal notranslate"><span class="pre">sargeom</span></code> package, including its modules, classes, and functions.</p>
 <section id="module-sargeom">
 <span id="sargeom"></span><h2>sargeom<a class="headerlink" href="#module-sargeom" title="Link to this heading">¶</a></h2>
 <section id="classes">
@@ -288,12 +281,6 @@
 </table>
 </div>
 </section>
-<section id="class-inheritance-diagram">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Link to this heading">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-6e73e35e4002cae3e93a9bf09bc92021ef819065.png" alt="Inheritance diagram of sargeom.trajectory.Trajectory" usemap="#inheritance32a6b88990" class="inheritance graphviz" /></div>
-<map id="inheritance32a6b88990" name="inheritance32a6b88990">
-<area shape="rect" id="node1" href="api/sargeom.Trajectory.html#sargeom.Trajectory" target="_top" title="A Trajectory object represents a sequence of positions and orientations over time." alt="" coords="5,5,92,31"/>
-</map></section>
 </section>
 <section id="module-sargeom.coordinates">
 <span id="sargeom-coordinates"></span><h2>sargeom.coordinates<a class="headerlink" href="#module-sargeom.coordinates" title="Link to this heading">¶</a></h2>
@@ -331,20 +318,28 @@ By default, distances are expressed in meters and angles in degrees.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic" title="sargeom.coordinates.Cartographic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Cartographic</span></code></a>(longitude, latitude[, height, ...])</p></td>
 <td><p>A Cartographic object represents the position of a point in a geodetic coordinate system.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" title="sargeom.coordinates.Ellipsoid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Ellipsoid</span></code></a>(semi_major_axis[, ...])</p></td>
+<td><p>Represents a reference ellipsoid of revolution for geodetic calculations.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.coordinates.LambertConicConformal.html#sargeom.coordinates.LambertConicConformal" title="sargeom.coordinates.LambertConicConformal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LambertConicConformal</span></code></a>(ellipsoid, ...[, ...])</p></td>
+<td><p>Lambert Conic Conformal projection class.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
 </section>
-<section id="id2">
-<h3>Class Inheritance Diagram<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-5b05f3436ccbd073cfc9f2a1feff532c628328b9.png" alt="Inheritance diagram of sargeom.coordinates.cartesian.Cartesian3, sargeom.coordinates.cartesian.CartesianECEF, sargeom.coordinates.cartesian.CartesianLocalENU, sargeom.coordinates.cartesian.CartesianLocalNED, sargeom.coordinates.cartographic.Cartographic" usemap="#inheritancee210123d5c" class="inheritance graphviz" /></div>
-<map id="inheritancee210123d5c" name="inheritancee210123d5c">
-<area shape="rect" id="node1" href="api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" target="_top" title="A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system." alt="" coords="132,55,224,80"/>
-<area shape="rect" id="node3" href="api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF" target="_top" title="A geocentric Earth&#45;centered Earth&#45;fixed (ECEF) system uses the Cartesian coordinates (*X*, *Y*, *Z*) to represent the 3D components of a position or a vector." alt="" coords="293,5,411,31"/>
-<area shape="rect" id="node4" href="api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU" target="_top" title="A local East&#45;North&#45;Up (ENU) system uses the Cartesian coordinates (*xEast*, *yNorth*, *zUp*) to represent position relative to a local origin." alt="" coords="279,55,425,80"/>
-<area shape="rect" id="node5" href="api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED" target="_top" title="A North&#45;East&#45;Down (NED) system uses the Cartesian coordinates (*xNorth*, *yEast*, *zDown*) to represent position relative to a local origin." alt="" coords="279,104,425,129"/>
-<area shape="rect" id="node2" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" target="_top" title="ndarray(shape, dtype=float, buffer=None, offset=0," alt="" coords="5,80,77,105"/>
-<area shape="rect" id="node6" href="api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic" target="_top" title="A Cartographic object represents the position of a point in a geodetic coordinate system." alt="" coords="125,104,231,129"/>
+<section id="class-inheritance-diagram">
+<h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Link to this heading">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-055f8ed9946f7404bfb88f978b37063c2a795dbc.png" alt="Inheritance diagram of sargeom.coordinates.cartesian.Cartesian3, sargeom.coordinates.cartesian.CartesianECEF, sargeom.coordinates.cartesian.CartesianLocalENU, sargeom.coordinates.cartesian.CartesianLocalNED, sargeom.coordinates.cartographic.Cartographic, sargeom.coordinates.ellipsoids.Ellipsoid, sargeom.coordinates.transforms.LambertConicConformal" usemap="#inheritance2269dc533f" class="inheritance graphviz" /></div>
+<map id="inheritance2269dc533f" name="inheritance2269dc533f">
+<area shape="rect" id="node1" href="api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" target="_top" title="A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system." alt="" coords="240,79,332,104"/>
+<area shape="rect" id="node3" href="api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF" target="_top" title="A geocentric Earth&#45;centered Earth&#45;fixed (ECEF) system uses the Cartesian coordinates (*X*, *Y*, *Z*) to represent the 3D components of a position or a vector." alt="" coords="401,29,519,55"/>
+<area shape="rect" id="node4" href="api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU" target="_top" title="A local East&#45;North&#45;Up (ENU) system uses the Cartesian coordinates (*xEast*, *yNorth*, *zUp*) to represent position relative to a local origin." alt="" coords="387,79,533,104"/>
+<area shape="rect" id="node5" href="api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED" target="_top" title="A North&#45;East&#45;Down (NED) system uses the Cartesian coordinates (*xNorth*, *yEast*, *zDown*) to represent position relative to a local origin." alt="" coords="387,128,533,153"/>
+<area shape="rect" id="node2" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" target="_top" title="ndarray(shape, dtype=float, buffer=None, offset=0," alt="" coords="59,104,131,129"/>
+<area shape="rect" id="node6" href="api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic" target="_top" title="A Cartographic object represents the position of a point in a geodetic coordinate system." alt="" coords="233,128,339,153"/>
+<area shape="rect" id="node7" href="api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" target="_top" title="Represents a reference ellipsoid of revolution for geodetic calculations." alt="" coords="57,55,134,80"/>
+<area shape="rect" id="node8" href="api/sargeom.coordinates.LambertConicConformal.html#sargeom.coordinates.LambertConicConformal" target="_top" title="Lambert Conic Conformal projection class." alt="" coords="5,5,185,31"/>
 </map></section>
 </section>
 </section>
@@ -363,14 +358,14 @@ By default, distances are expressed in meters and angles in degrees.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="installation_guide.html">
+          <a class="prev-page" href="quickstart.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Installation Guide</div>
+                <div class="title">Quickstart</div>
                 
               </div>
             </a>
@@ -378,7 +373,7 @@ By default, distances are expressed in meters and angles in degrees.</p>
         <div class="bottom-of-page">
           <div class="left-details">
             <div class="copyright">
-                Copyright &#169; ONERA/DEMR
+                Copyright &#169; 2024, Olivier LEVEQUE
             </div>
             Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
             
@@ -408,13 +403,12 @@ By default, distances are expressed in meters and angles in degrees.</p>
 <li><a class="reference internal" href="#module-sargeom">sargeom</a><ul>
 <li><a class="reference internal" href="#classes">Classes</a></li>
 <li><a class="reference internal" href="#variables">Variables</a></li>
-<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#module-sargeom.coordinates">sargeom.coordinates</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#id1">Classes</a></li>
-<li><a class="reference internal" href="#id2">Class Inheritance Diagram</a></li>
+<li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
 </ul>
 </li>
 </ul>
@@ -428,7 +422,7 @@ By default, distances are expressed in meters and angles in degrees.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=d45e8c67"></script>
+</div><script src="_static/documentation_options.js?v=938c9ccc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
@@ -437,5 +431,7 @@ By default, distances are expressed in meters and angles in degrees.</p>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

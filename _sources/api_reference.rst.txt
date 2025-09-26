@@ -1,7 +1,7 @@
 API Reference
 =============
 
-This section provides a detailed reference for the `sargeom` package, including its modules, classes, and functions.
+This section provides a detailed reference for the ``sargeom`` package, including its modules, classes, and functions.
 
 sargeom
 --------
@@ -10,6 +10,7 @@ sargeom
     :include-all-objects:
     :no-inherited:
     :no-heading:
+    :no-inheritance-diagram:
 
 sargeom.coordinates
 -------------------

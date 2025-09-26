@@ -1,0 +1,29 @@
+Ellipsoid
+=========
+
+.. currentmodule:: sargeom.coordinates
+
+.. autoclass:: Ellipsoid
+   :show-inheritance:
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~Ellipsoid.conformal_latitude
+      ~Ellipsoid.inverse_conformal_latitude
+      ~Ellipsoid.inverse_isometric_latitude
+      ~Ellipsoid.isometric_latitude
+      ~Ellipsoid.prime_vertical_curvature_radius
+      ~Ellipsoid.to_cartographic
+      ~Ellipsoid.to_ecef
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: conformal_latitude
+   .. automethod:: inverse_conformal_latitude
+   .. automethod:: inverse_isometric_latitude
+   .. automethod:: isometric_latitude
+   .. automethod:: prime_vertical_curvature_radius
+   .. automethod:: to_cartographic
+   .. automethod:: to_ecef
