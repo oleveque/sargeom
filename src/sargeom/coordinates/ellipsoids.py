@@ -3,16 +3,12 @@ import numpy as np
 
 class Ellipsoid:
     """
-    Class defining the reference ellipsoid of revolution to be used
-    for geodetic calculations. The ellipsoid of revolution is generally
-    defined from the pair:
+    Represents a reference ellipsoid of revolution for geodetic calculations.
 
-    * :math:`(a,b)` :math:`\rightarrow` (equatorial radius, polar radius) or
-    * :math:`(a,f)` :math:`\rightarrow` (equatorial radius, flattening factor)
-    
-    All the parameters defining the ellipsoid of revolution and their
-    relationships are defined in the attributes of this class.
-    
+    The ellipsoid is defined by either:
+    - Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or
+    - Equatorial radius (semi-major axis) and flattening factor (f).
+
     Parameters
     ----------
     semi_major_axis : :class:`float`
