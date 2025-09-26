@@ -843,14 +843,21 @@ class Cartesian3(np.ndarray):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = Cartesian3(x=1.0, y=2.0, z=3.0)
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -867,6 +874,7 @@ class Cartesian3(np.ndarray):
 
 X_M;Y_M;Z_M"""
         )
+        return filename
 
     def cross(self, right):
         """
@@ -1272,14 +1280,21 @@ class CartesianECEF(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianECEF(x=4198945, y=174747, z=4781887)
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1296,6 +1311,7 @@ class CartesianECEF(Cartesian3):
 
 X_WGS84_M;Y_WGS84_M;Z_WGS84_M"""
         )
+        return filename
 
 
 class CartesianLocalENU(Cartesian3):
@@ -1457,14 +1473,21 @@ class CartesianLocalENU(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianLocalENU(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1488,6 +1511,7 @@ class CartesianLocalENU(Cartesian3):
 
 X_ENU_M;Y_ENU_M;Z_ENU_M"""
         )
+        return filename
 
 
 class CartesianLocalNED(Cartesian3):
@@ -1653,14 +1677,21 @@ class CartesianLocalNED(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianLocalNED(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1684,6 +1715,7 @@ class CartesianLocalNED(Cartesian3):
 
 X_NED_M;Y_NED_M;Z_NED_M"""
         )
+        return filename
 
 
 if __name__ == "__main__":

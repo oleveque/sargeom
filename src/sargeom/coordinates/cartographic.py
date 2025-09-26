@@ -552,7 +552,7 @@ class Cartographic(np.ndarray):
         )
         return CartesianECEF(x, y, z)
 
-    def save_kml(self, filename):
+    def save_kml(self, filename, height_mode="orthometric"):
         """
         Saves Cartographic positions to a KML file.
 
@@ -560,35 +560,66 @@ class Cartographic(np.ndarray):
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the positions.
+        height_mode : :class:`str`, optional
+            The height mode to use for the KML file. Can be "orthometric" or "ellipsoidal". Default is "orthometric".
+
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .kml file.
 
         Notes
         -----
-        The ellipsoidal height is converted to orthometric height using the EGM96 geoid model.
-        As a result, the output file is compatible with Google Earth and can be easily opened within the application.
+        If "orthometric" is selected, the height is converted to orthometric height using the EGM96 geoid model and is compatible with Google Earth.
 
         Examples
         --------
         >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
-        >>> positions.save_kml("my_positions.kml")
+        >>> filename = positions.save_kml("output.kml")
+        >>> print(filename)
+        output.kml
         """
+        filename = Path(filename).with_suffix(".kml")
+
         try:
             import simplekml
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "SimpleKML is not installed. Please follow the instructions on https://simplekml.readthedocs.io/en/latest/index.html"
+                "SimpleKML is not installed. Please follow the instructions on https://simplekml.readthedocs.io/en/latest/"
+            )
+        
+        kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
+        if height_mode == "ellipsoidal":
+            for coords in self.__array__():
+                pnt = kml.newpoint()
+                pnt.name = f"Lon {coords[0]:.6f}, Lat: {coords[1]:.6f}, Height: {coords[2]:.6f}"
+                pnt.coords = [coords]
+
+        elif height_mode == "orthometric":
+            try:
+                from pyproj.transformer import Transformer
+                gcs2egm = Transformer.from_crs("EPSG:4979", "EPSG:9707")
+            except ModuleNotFoundError:
+                raise ModuleNotFoundError(
+                    "PyProj is not installed. Please follow the instructions on https://pyproj4.github.io/pyproj/stable/"
+                )
+
+            lat, lon, alt = gcs2egm.transform(
+                self.__array__()[:, 1],  # latitude
+                self.__array__()[:, 0],  # longitude
+                self.__array__()[:, 2]  # height
             )
 
-        kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
-        lon    = self.__array__()[:, 0]
-        lat    = self.__array__()[:, 1]
-        height = self.__array__()[:, 2]
-        for coords in zip(lon, lat, height):
-            pnt = kml.newpoint()
-            pnt.name = "Lon {lon:.6f}, Lat: {lat:.6f}, Height: {height:.6f}".format(
-                lon=coords[0], lat=coords[1], height=coords[2]
-            )
-            pnt.coords = [coords]
-        kml.save(Path(filename).with_suffix(".kml"))
+            for coords in zip(lon, lat, alt):
+                pnt = kml.newpoint()
+                pnt.name = f"Lon {coords[0]:.6f}, Lat: {coords[1]:.6f}, Alt: {coords[2]:.6f}"
+                pnt.coords = [coords]
+
+        else:
+            raise ValueError("The 'height_mode' parameter must be 'orthometric' or 'ellipsoidal'.")
+
+        kml.save(filename)
+        return filename
 
     def to_geojson(self, clamp_to_Ground=False, link_markers=False):
         """
@@ -748,11 +779,20 @@ class Cartographic(np.ndarray):
         link_markers : :class:`bool`, optional
             If True, link markers with a line. Default is False.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .html file.
+
         Examples
         --------
         >>> position = Cartographic(longitude=2.230784, latitude=48.713028)
-        >>> position.save_html("my_map.html")
+        >>> filename = position.save_html("output.html")
+        >>> print(filename)
+        output.html
         """
+        filename = Path(filename).with_suffix(".html")
+
         try:
             import folium
         except ModuleNotFoundError:
@@ -773,7 +813,9 @@ class Cartographic(np.ndarray):
                         f"Longitude: {position[0]}</br>Latitude: {position[1]}"
                     ),
                 ).add_to(m)
-        m.save(Path(filename).with_suffix(".html"))
+
+        m.save(filename)
+        return filename
 
     def save_csv(self, filename):
         """
@@ -784,14 +826,21 @@ class Cartographic(np.ndarray):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the positions.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = Cartographic(longitude=[10.0, 15.0], latitude=[20.0, 25.0], height=[30.0, 35.0])
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=['%.15f','%.15f','%.6f'],
             delimiter=';',
@@ -808,6 +857,7 @@ class Cartographic(np.ndarray):
 
 LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_M"""
         )
+        return filename
 
     def to_pandas(self):
         """
