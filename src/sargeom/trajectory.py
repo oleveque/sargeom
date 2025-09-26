@@ -869,7 +869,7 @@ class Trajectory:
         return cls.from_numpy(data)
 
     @classmethod
-    def read_pamela_traj(cls, filename):
+    def read_pamela_traj(cls, filename, sampling_time_s=None, crs='auto'):
         """
         Read a PAMELA .traj file and create a Trajectory instance.
 
@@ -877,6 +877,10 @@ class Trajectory:
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to the .traj file.
+        sampling_time_s : :class:`float`, optional
+            If provided, overrides the time step between trajectory points (in seconds).
+        crs : :class:`str`, optional
+            Coordinate reference system of the trajectory. Options are: 'auto' (default, WGS84 if new format, NTF if old format), 'WGS84', 'NTF'.
 
         Returns
         -------
@@ -891,12 +895,16 @@ class Trajectory:
             If the file does not have a .traj extension.
         :class:`ValueError`
             If the old PAMELA file format is detected.
+        :class:`ValueError`
+            If the crs parameter is not one of the accepted values.
         """
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
         if not filename.suffix == '.traj':
             raise ValueError("File must have a .traj extension.")
+        if crs not in ['auto', 'WGS84', 'NTF']:
+            raise ValueError("crs must be 'auto', 'WGS84', or 'NTF'.")
 
         # Read header (11 doubles, little endian)
         # Format:
@@ -914,18 +922,88 @@ class Trajectory:
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
-        # Check format
-        if header[10] > -0.5:
-            raise ValueError("Old PAMELA file format detected, please check the file format!")
-
-        time_step = header[9]
-        header_size = header_count * 8  # bytes for 11 doubles
-
         # Read all records in a single operation
+        header_size = header_count * 8  # bytes for 11 doubles
         records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
-        n = records.shape[0]
+
+        # Determine coordinate reference system
+        if crs == 'auto':
+            if header[10] > -0.5:
+                crs = 'NTF'
+                print(
+                    f"Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = {header[10]}]!\n"
+                    " ↳ Trajectory will be automatically converted to geographic WGS84 CRS format."
+                )
+            else:
+                crs = 'WGS84'
+
+        # Convert trajectory to WGS84 if needed
+        if crs == 'NTF':
+            from sargeom.coordinates.transforms import LambertConicConformal
+            from sargeom.coordinates.ellipsoids import Ellipsoid, ELPS_CLARKE_1880
+
+            # Unpack NTF trajectory origin coordinates
+            lon_origin_ntf_rad = header[0]
+            lat_origin_ntf_rad = header[1]
+            height_origin_ntf_m = header[2]
+
+            # Unpack position records (note: attitude angles are kept unchanged)
+            x_loc_m = records['longitude_rad']
+            y_loc_m = records['latitude_rad']
+            height_ntf_m = records['height_m']
+
+            # Lambert Conic Conformal projection initialization
+            locLambertNTF = LambertConicConformal(
+                ELPS_CLARKE_1880,
+                lon_origin_ntf_rad,
+                lat_origin_ntf_rad
+            )
+
+            # Step 1: from local Lambert NTF to geographic NTF
+            lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
+
+            # Step 2: Transform from geographic NTF to cartesian ECEF NTF
+            x_ntf_m, y_ntf_m, z_ntf_m = ELPS_CLARKE_1880.to_ecef(
+                lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
+            )
+
+            # Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84
+            _ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
+            _DX_NTF_TO_WGS84_M = -168.0
+            _DY_NTF_TO_WGS84_M = -72.0
+            _DZ_NTF_TO_WGS84_M = 318.5
+
+            # Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom)
+            x_wgs84_m = 1.0000002198 * x_ntf_m - _ANGLE_Z_NTF_TO_WGS84_RAD * y_ntf_m + _DX_NTF_TO_WGS84_M
+            y_wgs84_m = 1.0000002198 * y_ntf_m + _ANGLE_Z_NTF_TO_WGS84_RAD * x_ntf_m + _DY_NTF_TO_WGS84_M
+            z_wgs84_m = 1.0000002198 * z_ntf_m                                       + _DZ_NTF_TO_WGS84_M
+
+            # Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84
+            ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142) # Custom PamelaX11 WGS84
+            lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m = ELPS_PAM_WGS84.to_cartographic(
+                x_wgs84_m, y_wgs84_m, z_wgs84_m
+            )
+
+            # Update records geographic coordinates
+            records['longitude_rad'] = lon_wgs84_rad
+            records['latitude_rad'] = lat_wgs84_rad
+            records['height_m'] = height_wgs84_m
+
+        # Check trajectory time sampling
+        if sampling_time_s is not None:
+            time_step = sampling_time_s
+        else:
+            time_step = header[9]
+            if time_step <= 0.0:
+                time_step = 1.0
+                print(
+                    "Sampling time step is non-positive or non defined !\n"
+                    " ↳ This value is set to 1.0 second by default."
+                )
+        print(f"Sampling time step is set to {time_step}s. To modify the timestamp axis set a new one in the newly created Trajectory object.")
 
         # Create output structured array
+        n = records.shape[0]
         data = np.empty(n, dtype=TRAJ_DTYPE)
         data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
         data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])

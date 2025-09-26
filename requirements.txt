@@ -25,10 +25,10 @@ pip
 # To run API
 scipy
 numpy
-pyproj
 
 # To run tests or examples
 folium
 pandas
 shapely
 simplekml
+pyproj
