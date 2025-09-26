@@ -260,11 +260,18 @@
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
 <p>You can install the package directly from GitHub using <code class="docutils literal notranslate"><span class="pre">pip</span></code>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/oleveque/sargeom.git@lastest
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/oleveque/sargeom.git@latest
 </pre></div>
 </div>
-<p>You can also add it to your <cite>requirements.txt</cite>:</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
+<p>If you want to add the package to your dependencies, you can add it to your <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project]</span>
+<span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0&quot;</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>Or to your <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0
 </pre></div>
 </div>
 <p>For more information on the latest updates, check the <a class="reference external" href="https://github.com/oleveque/sargeom/blob/main/CHANGELOG.md">CHANGELOG</a>.</p>

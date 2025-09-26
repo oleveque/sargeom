@@ -17,13 +17,22 @@ You can install the package directly from GitHub using ``pip``:
 
 .. code-block:: bash
 
-   pip install git+https://github.com/oleveque/sargeom.git@lastest
+   pip install git+https://github.com/oleveque/sargeom.git@latest
 
-You can also add it to your `requirements.txt`:
+If you want to add the package to your dependencies, you can add it to your ``pyproject.toml``:
+
+.. code-block:: toml
+
+   [project]
+   dependencies = [
+       "sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0"
+   ]
+
+Or to your ``requirements.txt`` file:
 
 .. code-block:: text
 
-   sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
+   sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0
 
 For more information on the latest updates, check the `CHANGELOG <https://github.com/oleveque/sargeom/blob/main/CHANGELOG.md>`_.
 

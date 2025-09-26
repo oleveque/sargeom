@@ -1,21 +1,6 @@
 Quickstart
 ==========
 
-Installation
-------------
-
-Requirements: Python 3.8+ 
-
-.. code-block:: bash
-
-   # Install from GitHub
-   pip install git+https://github.com/oleveque/sargeom.git@latest
-
-   # Or for development
-   git clone https://github.com/oleveque/sargeom.git
-   pip install -r ./sargeom/requirements.txt
-   pip install -e ./sargeom
-
 Basic Usage
 -----------
 
