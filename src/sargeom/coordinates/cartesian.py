@@ -3,7 +3,7 @@ import numpy as np
 
 from scipy.spatial.transform import Rotation
 from sargeom.coordinates.cartographic import Cartographic
-from sargeom.coordinates.transforms import ecef2gcs, wgs84_ECEF
+from sargeom.coordinates.ellipsoids import ELPS_WGS84
 
 
 class Cartesian3(np.ndarray):
@@ -843,14 +843,21 @@ class Cartesian3(np.ndarray):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = Cartesian3(x=1.0, y=2.0, z=3.0)
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -867,6 +874,7 @@ class Cartesian3(np.ndarray):
 
 X_M;Y_M;Z_M"""
         )
+        return filename
 
     def cross(self, right):
         """
@@ -1100,14 +1108,19 @@ class CartesianECEF(Cartesian3):
     @staticmethod
     def crs():
         """
-        Returns the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
+        Returns the coordinate reference system (CRS) for the WGS84 Geocentric System `EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_.
 
         Returns
         -------
-        :class:`pyproj.crs.CRS`
-            A pythonic coordinate reference system (CRS) manager.
+        :class:`dict`
+            A dictionary containing the name, EPSG code, and ellipsoid of the coordinate reference system (CRS).
         """
-        return wgs84_ECEF
+        return {
+            "name": "WGS 84 (Geocentric)",
+            "epsg": 4978,
+            "ellipsoid": ELPS_WGS84,
+            "proj_string": "+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs"  # based on https://epsg.io/4978.proj4
+        }
 
     def to_cartographic(self):
         """
@@ -1125,8 +1138,8 @@ class CartesianECEF(Cartesian3):
         Lon.Lat.Height Cartographic position
         [  2.383...  48.879...  124.847...]
         """
-        latitude, longitude, height = ecef2gcs.transform(self.x, self.y, self.z)
-        return Cartographic(longitude, latitude, height)
+        longitude, latitude,height = ELPS_WGS84.to_cartographic(self.x, self.y, self.z)
+        return Cartographic(longitude, latitude, height, degrees=False)
 
     def to_ned(self, origin):
         """
@@ -1267,14 +1280,21 @@ class CartesianECEF(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianECEF(x=4198945, y=174747, z=4781887)
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1291,6 +1311,7 @@ class CartesianECEF(Cartesian3):
 
 X_WGS84_M;Y_WGS84_M;Z_WGS84_M"""
         )
+        return filename
 
 
 class CartesianLocalENU(Cartesian3):
@@ -1452,14 +1473,21 @@ class CartesianLocalENU(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianLocalENU(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1483,6 +1511,7 @@ class CartesianLocalENU(Cartesian3):
 
 X_ENU_M;Y_ENU_M;Z_ENU_M"""
         )
+        return filename
 
 
 class CartesianLocalNED(Cartesian3):
@@ -1648,14 +1677,21 @@ class CartesianLocalNED(Cartesian3):
         filename : :class:`str` or :class:`pathlib.Path`
             The name of the file to save the coordinates.
 
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .csv file.
+
         Examples
         --------
         >>> positions = CartesianLocalNED(x=10.0, y=20.0, z=30.0, origin=Cartographic.ONERA_SDP())
-        >>> positions.save_csv("positions.csv")
+        >>> filename = positions.save_csv("output.csv")
+        >>> print(filename)
+        output.csv
         """
-        filename = Path(filename)
+        filename = Path(filename).with_suffix(".csv")
         np.savetxt(
-            filename.with_suffix(".csv"),
+            filename,
             self.__array__(),
             fmt=3*['%.6f'],
             delimiter=';',
@@ -1679,6 +1715,7 @@ class CartesianLocalNED(Cartesian3):
 
 X_NED_M;Y_NED_M;Z_NED_M"""
         )
+        return filename
 
 
 if __name__ == "__main__":

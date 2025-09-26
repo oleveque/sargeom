@@ -17,7 +17,16 @@ conda activate sargeom-env
 pip install git+https://github.com/oleveque/sargeom.git@latest
 ```
 
-If you want to add the package to your dependencies file, you can add the following line to your `requirements.txt` file:
+If you want to add the package to your dependencies, you can add it to your `pyproject.toml`:
+
+```toml
+[project]
+dependencies = [
+    "sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0"
+]
+```
+
+Or to your `requirements.txt` file:
 
 ```bash
 sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
@@ -25,13 +34,22 @@ sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
 
 For more information on the latest updates, check the [CHANGELOG](CHANGELOG.md).
 
-3. **Development mode**: If you want to contribute to the package or run it in development mode, clone the repository and install the requirements:
+3. **Development mode**: If you want to contribute to the package or run it in development mode, clone the repository and install in editable mode with optional dependencies:
 
 ```bash
 git clone https://github.com/oleveque/sargeom.git
-pip install -r ./sargeom/requirements.txt
-pip install -e ./sargeom
+cd sargeom
+pip install -e .[dev,docs,examples]
 ```
+
+### Optional Dependencies
+
+The package includes optional dependencies for different use cases:
+
+- **Documentation**: `pip install sargeom[docs]` - for building documentation
+- **Examples**: `pip install sargeom[examples]` - for running examples and visualization
+- **Development**: `pip install sargeom[dev]` - for package development and publishing
+- **All optional**: `pip install sargeom[docs,examples,dev]` - install everything
 
 ## Dependency relationships
 

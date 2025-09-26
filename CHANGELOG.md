@@ -8,19 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Introduced `Cartesian3.concatenate()`, `Cartographic.concatenate()`, and `Trajectory.concatenate()` methods for concatenating multiple objects
-  - Methods follow numpy/scipy conventions for consistency
-  - Supports concatenating multiple `Cartesian3`, `Cartographic`, or `Trajectory` objects
+- Introduced `concatenate()` methods for `Cartesian3`, `Cartographic`, and `Trajectory`
+- Added `height_mode` parameter to `Cartographic.save_kml()` method to specify height reference (e.g., ellipsoid, orthometric)
+- Added support for legacy PamelaX11 format in `Trajectory.read_pamela_traj()`
 
 ### Changed
-- Updated `append()` methods to use `concatenate()` internally for better consistency and maintainability
-- Updated `save_*` methods to return the saved file path
+- Refactored `append()` methods to internally use `concatenate()` for improved consistency and maintainability
+- Updated all `save_*` methods to return the path of the saved file
+- Replaced `pyproj` dependency with `sargeom.coordinates.ellipsoids` for coordinate transformations
 
 ### Fixed
-- Fixed minor issues
-- Fixed longitude and latitude precision in CSV output from `%.12f` to `%.15f` format by @oboisot in #1
+- Fixed longitude/latitude precision in CSV output from `%.12f` to `%.15f` (by @oboisot in #1)
   - Affects `Trajectory.save_csv()` and `Cartographic.save_csv()` methods
-  - Preserves full double precision accuracy for geographic coordinates
+  - Ensures full double-precision accuracy for geographic coordinates
+- Other minor fixes
 
 ## [0.2.0] - 2025-08-04
 
@@ -32,4 +33,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2025-06-03
 
 ### Added
-- First version of the SAR Geometry package
+- Initial release of the SAR Geometry package

@@ -10,6 +10,36 @@ authors = [
 ]
 description = "A Python package for Synthetic Aperture Radar (SAR) geometry calculations"
 readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "scipy",
+]
+
+[project.optional-dependencies]
+docs = [
+    "furo",
+    "sphinx",
+    "sphinx-design",
+    "sphinx-inline-tabs",
+    "sphinx-copybutton",
+    "sphinx-subfigure",
+    "sphinx-automodapi",
+    "numpydoc",
+    "nbsphinx",
+    "ipython",
+]
+examples = [
+    "folium",
+    "pandas",
+    "shapely",
+    "simplekml",
+    "pyproj",
+]
+dev = [
+    "build",
+    "twine",
+]
 
 [project.urls]
 homepage = "https://github.com/oleveque/sargeom.git"
