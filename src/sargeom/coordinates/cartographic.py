@@ -597,7 +597,7 @@ class Cartographic(np.ndarray):
 
         elif height_mode == "orthometric":
             try:
-                from pyproj.transformer import Transformer
+                from pyproj import Transformer
                 gcs2egm = Transformer.from_crs("EPSG:4979", "EPSG:9707")
             except ModuleNotFoundError:
                 raise ModuleNotFoundError(
