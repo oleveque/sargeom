@@ -7,7 +7,7 @@ class Ellipsoid:
 
     The ellipsoid is defined by either:
     - Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or
-    - Equatorial radius (semi-major axis) and flattening factor (f).
+    - Equatorial radius (semi-major axis) and flattening factor (:math:`f`).
 
     Parameters
     ----------
@@ -76,11 +76,12 @@ class Ellipsoid:
 
     def prime_vertical_curvature_radius(self, phi):
         """
-        Computes the prime vertical curvature radius of a point at latitude φ.
+        Computes the prime vertical curvature radius of a point at latitude :math:`\\phi`.
 
         The prime vertical curvature radius is computed using the formula:
 
-        .. math:: \nu(\phi)=\dfrac{a}{\sqrt{1-e^2\sin^2\phi}}
+        .. math::
+            \\nu(\\phi)=\\dfrac{a}{\\sqrt{1-e^2\\sin^2\\phi}}
 
         where :math:`a` is the semi-major axis and :math:`e` is the eccentricity
         of the ellipsoid.
@@ -111,13 +112,13 @@ class Ellipsoid:
         The isometric latitude is computed using the formula:
 
         .. math::
-            \psi(\phi)=\mathrm{arctanh}\big(\sin(\phi)\big)-
-            e\mathrm{arctanh}\big(e\sin(\phi)\big)
+            \\psi(\\phi)=\\mathrm{arctanh}\\big(\\sin(\\phi)\\big)-
+            e\\mathrm{arctanh}\\big(e\\sin(\\phi)\\big)
 
         It can also be computed from the conformal latitude:
 
         .. math::
-            \psi(\phi)=\mathrm{arctanh}\big[\sin\big(\chi(\phi)\big)\big]
+            \\psi(\\phi)=\\mathrm{arctanh}\\big[\\sin\\big(\\chi(\\phi)\\big)\\big]
         
         Parameters
         ----------
@@ -152,7 +153,7 @@ class Ellipsoid:
         conformal latitude:
 
         .. math::
-            \phi(\psi)=\chi^{-1}\big[\arcsin\big(\tanh(\psi)\big)\big]
+            \\phi(\\psi)=\\chi^{-1}\\big[\\arcsin\\big(\\tanh(\\psi)\\big)\\big]
 
         Parameters
         ----------
@@ -185,8 +186,8 @@ class Ellipsoid:
         The conformal latitude is computed using the formula:
 
         .. math::
-            \chi(\phi)=\arcsin\big[\tanh\big(\mathrm{arctanh}(\sin(\phi))-
-            e\mathrm{arctanh}(e\sin(\phi))\big)\big]
+            \\chi(\\phi)=\\arcsin\\big[\\tanh\\big(\\mathrm{arctanh}\\big(\\sin(\\phi)\\big)-
+            e\\mathrm{arctanh}\\big(e\\sin(\\phi)\\big)\\big)\\big]
 
         Parameters
         ----------
@@ -224,7 +225,7 @@ class Ellipsoid:
         using the Lagrange inversion formula:
 
         .. math::
-            \phi(\chi)\simeq\chi+\sum\limits_{p=1}^{10}d_{2p}(n)\sin(2p\chi)
+            \\phi(\\chi)\\simeq\\chi+\\sum\\limits_{p=1}^{10}d_{2p}(n)\\sin(2p\\chi)
         
         Parameters
         ----------
@@ -255,21 +256,21 @@ class Ellipsoid:
         """
         Converts geodetic coordinates to geocentric cartesian ECEF coordinates.
 
-        Converts geodetic coordinates :math:`(\lambda,\phi, H)` of a
+        Converts geodetic coordinates :math:`(\\lambda,\\phi, H)` of a
         point to geocentric cartesian ECEF coordinates :math:`(X,Y,Z)`.
 
         The conversion is made through the relationships:
 
         .. math::
-            \left\{\begin{array}{rcl}
-            X & = & \big(\nu(\phi) + H\big)\cos(\phi)\cos(\lambda) \\
-            Y & = & \big(\nu(\phi) + H\big)\cos(\phi)\sin(\lambda) \\
-            Z & = & \big((1-e^2)\nu(\phi) + H\big)\sin(\phi)
-            \end{array}\right.
+            \\left\{\\begin{array}{rcl}
+            X & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\
+            Y & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\
+            Z & = & \\big((1-e^2)\\nu(\\phi) + H\\big)\\sin(\\phi)
+            \\end{array}\\right.
 
-        where :math:`\nu(\phi)` is the prime vertical curvature radius
-        of the point with latitude :math:`\phi`.
-        
+        where :math:`\\nu(\\phi)` is the prime vertical curvature radius
+        of the point with latitude :math:`\\phi`.
+
         Parameters
         ----------
         lamb : array_like
@@ -304,7 +305,7 @@ class Ellipsoid:
         Converts geocentric cartesian ECEF coordinates to geodetic coordinates.
 
         Converts geocentric cartesian ECEF coordinates :math:`(X,Y,Z)`
-        of a point to geodetic coordinates :math:`(\lambda,\phi, H)`.
+        of a point to geodetic coordinates :math:`(\\lambda,\\phi, H)`.
         
         Parameters
         ----------
