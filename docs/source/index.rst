@@ -41,7 +41,7 @@ Quick Example
 
 .. code-block:: python
 
-   from sargeom.coordinates import Cartographic, CartesianECEF
+   from sargeom import Cartographic, CartesianECEF
 
    # Create geographic coordinate
    coord = Cartographic(longitude=2.3522, latitude=48.8566, height=35.0)

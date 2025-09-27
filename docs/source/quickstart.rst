@@ -9,7 +9,7 @@ Simple Example
 
 .. code-block:: python
 
-   from sargeom.coordinates import Cartographic
+   from sargeom import Cartographic
 
    # Create coordinate in Paris
    paris = Cartographic(longitude=2.3522, latitude=48.8566, height=35.0)
@@ -22,8 +22,6 @@ Multiple Points
 ~~~~~~~~~~~~~~~
 
 .. code-block:: python
-
-   import numpy as np
    
    # Multiple cities
    cities = Cartographic(
@@ -59,19 +57,19 @@ Trajectories
    import numpy as np
 
    # Time vector
-   t = np.linspace(0, 60, 100)  # 60 seconds, 100 points
+   time = np.linspace(0, 60, 100)  # 60 seconds, 100 points
    
    # Aircraft trajectory
-   trajectory_coords = Cartographic(
-       longitude=2.0 + 0.01 * t,           # Moving east
-       latitude=48.0 + 0.005 * t,          # Moving north  
-       height=1000 + 10 * np.sin(0.1 * t)  # Varying altitude
+   coords = Cartographic(
+       longitude=2.0 + 0.01 * time,
+       latitude=48.0 + 0.005 * time,
+       height=1000 + 10 * np.sin(0.1 * time)
    )
    
    # Create trajectory
    traj = Trajectory(
-      timestamps=t,
-      positions=trajectory_coords
+      timestamps=time,
+      positions=coords
    )
 
 Distance Calculations
@@ -79,7 +77,7 @@ Distance Calculations
 
 .. code-block:: python
 
-   from sargeom.coordinates import Cartesian3
+   from sargeom import Cartesian3
 
    # Two points
    point1 = Cartographic(longitude=2.3522, latitude=48.8566, height=0)
@@ -136,17 +134,6 @@ Working with Grids
 
    # Convert all points to ECEF at once
    grid_ecef = grid_coords.to_ecef()
-
-Utility Functions
-~~~~~~~~~~~~~~~~~
-
-.. code-block:: python
-
-   from sargeom.coordinates.utils import negativePiToPi
-
-   # Wrap angles to [-π, π] range
-   angles = np.array([3*np.pi, -2*np.pi, np.pi/2])
-   wrapped = negativePiToPi(angles)
 
 Next Steps
 ----------
