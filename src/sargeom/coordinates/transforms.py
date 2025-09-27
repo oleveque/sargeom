@@ -10,7 +10,7 @@ class LambertConicConformal:
     
     Parameters
     ----------
-    ellipsoid : :class:`sargom.coordinates.ellipsoids.Ellipsoid`
+    ellipsoid : :class:`sargeom.coordinates.Ellipsoid`
         Reference ellipsoid used for the projection.
     lon_origin_rad : :class:`float`
         Longitude of the origin of the Lambert Conic Conformal projection in radians.
@@ -25,7 +25,7 @@ class LambertConicConformal:
         
     Attributes
     ----------
-    ellipsoid : :class:`sargom.coordinates.ellipsoids.Ellipsoid`
+    ellipsoid : :class:`sargeom.coordinates.Ellipsoid`
         The reference ellipsoid.
     lon_origin_rad : :class:`float`
         The longitude origin in radians.
