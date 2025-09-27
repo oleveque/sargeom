@@ -1202,6 +1202,112 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         # TODO: Implement saving to a pivot file
         raise NotImplementedError("Saving to pivot files is not implemented yet.")
 
-    def save_kml(self, filename, **kwargs):
-        # TODO: Implement saving to KML format
-        raise NotImplementedError("Saving to KML format is not implemented yet.")
+    def save_kml(self, filename, height_mode="orthometric", reference_datetime='1970-01-01T00:00:00+00:00'):
+        """
+        Save the Trajectory instance to a KML file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .kml file.
+        height_mode : :class:`str`, optional
+            The height mode to use for the KML file. Can be "orthometric" or "ellipsoidal". Default is "orthometric".
+        reference_datetime : :class:`str`, optional
+            The reference time in ISO 8601 format. Default is '1970-01-01T00:00:00+00:00'.
+
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .kml file.
+
+        Notes
+        -----
+        If "orthometric" is selected, the height is converted to orthometric height using the EGM96 geoid model and is compatible with Google Earth.
+        The trajectory is saved as a GxTrack that preserves timestamp information and can be animated in Google Earth.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2, 3],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
+        ...     )
+        ... )
+        >>> filename = traj.save_kml("output.kml")
+        >>> print(filename)
+        output.kml
+        """
+        from datetime import datetime, timedelta
+        try:
+            import simplekml
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError(
+                "SimpleKML is not installed. Please follow the instructions on https://simplekml.readthedocs.io/en/latest/"
+            )
+
+        filename = Path(filename).with_suffix(".kml")
+        
+        # Convert positions to cartographic coordinates
+        cartographic_positions = self._positions.to_cartographic()
+        
+        kml = simplekml.Kml(open=1)  # the folder will be open in the table of contents
+        
+        # Create a GxTrack for the trajectory
+        track = kml.newgxtrack(name=reference_datetime)
+        
+        # Convert timestamps to datetime objects (assuming timestamps are in seconds)
+        try:
+            base_time = datetime.fromisoformat(reference_datetime)
+        except ValueError:
+            raise ValueError(f"Invalid reference_datetime format: {reference_datetime}. Expected ISO 8601 format.")
+        
+        when_list = []
+        for timestamp in self._timestamps:
+            dt = base_time + timedelta(seconds=float(timestamp))
+            when_list.append(dt)
+        
+        if height_mode == "ellipsoidal":
+            coords_array = cartographic_positions.__array__()
+            # Format coordinates as [(lon, lat, alt), ...]
+            coord_tuples = [(coords[0], coords[1], coords[2]) for coords in coords_array]
+            
+        elif height_mode == "orthometric":
+            try:
+                from pyproj import Transformer
+                gcs2egm = Transformer.from_crs("EPSG:4979", "EPSG:9707")
+            except ModuleNotFoundError:
+                raise ModuleNotFoundError(
+                    "PyProj is not installed. Please follow the instructions on https://pyproj4.github.io/pyproj/stable/"
+                )
+
+            lat, lon, alt = gcs2egm.transform(
+                cartographic_positions.__array__()[:, 1],  # latitude
+                cartographic_positions.__array__()[:, 0],  # longitude
+                cartographic_positions.__array__()[:, 2]  # height
+            )
+            
+            # Format coordinates as [(lon, lat, alt), ...] - KML expects lon, lat order
+            coord_tuples = [(lon[i], lat[i], alt[i]) for i in range(len(lon))]
+
+        else:
+            raise ValueError("The 'height_mode' parameter must be 'orthometric' or 'ellipsoidal'.")
+
+        # Set the track data
+        track.newwhen(when_list)
+        track.newgxcoord(coord_tuples)
+        
+        # Add orientation data if available
+        if self.has_orientation():
+            # Extract orientation data as Euler angles (heading, tilt, roll)
+            euler_angles = self._orientations.as_euler("ZYX", degrees=True)
+            heading_list = euler_angles[:, 0].tolist()  # Z rotation (heading)
+            tilt_list = euler_angles[:, 1].tolist()  # Y rotation (elevation/tilt)
+            roll_list = euler_angles[:, 2].tolist()  # X rotation (bank/roll)
+
+            # Add angles to the track using the proper KML gx:angles element
+            track.newgxangles(heading_list, tilt_list, roll_list)
+
+        kml.save(filename)
+        return filename
