@@ -55,12 +55,15 @@ The package includes optional dependencies for different use cases:
 
 ```mermaid
 graph TD
+    Ellipsoid --> Cartographic
+    Ellipsoid --> Cartesian3
     ndarray --> Cartographic
     ndarray --> Cartesian3
     Cartesian3 --> CartesianECEF
     Cartesian3 --> CartesianLocalENU
     Cartesian3 --> CartesianLocalNED
     ndarray --> Trajectory
+    LambertConicConformal --> Trajectory
     Cartographic --> Trajectory
     CartesianECEF --> Trajectory
     Rotation --> Trajectory
