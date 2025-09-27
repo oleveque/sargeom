@@ -1,6 +1,6 @@
 # SAR Geometry
 
-A Python package for Synthetic Aperture Radar (SAR) geometry calculations.
+A Python package for Synthetic Aperture Radar (SAR) geometry calculations and coordinate transformations.
 
 ## Installation
 
@@ -34,6 +34,10 @@ sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
 
 For more information on the latest updates, check the [CHANGELOG](CHANGELOG.md).
 
+## Documentation
+
+For detailed documentation, including API references and advanced usage, visit the [documentation site](https://oleveque.github.io/sargeom/).
+
 3. **Development mode**: If you want to contribute to the package or run it in development mode, clone the repository and install in editable mode with optional dependencies:
 
 ```bash
@@ -51,7 +55,18 @@ The package includes optional dependencies for different use cases:
 - **Development**: `pip install sargeom[dev]` - for package development and publishing
 - **All optional**: `pip install sargeom[docs,examples,dev]` - install everything
 
-## Dependency relationships
+## Architecture
+
+### Core Classes
+
+- **`Cartographic`**: Represents geographic coordinates (longitude, latitude, height) in WGS84
+- **`CartesianECEF`**: Earth-Centered, Earth-Fixed Cartesian coordinates
+- **`CartesianLocalENU`**: Local East-North-Up Cartesian coordinates
+- **`CartesianLocalNED`**: Local North-East-Down Cartesian coordinates
+- **`Trajectory`**: SAR platform trajectory modeling
+- **`Ellipsoid`**: Earth ellipsoid definitions (WGS84, etc.)
+
+### Dependency Relationships
 
 ```mermaid
 graph TD
