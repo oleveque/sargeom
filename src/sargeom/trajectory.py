@@ -1101,7 +1101,7 @@ class Trajectory:
 #    o Positions as WGS84 Geographic coordinates:
 #        - LON_WGS84_DEG [°]: The longitude coordinate
 #        - LAT_WGS84_DEG [°]: The latitude coordinate
-#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate
+#        - HEIGHT_WGS84_M [m]: The ellipsoidal height coordinate
 #    o Attitudes as Euler angles (heading, elevation, bank) in the local North-East-Down (NED) cartesian frame related to geographic position coordinates:
 #        - HEADING_DEG [°]: The heading angle in degrees
 #        - ELEVATION_DEG [°]: The elevation angle in degrees
