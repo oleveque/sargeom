@@ -58,7 +58,7 @@ Quick Examples
 
 .. code-block:: python
 
-   from sargeom import Cartographic, CartesianECEF
+   from sargeom.coordinates import Cartographic, CartesianECEF
 
    # Create geographic coordinate (Paris)
    paris = Cartographic(longitude=2.3522, latitude=48.8566, height=35.0)
