@@ -35,7 +35,7 @@ class Ellipsoid:
         self._n = self._f / (2 - self._f)  # Third flattening factor
         self._e2 = self._f * (2 - self._f)  # Eccentricity squared
         self._e = np.sqrt(self._e2)  # Eccentricity
-        
+
         n = [self._n**i for i in range(11)] # n^0 ... n^10
         # Coefficients d(n) of the series expansion of the inverse conformal latitude
         self._phichi = (
@@ -89,12 +89,12 @@ class Ellipsoid:
         ----------
         phi : array_like
             The geodetic latitude in radians.
-        
+
         Returns
         -------
         nu : :class:`numpy.ndarray`
             Prime vertical curvature radius in meters.
-            
+
         Notes
         -----
         The prime vertical curvature radius is the radius of curvature in the 
@@ -118,12 +118,12 @@ class Ellipsoid:
 
         .. math::
             \psi(\phi)=\mathrm{arctanh}\big[\sin\big(\chi(\phi)\big)\big]
-        
+
         Parameters
         ----------
         phi : array_like
             The geodetic latitude in radians.
-            
+ 
         Returns
         -------
         psi : :class:`numpy.ndarray`
@@ -158,7 +158,7 @@ class Ellipsoid:
         ----------
         psi : array_like
             The isometric latitude in radians.
-            
+
         Returns
         -------
         phi : :class:`numpy.ndarray`
@@ -225,12 +225,12 @@ class Ellipsoid:
 
         .. math::
             \phi(\chi)\simeq\chi+\sum\limits_{p=1}^{10}d_{2p}(n)\sin(2p\chi)
-        
+
         Parameters
         ----------
         chi : array_like
             The conformal latitude in radians.
-            
+
         Returns
         -------
         phi : :class:`numpy.ndarray`
@@ -305,7 +305,7 @@ class Ellipsoid:
 
         Converts geocentric cartesian ECEF coordinates :math:`(X,Y,Z)`
         of a point to geodetic coordinates :math:`(\lambda,\phi, H)`.
-        
+
         Parameters
         ----------
         X : array_like
@@ -314,7 +314,7 @@ class Ellipsoid:
             The Y cartesian ECEF coordinate in meters.
         Z : array_like
             The Z cartesian ECEF coordinate in meters.
-        
+
         Returns
         -------
         lamb : :class:`numpy.ndarray`

@@ -73,14 +73,14 @@ class LambertConicConformal:
             The geographic longitude in radians.
         lat_rad : array_like
             The geographic latitude in radians.
-            
+ 
         Returns
         -------
         x_m : :class:`numpy.ndarray`
             The projected x-coordinate in meters.
         y_m : :class:`numpy.ndarray`
             The projected y-coordinate in meters.
-            
+
         Notes
         -----
         The transformation uses the standard Lambert Conic Conformal projection 
@@ -95,7 +95,7 @@ class LambertConicConformal:
     def inverse(self, x_m, y_m):
         """
         Inverse transformation from projected coordinates to geographic coordinates.
-        
+
         Transforms projected coordinates (x, y) in the Lambert Conic Conformal 
         projection to geographic coordinates (longitude, latitude).
 
@@ -105,14 +105,14 @@ class LambertConicConformal:
             The projected x-coordinate in meters.
         y_m : array_like
             The projected y-coordinate in meters.
-            
+
         Returns
         -------
         lon_rad : :class:`numpy.ndarray`
             The geographic longitude in radians.
         lat_rad : :class:`numpy.ndarray`
             The geographic latitude in radians.
-            
+
         Notes
         -----
         The transformation uses the inverse Lambert Conic Conformal projection 
