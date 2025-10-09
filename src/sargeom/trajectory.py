@@ -1203,9 +1203,9 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             from pivot.darpy import Axis, AxisLabelEnum
             from pivot.piactor import Actor, ActorTypeEnum
             from pivot.pivotutil import pivot_version, Metadata, ProtectionTag
-            print("Pivot version:", pivot_version())
+            print(f"Using pivot library version: {pivot_version()}")
         except ImportError:
-            raise ImportError("Required pivot modules are not available. Please ensure that the pivot library is installed. For more information, visit http://125.40.2.23:3000/PIVOT/-/packages/pypi/pivot/2.3.0")
+            raise ImportError("The pivot library is not installed. Please install it to write PIVOT files.")
 
         filename = Path(filename).with_suffix('.h5')
 
@@ -1246,7 +1246,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             states
         )
 
-        meta = Metadata({ 'Rights': { 'dataOwner': 'EMPRISE', 'dataCoowner': 'EMPRISE', 'confid': ProtectionTag.NON_PROTEGE } })
+        meta = Metadata({ 'Rights': { 'dataOwner': 'NA', 'dataCoowner': 'NA', 'confid': ProtectionTag.NON_PROTEGE } })
 
         tx_actor.save(filename, mode='override')
         # rx_actor.save(h5_filename, mode='append')
