@@ -1108,11 +1108,13 @@ class Trajectory:
         if crs == 'auto':
             if header[10] > -0.5:
                 crs = 'NTF'
+                print("Guessed origin CRS is 'NTF'")
                 print(
                     f"Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = {header[10]}]!\n"
                     " ↳ Trajectory will be automatically converted to geographic WGS84 CRS format."
                 )
             else:
+                print("Guessed origin CRS is 'WGS84'")
                 crs = 'WGS84'
 
         # Convert trajectory to WGS84 if needed
