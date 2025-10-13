@@ -1232,12 +1232,12 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             Axis(AxisLabelEnum.POS_X_ECEF, self._positions.x.tolist()),
             Axis(AxisLabelEnum.POS_Y_ECEF, self._positions.y.tolist()),
             Axis(AxisLabelEnum.POS_Z_ECEF, self._positions.z.tolist()),
-            Axis(AxisLabelEnum.DIR_x_X_ECEF, x_axis_dir[0].tolist()),
-            Axis(AxisLabelEnum.DIR_x_Y_ECEF, x_axis_dir[1].tolist()),
-            Axis(AxisLabelEnum.DIR_x_Z_ECEF, x_axis_dir[2].tolist()),
-            Axis(AxisLabelEnum.DIR_y_X_ECEF, y_axis_dir[0].tolist()),
-            Axis(AxisLabelEnum.DIR_y_Y_ECEF, y_axis_dir[1].tolist()),
-            Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[2].tolist())
+            Axis(AxisLabelEnum.DIR_x_X_ECEF, x_axis_dir[:, 0].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Y_ECEF, x_axis_dir[:, 1].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Z_ECEF, x_axis_dir[:, 2].tolist()),
+            Axis(AxisLabelEnum.DIR_y_X_ECEF, y_axis_dir[:, 0].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Y_ECEF, y_axis_dir[:, 1].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
         ]
 
         tx_actor = Actor(
