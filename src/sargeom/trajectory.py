@@ -1488,7 +1488,6 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'confid': ProtectionTag[protection_tag] } })
 
         tx_actor.save(filename, mode='override')
-        # rx_actor.save(h5_filename, mode='append')
         meta.save(filename)
 
         return filename
