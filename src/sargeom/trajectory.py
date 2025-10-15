@@ -1447,18 +1447,21 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         # Compute direction vectors in ECEF frame
         local_origins = self._positions.to_cartographic()
-        rot_ned2ecef = Rotation.from_matrix([
-            [
-                [ -np.cos(lon) * np.sin(lat), -np.sin(lon) * np.sin(lat), np.cos(lat) ],
-                [ -np.sin(lon), np.cos(lon), 0.0 ],
-                [ -np.cos(lon) * np.cos(lat), -np.sin(lon) * np.cos(lat), -np.sin(lat) ],
-            ]
-            for lat, lon in zip(local_origins.latitude, local_origins.longitude)
-        ]).inv()
+        size = local_origins.shape[0]
+        clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
+        clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
+        rot_ned2ecef = Rotation.from_matrix(
+            np.array([
+                -clon * slat,          -slon, -clon * clat,
+                -slon * slat,           clon, -slon * clat,
+                        clat, np.zeros(size),        -slat
+            ]).T.reshape((size, 3, 3))
+        )
 
         if self.has_orientation():
-            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])   # X-axis direction
-            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (negative for NED to ENU conversion)
+            # Carrier "BODY" frame is in NED coordinates
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (NED)
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, 1.0, 0.0])  # Y-axis direction (NED)
         else:
             # TODO: if no orientation, compute the direction vector from the velocity vector
             raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
