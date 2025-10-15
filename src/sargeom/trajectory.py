@@ -766,6 +766,7 @@ class Trajectory:
         # Extract orientations if available
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
+            heading %= 360  # Normalize heading to [0, 360)
         else:
             heading = elevation = bank = np.zeros(len(self))
         
@@ -1460,8 +1461,10 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         if self.has_orientation():
             # Carrier "BODY" frame is in NED coordinates
-            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (NED)
-            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, 1.0, 0.0])  # Y-axis direction (NED)
+            # x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (NED)
+            # y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, 1.0, 0.0])  # Y-axis direction (NED)
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (ENU)
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (ENU)
         else:
             # TODO: if no orientation, compute the direction vector from the velocity vector
             raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
