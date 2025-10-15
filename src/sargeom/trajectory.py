@@ -1,3 +1,4 @@
+import re
 import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation, Slerp
@@ -1378,7 +1379,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         return filename
 
-    def save_pivot(self, filename, actor_type='NOTSET', protection_tag='NON_PROTEGE'):
+    def save_pivot(self, filename, actor_type='NOTSET', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
         """
         Save the Trajectory instance to a PIVOT .h5 file.
 
@@ -1388,6 +1389,12 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             The filename or path to save the .h5 file.
         actor_type : :class:`str`, optional
             The type of actor to save (default: 'NOTSET').
+            May be one of: 'NOTSET', 'TX_PLATFORM', 'RX_PLATFORM', 'TARGET', 'TX_ANTENNA', 'RX_ANTENNA'.
+        data_owner : :class:`str`, optional
+            The data owner to use (default: 'NA').
+        data_type : :class:`str`, optional
+            The data type to use (default: 'TRUEVALUE').
+            May be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'.
         protection_tag : :class:`str`, optional
             The protection tag to use (default: 'NON_PROTEGE').
 
@@ -1401,7 +1408,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         :class:`ImportError`
             If the pivot library is not installed.
         :class:`ValueError`
-            If the actor_type or protection_tag is not valid.
+            If the actor_type, data_type or protection_tag is not valid.
         :class:`NotImplementedError`
             If the trajectory has no orientation.
 
@@ -1435,6 +1442,9 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         if protection_tag not in ProtectionTag.__members__:
             raise ValueError(f"'protection_tag' must be one of {list(ProtectionTag.__members__.keys())}")
 
+        if data_type not in ['TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE']:
+            raise ValueError("data_type must be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'")
+
         # Compute direction vectors in ECEF frame
         local_origins = self._positions.to_cartographic()
         rot_ned2ecef = Rotation.from_matrix([
@@ -1466,13 +1476,16 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
         ]
 
+        actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
+        actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
+
         tx_actor = Actor(
             ActorTypeEnum[actor_type],
-            filename.stem,
+            f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: remove _1 suffix when SCALIAN fixes Actor name bug
             states
         )
 
-        meta = Metadata({ 'Rights': { 'dataOwner': 'NA', 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
+        meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'confid': ProtectionTag[protection_tag] } })
 
         tx_actor.save(filename, mode='override')
         # rx_actor.save(h5_filename, mode='append')
