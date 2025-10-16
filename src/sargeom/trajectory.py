@@ -887,7 +887,7 @@ class Trajectory:
             raise ValueError("File must have a .h5 extension.")
 
         # Validate actor_type parameter if provided
-        if actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
+        if actor_type is not None and actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
             raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
 
         # Load all actors from the PIVOT file
