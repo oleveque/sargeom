@@ -835,8 +835,9 @@ class Trajectory:
         actor_name : :class:`str`, optional
             The name of the specific actor to load. If None, loads the first actor found.
         actor_type : :class:`str`, optional
-            The type of actor to load (e.g., 'TX_PLATFORM', 'RX_PLATFORM'). 
-            If None, loads any actor type. Must be a valid ActorTypeEnum member.
+            The type of actor to load (e.g., 'TX_ANTENNA').
+            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
+            If None, loads any actor type.
 
         Returns
         -------
@@ -865,11 +866,11 @@ class Trajectory:
 
         Load a specific actor by name:
 
-        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_name="TX_onera")
+        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_name="TrajectoryName_TrajectoryOrigin_TrajectoryType")
 
         Load an actor by type:
 
-        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_type="RX_PLATFORM")
+        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_type="TX_ANTENNA")
         """
         try:
             from pivot.darpy import AxisLabelEnum
@@ -886,8 +887,8 @@ class Trajectory:
             raise ValueError("File must have a .h5 extension.")
 
         # Validate actor_type parameter if provided
-        if actor_type is not None and actor_type not in ActorTypeEnum.__members__:
-            raise ValueError(f"actor_type must be one of {list(ActorTypeEnum.__members__.keys())}")
+        if actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
+            raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
 
         # Load all actors from the PIVOT file
         try:
@@ -900,7 +901,7 @@ class Trajectory:
 
         # Filter actors based on the provided criteria
         selected_actor = None
-        
+
         if actor_name is not None:
             # Filter by actor name
             matching_actors = [act for act in actors if act.name == actor_name]
@@ -936,7 +937,7 @@ class Trajectory:
         pos_x_axis = selected_actor.get_axis(AxisLabelEnum.POS_X_ECEF)
         pos_y_axis = selected_actor.get_axis(AxisLabelEnum.POS_Y_ECEF)
         pos_z_axis = selected_actor.get_axis(AxisLabelEnum.POS_Z_ECEF)
-        
+
         positions = CartesianECEF(
             x=np.array(pos_x_axis.values),
             y=np.array(pos_y_axis.values),
@@ -949,7 +950,7 @@ class Trajectory:
         dir_x_x_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_X_ECEF)
         dir_x_y_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_Y_ECEF)
         dir_x_z_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_Z_ECEF)
-        
+
         dir_y_x_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_X_ECEF)
         dir_y_y_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_Y_ECEF)
         dir_y_z_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_Z_ECEF)
@@ -960,7 +961,7 @@ class Trajectory:
             np.array(dir_x_y_axis.values),
             np.array(dir_x_z_axis.values)
         ])
-        
+
         y_axis_dir = np.column_stack([
             np.array(dir_y_x_axis.values),
             np.array(dir_y_y_axis.values),
@@ -975,7 +976,6 @@ class Trajectory:
         size = local_origins.shape[0]
         clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
         clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
-
         rot_ned2ecef = Rotation.from_matrix(
             np.array([
                 [-clon * slat, -slon * slat,           clat],
@@ -988,19 +988,19 @@ class Trajectory:
         # Transform ECEF direction vectors to NED frame
         x_axis_ned = rot_ecef2ned.apply(x_axis_dir)
         y_axis_ned = rot_ecef2ned.apply(y_axis_dir)
-        
+
         # Convert from ENU-like to NED convention (negate Y component)
         y_axis_ned[:, 1] = -y_axis_ned[:, 1]
-        
+
         # Construct rotation matrices from the direction vectors
         # Assuming x_axis is forward (North in NED), y_axis is right (East in NED)
         z_axis_ned = np.cross(x_axis_ned, y_axis_ned)  # Down in NED
-        
+
         # Normalize the vectors to ensure orthogonality
         x_axis_ned = x_axis_ned / np.linalg.norm(x_axis_ned, axis=1, keepdims=True)
         y_axis_ned = y_axis_ned / np.linalg.norm(y_axis_ned, axis=1, keepdims=True)
         z_axis_ned = z_axis_ned / np.linalg.norm(z_axis_ned, axis=1, keepdims=True)
-        
+
         # Construct rotation matrices
         rotation_matrices = np.stack([x_axis_ned, y_axis_ned, z_axis_ned], axis=2)
         orientations = Rotation.from_matrix(rotation_matrices)
