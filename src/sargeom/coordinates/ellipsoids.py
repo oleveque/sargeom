@@ -6,6 +6,7 @@ class Ellipsoid:
     Represents a reference ellipsoid of revolution for geodetic calculations.
 
     The ellipsoid is defined by either:
+
     - Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or
     - Equatorial radius (semi-major axis) and flattening factor (:math:`f`).
 
@@ -262,11 +263,11 @@ class Ellipsoid:
         The conversion is made through the relationships:
 
         .. math::
-            \\left\{\\begin{array}{rcl}
-            X & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\
-            Y & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\
-            Z & = & \\big((1-e^2)\\nu(\\phi) + H\\big)\\sin(\\phi)
-            \\end{array}\\right.
+            \\begin{cases}
+            X = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\
+            Y = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\
+            Z = \\big[(1-e^2)\\nu(\\phi) + H\\big]\\sin(\\phi)
+            \\end{cases}
 
         where :math:`\\nu(\\phi)` is the prime vertical curvature radius
         of the point with latitude :math:`\\phi`.
