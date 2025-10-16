@@ -1451,12 +1451,19 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         size = local_origins.shape[0]
         clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
         clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
+        # rot_ned2ecef = Rotation.from_matrix(
+        #     np.array([
+        #         -clon * slat,          -slon, -clon * clat,
+        #         -slon * slat,           clon, -slon * clat,
+        #                 clat, np.zeros(size),        -slat
+        #     ]).T.reshape((size, 3, 3))
+        # )
         rot_ned2ecef = Rotation.from_matrix(
             np.array([
-                -clon * slat,          -slon, -clon * clat,
-                -slon * slat,           clon, -slon * clat,
-                        clat, np.zeros(size),        -slat
-            ]).T.reshape((size, 3, 3))
+                [-clon * slat, -slon * slat,           clat],
+                [       -slon,         clon, np.zeros(size)],
+                [-clon * clat, -slon * clat,          -slat]
+            ]).T
         )
 
         if self.has_orientation():
