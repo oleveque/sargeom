@@ -976,14 +976,13 @@ class Trajectory:
         size = local_origins.shape[0]
         clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
         clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
-        rot_ned2ecef = Rotation.from_matrix(
+        rot_ecef2ned = Rotation.from_matrix(
             np.array([
-                [-clon * slat, -slon * slat,           clat],
-                [       -slon,         clon, np.zeros(size)],
-                [-clon * clat, -slon * clat,          -slat]
+                [-clon * slat,          -slon, -clon * clat],
+                [-slon * slat,           clon, -slon * clat],
+                [        clat, np.zeros(size),        -slat]
             ]).T
         )
-        rot_ecef2ned = rot_ned2ecef.inv()
 
         # Transform ECEF direction vectors to NED frame
         x_axis_ned = rot_ecef2ned.apply(x_axis_dir)
