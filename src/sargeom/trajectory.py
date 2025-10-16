@@ -1188,7 +1188,7 @@ class Trajectory:
         # Create output structured array
         n = records.shape[0]
         data = np.empty(n, dtype=TRAJ_DTYPE)
-        data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
+        data['TIMESTAMP_S'] = np.arange(n) * time_step
         data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])
         data['LAT_WGS84_DEG'] = np.degrees(records['latitude_rad'])
         data['HEIGHT_WGS84_M'] = records['height_m']
