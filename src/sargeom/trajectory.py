@@ -766,7 +766,7 @@ class Trajectory:
         # Extract orientations if available
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
-            heading %= 360  # Normalize heading to [0, 360)
+            heading %= 360  # Normalize heading angle to [0, 360]
         else:
             heading = elevation = bank = np.zeros(len(self))
         
