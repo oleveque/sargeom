@@ -959,8 +959,10 @@ class Trajectory:
 
         # Compute rotation matrices from NED to ECEF for each position
         size = local_origins.shape[0]
-        clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
-        clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
+        lon = np.deg2rad(local_origins.longitude)
+        lat = np.deg2rad(local_origins.latitude)
+        clon, slon = np.cos(lon), np.sin(lon)
+        clat, slat = np.cos(lat), np.sin(lat)
         rot_ecef2ned = Rotation.from_matrix(
             np.array([
                 [-clon * slat,          -slon, -clon * clat],
@@ -1432,8 +1434,10 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         # Compute direction vectors in ECEF frame
         local_origins = self._positions.to_cartographic()
         size = local_origins.shape[0]
-        clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
-        clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
+        lon = np.deg2rad(local_origins.longitude)
+        lat = np.deg2rad(local_origins.latitude)
+        clon, slon = np.cos(lon), np.sin(lon)
+        clat, slat = np.cos(lat), np.sin(lat)
         rot_ned2ecef = Rotation.from_matrix(
             np.array([
                 [-clon * slat, -slon * slat,           clat],
