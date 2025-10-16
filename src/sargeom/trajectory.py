@@ -1,3 +1,11 @@
+"""
+Trajectory module for handling sequences of positions and orientations over time.
+
+This module provides the :class:`Trajectory` class for representing and manipulating
+trajectories in various coordinate systems, along with utilities for reading and
+writing trajectory data in multiple formats (CSV, PIVOT, PAMELA).
+"""
+
 import re
 import numpy as np
 from pathlib import Path
@@ -5,52 +13,58 @@ from scipy.spatial.transform import Rotation, Slerp
 from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, Cartographic
 
 
+# Standard trajectory data type with timestamps, geographic positions, and Euler angles
 TRAJ_DTYPE = [
-    ('TIMESTAMP_S', '<f8'),
-    ('LON_WGS84_DEG', '<f8'),
-    ('LAT_WGS84_DEG', '<f8'),
-    ('HEIGHT_WGS84_M', '<f8'),
-    ('HEADING_DEG', '<f8'),
-    ('ELEVATION_DEG', '<f8'),
-    ('BANK_DEG', '<f8'),
+    ('TIMESTAMP_S', '<f8'),       # Timestamp in seconds
+    ('LON_WGS84_DEG', '<f8'),     # Longitude in WGS84 (degrees)
+    ('LAT_WGS84_DEG', '<f8'),     # Latitude in WGS84 (degrees)
+    ('HEIGHT_WGS84_M', '<f8'),    # Ellipsoidal height in WGS84 (meters)
+    ('HEADING_DEG', '<f8'),       # Heading angle in NED frame (degrees)
+    ('ELEVATION_DEG', '<f8'),     # Elevation angle in NED frame (degrees)
+    ('BANK_DEG', '<f8'),          # Bank angle in NED frame (degrees)
 ]
 
+# PAMELA TRAJ file format data type
 PAMELA_TRAJ_DTYPE = [
-    ('longitude_rad', '<f8'),
-    ('latitude_rad', '<f8'),
-    ('height_m', '<f8'),
-    ('heading_rad', '<f4'),
-    ('elevation_rad', '<f4'),
-    ('bank_rad', '<f4'),
+    ('longitude_rad', '<f8'),     # Longitude in radians
+    ('latitude_rad', '<f8'),      # Latitude in radians
+    ('height_m', '<f8'),          # Height in meters
+    ('heading_rad', '<f4'),       # Heading angle in radians
+    ('elevation_rad', '<f4'),     # Elevation angle in radians
+    ('bank_rad', '<f4'),          # Bank angle in radians
 ]
 
+# PAMELA POS file format data type
 PAMELA_POS_DTYPE = [
-    ('timestamp_s', '<f8'),
-    ('latitude_deg', '<f8'),
-    ('longitude_deg', '<f8'),
-    ('height_m', '<f8'),
-    ('velocity_north_m_s', '<f4'),
-    ('velocity_east_m_s', '<f4'),
-    ('velocity_up_m_s', '<f4'),
-    ('bank_deg', '<f4'),
-    ('elevation_deg', '<f4'),
-    ('heading_deg', '<f4'),
-    ('std_latitude_m', '<f4'),
-    ('std_longitude_m', '<f4'),
-    ('std_height_m', '<f4'),
+    ('timestamp_s', '<f8'),           # Timestamp in seconds
+    ('latitude_deg', '<f8'),          # Latitude in degrees
+    ('longitude_deg', '<f8'),         # Longitude in degrees
+    ('height_m', '<f8'),              # Height in meters
+    ('velocity_north_m_s', '<f4'),    # Velocity North component (m/s)
+    ('velocity_east_m_s', '<f4'),     # Velocity East component (m/s)
+    ('velocity_up_m_s', '<f4'),       # Velocity Up component (m/s)
+    ('bank_deg', '<f4'),              # Bank angle in degrees
+    ('elevation_deg', '<f4'),         # Elevation angle in degrees
+    ('heading_deg', '<f4'),           # Heading angle in degrees
+    ('std_latitude_m', '<f4'),        # Standard deviation of latitude (m)
+    ('std_longitude_m', '<f4'),       # Standard deviation of longitude (m)
+    ('std_height_m', '<f4'),          # Standard deviation of height (m)
 ]
 
-# This class represents a trajectory of positions and orientations over time.
-# Inspired by https://gereon-t.github.io/trajectopy/Documentation/Trajectory/
+
 class Trajectory:
     """
     A Trajectory object represents a sequence of positions and orientations over time.
 
+    This class provides comprehensive trajectory handling with support for multiple
+    coordinate systems and file formats. It is inspired by the trajectopy library
+    (https://gereon-t.github.io/trajectopy/Documentation/Trajectory/).
+
     It is defined by the following characteristics:
 
-    - Timestamps are expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.
-    - Positions are provided in either the WGS84 geographic coordinate system (`EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_) or the WGS84 geocentric coordinate system (`EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_).
-    - Orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
+    - **Timestamps**: Expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.
+    - **Positions**: Provided in either the WGS84 geographic coordinate system (`EPSG:4979 <https://epsg.org/crs_4979/WGS-84.html>`_) or the WGS84 geocentric coordinate system (`EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_).
+    - **Orientations**: Defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
 
     Parameters
     ----------
@@ -59,7 +73,7 @@ class Trajectory:
     positions : :class:`sargeom.coordinates.CartesianECEF` or :class:`sargeom.coordinates.Cartographic`
         Array of positions in either ECEF (x, y, z) or geographic (latitude, longitude, altitude) format.
     orientations : :class:`scipy.spatial.transform.Rotation`, optional
-        Sequence of orientations as `Rotation objects`. Defined in the NED frame. Default is `None`.
+        Sequence of orientations as `Rotation` objects. Defined in the NED frame. Default is `None`.
 
     Raises
     ------
@@ -95,6 +109,7 @@ class Trajectory:
     >>> traj = Trajectory(timestamps, positions, orientations)
     """
     def __init__(self, timestamps, positions, orientations=None):
+        """Initialize a Trajectory instance with timestamps, positions, and optional orientations."""
         self._timestamps = np.asarray(timestamps)
         if isinstance(positions, CartesianECEF):
             self._positions = positions
@@ -171,12 +186,13 @@ class Trajectory:
 
     def __repr__(self):
         """
-        Returns a string representation of the Trajectory instance.
+        Return a string representation of the Trajectory instance.
 
         Returns
         -------
         :class:`str`
-            A string representation of the Trajectory instance.
+            A string representation showing trajectory samples with their timestamps,
+            positions, and orientations (if available).
 
         Examples
         --------
@@ -199,14 +215,16 @@ class Trajectory:
 
     def sort(self, inplace=True, reverse=False):
         """
-        Sort the trajectory by timestamps.
+        Sort the trajectory by timestamps in ascending or descending order.
 
         Parameters
         ----------
         inplace : :class:`bool`, optional
-            If True, sort the trajectory in place. Default is True.
+            If True, sort the trajectory in place. If False, return a new sorted Trajectory instance.
+            Default is True.
         reverse : :class:`bool`, optional
-            If True, sort in descending order. Default is False.
+            If True, sort in descending order. If False, sort in ascending order.
+            Default is False.
 
         Returns
         -------
@@ -215,7 +233,7 @@ class Trajectory:
 
         Examples
         --------
-        Sort the trajectory in place:
+        Sort the trajectory in place (ascending order):
 
         >>> traj = Trajectory(
         ...     timestamps=[2, 0, 1, 3],
@@ -260,7 +278,8 @@ class Trajectory:
         Returns
         -------
         :class:`numpy.ndarray`
-            1D array of timestamps (e.g., UTC, GPS SOW, TOD).
+            1D array of timestamps. May represent UTC, GPS Seconds of Week (SOW),
+            Time of Day (TOD), or a custom time reference.
 
         Examples
         --------
@@ -311,10 +330,14 @@ class Trajectory:
         """
         Velocities between consecutive trajectory samples.
 
+        Computed as the arc length divided by the time difference between
+        consecutive samples.
+
         Returns
         -------
         :class:`numpy.ndarray`
             1D array of velocity magnitudes, in meters per second.
+            Length is n-1 where n is the number of trajectory samples.
 
         Raises
         ------
@@ -341,7 +364,7 @@ class Trajectory:
 
     def has_orientation(self):
         """
-        Whether the trajectory has orientation data.
+        Check whether the trajectory has orientation data.
 
         Returns
         -------
@@ -380,8 +403,10 @@ class Trajectory:
 
         Notes
         -----
-        The orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.
-        The orientations can be converted to quaternions, Euler angles, or other representations using the methods provided by the `Rotation` class.
+        The orientations are defined in the local North-East-Down (NED) Cartesian frame,
+        relative to the associated position coordinates. The orientations can be converted
+        to quaternions, Euler angles, or other representations using the methods provided
+        by the `Rotation` class from scipy.spatial.transform.
 
         Examples
         --------
@@ -411,10 +436,14 @@ class Trajectory:
         """
         Arc lengths between consecutive trajectory positions.
 
+        Computed as the Euclidean distance in ECEF coordinates between
+        consecutive position samples.
+
         Returns
         -------
         :class:`numpy.ndarray`
             1D array of distances in meters.
+            Length is n-1 where n is the number of trajectory samples.
 
         Examples
         --------
@@ -460,6 +489,8 @@ class Trajectory:
         """
         Sampling rate of the trajectory.
 
+        Computed as the inverse of the mean time difference between consecutive samples.
+
         Returns
         -------
         :class:`float`
@@ -491,6 +522,9 @@ class Trajectory:
     def resample(self, sampling_rate):
         """
         Resample the trajectory at a specified sampling rate.
+
+        Creates a new trajectory with uniformly spaced timestamps based on the
+        specified sampling rate. Positions and orientations are interpolated.
 
         Parameters
         ----------
@@ -539,6 +573,10 @@ class Trajectory:
         """
         Interpolate the trajectory to new timestamps.
 
+        Positions are interpolated using the interpolation method from the
+        CartesianECEF class. If orientations are present, they are interpolated
+        using spherical linear interpolation (Slerp).
+
         Parameters
         ----------
         new_timestamps : array_like
@@ -552,7 +590,8 @@ class Trajectory:
         Raises
         ------
         :class:`ValueError`
-            If the new timestamps are not within the range of existing timestamps.
+            - If the new timestamps array is empty.
+            - If the new timestamps are not within the range of existing timestamps.
 
         Examples
         --------
@@ -583,7 +622,7 @@ class Trajectory:
     @classmethod
     def concatenate(cls, trajectories):
         """
-        Concatenate a sequence of Trajectory objects into a single object.
+        Concatenate a sequence of Trajectory objects into a single Trajectory.
         
         Parameters
         ----------
@@ -597,9 +636,11 @@ class Trajectory:
 
         Raises
         ------
+        :class:`TypeError`
+            If trajectories is not an iterable.
         :class:`ValueError`
-            - If the input list is empty.
-            - If any item in the list is not a Trajectory instance.
+            - If the input sequence is empty.
+            - If any item in the sequence is not a Trajectory instance.
 
         Notes
         -----
@@ -607,6 +648,7 @@ class Trajectory:
         - Orientations are concatenated only if ALL input trajectories have orientations.
         - If any trajectory lacks orientations, the result will have no orientations.
         - The order of concatenation follows the order of input trajectories.
+        - No automatic sorting or de-duplication is performed.
 
         Examples
         --------
@@ -676,6 +718,24 @@ class Trajectory:
         return cls(timestamps, positions, orientations)
 
     def plot(self, **kwargs):
+        """
+        Plot the trajectory (not yet implemented).
+        
+        Parameters
+        ----------
+        **kwargs
+            Plotting options to be passed to the plotting function.
+        
+        Raises
+        ------
+        :class:`NotImplementedError`
+            This method is not yet implemented.
+        
+        Notes
+        -----
+        Future implementation will be inspired by:
+        https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
+        """
         # TODO: Implement plotting functionality
         # See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
         raise NotImplementedError("Plotting functionality is not implemented yet.")
@@ -724,6 +784,7 @@ class Trajectory:
             height=data['HEIGHT_WGS84_M']
         ).to_ecef()
         
+        # Check if orientation data is present
         if 'HEADING_DEG' in data.dtype.names:
             orientations = Rotation.from_euler(
                 "ZYX",
@@ -743,6 +804,8 @@ class Trajectory:
         -------
         :class:`numpy.ndarray`
             The trajectory data as a numpy structured array using the :data:`TRAJ_DTYPE` type.
+            Includes timestamps, positions in WGS84 geographic coordinates, and Euler angles
+            (heading, elevation, bank) in the NED frame.
 
         Examples
         --------
@@ -763,7 +826,7 @@ class Trajectory:
         """
         cartographic_positions = self._positions.to_cartographic()
         
-        # Extract orientations if available
+        # Extract orientations if available, otherwise use zeros
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
             heading %= 360  # Normalize heading angle to [0, 360]
@@ -940,7 +1003,7 @@ class Trajectory:
             z=axes[AxisLabelEnum.POS_Z_ECEF]
         )
 
-        # Get direction vectors for x and y axes in ECEF frame
+        # Extract direction vectors for x and y axes in ECEF frame
         x_axis_dir = np.column_stack([
             axes[AxisLabelEnum.DIR_x_X_ECEF],
             axes[AxisLabelEnum.DIR_x_Y_ECEF],
@@ -957,8 +1020,8 @@ class Trajectory:
         # First, convert positions to cartographic for local frame computation
         local_origins = positions.to_cartographic()
 
-        # Compute rotation matrices from NED to ECEF for each position
-        size = local_origins.shape[0]
+        # Compute rotation matrices from ECEF to NED for each position
+        size = len(positions)
         lon = np.deg2rad(local_origins.longitude)
         lat = np.deg2rad(local_origins.latitude)
         clon, slon = np.cos(lon), np.sin(lon)
@@ -978,14 +1041,14 @@ class Trajectory:
 
         # Construct rotation matrices from the direction vectors
         # In NED frame: X=North (forward), Y=East (right), Z=Down
-        z_axis_ned = np.cross(x_axis_ned, y_axis_ned)  # Down in NED
+        z_axis_ned = np.cross(x_axis_ned, y_axis_ned)
 
         # Normalize the vectors to ensure orthogonality
         x_axis_ned = x_axis_ned / np.linalg.norm(x_axis_ned, axis=1, keepdims=True)
         y_axis_ned = y_axis_ned / np.linalg.norm(y_axis_ned, axis=1, keepdims=True)
         z_axis_ned = z_axis_ned / np.linalg.norm(z_axis_ned, axis=1, keepdims=True)
 
-        # Construct rotation matrices
+        # Construct rotation matrices and create Rotation object
         rotation_matrices = np.stack([x_axis_ned, y_axis_ned, z_axis_ned], axis=2)
         orientations = Rotation.from_matrix(rotation_matrices)
 
@@ -1044,8 +1107,13 @@ class Trajectory:
             The filename or path to the .traj file.
         sampling_time_s : :class:`float`, optional
             If provided, overrides the time step between trajectory points (in seconds).
+            If not provided, the time step is read from the file header.
         crs : :class:`str`, optional
-            Coordinate reference system of the trajectory. Options are: 'auto' (default, WGS84 if new format, NTF if old format), 'WGS84', 'NTF'.
+            Coordinate reference system of the trajectory.
+            Options are:
+            - 'auto' (default): Automatically detect WGS84 or NTF from file header
+            - 'WGS84': Force WGS84 interpretation
+            - 'NTF': Force NTF interpretation
 
         Returns
         -------
@@ -1057,11 +1125,8 @@ class Trajectory:
         :class:`FileNotFoundError`
             If the file does not exist.
         :class:`ValueError`
-            If the file does not have a .traj extension.
-        :class:`ValueError`
-            If the old PAMELA file format is detected.
-        :class:`ValueError`
-            If the crs parameter is not one of the accepted values.
+            - If the file does not have a .traj extension.
+            - If the crs parameter is not one of the accepted values.
         """
         filename = Path(filename)
         if not filename.is_file():
@@ -1072,7 +1137,7 @@ class Trajectory:
             raise ValueError("crs must be 'auto', 'WGS84', or 'NTF'.")
 
         # Read header (11 doubles, little endian)
-        # Format:
+        # Header format:
         #    0: origin longitude (rad)
         #    1: origin latitude (rad)
         #    2: origin height (m)
@@ -1082,16 +1147,16 @@ class Trajectory:
         #    6: nominal leeway (rad) - course minus heading
         #    7: mean elevation (rad)
         #    8: mean bank (rad)
-        #    9: std position (m)
-        #   10: std velocity (m/s)
+        #    9: std position (m) / sampling time step (s) depending on format
+        #   10: std velocity (m/s) / format flag (>-0.5: NTF, <=-0.5: WGS84)
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
         # Read all records in a single operation
-        header_size = header_count * 8  # bytes for 11 doubles
+        header_size = header_count * 8  # 8 bytes for each double
         records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
 
-        # Determine coordinate reference system
+        # Determine coordinate reference system from header
         if crs == 'auto':
             if header[10] > -0.5:
                 crs = 'NTF'
@@ -1104,29 +1169,29 @@ class Trajectory:
                 print("Guessed origin CRS is 'WGS84'")
                 crs = 'WGS84'
 
-        # Convert trajectory to WGS84 if needed
+        # Convert trajectory from NTF to WGS84 if needed
         if crs == 'NTF':
             from sargeom.coordinates.transforms import LambertConicConformal
             from sargeom.coordinates.ellipsoids import Ellipsoid, ELPS_CLARKE_1880
 
-            # Unpack NTF trajectory origin coordinates
+            # Extract NTF trajectory origin coordinates from header
             lon_origin_ntf_rad = header[0]
             lat_origin_ntf_rad = header[1]
             height_origin_ntf_m = header[2]
 
-            # Unpack position records (note: attitude angles are kept unchanged)
-            x_loc_m = records['longitude_rad']
-            y_loc_m = records['latitude_rad']
+            # Extract position records (note: attitude angles are kept unchanged)
+            x_loc_m = records['longitude_rad']  # Actually local X in Lambert projection
+            y_loc_m = records['latitude_rad']   # Actually local Y in Lambert projection
             height_ntf_m = records['height_m']
 
-            # Lambert Conic Conformal projection initialization
+            # Initialize Lambert Conic Conformal projection for NTF
             locLambertNTF = LambertConicConformal(
                 ELPS_CLARKE_1880,
                 lon_origin_ntf_rad,
                 lat_origin_ntf_rad
             )
 
-            # Step 1: from local Lambert NTF to geographic NTF
+            # Step 1: Transform from local Lambert NTF to geographic NTF
             lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
 
             # Step 2: Transform from geographic NTF to cartesian ECEF NTF
@@ -1134,29 +1199,29 @@ class Trajectory:
                 lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
             )
 
-            # Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84
+            # Custom transformation parameters from cartesian ECEF NTF to cartesian ECEF WGS84
             _ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
             _DX_NTF_TO_WGS84_M = -168.0
             _DY_NTF_TO_WGS84_M = -72.0
             _DZ_NTF_TO_WGS84_M = 318.5
 
-            # Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom)
+            # Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom transformation)
             x_wgs84_m = 1.0000002198 * x_ntf_m - _ANGLE_Z_NTF_TO_WGS84_RAD * y_ntf_m + _DX_NTF_TO_WGS84_M
             y_wgs84_m = 1.0000002198 * y_ntf_m + _ANGLE_Z_NTF_TO_WGS84_RAD * x_ntf_m + _DY_NTF_TO_WGS84_M
             z_wgs84_m = 1.0000002198 * z_ntf_m                                       + _DZ_NTF_TO_WGS84_M
 
             # Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84
-            ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142) # Custom PamelaX11 WGS84
+            ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142)  # Custom PamelaX11 WGS84
             lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m = ELPS_PAM_WGS84.to_cartographic(
                 x_wgs84_m, y_wgs84_m, z_wgs84_m
             )
 
-            # Update records geographic coordinates
+            # Update records with converted geographic coordinates
             records['longitude_rad'] = lon_wgs84_rad
             records['latitude_rad'] = lat_wgs84_rad
             records['height_m'] = height_wgs84_m
 
-        # Check trajectory time sampling
+        # Determine trajectory time sampling
         if sampling_time_s is not None:
             time_step = sampling_time_s
         else:
@@ -1164,10 +1229,10 @@ class Trajectory:
             if time_step <= 0.0:
                 time_step = 1.0
                 print(
-                    "Sampling time step is non-positive or non defined !\n"
+                    "Sampling time step is non-positive or not defined!\n"
                     " ↳ This value is set to 1.0 second by default."
                 )
-        print(f"Sampling time step is set to {time_step}s. To modify the timestamp axis set a new one in the newly created Trajectory object.")
+        print(f"Sampling time step is set to {time_step}s. To modify the timestamp axis, set a new one in the newly created Trajectory object.")
 
         # Create output structured array
         n = records.shape[0]
@@ -1229,6 +1294,7 @@ class Trajectory:
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .traj.csv file.
+            The .traj.csv extension is automatically added if not present.
 
         Returns
         -------
@@ -1286,6 +1352,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .pos file.
+            The .pos extension is automatically added if not present.
 
         Returns
         -------
@@ -1336,10 +1403,14 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         """
         Save the Trajectory instance to a numpy .npy file.
 
+        The trajectory is saved as a binary numpy structured array using the
+        :data:`TRAJ_DTYPE` format.
+
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .npy file.
+            The .npy extension is automatically added if not present.
 
         Returns
         -------
@@ -1373,16 +1444,17 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .h5 file.
+            The .h5 extension is automatically added if not present.
         actor_type : :class:`str`, optional
             The type of actor to save (default: 'TX_ANTENNA').
             May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
         data_owner : :class:`str`, optional
-            The data owner to use (default: 'NA').
+            The data owner to use in metadata (default: 'NA').
         data_type : :class:`str`, optional
             The data type to use (default: 'TRUEVALUE').
             May be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'.
         protection_tag : :class:`str`, optional
-            The protection tag to use (default: 'NON_PROTEGE').
+            The protection/classification tag to use (default: 'NON_PROTEGE').
 
         Returns
         -------
@@ -1394,21 +1466,23 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         :class:`ImportError`
             If the pivot library is not installed.
         :class:`ValueError`
-            If the actor_type, data_type or protection_tag is not valid.
+            If the actor_type, data_type, or protection_tag is not valid.
         :class:`NotImplementedError`
-            If the trajectory has no orientation.
+            If the trajectory has no orientation data.
 
         Examples
         --------
+        >>> from scipy.spatial.transform import Rotation
         >>> traj = Trajectory(
         ...     timestamps=[0, 1, 2, 3],
         ...     positions=Cartographic(
         ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
         ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
         ...         height=[300.0, 400.0, 500.0, 600.0]
-        ...     )
+        ...     ),
+        ...     orientations=Rotation.from_euler("ZYX", [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], degrees=True)
         ... )
-        >>> filename = traj.save_pivot("output")
+        >>> filename = traj.save_pivot("output", actor_type="TX_ANTENNA")
         >>> print(filename)
         output.h5
         """
@@ -1431,9 +1505,9 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         if data_type not in ['TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE']:
             raise ValueError("data_type must be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'")
 
-        # Compute direction vectors in ECEF frame
+        # Compute rotation matrices from NED to ECEF for coordinate transformation
         local_origins = self._positions.to_cartographic()
-        size = local_origins.shape[0]
+        size = len(self)
         lon = np.deg2rad(local_origins.longitude)
         lat = np.deg2rad(local_origins.latitude)
         clon, slon = np.cos(lon), np.sin(lon)
@@ -1447,15 +1521,14 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         )
 
         if self.has_orientation():
-            # Carrier "BODY" frame is in NED coordinates
-            # x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (NED)
-            # y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, 1.0, 0.0])  # Y-axis direction (NED)
-            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (ENU)
-            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (ENU)
+            # Transform carrier "BODY" frame direction vectors from NED to ECEF coordinates
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis (forward) direction
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis (left) direction, inverted for PIVOT convention
         else:
-            # TODO: if no orientation, compute the direction vector from the velocity vector
+            # TODO: Compute direction vectors from velocity if no orientation is available
             raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
 
+        # Create PIVOT axis data from trajectory state
         states = [
             Axis(AxisLabelEnum.TIME, self._timestamps.tolist()),
             Axis(AxisLabelEnum.POS_X_ECEF, self._positions.x.tolist()),
@@ -1469,17 +1542,21 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
         ]
 
+        # Create actor name from filename and metadata
         actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
         actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
 
+        # Create PIVOT actor
         tx_actor = Actor(
             ActorTypeEnum[actor_type],
-            f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: remove _1 suffix when SCALIAN fixes Actor name bug
+            f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: Remove _1 suffix when SCALIAN fixes Actor name bug
             states
         )
 
+        # Create PIVOT metadata
         meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
 
+        # Save actor and metadata to PIVOT file
         tx_actor.save(filename, mode='override')
         meta.save(filename)
 
