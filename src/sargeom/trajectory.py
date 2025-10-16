@@ -892,7 +892,7 @@ class Trajectory:
 
         # Load all actors from the PIVOT file
         try:
-            actors = Actor.load(filename)
+            actors = Actor.load(str(filename))
         except Exception as e:
             raise ValueError(f"Failed to load PIVOT file: {e}")
 
@@ -928,44 +928,29 @@ class Trajectory:
             selected_actor = actors[0]
 
         # Extract trajectory data from the selected actor
+        axes = { ax.type: ax.ticks for ax in selected_actor.state }
 
         # Extract timestamps
-        time_axis = selected_actor.get_axis(AxisLabelEnum.TIME)
-        timestamps = np.array(time_axis.values)
+        timestamps = axes[AxisLabelEnum.TIME]
 
         # Extract ECEF positions
-        pos_x_axis = selected_actor.get_axis(AxisLabelEnum.POS_X_ECEF)
-        pos_y_axis = selected_actor.get_axis(AxisLabelEnum.POS_Y_ECEF)
-        pos_z_axis = selected_actor.get_axis(AxisLabelEnum.POS_Z_ECEF)
-
         positions = CartesianECEF(
-            x=np.array(pos_x_axis.values),
-            y=np.array(pos_y_axis.values),
-            z=np.array(pos_z_axis.values)
+            x=axes[AxisLabelEnum.POS_X_ECEF],
+            y=axes[AxisLabelEnum.POS_Y_ECEF],
+            z=axes[AxisLabelEnum.POS_Z_ECEF]
         )
 
-        # Extract orientations
-
         # Get direction vectors for x and y axes in ECEF frame
-        dir_x_x_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_X_ECEF)
-        dir_x_y_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_Y_ECEF)
-        dir_x_z_axis = selected_actor.get_axis(AxisLabelEnum.DIR_x_Z_ECEF)
-
-        dir_y_x_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_X_ECEF)
-        dir_y_y_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_Y_ECEF)
-        dir_y_z_axis = selected_actor.get_axis(AxisLabelEnum.DIR_y_Z_ECEF)
-
-        # Construct direction vectors
         x_axis_dir = np.column_stack([
-            np.array(dir_x_x_axis.values),
-            np.array(dir_x_y_axis.values),
-            np.array(dir_x_z_axis.values)
+            axes[AxisLabelEnum.DIR_x_X_ECEF],
+            axes[AxisLabelEnum.DIR_x_Y_ECEF],
+            axes[AxisLabelEnum.DIR_x_Z_ECEF]
         ])
 
         y_axis_dir = np.column_stack([
-            np.array(dir_y_x_axis.values),
-            np.array(dir_y_y_axis.values),
-            np.array(dir_y_z_axis.values)
+            axes[AxisLabelEnum.DIR_y_X_ECEF],
+            axes[AxisLabelEnum.DIR_y_Y_ECEF],
+            axes[AxisLabelEnum.DIR_y_Z_ECEF]
         ])
 
         # Convert ECEF direction vectors to NED orientations
@@ -988,12 +973,10 @@ class Trajectory:
         # Transform ECEF direction vectors to NED frame
         x_axis_ned = rot_ecef2ned.apply(x_axis_dir)
         y_axis_ned = rot_ecef2ned.apply(y_axis_dir)
-
-        # Convert from ENU-like to NED convention (negate Y component)
-        y_axis_ned[:, 1] = -y_axis_ned[:, 1]
+        y_axis_ned = -y_axis_ned
 
         # Construct rotation matrices from the direction vectors
-        # Assuming x_axis is forward (North in NED), y_axis is right (East in NED)
+        # In NED frame: X=North (forward), Y=East (right), Z=Down
         z_axis_ned = np.cross(x_axis_ned, y_axis_ned)  # Down in NED
 
         # Normalize the vectors to ensure orthogonality
