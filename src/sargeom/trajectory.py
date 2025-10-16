@@ -970,18 +970,19 @@ class Trajectory:
         # Convert ECEF direction vectors to NED orientations
         # First, convert positions to cartographic for local frame computation
         local_origins = positions.to_cartographic()
-        
+
         # Compute rotation matrices from NED to ECEF for each position
-        rot_ned2ecef_matrices = np.array([
-            [
-                [ -np.cos(lon) * np.sin(lat), -np.sin(lon) * np.sin(lat), np.cos(lat) ],
-                [ -np.sin(lon), np.cos(lon), 0.0 ],
-                [ -np.cos(lon) * np.cos(lat), -np.sin(lon) * np.cos(lat), -np.sin(lat) ],
-            ]
-            for lat, lon in zip(local_origins.latitude, local_origins.longitude)
-        ])
-        
-        rot_ned2ecef = Rotation.from_matrix(rot_ned2ecef_matrices)
+        size = local_origins.shape[0]
+        clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
+        clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
+
+        rot_ned2ecef = Rotation.from_matrix(
+            np.array([
+                [-clon * slat, -slon * slat,           clat],
+                [       -slon,         clon, np.zeros(size)],
+                [-clon * clat, -slon * clat,          -slat]
+            ]).T
+        )
         rot_ecef2ned = rot_ned2ecef.inv()
 
         # Transform ECEF direction vectors to NED frame
@@ -1380,7 +1381,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         return filename
 
-    def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
+    def save_pivot(self, filename, actor_type='NOTSET', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
         """
         Save the Trajectory instance to a PIVOT .h5 file.
 
@@ -1389,8 +1390,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .h5 file.
         actor_type : :class:`str`, optional
-            The type of actor to save (default: 'TX_ANTENNA').
-            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
+            The type of actor to save (default: 'NOTSET').
+            May be one of: 'NOTSET', 'TX_PLATFORM', 'RX_PLATFORM', 'TARGET', 'TX_ANTENNA', 'RX_ANTENNA'.
         data_owner : :class:`str`, optional
             The data owner to use (default: 'NA').
         data_type : :class:`str`, optional
@@ -1437,8 +1438,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         filename = Path(filename).with_suffix('.h5')
 
-        if actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
-            raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
+        if actor_type not in ActorTypeEnum.__members__:
+            raise ValueError(f"'actor_type' must be one of {list(ActorTypeEnum.__members__.keys())}")
         
         if protection_tag not in ProtectionTag.__members__:
             raise ValueError(f"'protection_tag' must be one of {list(ProtectionTag.__members__.keys())}")
@@ -1451,13 +1452,6 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         size = local_origins.shape[0]
         clon, slon = np.cos(local_origins.longitude), np.sin(local_origins.longitude)
         clat, slat = np.cos(local_origins.latitude), np.sin(local_origins.latitude)
-        # rot_ned2ecef = Rotation.from_matrix(
-        #     np.array([
-        #         -clon * slat,          -slon, -clon * clat,
-        #         -slon * slat,           clon, -slon * clat,
-        #                 clat, np.zeros(size),        -slat
-        #     ]).T.reshape((size, 3, 3))
-        # )
         rot_ned2ecef = Rotation.from_matrix(
             np.array([
                 [-clon * slat, -slon * slat,           clat],
