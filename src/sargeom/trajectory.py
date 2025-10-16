@@ -1,3 +1,4 @@
+import re
 import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation, Slerp
@@ -765,6 +766,7 @@ class Trajectory:
         # Extract orientations if available
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
+            heading %= 360  # Normalize heading angle to [0, 360]
         else:
             heading = elevation = bank = np.zeros(len(self))
         
@@ -822,9 +824,172 @@ class Trajectory:
         return pd.DataFrame(data)
 
     @classmethod
-    def read_pivot(cls, filename):
-        # TODO: Implement reading from a pivot file
-        raise NotImplementedError("Reading from pivot files is not implemented yet.")
+    def read_pivot(cls, filename, actor_name=None, actor_type=None):
+        """
+        Read a PIVOT .h5 file and create a Trajectory instance.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to the .h5 file.
+        actor_name : :class:`str`, optional
+            The name of the specific actor to load. If None, loads the first actor found.
+        actor_type : :class:`str`, optional
+            The type of actor to load (e.g., 'TX_ANTENNA').
+            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
+            If None, loads any actor type.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance.
+
+        Raises
+        ------
+        :class:`ImportError`
+            If the pivot library is not installed.
+        :class:`FileNotFoundError`
+            If the file does not exist.
+        :class:`ValueError`
+            - If the file does not have a .h5 extension.
+            - If no actors are found in the file.
+            - If the specified actor is not found.
+            - If the actor_type is not valid.
+        :class:`KeyError`
+            If required axis labels are missing from the actor data.
+
+        Examples
+        --------
+        Load the first actor from a PIVOT file:
+
+        >>> traj = Trajectory.read_pivot("trajectory.h5")
+
+        Load a specific actor by name:
+
+        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_name="TrajectoryName_TrajectoryOrigin_TrajectoryType")
+
+        Load an actor by type:
+
+        >>> traj = Trajectory.read_pivot("trajectory.h5", actor_type="TX_ANTENNA")
+        """
+        try:
+            from pivot.darpy import AxisLabelEnum
+            from pivot.piactor import Actor, ActorTypeEnum
+            from pivot.pivotutil import pivot_version
+            print(f"Using pivot library version: {pivot_version()}")
+        except ImportError:
+            raise ImportError("The pivot library is not installed. Please install it to read PIVOT files.")
+
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if not filename.suffix == '.h5':
+            raise ValueError("File must have a .h5 extension.")
+
+        # Validate actor_type parameter if provided
+        if actor_type is not None and actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
+            raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
+
+        # Load all actors from the PIVOT file
+        try:
+            actors = Actor.load(str(filename))
+        except Exception as e:
+            raise ValueError(f"Failed to load PIVOT file: {e}")
+
+        if not actors:
+            raise ValueError("No actors found in the PIVOT file.")
+
+        # Filter actors based on the provided criteria
+        selected_actor = None
+
+        if actor_name is not None:
+            # Filter by actor name
+            matching_actors = [act for act in actors if act.name == actor_name]
+            if not matching_actors:
+                available_names = [act.name for act in actors]
+                raise ValueError(
+                    f"Actor with name '{actor_name}' not found. "
+                    f"Available actors: {available_names}"
+                )
+            selected_actor = matching_actors[0]
+        elif actor_type is not None:
+            # Filter by actor type
+            target_type = ActorTypeEnum[actor_type]
+            matching_actors = [act for act in actors if act.type is target_type]
+            if not matching_actors:
+                available_types = [act.type.name for act in actors]
+                raise ValueError(
+                    f"Actor with type '{actor_type}' not found. "
+                    f"Available actor types: {available_types}"
+                )
+            selected_actor = matching_actors[0]
+        else:
+            # Use the first available actor
+            selected_actor = actors[0]
+
+        # Extract trajectory data from the selected actor
+        axes = { ax.type: ax.ticks for ax in selected_actor.state }
+
+        # Extract timestamps
+        timestamps = axes[AxisLabelEnum.TIME]
+
+        # Extract ECEF positions
+        positions = CartesianECEF(
+            x=axes[AxisLabelEnum.POS_X_ECEF],
+            y=axes[AxisLabelEnum.POS_Y_ECEF],
+            z=axes[AxisLabelEnum.POS_Z_ECEF]
+        )
+
+        # Get direction vectors for x and y axes in ECEF frame
+        x_axis_dir = np.column_stack([
+            axes[AxisLabelEnum.DIR_x_X_ECEF],
+            axes[AxisLabelEnum.DIR_x_Y_ECEF],
+            axes[AxisLabelEnum.DIR_x_Z_ECEF]
+        ])
+
+        y_axis_dir = np.column_stack([
+            axes[AxisLabelEnum.DIR_y_X_ECEF],
+            axes[AxisLabelEnum.DIR_y_Y_ECEF],
+            axes[AxisLabelEnum.DIR_y_Z_ECEF]
+        ])
+
+        # Convert ECEF direction vectors to NED orientations
+        # First, convert positions to cartographic for local frame computation
+        local_origins = positions.to_cartographic()
+
+        # Compute rotation matrices from NED to ECEF for each position
+        size = local_origins.shape[0]
+        lon = np.deg2rad(local_origins.longitude)
+        lat = np.deg2rad(local_origins.latitude)
+        clon, slon = np.cos(lon), np.sin(lon)
+        clat, slat = np.cos(lat), np.sin(lat)
+        rot_ecef2ned = Rotation.from_matrix(
+            np.array([
+                [-clon * slat,          -slon, -clon * clat],
+                [-slon * slat,           clon, -slon * clat],
+                [        clat, np.zeros(size),        -slat]
+            ]).T
+        )
+
+        # Transform ECEF direction vectors to NED frame
+        x_axis_ned = rot_ecef2ned.apply(x_axis_dir)
+        y_axis_ned = rot_ecef2ned.apply(y_axis_dir)
+        y_axis_ned = -y_axis_ned
+
+        # Construct rotation matrices from the direction vectors
+        # In NED frame: X=North (forward), Y=East (right), Z=Down
+        z_axis_ned = np.cross(x_axis_ned, y_axis_ned)  # Down in NED
+
+        # Normalize the vectors to ensure orthogonality
+        x_axis_ned = x_axis_ned / np.linalg.norm(x_axis_ned, axis=1, keepdims=True)
+        y_axis_ned = y_axis_ned / np.linalg.norm(y_axis_ned, axis=1, keepdims=True)
+        z_axis_ned = z_axis_ned / np.linalg.norm(z_axis_ned, axis=1, keepdims=True)
+
+        # Construct rotation matrices
+        rotation_matrices = np.stack([x_axis_ned, y_axis_ned, z_axis_ned], axis=2)
+        orientations = Rotation.from_matrix(rotation_matrices)
+
+        return cls(timestamps, positions, orientations)
 
     @classmethod
     def read_pamela_pos(cls, filename):
@@ -930,11 +1095,13 @@ class Trajectory:
         if crs == 'auto':
             if header[10] > -0.5:
                 crs = 'NTF'
+                print("Guessed origin CRS is 'NTF'")
                 print(
                     f"Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = {header[10]}]!\n"
                     " ↳ Trajectory will be automatically converted to geographic WGS84 CRS format."
                 )
             else:
+                print("Guessed origin CRS is 'WGS84'")
                 crs = 'WGS84'
 
         # Convert trajectory to WGS84 if needed
@@ -1005,7 +1172,7 @@ class Trajectory:
         # Create output structured array
         n = records.shape[0]
         data = np.empty(n, dtype=TRAJ_DTYPE)
-        data['TIMESTAMP_S'] = (np.arange(n) + 1) * time_step
+        data['TIMESTAMP_S'] = np.arange(n) * time_step
         data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])
         data['LAT_WGS84_DEG'] = np.degrees(records['latitude_rad'])
         data['HEIGHT_WGS84_M'] = records['height_m']
@@ -1198,9 +1365,125 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         return filename
 
-    def save_pivot(self, filename):
-        # TODO: Implement saving to a pivot file
-        raise NotImplementedError("Saving to pivot files is not implemented yet.")
+    def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
+        """
+        Save the Trajectory instance to a PIVOT .h5 file.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .h5 file.
+        actor_type : :class:`str`, optional
+            The type of actor to save (default: 'TX_ANTENNA').
+            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
+        data_owner : :class:`str`, optional
+            The data owner to use (default: 'NA').
+        data_type : :class:`str`, optional
+            The data type to use (default: 'TRUEVALUE').
+            May be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'.
+        protection_tag : :class:`str`, optional
+            The protection tag to use (default: 'NON_PROTEGE').
+
+        Returns
+        -------
+        :class:`pathlib.Path`
+            The path to the saved .h5 file.
+
+        Raises
+        ------
+        :class:`ImportError`
+            If the pivot library is not installed.
+        :class:`ValueError`
+            If the actor_type, data_type or protection_tag is not valid.
+        :class:`NotImplementedError`
+            If the trajectory has no orientation.
+
+        Examples
+        --------
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2, 3],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
+        ...     )
+        ... )
+        >>> filename = traj.save_pivot("output")
+        >>> print(filename)
+        output.h5
+        """
+        try:
+            from pivot.darpy import Axis, AxisLabelEnum
+            from pivot.piactor import Actor, ActorTypeEnum
+            from pivot.pivotutil import pivot_version, Metadata, ProtectionTag
+            print(f"Using pivot library version: {pivot_version()}")
+        except ImportError:
+            raise ImportError("The pivot library is not installed. Please install it to write PIVOT files.")
+
+        filename = Path(filename).with_suffix('.h5')
+
+        if actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
+            raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
+        
+        if protection_tag not in ProtectionTag.__members__:
+            raise ValueError(f"'protection_tag' must be one of {list(ProtectionTag.__members__.keys())}")
+
+        if data_type not in ['TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE']:
+            raise ValueError("data_type must be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'")
+
+        # Compute direction vectors in ECEF frame
+        local_origins = self._positions.to_cartographic()
+        size = local_origins.shape[0]
+        lon = np.deg2rad(local_origins.longitude)
+        lat = np.deg2rad(local_origins.latitude)
+        clon, slon = np.cos(lon), np.sin(lon)
+        clat, slat = np.cos(lat), np.sin(lat)
+        rot_ned2ecef = Rotation.from_matrix(
+            np.array([
+                [-clon * slat, -slon * slat,           clat],
+                [       -slon,         clon, np.zeros(size)],
+                [-clon * clat, -slon * clat,          -slat]
+            ]).T
+        )
+
+        if self.has_orientation():
+            # Carrier "BODY" frame is in NED coordinates
+            # x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (NED)
+            # y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, 1.0, 0.0])  # Y-axis direction (NED)
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis direction (ENU)
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis direction (ENU)
+        else:
+            # TODO: if no orientation, compute the direction vector from the velocity vector
+            raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
+
+        states = [
+            Axis(AxisLabelEnum.TIME, self._timestamps.tolist()),
+            Axis(AxisLabelEnum.POS_X_ECEF, self._positions.x.tolist()),
+            Axis(AxisLabelEnum.POS_Y_ECEF, self._positions.y.tolist()),
+            Axis(AxisLabelEnum.POS_Z_ECEF, self._positions.z.tolist()),
+            Axis(AxisLabelEnum.DIR_x_X_ECEF, x_axis_dir[:, 0].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Y_ECEF, x_axis_dir[:, 1].tolist()),
+            Axis(AxisLabelEnum.DIR_x_Z_ECEF, x_axis_dir[:, 2].tolist()),
+            Axis(AxisLabelEnum.DIR_y_X_ECEF, y_axis_dir[:, 0].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Y_ECEF, y_axis_dir[:, 1].tolist()),
+            Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
+        ]
+
+        actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
+        actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
+
+        tx_actor = Actor(
+            ActorTypeEnum[actor_type],
+            f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: remove _1 suffix when SCALIAN fixes Actor name bug
+            states
+        )
+
+        meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
+
+        tx_actor.save(filename, mode='override')
+        meta.save(filename)
+
+        return filename
 
     def save_kml(self, filename, **kwargs):
         # TODO: Implement saving to KML format
