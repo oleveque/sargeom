@@ -766,7 +766,7 @@ class Trajectory:
         # Extract orientations if available
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
-            heading %= 360  # Normalize heading to [0, 360)
+            heading %= 360  # Normalize heading angle to [0, 360]
         else:
             heading = elevation = bank = np.zeros(len(self))
         
@@ -1380,7 +1380,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         return filename
 
-    def save_pivot(self, filename, actor_type='NOTSET', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
+    def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
         """
         Save the Trajectory instance to a PIVOT .h5 file.
 
@@ -1389,8 +1389,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to save the .h5 file.
         actor_type : :class:`str`, optional
-            The type of actor to save (default: 'NOTSET').
-            May be one of: 'NOTSET', 'TX_PLATFORM', 'RX_PLATFORM', 'TARGET', 'TX_ANTENNA', 'RX_ANTENNA'.
+            The type of actor to save (default: 'TX_ANTENNA').
+            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
         data_owner : :class:`str`, optional
             The data owner to use (default: 'NA').
         data_type : :class:`str`, optional
@@ -1437,8 +1437,8 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         filename = Path(filename).with_suffix('.h5')
 
-        if actor_type not in ActorTypeEnum.__members__:
-            raise ValueError(f"'actor_type' must be one of {list(ActorTypeEnum.__members__.keys())}")
+        if actor_type not in ['TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET']:
+            raise ValueError("'actor_type' must be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'")
         
         if protection_tag not in ProtectionTag.__members__:
             raise ValueError(f"'protection_tag' must be one of {list(ProtectionTag.__members__.keys())}")
