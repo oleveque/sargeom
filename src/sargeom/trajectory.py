@@ -1629,11 +1629,13 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             when_list.append(dt)
         
         if height_mode == "ellipsoidal":
+            print("Saving KML with ellipsoidal heights (WGS84)")
             coords_array = cartographic_positions.__array__()
             # Format coordinates as [(lon, lat, alt), ...]
             coord_tuples = [(coords[0], coords[1], coords[2]) for coords in coords_array]
             
         elif height_mode == "orthometric":
+            print("Saving KML with orthometric heights (EGM96)")
             try:
                 from pyproj import Transformer
                 gcs2egm = Transformer.from_crs("EPSG:4979", "EPSG:9707")
@@ -1662,12 +1664,9 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         if self.has_orientation():
             # Extract orientation data as Euler angles (heading, tilt, roll)
             euler_angles = self._orientations.as_euler("ZYX", degrees=True)
-            heading_list = euler_angles[:, 0].tolist()  # Z rotation (heading)
-            tilt_list = euler_angles[:, 1].tolist()  # Y rotation (elevation/tilt)
-            roll_list = euler_angles[:, 2].tolist()  # X rotation (bank/roll)
 
             # Add angles to the track using the proper KML gx:angles element
-            track.newgxangles(heading_list, tilt_list, roll_list)
+            track.newgxangle(euler_angles)
 
         kml.save(filename)
         return filename
