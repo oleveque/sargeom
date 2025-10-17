@@ -109,7 +109,6 @@ class Trajectory:
     >>> traj = Trajectory(timestamps, positions, orientations)
     """
     def __init__(self, timestamps, positions, orientations=None):
-        """Initialize a Trajectory instance with timestamps, positions, and optional orientations."""
         self._timestamps = np.asarray(timestamps)
         if isinstance(positions, CartesianECEF):
             self._positions = positions
@@ -737,7 +736,6 @@ class Trajectory:
         https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
         """
         # TODO: Implement plotting functionality
-        # See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
         raise NotImplementedError("Plotting functionality is not implemented yet.")
 
     @staticmethod
@@ -1552,5 +1550,25 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         return filename
 
     def save_kml(self, filename, **kwargs):
+        """
+        Save the Trajectory instance to a KML file (not yet implemented).
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to save the .kml file.
+        **kwargs
+            Additional options for KML export.
+
+        Raises
+        ------
+        :class:`NotImplementedError`
+            This method is not yet implemented.
+
+        Notes
+        -----
+        Future implementation will support exporting trajectory data to KML format
+        for visualization in Google Earth and other KML-compatible applications.
+        """
         # TODO: Implement saving to KML format
         raise NotImplementedError("Saving to KML format is not implemented yet.")

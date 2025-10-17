@@ -99,8 +99,8 @@ class Ellipsoid:
 
         Notes
         -----
-        The prime vertical curvature radius is the radius of curvature in the 
-        plane of the prime vertical, which is perpendicular to the meridian 
+        The prime vertical curvature radius is the radius of curvature in the
+        plane of the prime vertical, which is perpendicular to the meridian
         and contains the normal to the ellipsoid.
         """
         nu = self._a / np.sqrt(1 - self._e2 * np.sin(phi)**2)
@@ -294,7 +294,7 @@ class Ellipsoid:
         --------
         prime_vertical_curvature_radius, to_cartographic
         """
-        nu = self.prime_vertical_curvature_radius(phi) # At the ellipsoid level
+        nu = self.prime_vertical_curvature_radius(phi)
         nuhcosphi = (nu + height_m) * np.cos(phi)
         X = nuhcosphi * np.cos(lamb)
         Y = nuhcosphi * np.sin(lamb)
@@ -323,7 +323,7 @@ class Ellipsoid:
             The geographic longitude in radians.
         phi : :class:`numpy.ndarray`
             The geographic latitude in radians.
-        height_m : :class:`numpy.ndarray`
+        h : :class:`numpy.ndarray`
             The geodetic height in meters.
 
         Notes
@@ -355,11 +355,11 @@ class Ellipsoid:
         D = k * R / (k + self._e2)
         hypotDZ = np.hypot(D, Z)
 
-        # Calculation of h and phi
+        # Calculation of geodetic height (h) and latitude (phi)
         h = (k + self._e2 - 1) * hypotDZ / k
         phi = 2 * np.arctan(Z / (hypotDZ + D))
 
-        # Calculation of lambda
+        # Calculation of longitude (lamb)
         lamb = np.arctan2(Y, X)
 
         return lamb, phi, h

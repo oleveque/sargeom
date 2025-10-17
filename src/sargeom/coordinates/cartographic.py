@@ -18,7 +18,7 @@ class Cartographic(np.ndarray):
         The latitude, in degrees, originates at the equator.
     height : :class:`float` or :class:`numpy.ndarray`, optional
         The height, in meters, above the ellipsoid. The default value is 0.0.
-    degrees : bool, optional
+    degrees : :class:`bool`, optional
         If True (default), takes input angles in degrees. If False, takes input angles in radians.
 
     Notes
@@ -92,7 +92,7 @@ class Cartographic(np.ndarray):
         # Check if the input arrays have the same size
         if not (longitude.shape == latitude.shape == height.shape):
             raise ValueError(
-                "The longitude, latitude and height must be of equal size."
+                "The longitude, latitude, and height must be of equal size."
             )
 
         # Check if the input arrays are 0- or 1-dimensional
@@ -121,7 +121,8 @@ class Cartographic(np.ndarray):
             "name": "WGS 84 (Geographic 3D)",
             "epsg": 4979,
             "ellipsoid": ELPS_WGS84,
-            "proj_string": "+proj=longlat +datum=WGS84 +no_defs +type=crs"  # based on https://epsg.io/4979.proj4
+            # Based on https://epsg.io/4979.proj4
+            "proj_string": "+proj=longlat +datum=WGS84 +no_defs +type=crs"
         }
 
     def __repr__(self):
@@ -131,7 +132,7 @@ class Cartographic(np.ndarray):
         Returns
         -------
         :class:`str`
-            A string representation of the Lon.Lat.Height Cartographic position(s)).
+            A string representation of the Lon.Lat.Height Cartographic position(s).
         """
         if self.is_collection():
             return f"Lon.Lat.Height Cartographic positions\n{self.__array__().__str__()}"
@@ -169,7 +170,7 @@ class Cartographic(np.ndarray):
         Raises
         ------
         :class:`ValueError`
-            If the numpy array has not at least 1 row and only 3 columns.
+            If the numpy array does not have at least 1 row and exactly 3 columns.
 
         Returns
         -------
@@ -206,7 +207,7 @@ class Cartographic(np.ndarray):
         # Raise an error if the input array does not meet the requirements
         else:
             raise ValueError(
-                "The numpy array must have at least 1 row and only 3 columns."
+                "The numpy array must have at least 1 row and exactly 3 columns."
             )
 
     @property
@@ -476,7 +477,7 @@ class Cartographic(np.ndarray):
         Returns
         -------
         :class:`bool`
-            `true` if the instance is a collections of positions, `false` otherwise.
+            `True` if the instance is a collection of positions, `False` otherwise.
         
         Examples
         --------
@@ -639,7 +640,7 @@ class Cartographic(np.ndarray):
 
         Notes
         -----
-        If `link_markers` is True and the list of coordinates is cyclic, a GeoJSON Polygon is returned otherwise a GeoJSON LineString.
+        If `link_markers` is True and the list of coordinates is cyclic, a GeoJSON Polygon is returned, otherwise a GeoJSON LineString.
         If `link_markers` is False, a GeoJSON MultiPoint is returned.
 
         Examples
@@ -736,7 +737,7 @@ class Cartographic(np.ndarray):
 
         Notes
         -----
-        If `link_markers` is True and the list of coordinates is cyclic, a Shapely Polygon is returned otherwise a Shapely LineString.
+        If `link_markers` is True and the list of coordinates is cyclic, a Shapely Polygon is returned, otherwise a Shapely LineString.
         If `link_markers` is False, a Shapely MultiPoint is returned.
 
         Examples

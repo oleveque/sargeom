@@ -128,7 +128,7 @@ class Cartesian3(np.ndarray):
         Returns
         -------
         :class:`str`
-            A string representation of the XYZ Cartesian3 point(s)).
+            A string representation of the XYZ Cartesian3 point(s).
         """
         if self.is_collection():
             return f"XYZ {self.__class__.__name__} points\n{self.__array__().__str__()}"
@@ -460,7 +460,7 @@ class Cartesian3(np.ndarray):
         Returns
         -------
         :class:`bool`
-            `true` if the instance is a collection of points, `false` otherwise.
+            `True` if the instance is a collection of points, `False` otherwise.
         
         Examples
         --------
@@ -480,12 +480,12 @@ class Cartesian3(np.ndarray):
 
     def is_local(self):
         """
-        Returns `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.
+        Returns `True` if the cartesian coordinate system is local and the local origin is defined, `False` otherwise.
 
         Returns
         -------
         :class:`bool`
-            `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.
+            `True` if the cartesian coordinate system is local and the local origin is defined, `False` otherwise.
         
         Examples
         --------
@@ -1119,7 +1119,8 @@ class CartesianECEF(Cartesian3):
             "name": "WGS 84 (Geocentric)",
             "epsg": 4978,
             "ellipsoid": ELPS_WGS84,
-            "proj_string": "+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs"  # based on https://epsg.io/4978.proj4
+            # Based on https://epsg.io/4978.proj4
+            "proj_string": "+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs"
         }
 
     def to_cartographic(self):
@@ -1504,7 +1505,7 @@ class CartesianLocalENU(Cartesian3):
 #
 # Local origin of the ENU system:
 # ------------------------------
-#    o Position in WG84 Geocentric System (EPSG:4979):
+#    o Position in WGS84 Geocentric System (EPSG:4979):
 #        - Latitude [°]: {self._local_origin.latitude}
 #        - Longitude [°]: {self._local_origin.longitude}
 #        - Height [m]: {self._local_origin.height}
@@ -1618,7 +1619,7 @@ class CartesianLocalNED(Cartesian3):
         Returns
         -------
         :class:`sargeom.coordinates.CartesianLocalENU`
-            The local NED coordinates.
+            The local ENU coordinates.
 
         Examples
         --------
@@ -1649,6 +1650,7 @@ class CartesianLocalNED(Cartesian3):
             The azimuth, the clockwise angle in the xEast-yNorth plane from the positive yNorth-axis to the projection of the object into the plane.
         elevation : :class:`numpy.ndarray`
             The elevation, the angle from the xEast-yNorth plane to the object.
+            In NED coordinates, positive elevation values indicate positions below the horizontal plane (downward).
         slant_range : :class:`numpy.ndarray`
             The slant range (in meters), the Euclidean distance between the object and the local origin.
 
@@ -1708,7 +1710,7 @@ class CartesianLocalNED(Cartesian3):
 #
 # Local origin of the NED system:
 # ------------------------------
-#    o Position in WG84 Geocentric System (EPSG:4979):
+#    o Position in WGS84 Geocentric System (EPSG:4979):
 #        - Latitude [°]: {self._local_origin.latitude}
 #        - Longitude [°]: {self._local_origin.longitude}
 #        - Height [m]: {self._local_origin.height}
