@@ -1004,53 +1004,42 @@ class Trajectory:
         )
 
         # Extract direction vectors for x and y axes in ECEF frame
-        x_axis_dir = np.column_stack([
-            axes[AxisLabelEnum.DIR_x_X_ECEF],
-            axes[AxisLabelEnum.DIR_x_Y_ECEF],
-            axes[AxisLabelEnum.DIR_x_Z_ECEF]
-        ])
+        x_axis_dir = CartesianECEF(
+            x=axes[AxisLabelEnum.DIR_x_X_ECEF],
+            y=axes[AxisLabelEnum.DIR_x_Y_ECEF],
+            z=axes[AxisLabelEnum.DIR_x_Z_ECEF]
+        )
 
-        y_axis_dir = np.column_stack([
-            axes[AxisLabelEnum.DIR_y_X_ECEF],
-            axes[AxisLabelEnum.DIR_y_Y_ECEF],
-            axes[AxisLabelEnum.DIR_y_Z_ECEF]
-        ])
+        y_axis_dir = CartesianECEF(
+            x=axes[AxisLabelEnum.DIR_y_X_ECEF],
+            y=axes[AxisLabelEnum.DIR_y_Y_ECEF],
+            z=axes[AxisLabelEnum.DIR_y_Z_ECEF]
+        )
+        y_axis_dir *= -1  # inverted for PIVOT convention
 
-        # Convert ECEF direction vectors to NED orientations
-        # First, convert positions to cartographic for local frame computation
-        local_origins = positions.to_cartographic()
+        # Compute z-axis direction as cross product of x and y axes
+        z_axis_dir = x_axis_dir.cross(y_axis_dir)
+
+        # Compute rotation matrices from body to ECEF for each position
+        rot_body2ecef = Rotation.from_matrix(np.stack([x_axis_dir.to_array(), y_axis_dir.to_array(), z_axis_dir.to_array()], axis=2))
 
         # Compute rotation matrices from ECEF to NED for each position
         size = len(positions)
+        local_origins = positions.to_cartographic()
         lon = np.deg2rad(local_origins.longitude)
         lat = np.deg2rad(local_origins.latitude)
         clon, slon = np.cos(lon), np.sin(lon)
         clat, slat = np.cos(lat), np.sin(lat)
         rot_ecef2ned = Rotation.from_matrix(
             np.array([
-                [-clon * slat,          -slon, -clon * clat],
-                [-slon * slat,           clon, -slon * clat],
-                [        clat, np.zeros(size),        -slat]
+                [-clon * slat, -slon, -clon * clat],
+                [-slon * slat, clon, -slon * clat],
+                [clat, np.zeros(size), -slat]
             ]).T
         )
 
-        # Transform ECEF direction vectors to NED frame
-        x_axis_ned = rot_ecef2ned.apply(x_axis_dir)
-        y_axis_ned = rot_ecef2ned.apply(y_axis_dir)
-        y_axis_ned = -y_axis_ned
-
-        # Construct rotation matrices from the direction vectors
-        # In NED frame: X=North (forward), Y=East (right), Z=Down
-        z_axis_ned = np.cross(x_axis_ned, y_axis_ned)
-
-        # Normalize the vectors to ensure orthogonality
-        x_axis_ned = x_axis_ned / np.linalg.norm(x_axis_ned, axis=1, keepdims=True)
-        y_axis_ned = y_axis_ned / np.linalg.norm(y_axis_ned, axis=1, keepdims=True)
-        z_axis_ned = z_axis_ned / np.linalg.norm(z_axis_ned, axis=1, keepdims=True)
-
-        # Construct rotation matrices and create Rotation object
-        rotation_matrices = np.stack([x_axis_ned, y_axis_ned, z_axis_ned], axis=2)
-        orientations = Rotation.from_matrix(rotation_matrices)
+        # Combine rotations to get body to NED orientations
+        orientations = rot_ecef2ned * rot_body2ecef
 
         return cls(timestamps, positions, orientations)
 
@@ -1506,17 +1495,17 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             raise ValueError("data_type must be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'")
 
         # Compute rotation matrices from NED to ECEF for coordinate transformation
-        local_origins = self._positions.to_cartographic()
         size = len(self)
+        local_origins = self._positions.to_cartographic()
         lon = np.deg2rad(local_origins.longitude)
         lat = np.deg2rad(local_origins.latitude)
         clon, slon = np.cos(lon), np.sin(lon)
         clat, slat = np.cos(lat), np.sin(lat)
         rot_ned2ecef = Rotation.from_matrix(
             np.array([
-                [-clon * slat, -slon * slat,           clat],
-                [       -slon,         clon, np.zeros(size)],
-                [-clon * clat, -slon * clat,          -slat]
+                [-clon * slat, -slon * slat, clat],
+                [-slon, clon, np.zeros(size)],
+                [-clon * clat, -slon * clat, -slat]
             ]).T
         )
 
