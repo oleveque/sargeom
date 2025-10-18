@@ -1423,7 +1423,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         return filename
 
-    def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE'):
+    def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE', write_mode='override'):
         """
         Save the Trajectory instance to a PIVOT .h5 file.
 
@@ -1442,6 +1442,10 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             May be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'.
         protection_tag : :class:`str`, optional
             The protection/classification tag to use (default: 'NON_PROTEGE').
+        write_mode : :class:`str`, optional
+            Writing mode for the file (default: 'override').
+            - 'override': Overwrite the file if it exists.
+            - 'append': Append the actor to an existing file. If the file doesn't exist, create it.
 
         Returns
         -------
@@ -1453,12 +1457,14 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         :class:`ImportError`
             If the pivot library is not installed.
         :class:`ValueError`
-            If the actor_type, data_type, or protection_tag is not valid.
+            If the actor_type, data_type, protection_tag, or write_mode is not valid.
         :class:`NotImplementedError`
             If the trajectory has no orientation data.
 
         Examples
         --------
+        Save a trajectory to a new PIVOT file (overwrite if exists):
+
         >>> from scipy.spatial.transform import Rotation
         >>> traj = Trajectory(
         ...     timestamps=[0, 1, 2, 3],
@@ -1470,6 +1476,12 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         ...     orientations=Rotation.from_euler("ZYX", [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], degrees=True)
         ... )
         >>> filename = traj.save_pivot("output", actor_type="TX_ANTENNA")
+        >>> print(filename)
+        output.h5
+
+        Append a trajectory to an existing PIVOT file:
+
+        >>> filename = traj.save_pivot("output", actor_type="RX_ANTENNA", write_mode="append")
         >>> print(filename)
         output.h5
         """
@@ -1491,6 +1503,9 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
         if data_type not in ['TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE']:
             raise ValueError("data_type must be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'")
+
+        if write_mode not in ['override', 'append']:
+            raise ValueError("write_mode must be 'override' or 'append'.")
 
         # Compute rotation matrices from NED to ECEF for coordinate transformation
         size = len(self)
@@ -1529,23 +1544,24 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
         ]
 
-        # Create actor name from filename and metadata
+        # Create actor name from filename
         actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
         actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
 
         # Create PIVOT actor
-        tx_actor = Actor(
+        actor = Actor(
             ActorTypeEnum[actor_type],
             f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: Remove _1 suffix when SCALIAN fixes Actor name bug
             states
         )
 
-        # Create PIVOT metadata
-        meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
+        # Save actor to PIVOT file
+        actor.save(filename, mode=write_mode)
 
-        # Save actor and metadata to PIVOT file
-        tx_actor.save(filename, mode='override')
-        meta.save(filename)
+        # Save metadata only for new files or when overriding
+        if write_mode == 'override' or not filename.is_file():
+            meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
+            meta.save(filename)
 
         return filename
 
