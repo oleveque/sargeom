@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-10-23
+
 ### Added
 - Implemented `Trajectory.read_pivot()` method for reading PIVOT .h5 files
 - Implemented `Trajectory.save_pivot()` method for saving trajectories to PIVOT .h5 files

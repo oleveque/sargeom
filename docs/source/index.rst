@@ -40,14 +40,14 @@ Add to your ``pyproject.toml``:
 
    [project]
    dependencies = [
-       "sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0"
+       "sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0"
    ]
 
 Or to your ``requirements.txt`` file:
 
 .. code-block:: text
 
-   sargeom @ git+https://github.com/oleveque/sargeom@v0.3.0
+   sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0
 
 For more information on the latest updates, check the `CHANGELOG <https://github.com/oleveque/sargeom/blob/main/CHANGELOG.md>`_.
 

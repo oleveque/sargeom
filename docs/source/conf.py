@@ -9,8 +9,8 @@
 project = 'SAR Geometry'
 copyright = '2024, Olivier LEVEQUE'
 author = 'Olivier LEVEQUE'
-release = '0.2.0'
-version = '0.2.0'
+release = '0.4.0'
+version = '0.4.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

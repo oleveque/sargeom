@@ -22,14 +22,14 @@ If you want to add the package to your dependencies, you can add it to your `pyp
 ```toml
 [project]
 dependencies = [
-    "sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0"
+    "sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0"
 ]
 ```
 
 Or to your `requirements.txt` file:
 
 ```bash
-sargeom @ git+https://github.com/oleveque/sargeom@v0.2.0
+sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0
 ```
 
 For more information on the latest updates, check the [CHANGELOG](CHANGELOG.md).
