@@ -67,7 +67,25 @@ release = '0.4.0'
 version = '0.4.0'
 ```
 
-### 5. Update src/sargeom/__init__.py (Optional but Recommended)
+### 5. Update docs/source/index.rst
+
+- Update version references in the installation examples
+- Look for version tags in the `pyproject.toml` and `requirements.txt` code blocks (typically around lines 43 and 49)
+- Update both occurrences from `@vX.Y.Z` to the new version
+
+Example:
+```toml
+[project]
+dependencies = [
+    "sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0"
+]
+```
+
+```text
+sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0
+```
+
+### 6. Update src/sargeom/__init__.py (Optional but Recommended)
 
 - Add or update the `__version__` variable to make the version accessible programmatically
 - This allows users to check the version with `import sargeom; print(sargeom.__version__)`
