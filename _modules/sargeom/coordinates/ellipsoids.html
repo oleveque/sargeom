@@ -256,8 +256,9 @@
 <span class="sd">    Represents a reference ellipsoid of revolution for geodetic calculations.</span>
 
 <span class="sd">    The ellipsoid is defined by either:</span>
+
 <span class="sd">    - Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or</span>
-<span class="sd">    - Equatorial radius (semi-major axis) and flattening factor (f).</span>
+<span class="sd">    - Equatorial radius (semi-major axis) and flattening factor (:math:`f`).</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -285,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">)</span>  <span class="c1"># Third flattening factor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span><span class="p">)</span>  <span class="c1"># Eccentricity squared</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_e2</span><span class="p">)</span>  <span class="c1"># Eccentricity</span>
-        
+
         <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_n</span><span class="o">**</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">11</span><span class="p">)]</span> <span class="c1"># n^0 ... n^10</span>
         <span class="c1"># Coefficients d(n) of the series expansion of the inverse conformal latitude</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_phichi</span> <span class="o">=</span> <span class="p">(</span>
@@ -328,11 +329,12 @@
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">prime_vertical_curvature_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Computes the prime vertical curvature radius of a point at latitude φ.</span>
+<span class="sd">        Computes the prime vertical curvature radius of a point at latitude :math:`\\phi`.</span>
 
 <span class="sd">        The prime vertical curvature radius is computed using the formula:</span>
 
-<span class="sd">        .. math:: \nu(\phi)=\dfrac{a}{\sqrt{1-e^2\sin^2\phi}}</span>
+<span class="sd">        .. math::</span>
+<span class="sd">            \\nu(\\phi)=\\dfrac{a}{\\sqrt{1-e^2\\sin^2\\phi}}</span>
 
 <span class="sd">        where :math:`a` is the semi-major axis and :math:`e` is the eccentricity</span>
 <span class="sd">        of the ellipsoid.</span>
@@ -341,16 +343,16 @@
 <span class="sd">        ----------</span>
 <span class="sd">        phi : array_like</span>
 <span class="sd">            The geodetic latitude in radians.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        nu : :class:`numpy.ndarray`</span>
 <span class="sd">            Prime vertical curvature radius in meters.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The prime vertical curvature radius is the radius of curvature in the </span>
-<span class="sd">        plane of the prime vertical, which is perpendicular to the meridian </span>
+<span class="sd">        The prime vertical curvature radius is the radius of curvature in the</span>
+<span class="sd">        plane of the prime vertical, which is perpendicular to the meridian</span>
 <span class="sd">        and contains the normal to the ellipsoid.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">nu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_e2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
@@ -366,19 +368,19 @@
 <span class="sd">        The isometric latitude is computed using the formula:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \psi(\phi)=\mathrm{arctanh}\big(\sin(\phi)\big)-</span>
-<span class="sd">            e\mathrm{arctanh}\big(e\sin(\phi)\big)</span>
+<span class="sd">            \\psi(\\phi)=\\mathrm{arctanh}\\big(\\sin(\\phi)\\big)-</span>
+<span class="sd">            e\\mathrm{arctanh}\\big(e\\sin(\\phi)\\big)</span>
 
 <span class="sd">        It can also be computed from the conformal latitude:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \psi(\phi)=\mathrm{arctanh}\big[\sin\big(\chi(\phi)\big)\big]</span>
+<span class="sd">            \\psi(\\phi)=\\mathrm{arctanh}\\big[\\sin\\big(\\chi(\\phi)\\big)\\big]</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        phi : array_like</span>
 <span class="sd">            The geodetic latitude in radians.</span>
-<span class="sd">            </span>
+<span class="sd"> </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        psi : :class:`numpy.ndarray`</span>
@@ -410,13 +412,13 @@
 <span class="sd">        conformal latitude:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \phi(\psi)=\chi^{-1}\big[\arcsin\big(\tanh(\psi)\big)\big]</span>
+<span class="sd">            \\phi(\\psi)=\\chi^{-1}\\big[\\arcsin\\big(\\tanh(\\psi)\\big)\\big]</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        psi : array_like</span>
 <span class="sd">            The isometric latitude in radians.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        phi : :class:`numpy.ndarray`</span>
@@ -446,8 +448,8 @@
 <span class="sd">        The conformal latitude is computed using the formula:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \chi(\phi)=\arcsin\big[\tanh\big(\mathrm{arctanh}(\sin(\phi))-</span>
-<span class="sd">            e\mathrm{arctanh}(e\sin(\phi))\big)\big]</span>
+<span class="sd">            \\chi(\\phi)=\\arcsin\\big[\\tanh\\big(\\mathrm{arctanh}\\big(\\sin(\\phi)\\big)-</span>
+<span class="sd">            e\\mathrm{arctanh}\\big(e\\sin(\\phi)\\big)\\big)\\big]</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -488,13 +490,13 @@
 <span class="sd">        using the Lagrange inversion formula:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \phi(\chi)\simeq\chi+\sum\limits_{p=1}^{10}d_{2p}(n)\sin(2p\chi)</span>
+<span class="sd">            \\phi(\\chi)\\simeq\\chi+\\sum\\limits_{p=1}^{10}d_{2p}(n)\\sin(2p\\chi)</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        chi : array_like</span>
 <span class="sd">            The conformal latitude in radians.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        phi : :class:`numpy.ndarray`</span>
@@ -522,21 +524,21 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts geodetic coordinates to geocentric cartesian ECEF coordinates.</span>
 
-<span class="sd">        Converts geodetic coordinates :math:`(\lambda,\phi, H)` of a</span>
+<span class="sd">        Converts geodetic coordinates :math:`(\\lambda,\\phi, H)` of a</span>
 <span class="sd">        point to geocentric cartesian ECEF coordinates :math:`(X,Y,Z)`.</span>
 
 <span class="sd">        The conversion is made through the relationships:</span>
 
 <span class="sd">        .. math::</span>
-<span class="sd">            \left\{\begin{array}{rcl}</span>
-<span class="sd">            X &amp; = &amp; \big(\nu(\phi) + H\big)\cos(\phi)\cos(\lambda) \\</span>
-<span class="sd">            Y &amp; = &amp; \big(\nu(\phi) + H\big)\cos(\phi)\sin(\lambda) \\</span>
-<span class="sd">            Z &amp; = &amp; \big((1-e^2)\nu(\phi) + H\big)\sin(\phi)</span>
-<span class="sd">            \end{array}\right.</span>
+<span class="sd">            \\begin{cases}</span>
+<span class="sd">            X = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\</span>
+<span class="sd">            Y = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\</span>
+<span class="sd">            Z = \\big[(1-e^2)\\nu(\\phi) + H\\big]\\sin(\\phi)</span>
+<span class="sd">            \\end{cases}</span>
 
-<span class="sd">        where :math:`\nu(\phi)` is the prime vertical curvature radius</span>
-<span class="sd">        of the point with latitude :math:`\phi`.</span>
-<span class="sd">        </span>
+<span class="sd">        where :math:`\\nu(\\phi)` is the prime vertical curvature radius</span>
+<span class="sd">        of the point with latitude :math:`\\phi`.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        lamb : array_like</span>
@@ -559,7 +561,7 @@
 <span class="sd">        --------</span>
 <span class="sd">        prime_vertical_curvature_radius, to_cartographic</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prime_vertical_curvature_radius</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="c1"># At the ellipsoid level</span>
+        <span class="n">nu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prime_vertical_curvature_radius</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
         <span class="n">nuhcosphi</span> <span class="o">=</span> <span class="p">(</span><span class="n">nu</span> <span class="o">+</span> <span class="n">height_m</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
         <span class="n">X</span> <span class="o">=</span> <span class="n">nuhcosphi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lamb</span><span class="p">)</span>
         <span class="n">Y</span> <span class="o">=</span> <span class="n">nuhcosphi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lamb</span><span class="p">)</span>
@@ -574,7 +576,7 @@
 <span class="sd">        Converts geocentric cartesian ECEF coordinates to geodetic coordinates.</span>
 
 <span class="sd">        Converts geocentric cartesian ECEF coordinates :math:`(X,Y,Z)`</span>
-<span class="sd">        of a point to geodetic coordinates :math:`(\lambda,\phi, H)`.</span>
+<span class="sd">        of a point to geodetic coordinates :math:`(\\lambda,\\phi, H)`.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -584,14 +586,14 @@
 <span class="sd">            The Y cartesian ECEF coordinate in meters.</span>
 <span class="sd">        Z : array_like</span>
 <span class="sd">            The Z cartesian ECEF coordinate in meters.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        lamb : :class:`numpy.ndarray`</span>
 <span class="sd">            The geographic longitude in radians.</span>
 <span class="sd">        phi : :class:`numpy.ndarray`</span>
 <span class="sd">            The geographic latitude in radians.</span>
-<span class="sd">        height_m : :class:`numpy.ndarray`</span>
+<span class="sd">        h : :class:`numpy.ndarray`</span>
 <span class="sd">            The geodetic height in meters.</span>
 
 <span class="sd">        Notes</span>
@@ -623,11 +625,11 @@
         <span class="n">D</span> <span class="o">=</span> <span class="n">k</span> <span class="o">*</span> <span class="n">R</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_e2</span><span class="p">)</span>
         <span class="n">hypotDZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
 
-        <span class="c1"># Calculation of h and phi</span>
+        <span class="c1"># Calculation of geodetic height (h) and latitude (phi)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_e2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">hypotDZ</span> <span class="o">/</span> <span class="n">k</span>
         <span class="n">phi</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">Z</span> <span class="o">/</span> <span class="p">(</span><span class="n">hypotDZ</span> <span class="o">+</span> <span class="n">D</span><span class="p">))</span>
 
-        <span class="c1"># Calculation of lambda</span>
+        <span class="c1"># Calculation of longitude (lamb)</span>
         <span class="n">lamb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">lamb</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">h</span></div>
@@ -674,7 +676,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

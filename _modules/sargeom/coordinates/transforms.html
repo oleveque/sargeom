@@ -248,6 +248,7 @@
           <h1>Source code for sargeom.coordinates.transforms</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
+
 <div class="viewcode-block" id="LambertConicConformal">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.LambertConicConformal.html#sargeom.coordinates.LambertConicConformal">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LambertConicConformal</span><span class="p">:</span>
@@ -260,11 +261,11 @@
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ellipsoid : :class:`sargom.coordinates.ellipsoids.Ellipsoid`</span>
+<span class="sd">    ellipsoid : :class:`sargeom.coordinates.Ellipsoid`</span>
 <span class="sd">        Reference ellipsoid used for the projection.</span>
 <span class="sd">    lon_origin_rad : :class:`float`</span>
 <span class="sd">        Longitude of the origin of the Lambert Conic Conformal projection in radians.</span>
-<span class="sd">    lat_origin_rad : :class:`float` </span>
+<span class="sd">    lat_origin_rad : :class:`float`</span>
 <span class="sd">        Latitude of the origin of the Lambert Conic Conformal projection in radians.</span>
 <span class="sd">    scale : :class:`float`, optional</span>
 <span class="sd">        Scale factor of the projection. Default is 1.0.</span>
@@ -275,7 +276,7 @@
 <span class="sd">        </span>
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    ellipsoid : :class:`sargom.coordinates.ellipsoids.Ellipsoid`</span>
+<span class="sd">    ellipsoid : :class:`sargeom.coordinates.Ellipsoid`</span>
 <span class="sd">        The reference ellipsoid.</span>
 <span class="sd">    lon_origin_rad : :class:`float`</span>
 <span class="sd">        The longitude origin in radians.</span>
@@ -304,7 +305,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">x_offset_m</span> <span class="o">=</span> <span class="n">x_offset_m</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y_offset_m</span> <span class="o">=</span> <span class="n">y_offset_m</span> <span class="o">+</span> <span class="n">R0</span>
 
-        <span class="c1"># Precompute constants</span>
+        <span class="c1"># Precompute constants for efficiency</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_sin_lat_origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat_origin_rad</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_C</span> <span class="o">=</span> <span class="n">R0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_sin_lat_origin</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">isometric_latitude</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lat_origin_rad</span><span class="p">)</span>
@@ -325,14 +326,14 @@
 <span class="sd">            The geographic longitude in radians.</span>
 <span class="sd">        lat_rad : array_like</span>
 <span class="sd">            The geographic latitude in radians.</span>
-<span class="sd">            </span>
+<span class="sd"> </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        x_m : :class:`numpy.ndarray`</span>
 <span class="sd">            The projected x-coordinate in meters.</span>
 <span class="sd">        y_m : :class:`numpy.ndarray`</span>
 <span class="sd">            The projected y-coordinate in meters.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        The transformation uses the standard Lambert Conic Conformal projection </span>
@@ -350,7 +351,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_m</span><span class="p">,</span> <span class="n">y_m</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Inverse transformation from projected coordinates to geographic coordinates.</span>
-<span class="sd">        </span>
+
 <span class="sd">        Transforms projected coordinates (x, y) in the Lambert Conic Conformal </span>
 <span class="sd">        projection to geographic coordinates (longitude, latitude).</span>
 
@@ -360,14 +361,14 @@
 <span class="sd">            The projected x-coordinate in meters.</span>
 <span class="sd">        y_m : array_like</span>
 <span class="sd">            The projected y-coordinate in meters.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        lon_rad : :class:`numpy.ndarray`</span>
 <span class="sd">            The geographic longitude in radians.</span>
 <span class="sd">        lat_rad : :class:`numpy.ndarray`</span>
 <span class="sd">            The geographic latitude in radians.</span>
-<span class="sd">            </span>
+
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        The transformation uses the inverse Lambert Conic Conformal projection </span>
@@ -379,9 +380,11 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">dx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_offset_m</span> <span class="o">-</span> <span class="n">x_m</span>
             <span class="n">dy</span> <span class="o">=</span> <span class="n">y_m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_offset_m</span>
-        <span class="c1"># Longitude</span>
+        
+        <span class="c1"># Compute longitude from angular parameter</span>
         <span class="n">lon_rad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lon_origin_rad</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sin_lat_origin</span>
-        <span class="c1"># Latitude</span>
+        
+        <span class="c1"># Compute latitude from radial distance via inverse isometric latitude</span>
         <span class="n">lat_rad</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ellipsoid</span><span class="o">.</span><span class="n">inverse_isometric_latitude</span><span class="p">(</span>
             <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_C</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sin_lat_origin</span>
         <span class="p">)</span>
@@ -425,7 +428,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

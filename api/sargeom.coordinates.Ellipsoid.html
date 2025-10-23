@@ -257,19 +257,21 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sargeom.coordinates.Ellipsoid">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">Ellipsoid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">semi_major_axis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">semi_minor_axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flattening</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/ellipsoids.html#Ellipsoid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Ellipsoid" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Represents a reference ellipsoid of revolution for geodetic calculations.</p>
-<p>The ellipsoid is defined by either:
-- Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or
-- Equatorial radius (semi-major axis) and flattening factor (f).</p>
+<p>The ellipsoid is defined by either:</p>
+<ul class="simple">
+<li><p>Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or</p></li>
+<li><p>Equatorial radius (semi-major axis) and flattening factor (<span class="math notranslate nohighlight">\(f\)</span>).</p></li>
+</ul>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>semi_major_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Equatorial radius of the ellipsoid in meters.</p>
+<dt><strong>semi_major_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Equatorial radius of the ellipsoid in meters.</p>
 </dd>
-<dt><strong>semi_minor_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Polar radius of the ellipsoid in meters. Default is None.</p>
+<dt><strong>semi_minor_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Polar radius of the ellipsoid in meters. Default is None.</p>
 </dd>
-<dt><strong>flattening</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Flattening factor of the ellipsoid. Default is None.</p>
+<dt><strong>flattening</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Flattening factor of the ellipsoid. Default is None.</p>
 </dd>
 </dl>
 </dd>
@@ -291,7 +293,7 @@
 <td><p>Computes the isometric latitude (parameter of the Mercator projection).</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius" title="sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius"><code class="xref py py-obj docutils literal notranslate"><span class="pre">prime_vertical_curvature_radius</span></code></a>(phi)</p></td>
-<td><p>Computes the prime vertical curvature radius of a point at latitude φ.</p></td>
+<td><p>Computes the prime vertical curvature radius of a point at latitude <span class="math notranslate nohighlight">\(\phi\)</span>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.Ellipsoid.to_cartographic" title="sargeom.coordinates.Ellipsoid.to_cartographic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_cartographic</span></code></a>(X, Y, Z)</p></td>
 <td><p>Converts geocentric cartesian ECEF coordinates to geodetic coordinates.</p></td>
@@ -310,8 +312,8 @@
 <p>The conformal latitude is computed using the formula:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\chi(\phi)=rcsinig[       anhig(\mathrm{arctanh}(\sin(\phi))-
-e\mathrm{arctanh}(e\sin(\phi))ig)ig]\]</div>
+\[\chi(\phi)=\arcsin\big[\tanh\big(\mathrm{arctanh}\big(\sin(\phi)\big)-
+e\mathrm{arctanh}\big(e\sin(\phi)\big)\big)\big]\]</div>
 </div>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -385,7 +387,7 @@ ellipsoid initialization.</p>
 conformal latitude:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\phi(\psi)=\chi^{-1}ig[rcsinig(  anh(\psi)ig)ig]\]</div>
+\[\phi(\psi)=\chi^{-1}\big[\arcsin\big(\tanh(\psi)\big)\big]\]</div>
 </div>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -420,13 +422,13 @@ conformal latitude function.</p>
 <p>The isometric latitude is computed using the formula:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\psi(\phi)=\mathrm{arctanh}ig(\sin(\phi)ig)-
-e\mathrm{arctanh}ig(e\sin(\phi)ig)\]</div>
+\[\psi(\phi)=\mathrm{arctanh}\big(\sin(\phi)\big)-
+e\mathrm{arctanh}\big(e\sin(\phi)\big)\]</div>
 </div>
 <p>It can also be computed from the conformal latitude:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\psi(\phi)=\mathrm{arctanh}ig[\sinig(\chi(\phi)ig)ig]\]</div>
+\[\psi(\phi)=\mathrm{arctanh}\big[\sin\big(\chi(\phi)\big)\big]\]</div>
 </div>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -460,19 +462,14 @@ auxiliary sphere that preserves angles.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius">
 <span class="sig-name descname"><span class="pre">prime_vertical_curvature_radius</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/ellipsoids.html#Ellipsoid.prime_vertical_curvature_radius"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius" title="Link to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Computes the prime vertical curvature radius of a point at latitude φ.</p>
+<dd><p>Computes the prime vertical curvature radius of a point at latitude <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
 <p>The prime vertical curvature radius is computed using the formula:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\]</div>
+\[\nu(\phi)=\dfrac{a}{\sqrt{1-e^2\sin^2\phi}}\]</div>
 </div>
-</div></blockquote>
-<p>u(phi)=dfrac{a}{sqrt{1-e^2sin^2phi}}</p>
-<blockquote>
-<div><p>where <span class="math notranslate nohighlight">\(a\)</span> is the semi-major axis and <span class="math notranslate nohighlight">\(e\)</span> is the eccentricity
+<p>where <span class="math notranslate nohighlight">\(a\)</span> is the semi-major axis and <span class="math notranslate nohighlight">\(e\)</span> is the eccentricity
 of the ellipsoid.</p>
-</div></blockquote>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -488,8 +485,8 @@ of the ellipsoid.</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>The prime vertical curvature radius is the radius of curvature in the 
-plane of the prime vertical, which is perpendicular to the meridian 
+<p>The prime vertical curvature radius is the radius of curvature in the
+plane of the prime vertical, which is perpendicular to the meridian
 and contains the normal to the ellipsoid.</p>
 </dd></dl>
 
@@ -516,7 +513,7 @@ of a point to geodetic coordinates <span class="math notranslate nohighlight">\(
 </dd>
 <dt><strong>phi</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geographic latitude in radians.</p>
 </dd>
-<dt><strong>height_m</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geodetic height in meters.</p>
+<dt><strong>h</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.3)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geodetic height in meters.</p>
 </dd>
 </dl>
 </dd>
@@ -545,33 +542,20 @@ Journal of Geodesy 76, 451–454 (2002). <a class="reference external" href="htt
 <dl class="py method">
 <dt class="sig sig-object py" id="sargeom.coordinates.Ellipsoid.to_ecef">
 <span class="sig-name descname"><span class="pre">to_ecef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lamb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/ellipsoids.html#Ellipsoid.to_ecef"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.Ellipsoid.to_ecef" title="Link to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>Converts geodetic coordinates to geocentric cartesian ECEF coordinates.</p>
+<dd><p>Converts geodetic coordinates to geocentric cartesian ECEF coordinates.</p>
 <p>Converts geodetic coordinates <span class="math notranslate nohighlight">\((\lambda,\phi, H)\)</span> of a
 point to geocentric cartesian ECEF coordinates <span class="math notranslate nohighlight">\((X,Y,Z)\)</span>.</p>
 <p>The conversion is made through the relationships:</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[\left\{egin{array}{rcl}
-X &amp; = &amp; ig(\]</div>
+\[\begin{split}\begin{cases}
+X = \big(\nu(\phi) + H\big)\cos(\phi)\cos(\lambda) \\
+Y = \big(\nu(\phi) + H\big)\cos(\phi)\sin(\lambda) \\
+Z = \big[(1-e^2)\nu(\phi) + H\big]\sin(\phi)
+\end{cases}\end{split}\]</div>
 </div>
-</div></blockquote>
-<dl class="simple">
-<dt>u(phi) + Hig)cos(phi)cos(lambda) </dt><dd><p>Y &amp; = &amp; ig(</p>
-</dd>
-<dt>u(phi) + Hig)cos(phi)sin(lambda) </dt><dd><p>Z &amp; = &amp; ig((1-e^2)</p>
-</dd>
-<dt>u(phi) + Hig)sin(phi)</dt><dd><p>end{array}</p>
-</dd>
-</dl>
-<p>ight.</p>
-<blockquote>
-<div><p>where :math:<a href="#id2"><span class="problematic" id="id3">`</span></a></p>
-</div></blockquote>
-<dl class="simple">
-<dt>u(phi)` is the prime vertical curvature radius</dt><dd><p>of the point with latitude <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
-</dd>
-</dl>
+<p>where <span class="math notranslate nohighlight">\(\nu(\phi)\)</span> is the prime vertical curvature radius
+of the point with latitude <span class="math notranslate nohighlight">\(\phi\)</span>.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl class="simple">
@@ -683,7 +667,7 @@ X &amp; = &amp; ig(\]</div>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

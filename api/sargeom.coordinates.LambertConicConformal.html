@@ -257,7 +257,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">LambertConicConformal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ellipsoid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Lambert Conic Conformal projection class.</p>
 <p>This class implements the Lambert Conic Conformal projection, a conformal
 map projection that preserves angles and is commonly used for mapping
@@ -265,33 +265,33 @@ regions in the middle latitudes with primarily east-west extent.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>ellipsoid</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargom.coordinates.ellipsoids.Ellipsoid</span></code></span></dt><dd><p>Reference ellipsoid used for the projection.</p>
+<dt><strong>ellipsoid</strong><span class="classifier"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" title="sargeom.coordinates.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Ellipsoid</span></code></a></span></dt><dd><p>Reference ellipsoid used for the projection.</p>
 </dd>
-<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Longitude of the origin of the Lambert Conic Conformal projection in radians.</p>
+<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Longitude of the origin of the Lambert Conic Conformal projection in radians.</p>
 </dd>
-<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Latitude of the origin of the Lambert Conic Conformal projection in radians.</p>
+<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Latitude of the origin of the Lambert Conic Conformal projection in radians.</p>
 </dd>
-<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Scale factor of the projection. Default is 1.0.</p>
+<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Scale factor of the projection. Default is 1.0.</p>
 </dd>
-<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the x-direction in meters. Default is 0.0.</p>
+<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the x-direction in meters. Default is 0.0.</p>
 </dd>
-<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the y-direction in meters. Default is 0.0.</p>
+<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the y-direction in meters. Default is 0.0.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Attributes<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
-<dt><strong>ellipsoid</strong><span class="classifier"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargom.coordinates.ellipsoids.Ellipsoid</span></code></span></dt><dd><p>The reference ellipsoid.</p>
+<dt><strong>ellipsoid</strong><span class="classifier"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" title="sargeom.coordinates.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Ellipsoid</span></code></a></span></dt><dd><p>The reference ellipsoid.</p>
 </dd>
-<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The longitude origin in radians.</p>
+<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The longitude origin in radians.</p>
 </dd>
-<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The latitude origin in radians.</p>
+<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The latitude origin in radians.</p>
 </dd>
-<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The scale factor.</p>
+<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The scale factor.</p>
 </dd>
-<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The x-offset in meters.</p>
+<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The x-offset in meters.</p>
 </dd>
-<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The y-offset in meters.</p>
+<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The y-offset in meters.</p>
 </dd>
 </dl>
 </dd>
@@ -444,7 +444,7 @@ formulas with the ellipsoid parameters and projection constants.</p>
       
     </aside>
   </div>
-</div><script src="../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/scripts/furo.js?v=46bd48cc"></script>

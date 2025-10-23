@@ -246,60 +246,75 @@
         </div>
         <article role="main" id="furo-main-content">
           <h1>Source code for sargeom.trajectory</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Trajectory module for handling sequences of positions and orientations over time.</span>
+
+<span class="sd">This module provides the :class:`Trajectory` class for representing and manipulating</span>
+<span class="sd">trajectories in various coordinate systems, along with utilities for reading and</span>
+<span class="sd">writing trajectory data in multiple formats (CSV, PIVOT, PAMELA).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial.transform</span><span class="w"> </span><span class="kn">import</span> <span class="n">Rotation</span><span class="p">,</span> <span class="n">Slerp</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.cartesian</span><span class="w"> </span><span class="kn">import</span> <span class="n">Cartesian3</span><span class="p">,</span> <span class="n">CartesianECEF</span><span class="p">,</span> <span class="n">Cartographic</span>
 
 
+<span class="c1"># Standard trajectory data type with timestamps, geographic positions, and Euler angles</span>
 <span class="n">TRAJ_DTYPE</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;TIMESTAMP_S&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;LON_WGS84_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;LAT_WGS84_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;HEIGHT_WGS84_M&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;HEADING_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;TIMESTAMP_S&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>       <span class="c1"># Timestamp in seconds</span>
+    <span class="p">(</span><span class="s1">&#39;LON_WGS84_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>     <span class="c1"># Longitude in WGS84 (degrees)</span>
+    <span class="p">(</span><span class="s1">&#39;LAT_WGS84_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>     <span class="c1"># Latitude in WGS84 (degrees)</span>
+    <span class="p">(</span><span class="s1">&#39;HEIGHT_WGS84_M&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>    <span class="c1"># Ellipsoidal height in WGS84 (meters)</span>
+    <span class="p">(</span><span class="s1">&#39;HEADING_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>       <span class="c1"># Heading angle in NED frame (degrees)</span>
+    <span class="p">(</span><span class="s1">&#39;ELEVATION_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>     <span class="c1"># Elevation angle in NED frame (degrees)</span>
+    <span class="p">(</span><span class="s1">&#39;BANK_DEG&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>          <span class="c1"># Bank angle in NED frame (degrees)</span>
 <span class="p">]</span>
 
+<span class="c1"># PAMELA TRAJ file format data type</span>
 <span class="n">PAMELA_TRAJ_DTYPE</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;heading_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;elevation_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;bank_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>     <span class="c1"># Longitude in radians</span>
+    <span class="p">(</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>      <span class="c1"># Latitude in radians</span>
+    <span class="p">(</span><span class="s1">&#39;height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>          <span class="c1"># Height in meters</span>
+    <span class="p">(</span><span class="s1">&#39;heading_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>       <span class="c1"># Heading angle in radians</span>
+    <span class="p">(</span><span class="s1">&#39;elevation_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>     <span class="c1"># Elevation angle in radians</span>
+    <span class="p">(</span><span class="s1">&#39;bank_rad&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>          <span class="c1"># Bank angle in radians</span>
 <span class="p">]</span>
 
+<span class="c1"># PAMELA POS file format data type</span>
 <span class="n">PAMELA_POS_DTYPE</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="p">(</span><span class="s1">&#39;timestamp_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;latitude_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;longitude_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;velocity_north_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;velocity_east_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;velocity_up_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;bank_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;elevation_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;heading_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;std_latitude_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;std_longitude_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
-    <span class="p">(</span><span class="s1">&#39;std_height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;timestamp_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>           <span class="c1"># Timestamp in seconds</span>
+    <span class="p">(</span><span class="s1">&#39;latitude_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>          <span class="c1"># Latitude in degrees</span>
+    <span class="p">(</span><span class="s1">&#39;longitude_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>         <span class="c1"># Longitude in degrees</span>
+    <span class="p">(</span><span class="s1">&#39;height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span>              <span class="c1"># Height in meters</span>
+    <span class="p">(</span><span class="s1">&#39;velocity_north_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>    <span class="c1"># Velocity North component (m/s)</span>
+    <span class="p">(</span><span class="s1">&#39;velocity_east_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>     <span class="c1"># Velocity East component (m/s)</span>
+    <span class="p">(</span><span class="s1">&#39;velocity_up_m_s&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>       <span class="c1"># Velocity Up component (m/s)</span>
+    <span class="p">(</span><span class="s1">&#39;bank_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>              <span class="c1"># Bank angle in degrees</span>
+    <span class="p">(</span><span class="s1">&#39;elevation_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>         <span class="c1"># Elevation angle in degrees</span>
+    <span class="p">(</span><span class="s1">&#39;heading_deg&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>           <span class="c1"># Heading angle in degrees</span>
+    <span class="p">(</span><span class="s1">&#39;std_latitude_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>        <span class="c1"># Standard deviation of latitude (m)</span>
+    <span class="p">(</span><span class="s1">&#39;std_longitude_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>       <span class="c1"># Standard deviation of longitude (m)</span>
+    <span class="p">(</span><span class="s1">&#39;std_height_m&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f4&#39;</span><span class="p">),</span>          <span class="c1"># Standard deviation of height (m)</span>
 <span class="p">]</span>
 
-<span class="c1"># This class represents a trajectory of positions and orientations over time.</span>
-<span class="c1"># Inspired by https://gereon-t.github.io/trajectopy/Documentation/Trajectory/</span>
+
 <div class="viewcode-block" id="Trajectory">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Trajectory</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A Trajectory object represents a sequence of positions and orientations over time.</span>
 
+<span class="sd">    This class provides comprehensive trajectory handling with support for multiple</span>
+<span class="sd">    coordinate systems and file formats. It is inspired by the trajectopy library</span>
+<span class="sd">    (https://gereon-t.github.io/trajectopy/Documentation/Trajectory/).</span>
+
 <span class="sd">    It is defined by the following characteristics:</span>
 
-<span class="sd">    - Timestamps are expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.</span>
-<span class="sd">    - Positions are provided in either the WGS84 geographic coordinate system (`EPSG:4979 &lt;https://epsg.org/crs_4979/WGS-84.html&gt;`_) or the WGS84 geocentric coordinate system (`EPSG:4978 &lt;https://epsg.org/crs_4978/WGS-84.html&gt;`_).</span>
-<span class="sd">    - Orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.</span>
+<span class="sd">    - **Timestamps**: Expressed in seconds. They may correspond to UTC, GPS Seconds of Week (SOW), Time of Day (TOD), or a custom time reference.</span>
+<span class="sd">    - **Positions**: Provided in either the WGS84 geographic coordinate system (`EPSG:4979 &lt;https://epsg.org/crs_4979/WGS-84.html&gt;`_) or the WGS84 geocentric coordinate system (`EPSG:4978 &lt;https://epsg.org/crs_4978/WGS-84.html&gt;`_).</span>
+<span class="sd">    - **Orientations**: Defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -308,7 +323,7 @@
 <span class="sd">    positions : :class:`sargeom.coordinates.CartesianECEF` or :class:`sargeom.coordinates.Cartographic`</span>
 <span class="sd">        Array of positions in either ECEF (x, y, z) or geographic (latitude, longitude, altitude) format.</span>
 <span class="sd">    orientations : :class:`scipy.spatial.transform.Rotation`, optional</span>
-<span class="sd">        Sequence of orientations as `Rotation objects`. Defined in the NED frame. Default is `None`.</span>
+<span class="sd">        Sequence of orientations as `Rotation` objects. Defined in the NED frame. Default is `None`.</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
@@ -420,12 +435,13 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns a string representation of the Trajectory instance.</span>
+<span class="sd">        Return a string representation of the Trajectory instance.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`str`</span>
-<span class="sd">            A string representation of the Trajectory instance.</span>
+<span class="sd">            A string representation showing trajectory samples with their timestamps,</span>
+<span class="sd">            positions, and orientations (if available).</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -450,14 +466,16 @@
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.sort">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Sort the trajectory by timestamps.</span>
+<span class="sd">        Sort the trajectory by timestamps in ascending or descending order.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        inplace : :class:`bool`, optional</span>
-<span class="sd">            If True, sort the trajectory in place. Default is True.</span>
+<span class="sd">            If True, sort the trajectory in place. If False, return a new sorted Trajectory instance.</span>
+<span class="sd">            Default is True.</span>
 <span class="sd">        reverse : :class:`bool`, optional</span>
-<span class="sd">            If True, sort in descending order. Default is False.</span>
+<span class="sd">            If True, sort in descending order. If False, sort in ascending order.</span>
+<span class="sd">            Default is False.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -466,7 +484,7 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
-<span class="sd">        Sort the trajectory in place:</span>
+<span class="sd">        Sort the trajectory in place (ascending order):</span>
 
 <span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
 <span class="sd">        ...     timestamps=[2, 0, 1, 3],</span>
@@ -512,7 +530,8 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`numpy.ndarray`</span>
-<span class="sd">            1D array of timestamps (e.g., UTC, GPS SOW, TOD).</span>
+<span class="sd">            1D array of timestamps. May represent UTC, GPS Seconds of Week (SOW),</span>
+<span class="sd">            Time of Day (TOD), or a custom time reference.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -563,10 +582,14 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Velocities between consecutive trajectory samples.</span>
 
+<span class="sd">        Computed as the arc length divided by the time difference between</span>
+<span class="sd">        consecutive samples.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`numpy.ndarray`</span>
 <span class="sd">            1D array of velocity magnitudes, in meters per second.</span>
+<span class="sd">            Length is n-1 where n is the number of trajectory samples.</span>
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
@@ -595,7 +618,7 @@
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.has_orientation">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">has_orientation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Whether the trajectory has orientation data.</span>
+<span class="sd">        Check whether the trajectory has orientation data.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -635,8 +658,10 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        The orientations are defined in the local North-East-Down (NED) Cartesian frame, relative to the associated position coordinates.</span>
-<span class="sd">        The orientations can be converted to quaternions, Euler angles, or other representations using the methods provided by the `Rotation` class.</span>
+<span class="sd">        The orientations are defined in the local North-East-Down (NED) Cartesian frame,</span>
+<span class="sd">        relative to the associated position coordinates. The orientations can be converted</span>
+<span class="sd">        to quaternions, Euler angles, or other representations using the methods provided</span>
+<span class="sd">        by the `Rotation` class from scipy.spatial.transform.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -666,10 +691,14 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Arc lengths between consecutive trajectory positions.</span>
 
+<span class="sd">        Computed as the Euclidean distance in ECEF coordinates between</span>
+<span class="sd">        consecutive position samples.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`numpy.ndarray`</span>
 <span class="sd">            1D array of distances in meters.</span>
+<span class="sd">            Length is n-1 where n is the number of trajectory samples.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -718,6 +747,8 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sampling rate of the trajectory.</span>
 
+<span class="sd">        Computed as the inverse of the mean time difference between consecutive samples.</span>
+
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`float`</span>
@@ -751,6 +782,9 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">resample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sampling_rate</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Resample the trajectory at a specified sampling rate.</span>
+
+<span class="sd">        Creates a new trajectory with uniformly spaced timestamps based on the</span>
+<span class="sd">        specified sampling rate. Positions and orientations are interpolated.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -802,6 +836,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Interpolate the trajectory to new timestamps.</span>
 
+<span class="sd">        Positions are interpolated using the interpolation method from the</span>
+<span class="sd">        CartesianECEF class. If orientations are present, they are interpolated</span>
+<span class="sd">        using spherical linear interpolation (Slerp).</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        new_timestamps : array_like</span>
@@ -815,7 +853,8 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        :class:`ValueError`</span>
-<span class="sd">            If the new timestamps are not within the range of existing timestamps.</span>
+<span class="sd">            - If the new timestamps array is empty.</span>
+<span class="sd">            - If the new timestamps are not within the range of existing timestamps.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -849,7 +888,7 @@
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">concatenate</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">trajectories</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Concatenate a sequence of Trajectory objects into a single object.</span>
+<span class="sd">        Concatenate a sequence of Trajectory objects into a single Trajectory.</span>
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -863,9 +902,11 @@
 
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
+<span class="sd">        :class:`TypeError`</span>
+<span class="sd">            If trajectories is not an iterable.</span>
 <span class="sd">        :class:`ValueError`</span>
-<span class="sd">            - If the input list is empty.</span>
-<span class="sd">            - If any item in the list is not a Trajectory instance.</span>
+<span class="sd">            - If the input sequence is empty.</span>
+<span class="sd">            - If any item in the sequence is not a Trajectory instance.</span>
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
@@ -873,6 +914,7 @@
 <span class="sd">        - Orientations are concatenated only if ALL input trajectories have orientations.</span>
 <span class="sd">        - If any trajectory lacks orientations, the result will have no orientations.</span>
 <span class="sd">        - The order of concatenation follows the order of input trajectories.</span>
+<span class="sd">        - No automatic sorting or de-duplication is performed.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -945,8 +987,25 @@
 <div class="viewcode-block" id="Trajectory.plot">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.plot">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the trajectory (not yet implemented).</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Plotting options to be passed to the plotting function.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`NotImplementedError`</span>
+<span class="sd">            This method is not yet implemented.</span>
+<span class="sd">        </span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Future implementation will be inspired by:</span>
+<span class="sd">        https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Implement plotting functionality</span>
-        <span class="c1"># See: https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Plotting functionality is not implemented yet.&quot;</span><span class="p">)</span></div>
 
 
@@ -996,6 +1055,7 @@
             <span class="n">height</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;HEIGHT_WGS84_M&#39;</span><span class="p">]</span>
         <span class="p">)</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span>
         
+        <span class="c1"># Check if orientation data is present</span>
         <span class="k">if</span> <span class="s1">&#39;HEADING_DEG&#39;</span> <span class="ow">in</span> <span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
             <span class="n">orientations</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_euler</span><span class="p">(</span>
                 <span class="s2">&quot;ZYX&quot;</span><span class="p">,</span>
@@ -1018,6 +1078,8 @@
 <span class="sd">        -------</span>
 <span class="sd">        :class:`numpy.ndarray`</span>
 <span class="sd">            The trajectory data as a numpy structured array using the :data:`TRAJ_DTYPE` type.</span>
+<span class="sd">            Includes timestamps, positions in WGS84 geographic coordinates, and Euler angles</span>
+<span class="sd">            (heading, elevation, bank) in the NED frame.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -1038,9 +1100,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cartographic_positions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
         
-        <span class="c1"># Extract orientations if available</span>
+        <span class="c1"># Extract orientations if available, otherwise use zeros</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">():</span>
             <span class="n">heading</span><span class="p">,</span> <span class="n">elevation</span><span class="p">,</span> <span class="n">bank</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orientations</span><span class="o">.</span><span class="n">as_euler</span><span class="p">(</span><span class="s2">&quot;ZYX&quot;</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">heading</span> <span class="o">%=</span> <span class="mi">360</span>  <span class="c1"># Normalize heading angle to [0, 360]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">heading</span> <span class="o">=</span> <span class="n">elevation</span> <span class="o">=</span> <span class="n">bank</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         
@@ -1104,9 +1167,161 @@
 <div class="viewcode-block" id="Trajectory.read_pivot">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.read_pivot">[docs]</a>
     <span class="nd">@classmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">read_pivot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="c1"># TODO: Implement reading from a pivot file</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Reading from pivot files is not implemented yet.&quot;</span><span class="p">)</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_pivot</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">actor_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">actor_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read a PIVOT .h5 file and create a Trajectory instance.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
+<span class="sd">            The filename or path to the .h5 file.</span>
+<span class="sd">        actor_name : :class:`str`, optional</span>
+<span class="sd">            The name of the specific actor to load. If None, loads the first actor found.</span>
+<span class="sd">        actor_type : :class:`str`, optional</span>
+<span class="sd">            The type of actor to load (e.g., &#39;TX_ANTENNA&#39;).</span>
+<span class="sd">            May be one of: &#39;TX_PLATFORM&#39;, &#39;RX_PLATFORM&#39;, &#39;TX_ANTENNA&#39;, &#39;RX_ANTENNA&#39;, &#39;TARGET&#39;.</span>
+<span class="sd">            If None, loads any actor type.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`Trajectory`</span>
+<span class="sd">            A new Trajectory instance.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ImportError`</span>
+<span class="sd">            If the pivot library is not installed.</span>
+<span class="sd">        :class:`FileNotFoundError`</span>
+<span class="sd">            If the file does not exist.</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            - If the file does not have a .h5 extension.</span>
+<span class="sd">            - If no actors are found in the file.</span>
+<span class="sd">            - If the specified actor is not found.</span>
+<span class="sd">            - If the actor_type is not valid.</span>
+<span class="sd">        :class:`KeyError`</span>
+<span class="sd">            If required axis labels are missing from the actor data.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Load the first actor from a PIVOT file:</span>
+
+<span class="sd">        &gt;&gt;&gt; traj = Trajectory.read_pivot(&quot;trajectory.h5&quot;)</span>
+
+<span class="sd">        Load a specific actor by name:</span>
+
+<span class="sd">        &gt;&gt;&gt; traj = Trajectory.read_pivot(&quot;trajectory.h5&quot;, actor_name=&quot;TrajectoryName_TrajectoryOrigin_TrajectoryType&quot;)</span>
+
+<span class="sd">        Load an actor by type:</span>
+
+<span class="sd">        &gt;&gt;&gt; traj = Trajectory.read_pivot(&quot;trajectory.h5&quot;, actor_type=&quot;TX_ANTENNA&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.darpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">AxisLabelEnum</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.piactor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Actor</span><span class="p">,</span> <span class="n">ActorTypeEnum</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.pivotutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">pivot_version</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using pivot library version: </span><span class="si">{</span><span class="n">pivot_version</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;The pivot library is not installed. Please install it to read PIVOT files.&quot;</span><span class="p">)</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;File </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s2"> does not exist.&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">suffix</span> <span class="o">==</span> <span class="s1">&#39;.h5&#39;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;File must have a .h5 extension.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Validate actor_type parameter if provided</span>
+        <span class="k">if</span> <span class="n">actor_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">actor_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TX_PLATFORM&#39;</span><span class="p">,</span> <span class="s1">&#39;RX_PLATFORM&#39;</span><span class="p">,</span> <span class="s1">&#39;TX_ANTENNA&#39;</span><span class="p">,</span> <span class="s1">&#39;RX_ANTENNA&#39;</span><span class="p">,</span> <span class="s1">&#39;TARGET&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;actor_type&#39; must be one of: &#39;TX_PLATFORM&#39;, &#39;RX_PLATFORM&#39;, &#39;TX_ANTENNA&#39;, &#39;RX_ANTENNA&#39;, &#39;TARGET&#39;&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Load all actors from the PIVOT file</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">actors</span> <span class="o">=</span> <span class="n">Actor</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to load PIVOT file: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">actors</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No actors found in the PIVOT file.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Filter actors based on the provided criteria</span>
+        <span class="n">selected_actor</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">if</span> <span class="n">actor_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Filter by actor name</span>
+            <span class="n">matching_actors</span> <span class="o">=</span> <span class="p">[</span><span class="n">act</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">actors</span> <span class="k">if</span> <span class="n">act</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">actor_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">matching_actors</span><span class="p">:</span>
+                <span class="n">available_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">act</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">actors</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Actor with name &#39;</span><span class="si">{</span><span class="n">actor_name</span><span class="si">}</span><span class="s2">&#39; not found. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Available actors: </span><span class="si">{</span><span class="n">available_names</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">selected_actor</span> <span class="o">=</span> <span class="n">matching_actors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="n">actor_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Filter by actor type</span>
+            <span class="n">target_type</span> <span class="o">=</span> <span class="n">ActorTypeEnum</span><span class="p">[</span><span class="n">actor_type</span><span class="p">]</span>
+            <span class="n">matching_actors</span> <span class="o">=</span> <span class="p">[</span><span class="n">act</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">actors</span> <span class="k">if</span> <span class="n">act</span><span class="o">.</span><span class="n">type</span> <span class="ow">is</span> <span class="n">target_type</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">matching_actors</span><span class="p">:</span>
+                <span class="n">available_types</span> <span class="o">=</span> <span class="p">[</span><span class="n">act</span><span class="o">.</span><span class="n">type</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">act</span> <span class="ow">in</span> <span class="n">actors</span><span class="p">]</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Actor with type &#39;</span><span class="si">{</span><span class="n">actor_type</span><span class="si">}</span><span class="s2">&#39; not found. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Available actor types: </span><span class="si">{</span><span class="n">available_types</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="n">selected_actor</span> <span class="o">=</span> <span class="n">matching_actors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Use the first available actor</span>
+            <span class="n">selected_actor</span> <span class="o">=</span> <span class="n">actors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Extract trajectory data from the selected actor</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="p">{</span> <span class="n">ax</span><span class="o">.</span><span class="n">type</span><span class="p">:</span> <span class="n">ax</span><span class="o">.</span><span class="n">ticks</span> <span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">selected_actor</span><span class="o">.</span><span class="n">state</span> <span class="p">}</span>
+
+        <span class="c1"># Extract timestamps</span>
+        <span class="n">timestamps</span> <span class="o">=</span> <span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">TIME</span><span class="p">]</span>
+
+        <span class="c1"># Extract ECEF positions</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_X_ECEF</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_Y_ECEF</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_Z_ECEF</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Extract direction vectors for x and y axes in ECEF frame</span>
+        <span class="n">x_axis_dir</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_X_ECEF</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_Y_ECEF</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_Z_ECEF</span><span class="p">]</span>
+        <span class="p">)</span>
+
+        <span class="n">y_axis_dir</span> <span class="o">=</span> <span class="n">CartesianECEF</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_X_ECEF</span><span class="p">],</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_Y_ECEF</span><span class="p">],</span>
+            <span class="n">z</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_Z_ECEF</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="n">y_axis_dir</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># inverted for PIVOT convention</span>
+
+        <span class="c1"># Compute z-axis direction as cross product of x and y axes</span>
+        <span class="n">z_axis_dir</span> <span class="o">=</span> <span class="n">x_axis_dir</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">y_axis_dir</span><span class="p">)</span>
+
+        <span class="c1"># Compute rotation matrices from body to ECEF for each position</span>
+        <span class="n">rot_body2ecef</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">x_axis_dir</span><span class="o">.</span><span class="n">to_array</span><span class="p">(),</span> <span class="n">y_axis_dir</span><span class="o">.</span><span class="n">to_array</span><span class="p">(),</span> <span class="n">z_axis_dir</span><span class="o">.</span><span class="n">to_array</span><span class="p">()],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+
+        <span class="c1"># Compute rotation matrices from ECEF to NED for each position</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+        <span class="n">local_origins</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">local_origins</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">local_origins</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+        <span class="n">clon</span><span class="p">,</span> <span class="n">slon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">clat</span><span class="p">,</span> <span class="n">slat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="n">rot_ecef2ned</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">clon</span> <span class="o">*</span> <span class="n">slat</span><span class="p">,</span> <span class="o">-</span><span class="n">slon</span><span class="p">,</span> <span class="o">-</span><span class="n">clon</span> <span class="o">*</span> <span class="n">clat</span><span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">slon</span> <span class="o">*</span> <span class="n">slat</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="o">-</span><span class="n">slon</span> <span class="o">*</span> <span class="n">clat</span><span class="p">],</span>
+                <span class="p">[</span><span class="n">clat</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="o">-</span><span class="n">slat</span><span class="p">]</span>
+            <span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Combine rotations to get body to NED orientations</span>
+        <span class="n">orientations</span> <span class="o">=</span> <span class="n">rot_ecef2ned</span> <span class="o">*</span> <span class="n">rot_body2ecef</span>
+
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">timestamps</span><span class="p">,</span> <span class="n">positions</span><span class="p">,</span> <span class="n">orientations</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.read_pamela_pos">
@@ -1167,8 +1382,13 @@
 <span class="sd">            The filename or path to the .traj file.</span>
 <span class="sd">        sampling_time_s : :class:`float`, optional</span>
 <span class="sd">            If provided, overrides the time step between trajectory points (in seconds).</span>
+<span class="sd">            If not provided, the time step is read from the file header.</span>
 <span class="sd">        crs : :class:`str`, optional</span>
-<span class="sd">            Coordinate reference system of the trajectory. Options are: &#39;auto&#39; (default, WGS84 if new format, NTF if old format), &#39;WGS84&#39;, &#39;NTF&#39;.</span>
+<span class="sd">            Coordinate reference system of the trajectory.</span>
+<span class="sd">            Options are:</span>
+<span class="sd">            - &#39;auto&#39; (default): Automatically detect WGS84 or NTF from file header</span>
+<span class="sd">            - &#39;WGS84&#39;: Force WGS84 interpretation</span>
+<span class="sd">            - &#39;NTF&#39;: Force NTF interpretation</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1180,11 +1400,8 @@
 <span class="sd">        :class:`FileNotFoundError`</span>
 <span class="sd">            If the file does not exist.</span>
 <span class="sd">        :class:`ValueError`</span>
-<span class="sd">            If the file does not have a .traj extension.</span>
-<span class="sd">        :class:`ValueError`</span>
-<span class="sd">            If the old PAMELA file format is detected.</span>
-<span class="sd">        :class:`ValueError`</span>
-<span class="sd">            If the crs parameter is not one of the accepted values.</span>
+<span class="sd">            - If the file does not have a .traj extension.</span>
+<span class="sd">            - If the crs parameter is not one of the accepted values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
@@ -1195,7 +1412,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;crs must be &#39;auto&#39;, &#39;WGS84&#39;, or &#39;NTF&#39;.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Read header (11 doubles, little endian)</span>
-        <span class="c1"># Format:</span>
+        <span class="c1"># Header format:</span>
         <span class="c1">#    0: origin longitude (rad)</span>
         <span class="c1">#    1: origin latitude (rad)</span>
         <span class="c1">#    2: origin height (m)</span>
@@ -1205,49 +1422,51 @@
         <span class="c1">#    6: nominal leeway (rad) - course minus heading</span>
         <span class="c1">#    7: mean elevation (rad)</span>
         <span class="c1">#    8: mean bank (rad)</span>
-        <span class="c1">#    9: std position (m)</span>
-        <span class="c1">#   10: std velocity (m/s)</span>
+        <span class="c1">#    9: std position (m) / sampling time step (s) depending on format</span>
+        <span class="c1">#   10: std velocity (m/s) / format flag (&gt;-0.5: NTF, &lt;=-0.5: WGS84)</span>
         <span class="n">header_count</span> <span class="o">=</span> <span class="mi">11</span>
         <span class="n">header</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;&lt;f8&#39;</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">header_count</span><span class="p">)</span>
 
         <span class="c1"># Read all records in a single operation</span>
-        <span class="n">header_size</span> <span class="o">=</span> <span class="n">header_count</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># bytes for 11 doubles</span>
+        <span class="n">header_size</span> <span class="o">=</span> <span class="n">header_count</span> <span class="o">*</span> <span class="mi">8</span>  <span class="c1"># 8 bytes for each double</span>
         <span class="n">records</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">PAMELA_TRAJ_DTYPE</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">header_size</span><span class="p">)</span>
 
-        <span class="c1"># Determine coordinate reference system</span>
+        <span class="c1"># Determine coordinate reference system from header</span>
         <span class="k">if</span> <span class="n">crs</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">:</span>
                 <span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;NTF&#39;</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guessed origin CRS is &#39;NTF&#39;&quot;</span><span class="p">)</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;Old PAMELA file format detected (Custom NTF in local Lambert projection) [flag = </span><span class="si">{</span><span class="n">header</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="si">}</span><span class="s2">]!</span><span class="se">\n</span><span class="s2">&quot;</span>
                     <span class="s2">&quot; ↳ Trajectory will be automatically converted to geographic WGS84 CRS format.&quot;</span>
                 <span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Guessed origin CRS is &#39;WGS84&#39;&quot;</span><span class="p">)</span>
                 <span class="n">crs</span> <span class="o">=</span> <span class="s1">&#39;WGS84&#39;</span>
 
-        <span class="c1"># Convert trajectory to WGS84 if needed</span>
+        <span class="c1"># Convert trajectory from NTF to WGS84 if needed</span>
         <span class="k">if</span> <span class="n">crs</span> <span class="o">==</span> <span class="s1">&#39;NTF&#39;</span><span class="p">:</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.transforms</span><span class="w"> </span><span class="kn">import</span> <span class="n">LambertConicConformal</span>
             <span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.ellipsoids</span><span class="w"> </span><span class="kn">import</span> <span class="n">Ellipsoid</span><span class="p">,</span> <span class="n">ELPS_CLARKE_1880</span>
 
-            <span class="c1"># Unpack NTF trajectory origin coordinates</span>
+            <span class="c1"># Extract NTF trajectory origin coordinates from header</span>
             <span class="n">lon_origin_ntf_rad</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">lat_origin_ntf_rad</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
             <span class="n">height_origin_ntf_m</span> <span class="o">=</span> <span class="n">header</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-            <span class="c1"># Unpack position records (note: attitude angles are kept unchanged)</span>
-            <span class="n">x_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">]</span>
-            <span class="n">y_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">]</span>
+            <span class="c1"># Extract position records (note: attitude angles are kept unchanged)</span>
+            <span class="n">x_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">]</span>  <span class="c1"># Actually local X in Lambert projection</span>
+            <span class="n">y_loc_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">]</span>   <span class="c1"># Actually local Y in Lambert projection</span>
             <span class="n">height_ntf_m</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;height_m&#39;</span><span class="p">]</span>
 
-            <span class="c1"># Lambert Conic Conformal projection initialization</span>
+            <span class="c1"># Initialize Lambert Conic Conformal projection for NTF</span>
             <span class="n">locLambertNTF</span> <span class="o">=</span> <span class="n">LambertConicConformal</span><span class="p">(</span>
                 <span class="n">ELPS_CLARKE_1880</span><span class="p">,</span>
                 <span class="n">lon_origin_ntf_rad</span><span class="p">,</span>
                 <span class="n">lat_origin_ntf_rad</span>
             <span class="p">)</span>
 
-            <span class="c1"># Step 1: from local Lambert NTF to geographic NTF</span>
+            <span class="c1"># Step 1: Transform from local Lambert NTF to geographic NTF</span>
             <span class="n">lon_ntf_rad</span><span class="p">,</span> <span class="n">lat_ntf_rad</span> <span class="o">=</span> <span class="n">locLambertNTF</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">x_loc_m</span><span class="p">,</span> <span class="n">y_loc_m</span><span class="p">)</span>
 
             <span class="c1"># Step 2: Transform from geographic NTF to cartesian ECEF NTF</span>
@@ -1255,29 +1474,29 @@
                 <span class="n">lon_ntf_rad</span><span class="p">,</span> <span class="n">lat_ntf_rad</span><span class="p">,</span> <span class="n">height_ntf_m</span> <span class="o">+</span> <span class="n">height_origin_ntf_m</span>
             <span class="p">)</span>
 
-            <span class="c1"># Custom transformation parameters cartesian ECEF NTF to cartesian ECEF WGS84</span>
+            <span class="c1"># Custom transformation parameters from cartesian ECEF NTF to cartesian ECEF WGS84</span>
             <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">0.554</span> <span class="o">/</span> <span class="mf">3600.0</span><span class="p">)</span>
             <span class="n">_DX_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="o">-</span><span class="mf">168.0</span>
             <span class="n">_DY_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="o">-</span><span class="mf">72.0</span>
             <span class="n">_DZ_NTF_TO_WGS84_M</span> <span class="o">=</span> <span class="mf">318.5</span>
 
-            <span class="c1"># Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom)</span>
+            <span class="c1"># Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom transformation)</span>
             <span class="n">x_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">x_ntf_m</span> <span class="o">-</span> <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">*</span> <span class="n">y_ntf_m</span> <span class="o">+</span> <span class="n">_DX_NTF_TO_WGS84_M</span>
             <span class="n">y_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">y_ntf_m</span> <span class="o">+</span> <span class="n">_ANGLE_Z_NTF_TO_WGS84_RAD</span> <span class="o">*</span> <span class="n">x_ntf_m</span> <span class="o">+</span> <span class="n">_DY_NTF_TO_WGS84_M</span>
             <span class="n">z_wgs84_m</span> <span class="o">=</span> <span class="mf">1.0000002198</span> <span class="o">*</span> <span class="n">z_ntf_m</span>                                       <span class="o">+</span> <span class="n">_DZ_NTF_TO_WGS84_M</span>
 
             <span class="c1"># Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84</span>
-            <span class="n">ELPS_PAM_WGS84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356752.3142</span><span class="p">)</span> <span class="c1"># Custom PamelaX11 WGS84</span>
+            <span class="n">ELPS_PAM_WGS84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356752.3142</span><span class="p">)</span>  <span class="c1"># Custom PamelaX11 WGS84</span>
             <span class="n">lon_wgs84_rad</span><span class="p">,</span> <span class="n">lat_wgs84_rad</span><span class="p">,</span> <span class="n">height_wgs84_m</span> <span class="o">=</span> <span class="n">ELPS_PAM_WGS84</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">(</span>
                 <span class="n">x_wgs84_m</span><span class="p">,</span> <span class="n">y_wgs84_m</span><span class="p">,</span> <span class="n">z_wgs84_m</span>
             <span class="p">)</span>
 
-            <span class="c1"># Update records geographic coordinates</span>
+            <span class="c1"># Update records with converted geographic coordinates</span>
             <span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon_wgs84_rad</span>
             <span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lat_wgs84_rad</span>
             <span class="n">records</span><span class="p">[</span><span class="s1">&#39;height_m&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">height_wgs84_m</span>
 
-        <span class="c1"># Check trajectory time sampling</span>
+        <span class="c1"># Determine trajectory time sampling</span>
         <span class="k">if</span> <span class="n">sampling_time_s</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">time_step</span> <span class="o">=</span> <span class="n">sampling_time_s</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1285,15 +1504,15 @@
             <span class="k">if</span> <span class="n">time_step</span> <span class="o">&lt;=</span> <span class="mf">0.0</span><span class="p">:</span>
                 <span class="n">time_step</span> <span class="o">=</span> <span class="mf">1.0</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Sampling time step is non-positive or non defined !</span><span class="se">\n</span><span class="s2">&quot;</span>
+                    <span class="s2">&quot;Sampling time step is non-positive or not defined!</span><span class="se">\n</span><span class="s2">&quot;</span>
                     <span class="s2">&quot; ↳ This value is set to 1.0 second by default.&quot;</span>
                 <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sampling time step is set to </span><span class="si">{</span><span class="n">time_step</span><span class="si">}</span><span class="s2">s. To modify the timestamp axis set a new one in the newly created Trajectory object.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sampling time step is set to </span><span class="si">{</span><span class="n">time_step</span><span class="si">}</span><span class="s2">s. To modify the timestamp axis, set a new one in the newly created Trajectory object.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Create output structured array</span>
         <span class="n">n</span> <span class="o">=</span> <span class="n">records</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">TRAJ_DTYPE</span><span class="p">)</span>
-        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TIMESTAMP_S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_step</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TIMESTAMP_S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="n">time_step</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LON_WGS84_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;longitude_rad&#39;</span><span class="p">])</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;LAT_WGS84_DEG&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">degrees</span><span class="p">(</span><span class="n">records</span><span class="p">[</span><span class="s1">&#39;latitude_rad&#39;</span><span class="p">])</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;HEIGHT_WGS84_M&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">records</span><span class="p">[</span><span class="s1">&#39;height_m&#39;</span><span class="p">]</span>
@@ -1356,6 +1575,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .traj.csv file.</span>
+<span class="sd">            The .traj.csv extension is automatically added if not present.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1395,7 +1615,7 @@
 <span class="s2">#    o Positions as WGS84 Geographic coordinates:</span>
 <span class="s2">#        - LON_WGS84_DEG [°]: The longitude coordinate</span>
 <span class="s2">#        - LAT_WGS84_DEG [°]: The latitude coordinate</span>
-<span class="s2">#        - HEIGHT_WGS84_M [m]: The ellipsoïdal height coordinate</span>
+<span class="s2">#        - HEIGHT_WGS84_M [m]: The ellipsoidal height coordinate</span>
 <span class="s2">#    o Attitudes as Euler angles (heading, elevation, bank) in the local North-East-Down (NED) cartesian frame related to geographic position coordinates:</span>
 <span class="s2">#        - HEADING_DEG [°]: The heading angle in degrees</span>
 <span class="s2">#        - ELEVATION_DEG [°]: The elevation angle in degrees</span>
@@ -1416,6 +1636,7 @@
 <span class="sd">        ----------</span>
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .pos file.</span>
+<span class="sd">            The .pos extension is automatically added if not present.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1469,10 +1690,14 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Save the Trajectory instance to a numpy .npy file.</span>
 
+<span class="sd">        The trajectory is saved as a binary numpy structured array using the</span>
+<span class="sd">        :data:`TRAJ_DTYPE` format.</span>
+
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
 <span class="sd">            The filename or path to save the .npy file.</span>
+<span class="sd">            The .npy extension is automatically added if not present.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1501,14 +1726,172 @@
 
 <div class="viewcode-block" id="Trajectory.save_pivot">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.save_pivot">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">save_pivot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="c1"># TODO: Implement saving to a pivot file</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Saving to pivot files is not implemented yet.&quot;</span><span class="p">)</span></div>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_pivot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">actor_type</span><span class="o">=</span><span class="s1">&#39;TX_ANTENNA&#39;</span><span class="p">,</span> <span class="n">data_owner</span><span class="o">=</span><span class="s1">&#39;NA&#39;</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s1">&#39;TRUEVALUE&#39;</span><span class="p">,</span> <span class="n">protection_tag</span><span class="o">=</span><span class="s1">&#39;NON_PROTEGE&#39;</span><span class="p">,</span> <span class="n">write_mode</span><span class="o">=</span><span class="s1">&#39;override&#39;</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the Trajectory instance to a PIVOT .h5 file.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
+<span class="sd">            The filename or path to save the .h5 file.</span>
+<span class="sd">            The .h5 extension is automatically added if not present.</span>
+<span class="sd">        actor_type : :class:`str`, optional</span>
+<span class="sd">            The type of actor to save (default: &#39;TX_ANTENNA&#39;).</span>
+<span class="sd">            May be one of: &#39;TX_PLATFORM&#39;, &#39;RX_PLATFORM&#39;, &#39;TX_ANTENNA&#39;, &#39;RX_ANTENNA&#39;, &#39;TARGET&#39;.</span>
+<span class="sd">        data_owner : :class:`str`, optional</span>
+<span class="sd">            The data owner to use in metadata (default: &#39;NA&#39;).</span>
+<span class="sd">        data_type : :class:`str`, optional</span>
+<span class="sd">            The data type to use (default: &#39;TRUEVALUE&#39;).</span>
+<span class="sd">            May be one of: &#39;TRUEVALUE&#39;, &#39;SETVALUE&#39;, &#39;ESTIMATEDVALUE&#39;.</span>
+<span class="sd">        protection_tag : :class:`str`, optional</span>
+<span class="sd">            The protection/classification tag to use (default: &#39;NON_PROTEGE&#39;).</span>
+<span class="sd">        write_mode : :class:`str`, optional</span>
+<span class="sd">            Writing mode for the file (default: &#39;override&#39;).</span>
+<span class="sd">            - &#39;override&#39;: Overwrite the file if it exists.</span>
+<span class="sd">            - &#39;append&#39;: Append the actor to an existing file. If the file doesn&#39;t exist, create it.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`pathlib.Path`</span>
+<span class="sd">            The path to the saved .h5 file.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ImportError`</span>
+<span class="sd">            If the pivot library is not installed.</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the actor_type, data_type, protection_tag, or write_mode is not valid.</span>
+<span class="sd">        :class:`NotImplementedError`</span>
+<span class="sd">            If the trajectory has no orientation data.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Save a trajectory to a new PIVOT file (overwrite if exists):</span>
+
+<span class="sd">        &gt;&gt;&gt; from scipy.spatial.transform import Rotation</span>
+<span class="sd">        &gt;&gt;&gt; traj = Trajectory(</span>
+<span class="sd">        ...     timestamps=[0, 1, 2, 3],</span>
+<span class="sd">        ...     positions=Cartographic(</span>
+<span class="sd">        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],</span>
+<span class="sd">        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],</span>
+<span class="sd">        ...         height=[300.0, 400.0, 500.0, 600.0]</span>
+<span class="sd">        ...     ),</span>
+<span class="sd">        ...     orientations=Rotation.from_euler(&quot;ZYX&quot;, [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]], degrees=True)</span>
+<span class="sd">        ... )</span>
+<span class="sd">        &gt;&gt;&gt; filename = traj.save_pivot(&quot;output&quot;, actor_type=&quot;TX_ANTENNA&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(filename)</span>
+<span class="sd">        output.h5</span>
+
+<span class="sd">        Append a trajectory to an existing PIVOT file:</span>
+
+<span class="sd">        &gt;&gt;&gt; filename = traj.save_pivot(&quot;output&quot;, actor_type=&quot;RX_ANTENNA&quot;, write_mode=&quot;append&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(filename)</span>
+<span class="sd">        output.h5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.darpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axis</span><span class="p">,</span> <span class="n">AxisLabelEnum</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.piactor</span><span class="w"> </span><span class="kn">import</span> <span class="n">Actor</span><span class="p">,</span> <span class="n">ActorTypeEnum</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">pivot.pivotutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">pivot_version</span><span class="p">,</span> <span class="n">Metadata</span><span class="p">,</span> <span class="n">ProtectionTag</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using pivot library version: </span><span class="si">{</span><span class="n">pivot_version</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s2">&quot;The pivot library is not installed. Please install it to write PIVOT files.&quot;</span><span class="p">)</span>
+
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.h5&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">actor_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TX_PLATFORM&#39;</span><span class="p">,</span> <span class="s1">&#39;RX_PLATFORM&#39;</span><span class="p">,</span> <span class="s1">&#39;TX_ANTENNA&#39;</span><span class="p">,</span> <span class="s1">&#39;RX_ANTENNA&#39;</span><span class="p">,</span> <span class="s1">&#39;TARGET&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;actor_type&#39; must be one of: &#39;TX_PLATFORM&#39;, &#39;RX_PLATFORM&#39;, &#39;TX_ANTENNA&#39;, &#39;RX_ANTENNA&#39;, &#39;TARGET&#39;&quot;</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">protection_tag</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ProtectionTag</span><span class="o">.</span><span class="n">__members__</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&#39;protection_tag&#39; must be one of </span><span class="si">{</span><span class="nb">list</span><span class="p">(</span><span class="n">ProtectionTag</span><span class="o">.</span><span class="n">__members__</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;TRUEVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;SETVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;ESTIMATEDVALUE&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data_type must be one of: &#39;TRUEVALUE&#39;, &#39;SETVALUE&#39;, &#39;ESTIMATEDVALUE&#39;&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">write_mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;override&#39;</span><span class="p">,</span> <span class="s1">&#39;append&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;write_mode must be &#39;override&#39; or &#39;append&#39;.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Compute rotation matrices from NED to ECEF for coordinate transformation</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">local_origins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">()</span>
+        <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">local_origins</span><span class="o">.</span><span class="n">longitude</span><span class="p">)</span>
+        <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">local_origins</span><span class="o">.</span><span class="n">latitude</span><span class="p">)</span>
+        <span class="n">clon</span><span class="p">,</span> <span class="n">slon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lon</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">clat</span><span class="p">,</span> <span class="n">slat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">lat</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="n">rot_ned2ecef</span> <span class="o">=</span> <span class="n">Rotation</span><span class="o">.</span><span class="n">from_matrix</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">clon</span> <span class="o">*</span> <span class="n">slat</span><span class="p">,</span> <span class="o">-</span><span class="n">slon</span> <span class="o">*</span> <span class="n">slat</span><span class="p">,</span> <span class="n">clat</span><span class="p">],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">slon</span><span class="p">,</span> <span class="n">clon</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">)],</span>
+                <span class="p">[</span><span class="o">-</span><span class="n">clon</span> <span class="o">*</span> <span class="n">clat</span><span class="p">,</span> <span class="o">-</span><span class="n">slon</span> <span class="o">*</span> <span class="n">clat</span><span class="p">,</span> <span class="o">-</span><span class="n">slat</span><span class="p">]</span>
+            <span class="p">])</span><span class="o">.</span><span class="n">T</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_orientation</span><span class="p">():</span>
+            <span class="c1"># Transform carrier &quot;BODY&quot; frame direction vectors from NED to ECEF coordinates</span>
+            <span class="n">x_axis_dir</span> <span class="o">=</span> <span class="p">(</span><span class="n">rot_ned2ecef</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orientations</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>  <span class="c1"># X-axis (forward) direction</span>
+            <span class="n">y_axis_dir</span> <span class="o">=</span> <span class="p">(</span><span class="n">rot_ned2ecef</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_orientations</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">])</span>  <span class="c1"># Y-axis (left) direction, inverted for PIVOT convention</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO: Compute direction vectors from velocity if no orientation is available</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Saving to PIVOT format without orientation is not implemented yet.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Create PIVOT axis data from trajectory state</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">TIME</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timestamps</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_X_ECEF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">x</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_Y_ECEF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">POS_Z_ECEF</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_positions</span><span class="o">.</span><span class="n">z</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_X_ECEF</span><span class="p">,</span> <span class="n">x_axis_dir</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_Y_ECEF</span><span class="p">,</span> <span class="n">x_axis_dir</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_x_Z_ECEF</span><span class="p">,</span> <span class="n">x_axis_dir</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_X_ECEF</span><span class="p">,</span> <span class="n">y_axis_dir</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_Y_ECEF</span><span class="p">,</span> <span class="n">y_axis_dir</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()),</span>
+            <span class="n">Axis</span><span class="p">(</span><span class="n">AxisLabelEnum</span><span class="o">.</span><span class="n">DIR_y_Z_ECEF</span><span class="p">,</span> <span class="n">y_axis_dir</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+        <span class="p">]</span>
+
+        <span class="c1"># Create actor name from filename</span>
+        <span class="n">actor_dname</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">filename</span><span class="o">.</span><span class="n">stem</span><span class="p">)</span>
+        <span class="n">actor_downer</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[^a-zA-Z0-9]&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">data_owner</span><span class="p">)</span>
+
+        <span class="c1"># Create PIVOT actor</span>
+        <span class="n">actor</span> <span class="o">=</span> <span class="n">Actor</span><span class="p">(</span>
+            <span class="n">ActorTypeEnum</span><span class="p">[</span><span class="n">actor_type</span><span class="p">],</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">actor_dname</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">actor_downer</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">data_type</span><span class="si">}</span><span class="s2">_1&quot;</span><span class="p">,</span>  <span class="c1"># FIXME: Remove _1 suffix when SCALIAN fixes Actor name bug</span>
+            <span class="n">states</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Save actor to PIVOT file</span>
+        <span class="n">actor</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">write_mode</span><span class="p">)</span>
+
+        <span class="c1"># Save metadata only for new files or when overriding</span>
+        <span class="k">if</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s1">&#39;override&#39;</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">filename</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="n">meta</span> <span class="o">=</span> <span class="n">Metadata</span><span class="p">({</span> <span class="s1">&#39;Rights&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;dataOwner&#39;</span><span class="p">:</span> <span class="n">data_owner</span><span class="p">,</span> <span class="s1">&#39;dataCoowner&#39;</span><span class="p">:</span> <span class="s1">&#39;NA&#39;</span><span class="p">,</span> <span class="s1">&#39;confid&#39;</span><span class="p">:</span> <span class="n">ProtectionTag</span><span class="p">[</span><span class="n">protection_tag</span><span class="p">]</span> <span class="p">}</span> <span class="p">})</span>
+            <span class="n">meta</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filename</span></div>
 
 
 <div class="viewcode-block" id="Trajectory.save_kml">
 <a class="viewcode-back" href="../../api/sargeom.Trajectory.html#sargeom.Trajectory.save_kml">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_kml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save the Trajectory instance to a KML file (not yet implemented).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filename : :class:`str` or :class:`pathlib.Path`</span>
+<span class="sd">            The filename or path to save the .kml file.</span>
+<span class="sd">        **kwargs</span>
+<span class="sd">            Additional options for KML export.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`NotImplementedError`</span>
+<span class="sd">            This method is not yet implemented.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Future implementation will support exporting trajectory data to KML format</span>
+<span class="sd">        for visualization in Google Earth and other KML-compatible applications.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: Implement saving to KML format</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Saving to KML format is not implemented yet.&quot;</span><span class="p">)</span></div>
 </div>
@@ -1545,7 +1928,7 @@
       
     </aside>
   </div>
-</div><script src="../../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/furo.js?v=46bd48cc"></script>

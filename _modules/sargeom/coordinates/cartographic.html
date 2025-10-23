@@ -268,7 +268,7 @@
 <span class="sd">        The latitude, in degrees, originates at the equator.</span>
 <span class="sd">    height : :class:`float` or :class:`numpy.ndarray`, optional</span>
 <span class="sd">        The height, in meters, above the ellipsoid. The default value is 0.0.</span>
-<span class="sd">    degrees : bool, optional</span>
+<span class="sd">    degrees : :class:`bool`, optional</span>
 <span class="sd">        If True (default), takes input angles in degrees. If False, takes input angles in radians.</span>
 
 <span class="sd">    Notes</span>
@@ -342,7 +342,7 @@
         <span class="c1"># Check if the input arrays have the same size</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">longitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">latitude</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">height</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The longitude, latitude and height must be of equal size.&quot;</span>
+                <span class="s2">&quot;The longitude, latitude, and height must be of equal size.&quot;</span>
             <span class="p">)</span>
 
         <span class="c1"># Check if the input arrays are 0- or 1-dimensional</span>
@@ -373,7 +373,8 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 84 (Geographic 3D)&quot;</span><span class="p">,</span>
             <span class="s2">&quot;epsg&quot;</span><span class="p">:</span> <span class="mi">4979</span><span class="p">,</span>
             <span class="s2">&quot;ellipsoid&quot;</span><span class="p">:</span> <span class="n">ELPS_WGS84</span><span class="p">,</span>
-            <span class="s2">&quot;proj_string&quot;</span><span class="p">:</span> <span class="s2">&quot;+proj=longlat +datum=WGS84 +no_defs +type=crs&quot;</span>  <span class="c1"># based on https://epsg.io/4979.proj4</span>
+            <span class="c1"># Based on https://epsg.io/4979.proj4</span>
+            <span class="s2">&quot;proj_string&quot;</span><span class="p">:</span> <span class="s2">&quot;+proj=longlat +datum=WGS84 +no_defs +type=crs&quot;</span>
         <span class="p">}</span></div>
 
 
@@ -384,7 +385,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`str`</span>
-<span class="sd">            A string representation of the Lon.Lat.Height Cartographic position(s)).</span>
+<span class="sd">            A string representation of the Lon.Lat.Height Cartographic position(s).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;Lon.Lat.Height Cartographic positions</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -424,7 +425,7 @@
 <span class="sd">        Raises</span>
 <span class="sd">        ------</span>
 <span class="sd">        :class:`ValueError`</span>
-<span class="sd">            If the numpy array has not at least 1 row and only 3 columns.</span>
+<span class="sd">            If the numpy array does not have at least 1 row and exactly 3 columns.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -461,7 +462,7 @@
         <span class="c1"># Raise an error if the input array does not meet the requirements</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;The numpy array must have at least 1 row and only 3 columns.&quot;</span>
+                <span class="s2">&quot;The numpy array must have at least 1 row and exactly 3 columns.&quot;</span>
             <span class="p">)</span></div>
 
 
@@ -749,7 +750,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`bool`</span>
-<span class="sd">            `true` if the instance is a collections of positions, `false` otherwise.</span>
+<span class="sd">            `True` if the instance is a collection of positions, `False` otherwise.</span>
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -924,7 +925,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        If `link_markers` is True and the list of coordinates is cyclic, a GeoJSON Polygon is returned otherwise a GeoJSON LineString.</span>
+<span class="sd">        If `link_markers` is True and the list of coordinates is cyclic, a GeoJSON Polygon is returned, otherwise a GeoJSON LineString.</span>
 <span class="sd">        If `link_markers` is False, a GeoJSON MultiPoint is returned.</span>
 
 <span class="sd">        Examples</span>
@@ -1027,7 +1028,7 @@
 
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
-<span class="sd">        If `link_markers` is True and the list of coordinates is cyclic, a Shapely Polygon is returned otherwise a Shapely LineString.</span>
+<span class="sd">        If `link_markers` is True and the list of coordinates is cyclic, a Shapely Polygon is returned, otherwise a Shapely LineString.</span>
 <span class="sd">        If `link_markers` is False, a Shapely MultiPoint is returned.</span>
 
 <span class="sd">        Examples</span>
@@ -1317,7 +1318,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>

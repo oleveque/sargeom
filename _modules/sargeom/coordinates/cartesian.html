@@ -378,7 +378,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`str`</span>
-<span class="sd">            A string representation of the XYZ Cartesian3 point(s)).</span>
+<span class="sd">            A string representation of the XYZ Cartesian3 point(s).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_collection</span><span class="p">():</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;XYZ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> points</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -730,7 +730,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`bool`</span>
-<span class="sd">            `true` if the instance is a collection of points, `false` otherwise.</span>
+<span class="sd">            `True` if the instance is a collection of points, `False` otherwise.</span>
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -753,12 +753,12 @@
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3.is_local">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_local</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.</span>
+<span class="sd">        Returns `True` if the cartesian coordinate system is local and the local origin is defined, `False` otherwise.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`bool`</span>
-<span class="sd">            `true` if the cartesian coordinate system is local and the local origin is defined, `false` otherwise.</span>
+<span class="sd">            `True` if the cartesian coordinate system is local and the local origin is defined, `False` otherwise.</span>
 <span class="sd">        </span>
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -1446,7 +1446,8 @@
             <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;WGS 84 (Geocentric)&quot;</span><span class="p">,</span>
             <span class="s2">&quot;epsg&quot;</span><span class="p">:</span> <span class="mi">4978</span><span class="p">,</span>
             <span class="s2">&quot;ellipsoid&quot;</span><span class="p">:</span> <span class="n">ELPS_WGS84</span><span class="p">,</span>
-            <span class="s2">&quot;proj_string&quot;</span><span class="p">:</span> <span class="s2">&quot;+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs&quot;</span>  <span class="c1"># based on https://epsg.io/4978.proj4</span>
+            <span class="c1"># Based on https://epsg.io/4978.proj4</span>
+            <span class="s2">&quot;proj_string&quot;</span><span class="p">:</span> <span class="s2">&quot;+proj=geocent +datum=WGS84 +units=m +no_defs +type=crs&quot;</span>
         <span class="p">}</span></div>
 
 
@@ -1468,7 +1469,7 @@
 <span class="sd">        Lon.Lat.Height Cartographic position</span>
 <span class="sd">        [  2.383...  48.879...  124.847...]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span><span class="n">height</span> <span class="o">=</span> <span class="n">ELPS_WGS84</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+        <span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">ELPS_WGS84</span><span class="o">.</span><span class="n">to_cartographic</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">Cartographic</span><span class="p">(</span><span class="n">longitude</span><span class="p">,</span> <span class="n">latitude</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">degrees</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
@@ -1864,7 +1865,7 @@
 <span class="s2">#</span>
 <span class="s2"># Local origin of the ENU system:</span>
 <span class="s2"># ------------------------------</span>
-<span class="s2">#    o Position in WG84 Geocentric System (EPSG:4979):</span>
+<span class="s2">#    o Position in WGS84 Geocentric System (EPSG:4979):</span>
 <span class="s2">#        - Latitude [°]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">latitude</span><span class="si">}</span>
 <span class="s2">#        - Longitude [°]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">longitude</span><span class="si">}</span>
 <span class="s2">#        - Height [m]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">height</span><span class="si">}</span>
@@ -1987,7 +1988,7 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        :class:`sargeom.coordinates.CartesianLocalENU`</span>
-<span class="sd">            The local NED coordinates.</span>
+<span class="sd">            The local ENU coordinates.</span>
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
@@ -2021,6 +2022,7 @@
 <span class="sd">            The azimuth, the clockwise angle in the xEast-yNorth plane from the positive yNorth-axis to the projection of the object into the plane.</span>
 <span class="sd">        elevation : :class:`numpy.ndarray`</span>
 <span class="sd">            The elevation, the angle from the xEast-yNorth plane to the object.</span>
+<span class="sd">            In NED coordinates, positive elevation values indicate positions below the horizontal plane (downward).</span>
 <span class="sd">        slant_range : :class:`numpy.ndarray`</span>
 <span class="sd">            The slant range (in meters), the Euclidean distance between the object and the local origin.</span>
 
@@ -2083,7 +2085,7 @@
 <span class="s2">#</span>
 <span class="s2"># Local origin of the NED system:</span>
 <span class="s2"># ------------------------------</span>
-<span class="s2">#    o Position in WG84 Geocentric System (EPSG:4979):</span>
+<span class="s2">#    o Position in WGS84 Geocentric System (EPSG:4979):</span>
 <span class="s2">#        - Latitude [°]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">latitude</span><span class="si">}</span>
 <span class="s2">#        - Longitude [°]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">longitude</span><span class="si">}</span>
 <span class="s2">#        - Height [m]: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">height</span><span class="si">}</span>
@@ -2130,7 +2132,7 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=938c9ccc"></script>
+</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
