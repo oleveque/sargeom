@@ -85,10 +85,10 @@ dependencies = [
 sargeom @ git+https://github.com/oleveque/sargeom@v0.4.0
 ```
 
-### 6. Update src/sargeom/__init__.py (Optional but Recommended)
+### 6. Update src/sargeom/__init__.py
 
-- Add or update the `__version__` variable to make the version accessible programmatically
-- This allows users to check the version with `import sargeom; print(sargeom.__version__)`
+- Update the `__version__` variable (typically line 3)
+- This makes the version accessible programmatically and allows users to check it with `import sargeom; print(sargeom.__version__)`
 
 Example:
 ```python
@@ -121,7 +121,7 @@ After Copilot has updated the files above, the user should:
 1. **Review all changes carefully**
    - Verify version numbers are consistent across all files
    - Check CHANGELOG.md formatting and completeness
-   - Ensure README.md examples reference the correct version
+   - Ensure README.md and index.rst examples reference the correct version
 
 2. **Run tests one final time**:
    ```bash
@@ -130,7 +130,7 @@ After Copilot has updated the files above, the user should:
 
 3. **Commit the changes**:
    ```bash
-   git add pyproject.toml CHANGELOG.md README.md docs/source/conf.py src/sargeom/__init__.py
+   git add pyproject.toml CHANGELOG.md README.md docs/source/conf.py docs/source/index.rst src/sargeom/__init__.py
    git commit -m "Bump version to X.Y.Z"
    ```
 
@@ -259,5 +259,5 @@ The following auto-generated files should **NOT** be manually edited:
 - Use annotated tags for releases (not lightweight tags)
 - The project requires Python >= 3.8
 - GitHub Actions will automatically deploy docs and create releases when a version tag is pushed
-- Version consistency is critical: all 5 files must have matching version numbers
+- Version consistency is critical: all 6 files must have matching version numbers
 - Test locally before pushing tags to avoid unnecessary CI runs
