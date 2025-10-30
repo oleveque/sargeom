@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
+
 ### Fixed
 - Corrected minor typos in the `Trajectory` class documentation strings
 
