@@ -716,27 +716,218 @@ class Trajectory:
 
         return cls(timestamps, positions, orientations)
 
-    def plot(self, **kwargs):
+    def plot3d(self, ax=None, display_orientations=True, enu_origin=None):
         """
-        Plot the trajectory (not yet implemented).
-        
+        Plot the trajectory in 3D using a local East-North-Up (ENU) coordinate frame.
+
+        The trajectory is visualized in a 3D plot centered at a specified position point.
+        All positions are transformed to a local ENU frame. By default, the first trajectory
+        position is used as the origin, but a custom ENU frame can be provided.
+        Optionally, orientation vectors can be displayed at each trajectory point using
+        colored arrows (red=X, green=Y, blue=Z).
+
         Parameters
         ----------
-        **kwargs
-            Plotting options to be passed to the plotting function.
-        
+        ax : :class:`matplotlib.axes.Axes3D`, optional
+            A matplotlib 3D axis to plot on. If None, a new figure and axis are created.
+            Default is None.
+        display_orientations : :class:`bool`, optional
+            If True and orientations are available, display orientation vectors as arrows
+            at each trajectory point. Default is True.
+        enu_origin : :class:`sargeom.coordinates.Cartographic`, optional
+            The origin point for the local ENU coordinate frame. If None, the first
+            trajectory position is used as the origin. Default is None.
+
+        Returns
+        -------
+        :class:`matplotlib.axes.Axes3D`
+            The matplotlib 3D axis containing the plot.
+
         Raises
         ------
-        :class:`NotImplementedError`
-            This method is not yet implemented.
-        
+        :class:`ModuleNotFoundError`
+            If matplotlib is not installed.
+
         Notes
         -----
-        Future implementation will be inspired by:
-        https://github.com/gereon-t/trajectopy/blob/main/trajectopy/core/plotting/mpl/trajectory.py
+        - The trajectory is plotted in a local East-North-Up (ENU) coordinate system.
+        - If `enu_origin` is not provided, the ENU frame is centered at the first trajectory point.
+        - If orientations are present and `display_orientations=True`, three colored arrows
+          are drawn at each point:
+          
+          * Red arrow: local x-axis (typically pointing forward in body frame)
+          * Green arrow: local y-axis (typically pointing to the right in body frame)
+          * Blue arrow: local z-axis (typically pointing down in body frame)
+          
+        - The plot axes are automatically scaled to maintain equal aspect ratio.
+        - Arrow lengths are scaled to 10% of the trajectory bounding box diagonal.
+        - The plot is **not displayed automatically**. Call ``plt.show()`` to display it.
+
+        Examples
+        --------
+        Plot a simple trajectory (using first position as origin):
+
+        >>> import matplotlib.pyplot as plt
+        >>> from sargeom import Trajectory
+        >>> from sargeom.coordinates import Cartographic
+        >>> traj = Trajectory(
+        ...     timestamps=[0, 1, 2, 3],
+        ...     positions=Cartographic(
+        ...         longitude=[3.8777, 4.8391, 5.4524, 6.2345],
+        ...         latitude=[43.6135, 43.9422, 43.5309, 43.7891],
+        ...         height=[300.0, 400.0, 500.0, 600.0]
+        ...     )
+        ... )
+        >>> ax = traj.plot3d()
+        >>> ax.set_title('My Trajectory')
+        >>> plt.show()
+
+        Plot trajectory with custom ENU frame origin:
+
+        >>> origin = Cartographic(longitude=4.0, latitude=43.5, height=0.0)
+        >>> ax = traj.plot3d(enu_origin=origin)
+        >>> plt.show()
+
+        Plot trajectory with orientations:
+
+        >>> from scipy.spatial.transform import Rotation
+        >>> orientations = Rotation.from_euler(
+        ...     "ZYX", 
+        ...     [[0, 0, 0], [45, 0, 0], [90, 0, 0], [135, 0, 0]], 
+        ...     degrees=True
+        ... )
+        >>> traj = Trajectory(traj.timestamps, traj.positions, orientations)
+        >>> ax = traj.plot3d(display_orientations=True)
+        >>> plt.show()
+
+        Plot trajectory without orientation arrows:
+
+        >>> ax = traj.plot3d(display_orientations=False)
+        >>> plt.show()
+
+        Plot multiple trajectories on the same axes:
+
+        >>> fig = plt.figure(figsize=(10, 8))
+        >>> ax = fig.add_subplot(111, projection='3d')
+        >>> traj1.plot3d(ax=ax)
+        >>> traj2.plot3d(ax=ax)
+        >>> ax.set_title('Multiple Trajectories')
+        >>> plt.show()
+
+        Save plot to file without displaying:
+
+        >>> ax = traj.plot3d()
+        >>> plt.savefig('trajectory.png', dpi=300, bbox_inches='tight')
+        >>> plt.close()  # Close the figure to free memory
         """
-        # TODO: Implement plotting functionality
-        raise NotImplementedError("Plotting functionality is not implemented yet.")
+        try:
+            import matplotlib.pyplot as plt
+        except ImportError:
+            raise ModuleNotFoundError("Matplotlib is not installed. Please follow the instructions on https://matplotlib.org/stable/users/installing/index.html")
+
+        def set_axes_equal(ax):
+            # Get current axis limits
+            x_limits = ax.get_xlim3d()
+            y_limits = ax.get_ylim3d()
+            z_limits = ax.get_zlim3d()
+
+            # Calculate range and midpoint for each axis
+            x_range = abs(x_limits[1] - x_limits[0])
+            x_middle = np.mean(x_limits)
+            y_range = abs(y_limits[1] - y_limits[0])
+            y_middle = np.mean(y_limits)
+            z_range = abs(z_limits[1] - z_limits[0])
+            z_middle = np.mean(z_limits)
+
+            # Use half of the maximum range as plot radius to ensure equal scaling
+            plot_radius = 0.5 * max([x_range, y_range, z_range])
+
+            # Set symmetric limits around the midpoint
+            ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
+            ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
+            ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
+
+        # Create new figure and axis if not provided
+        if ax is None:
+            fig = plt.figure(figsize=(9, 7))
+            ax = fig.add_subplot(111, projection='3d')
+
+        # Transform positions to local ENU frame
+        cartographic_positions = self._positions.to_cartographic()
+        if enu_origin is None:
+            enu_origin = cartographic_positions[0]
+
+        enu_positions = self._positions.to_enu(origin=enu_origin)
+
+        # Plot trajectory path as a continuous line
+        ax.plot(enu_positions.x, enu_positions.y, enu_positions.z, color='k', linewidth=1.0, label='Trajectory')
+        
+        # Mark trajectory points with scatter plot
+        ax.scatter(enu_positions.x, enu_positions.y, enu_positions.z, s=8, color='k')
+
+        # Display orientation vectors if requested and available
+        if display_orientations and self.has_orientation():
+            # Compute rotation matrices from local NED frame to ECEF for each position
+            num_points = len(self)
+            longitude_rad = np.deg2rad(cartographic_positions.longitude)
+            latitude_rad = np.deg2rad(cartographic_positions.latitude)
+            cos_lon, sin_lon = np.cos(longitude_rad), np.sin(longitude_rad)
+            cos_lat, sin_lat = np.cos(latitude_rad), np.sin(latitude_rad)
+
+            # Build NED-to-ECEF rotation matrices for all points
+            rotation_ned_to_ecef = Rotation.from_matrix(
+                np.array([
+                    [-cos_lon * sin_lat, -sin_lon * sin_lat, cos_lat],
+                    [-sin_lon, cos_lon, np.zeros(num_points)],
+                    [-cos_lon * cos_lat, -sin_lon * cos_lat, -sin_lat]
+                ]).T
+            )
+
+            # Get rotation from ECEF to global ENU frame (centered at first position)
+            rotation_ecef_to_enu = enu_positions.rotation
+
+            # Chain rotations: local NED -> ECEF -> global ENU
+            # This transforms body frame orientations to the visualization frame
+            rotation_body_to_enu = rotation_ecef_to_enu * rotation_ned_to_ecef * self._orientations
+
+            # Calculate appropriate arrow length based on trajectory extent
+            positions_array = enu_positions.to_array()
+            bbox_min, bbox_max = positions_array.min(axis=0), positions_array.max(axis=0)
+            bbox_diagonal = np.linalg.norm(bbox_max - bbox_min)
+            arrow_length = 0.1 * bbox_diagonal if bbox_diagonal > 0 else 0.1
+
+            # Arrow styling parameters
+            arrow_kwargs = dict(linewidth=1.2, arrow_length_ratio=0.2)
+
+            # Unit vectors for the three body frame axes
+            body_frame_axes = np.eye(3)
+
+            # Draw orientation arrows at each trajectory point
+            for idx, (position, rotation) in enumerate(zip(positions_array, rotation_body_to_enu)):
+                # Transform body frame axes to ENU frame
+                x_axis, y_axis, z_axis = rotation.apply(body_frame_axes)
+
+                # Draw arrows: red=X, green=Y, blue=Z
+                # Add labels only for the first point to appear once in legend
+                if idx == 0:
+                    ax.quiver(*position, *(arrow_length * x_axis), color='r', label='X-axis', **arrow_kwargs)
+                    ax.quiver(*position, *(arrow_length * y_axis), color='g', label='Y-axis', **arrow_kwargs)
+                    ax.quiver(*position, *(arrow_length * z_axis), color='b', label='Z-axis', **arrow_kwargs)
+                else:
+                    ax.quiver(*position, *(arrow_length * x_axis), color='r', **arrow_kwargs)
+                    ax.quiver(*position, *(arrow_length * y_axis), color='g', **arrow_kwargs)
+                    ax.quiver(*position, *(arrow_length * z_axis), color='b', **arrow_kwargs)
+
+        # Set axis labels
+        ax.set_xlabel('East')
+        ax.set_ylabel('North')
+        ax.set_zlabel('Up')
+        ax.legend()
+
+        # Apply equal scaling to all axes
+        set_axes_equal(ax)
+
+        return ax
 
     @staticmethod
     def from_numpy(data):
