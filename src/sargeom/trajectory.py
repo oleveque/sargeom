@@ -57,8 +57,7 @@ class Trajectory:
     A Trajectory object represents a sequence of positions and orientations over time.
 
     This class provides comprehensive trajectory handling with support for multiple
-    coordinate systems and file formats. It is inspired by the trajectopy library
-    (https://gereon-t.github.io/trajectopy/Documentation/Trajectory/).
+    coordinate systems and file formats. It is inspired by the `Trajectopy library <https://gereon-t.github.io/trajectopy/Documentation/Trajectory/>`_.
 
     It is defined by the following characteristics:
 
@@ -73,7 +72,7 @@ class Trajectory:
     positions : :class:`sargeom.coordinates.CartesianECEF` or :class:`sargeom.coordinates.Cartographic`
         Array of positions in either ECEF (x, y, z) or geographic (latitude, longitude, altitude) format.
     orientations : :class:`scipy.spatial.transform.Rotation`, optional
-        Sequence of orientations as `Rotation` objects. Defined in the NED frame. Default is `None`.
+        Sequence of orientations as `Rotation` objects. Defined in the NED frame. Default is ``None``.
 
     Raises
     ------
@@ -83,7 +82,7 @@ class Trajectory:
 
     Examples
     --------
-    Create a Trajectory instance using ECEF (Cartesian) coordinates:
+    Create a Trajectory instance using ECEF (cartesian) coordinates:
 
     >>> timestamps = np.array([0, 1, 2, 3])
     >>> positions = CartesianECEF(
@@ -93,7 +92,7 @@ class Trajectory:
     ... )
     >>> traj = Trajectory(timestamps, positions)
 
-    Create a Trajectory instance using geographic (Cartographic) coordinates:
+    Create a Trajectory instance using geographic (cartographic) coordinates:
 
     >>> positions = Cartographic(
     ...     longitude=[3.8777, 4.8391, 5.4524, 6.2345],
@@ -219,16 +218,16 @@ class Trajectory:
         Parameters
         ----------
         inplace : :class:`bool`, optional
-            If True, sort the trajectory in place. If False, return a new sorted Trajectory instance.
-            Default is True.
+            If ``True``, sort the trajectory in place. If ``False``, return a new sorted Trajectory instance.
+            Default is ``True``.
         reverse : :class:`bool`, optional
-            If True, sort in descending order. If False, sort in ascending order.
-            Default is False.
+            If ``True``, sort in descending order. If ``False``, sort in ascending order.
+            Default is ``False``.
 
         Returns
         -------
-        :class:`Trajectory` or None
-            The sorted Trajectory instance if inplace is False, otherwise None.
+        :class:`Trajectory` or ``None``
+            The sorted Trajectory instance if inplace is ``False``, otherwise ``None``.
 
         Examples
         --------
@@ -303,7 +302,7 @@ class Trajectory:
         Returns
         -------
         :class:`sargeom.coordinates.CartesianECEF`
-            3D positions expressed in the WGS84 geocentric frame (EPSG:4978).
+            3D positions expressed in the WGS84 geocentric frame (`EPSG:4978 <https://epsg.org/crs_4978/WGS-84.html>`_).
 
         Examples
         --------
@@ -336,7 +335,7 @@ class Trajectory:
         -------
         :class:`numpy.ndarray`
             1D array of velocity magnitudes, in meters per second.
-            Length is n-1 where n is the number of trajectory samples.
+            Length is :math:`n-1` where :math:`n` is the number of trajectory samples.
 
         Raises
         ------
@@ -368,7 +367,7 @@ class Trajectory:
         Returns
         -------
         :class:`bool`
-            True if orientations are defined, False otherwise.
+            ``True`` if orientations are defined, ``False`` otherwise.
 
         Examples
         --------
@@ -388,7 +387,7 @@ class Trajectory:
     @property
     def orientations(self):
         """
-        Orientations of the trajectory samples, in the NED frame.
+        Orientations of the trajectory samples, expressed in the local NED frame for each position.
 
         Returns
         -------
@@ -405,7 +404,7 @@ class Trajectory:
         The orientations are defined in the local North-East-Down (NED) Cartesian frame,
         relative to the associated position coordinates. The orientations can be converted
         to quaternions, Euler angles, or other representations using the methods provided
-        by the `Rotation` class from scipy.spatial.transform.
+        by the :class:`scipy.spatial.transform.Rotation` class.
 
         Examples
         --------
@@ -442,7 +441,7 @@ class Trajectory:
         -------
         :class:`numpy.ndarray`
             1D array of distances in meters.
-            Length is n-1 where n is the number of trajectory samples.
+            Length is :math:`n-1` where :math:`n` is the number of trajectory samples.
 
         Examples
         --------
@@ -887,18 +886,18 @@ class Trajectory:
     @classmethod
     def read_pivot(cls, filename, actor_name=None, actor_type=None):
         """
-        Read a PIVOT .h5 file and create a Trajectory instance.
+        Read a PIVOT ``.h5`` file and create a Trajectory instance.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
             The filename or path to the .h5 file.
         actor_name : :class:`str`, optional
-            The name of the specific actor to load. If None, loads the first actor found.
+            The name of the specific actor to load. If ``None``, loads the first actor found.
         actor_type : :class:`str`, optional
-            The type of actor to load (e.g., 'TX_ANTENNA').
-            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
-            If None, loads any actor type.
+            The type of actor to load (e.g., ``TX_ANTENNA``).
+            May be one of: ``TX_PLATFORM``, ``RX_PLATFORM``, ``TX_ANTENNA``, ``RX_ANTENNA``, ``TARGET``.
+            If ``None``, loads any actor type.
 
         Returns
         -------
@@ -1044,12 +1043,12 @@ class Trajectory:
     @classmethod
     def read_pamela_pos(cls, filename):
         """
-        Read a PAMELA .pos file and create a Trajectory instance.
+        Read a PAMELA ``.pos`` file and create a Trajectory instance.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
-            The filename or path to the .pos file.
+            The filename or path to the ``.pos`` file.
 
         Returns
         -------
@@ -1086,21 +1085,22 @@ class Trajectory:
     @classmethod
     def read_pamela_traj(cls, filename, sampling_time_s=None, crs='auto'):
         """
-        Read a PAMELA .traj file and create a Trajectory instance.
+        Read a PAMELA ``.traj`` file and create a Trajectory instance.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
-            The filename or path to the .traj file.
+            The filename or path to the ``.traj`` file.
         sampling_time_s : :class:`float`, optional
             If provided, overrides the time step between trajectory points (in seconds).
             If not provided, the time step is read from the file header.
         crs : :class:`str`, optional
             Coordinate reference system of the trajectory.
+
             Options are:
-            - 'auto' (default): Automatically detect WGS84 or NTF from file header
-            - 'WGS84': Force WGS84 interpretation
-            - 'NTF': Force NTF interpretation
+                - ``auto`` (default): Automatically detect WGS84 or NTF from file header
+                - ``WGS84``: Force WGS84 interpretation
+                - ``NTF``: Force NTF interpretation
 
         Returns
         -------
@@ -1286,7 +1286,7 @@ class Trajectory:
         Returns
         -------
         :class:`pathlib.Path`
-            The path to the saved .traj.csv file.
+            The path to the saved ``.traj.csv`` file.
 
         Examples
         --------
@@ -1333,18 +1333,18 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
     def save_pamela_pos(self, filename):
         """
-        Save the Trajectory instance to a PAMELA .pos file.
+        Save the Trajectory instance to a PAMELA ``.pos`` file.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
-            The filename or path to save the .pos file.
-            The .pos extension is automatically added if not present.
+            The filename or path to save the ``.pos`` file.
+            The ``.pos`` extension is automatically added if not present.
 
         Returns
         -------
         :class:`pathlib.Path`
-            The path to the saved .pos file.
+            The path to the saved ``.pos`` file.
 
         Examples
         --------
@@ -1388,7 +1388,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
     def save_npy(self, filename):
         """
-        Save the Trajectory instance to a numpy .npy file.
+        Save the Trajectory instance to a numpy ``.npy`` file.
 
         The trajectory is saved as a binary numpy structured array using the
         :data:`TRAJ_DTYPE` format.
@@ -1425,32 +1425,32 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
 
     def save_pivot(self, filename, actor_type='TX_ANTENNA', data_owner='NA', data_type='TRUEVALUE', protection_tag='NON_PROTEGE', write_mode='override'):
         """
-        Save the Trajectory instance to a PIVOT .h5 file.
+        Save the Trajectory instance to a PIVOT ``.h5`` file.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
-            The filename or path to save the .h5 file.
-            The .h5 extension is automatically added if not present.
+            The filename or path to save the ``.h5`` file.
+            The ``.h5`` extension is automatically added if not present.
         actor_type : :class:`str`, optional
-            The type of actor to save (default: 'TX_ANTENNA').
-            May be one of: 'TX_PLATFORM', 'RX_PLATFORM', 'TX_ANTENNA', 'RX_ANTENNA', 'TARGET'.
+            The type of actor to save (default: ``TX_ANTENNA``).
+            May be one of: ``TX_PLATFORM``, ``RX_PLATFORM``, ``TX_ANTENNA``, ``RX_ANTENNA``, ``TARGET``.
         data_owner : :class:`str`, optional
-            The data owner to use in metadata (default: 'NA').
+            The data owner to use in metadata (default: ``NA``).
         data_type : :class:`str`, optional
-            The data type to use (default: 'TRUEVALUE').
-            May be one of: 'TRUEVALUE', 'SETVALUE', 'ESTIMATEDVALUE'.
+            The data type to use (default: ``TRUEVALUE``).
+            May be one of: ``TRUEVALUE``, ``SETVALUE``, ``ESTIMATEDVALUE``.
         protection_tag : :class:`str`, optional
-            The protection/classification tag to use (default: 'NON_PROTEGE').
+            The protection/classification tag to use (default: ``NON_PROTEGE``).
         write_mode : :class:`str`, optional
-            Writing mode for the file (default: 'override').
-            - 'override': Overwrite the file if it exists.
-            - 'append': Append the actor to an existing file. If the file doesn't exist, create it.
+            Writing mode for the file (default: ``override``).
+                - ``override``: Overwrite the file if it exists.
+                - ``append``: Append the actor to an existing file. If the file doesn't exist, create it.
 
         Returns
         -------
         :class:`pathlib.Path`
-            The path to the saved .h5 file.
+            The path to the saved ``.h5`` file.
 
         Raises
         ------
