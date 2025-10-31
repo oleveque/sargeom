@@ -192,6 +192,11 @@ class Trajectory:
             A string representation showing trajectory samples with their timestamps,
             positions, and orientations (if available).
 
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank fields
+        will be filled with zeros.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -995,6 +1000,11 @@ class Trajectory:
             Includes timestamps, positions in WGS84 geographic coordinates, and Euler angles
             (heading, elevation, bank) in the NED frame.
 
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank fields
+        will be filled with zeros.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -1046,6 +1056,11 @@ class Trajectory:
         ------
         :class:`ModuleNotFoundError`
             If pandas is not installed.
+
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank columns
+        will be filled with zeros.
 
         Examples
         --------
@@ -1479,6 +1494,11 @@ class Trajectory:
         :class:`pathlib.Path`
             The path to the saved ``.traj.csv`` file.
 
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank fields
+        will be filled with zeros.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -1537,6 +1557,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         :class:`pathlib.Path`
             The path to the saved ``.pos`` file.
 
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank fields
+        will be filled with zeros.
+
         Examples
         --------
         >>> traj = Trajectory(
@@ -1594,6 +1619,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         -------
         :class:`pathlib.Path`
             The path to the saved .npy file.
+
+        Notes
+        -----
+        If the trajectory has no orientations, the heading, elevation, and bank fields
+        will be filled with zeros.
 
         Examples
         --------
