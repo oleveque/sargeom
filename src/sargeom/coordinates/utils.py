@@ -25,24 +25,19 @@ def negativePiToPi(angle, degrees=True):
     >>> negativePiToPi([-190, 190])
     array([ 170., -170.])
     """
-    # Transforms arrays and scalars of type ndarray into lists or integers
-    if isinstance(angle, np.ndarray):
-        angle = angle.tolist()
-
-    if isinstance(angle, list) or isinstance(angle, tuple):
-        return np.array([negativePiToPi(a, degrees) for a in angle])
+    angle = np.atleast_1d(angle).copy()
+    if degrees:
+        mask = (angle <= -180.0) | (angle >= 180.0)
+        if mask.any():
+            angle[mask] = (angle[mask] + 180.0) % 360.0 - 180.0
     else:
-        if degrees:
-            if -180.0 <= angle <= 180.0:
-                return angle
-            else:
-                return (angle + 180.0) % 360.0 - 180.0
-        else:
-            if -np.pi <= angle <= np.pi:
-                return angle
-            else:
-                return (angle + np.pi) % (2 * np.pi) - np.pi
-
+        mask = (angle <= -np.pi) | (angle >= np.pi)
+        if mask.any():
+            angle[mask] = (angle[mask] + np.pi) % (2 * np.pi) - np.pi
+    # Format as Python `float` if it constains only one value
+    if angle.size == 1:
+        angle = angle.item()
+    return angle
 
 if __name__ == "__main__":
     import doctest
