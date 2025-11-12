@@ -19,10 +19,10 @@ def negativePiToPi(angle, degrees=True):
 
     Examples
     --------
-    >>> negativePiToPi(190)
+    >>> negativePiToPi(190.0)
     -170.0
 
-    >>> negativePiToPi([-190, 190])
+    >>> negativePiToPi([-190.0, 190.0])
     array([ 170., -170.])
     """
     angle = np.atleast_1d(angle).copy()
