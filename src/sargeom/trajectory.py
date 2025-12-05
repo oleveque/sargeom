@@ -1291,12 +1291,12 @@ class Trajectory:
     @classmethod
     def read_pamela_traj(cls, filename, sampling_time_s=None, crs='auto'):
         """
-        Read a PAMELA ``.traj`` file and create a Trajectory instance.
+        Read a PAMELA ``.traj`` or ``.trj`` file and create a Trajectory instance.
 
         Parameters
         ----------
         filename : :class:`str` or :class:`pathlib.Path`
-            The filename or path to the ``.traj`` file.
+            The filename or path to the ``.traj`` or ``.trj`` file.
         sampling_time_s : :class:`float`, optional
             If provided, overrides the time step between trajectory points (in seconds).
             If not provided, the time step is read from the file header.
@@ -1324,8 +1324,8 @@ class Trajectory:
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
-        if not filename.suffix == '.traj':
-            raise ValueError("File must have a .traj extension.")
+        if not filename.suffix in ('.traj', '.trj'):
+            raise ValueError("File must have a .traj or .trj extension.")
         if crs not in ['auto', 'WGS84', 'NTF']:
             raise ValueError("crs must be 'auto', 'WGS84', or 'NTF'.")
 
