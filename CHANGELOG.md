@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
+- Added support for `.trj` file extension in `Trajectory.read_pamela_traj()` method (alias for `.traj` format)
 
 ### Changed
 - Refactored `negativePiToPi()` into a vectorized NumPy implementation for improved performance and readability

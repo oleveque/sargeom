@@ -1318,13 +1318,13 @@ class Trajectory:
         :class:`FileNotFoundError`
             If the file does not exist.
         :class:`ValueError`
-            - If the file does not have a .traj extension.
+            - If the file does not have a .traj or .trj extension.
             - If the crs parameter is not one of the accepted values.
         """
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
-        if not filename.suffix in ('.traj', '.trj'):
+        if filename.suffix not in ('.traj', '.trj'):
             raise ValueError("File must have a .traj or .trj extension.")
         if crs not in ['auto', 'WGS84', 'NTF']:
             raise ValueError("crs must be 'auto', 'WGS84', or 'NTF'.")
