@@ -1289,7 +1289,7 @@ class Trajectory:
         return cls.from_numpy(data)
 
     @classmethod
-    def read_pamela_traj(cls, filename, sampling_time_s=None, crs='auto'):
+    def read_pamela_traj(cls, filename, sampling_time_s=None, time_origin=0.0, crs='auto'):
         """
         Read a PAMELA ``.traj`` or ``.trj`` file and create a Trajectory instance.
 
@@ -1300,6 +1300,9 @@ class Trajectory:
         sampling_time_s : :class:`float`, optional
             If provided, overrides the time step between trajectory points (in seconds).
             If not provided, the time step is read from the file header.
+        time_origin : :class:`float`, optional
+            The origin time offset to add to all timestamps (in seconds).
+            Default is 0.0.
         crs : :class:`str`, optional
             Coordinate reference system of the trajectory.
 
@@ -1430,7 +1433,7 @@ class Trajectory:
         # Create output structured array
         n = records.shape[0]
         data = np.empty(n, dtype=TRAJ_DTYPE)
-        data['TIMESTAMP_S'] = np.arange(n) * time_step
+        data['TIMESTAMP_S'] = np.arange(n) * time_step + time_origin
         data['LON_WGS84_DEG'] = np.degrees(records['longitude_rad'])
         data['LAT_WGS84_DEG'] = np.degrees(records['latitude_rad'])
         data['HEIGHT_WGS84_M'] = records['height_m']
