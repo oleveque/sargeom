@@ -1197,7 +1197,14 @@ class Trajectory:
         axes = { ax.type: ax.ticks for ax in selected_actor.state }
 
         # Extract timestamps
-        timestamps = axes[AxisLabelEnum.TIME]
+        if AxisLabelEnum.TIME not in axes:
+            matching_radar_seq = [act for act in actors if act.type == ActorTypeEnum.RADAR_SEQ]
+            if not matching_radar_seq:
+                raise ValueError("No RADAR_SEQ actor found for trajectory timestamps.")
+            radar_seq_axes = { ax.type: ax.ticks for ax in matching_radar_seq[0].state }
+            timestamps = radar_seq_axes[AxisLabelEnum.TIME]
+        else:
+            timestamps = axes[AxisLabelEnum.TIME]
 
         # Extract ECEF positions
         positions = CartesianECEF(
