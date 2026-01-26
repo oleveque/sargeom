@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
 - Added support for `.trj` file extension in `Trajectory.read_pamela_traj()` method (alias for `.traj` format)
 - Added `time_origin` parameter to `Trajectory.read_pamela_traj()` method to specify timestamp offset (default: 0.0)
+- Added `CartesianLocalENU.to_ecefv()` method for transforming ENU vector coordinates (e.g., velocities) to ECEF (rotation only, no translation)
+- Added `CartesianLocalNED.to_ecefv()` method for transforming NED vector coordinates (e.g., velocities) to ECEF (rotation only, no translation)
 
 ### Changed
 - Refactored `negativePiToPi()` into a vectorized NumPy implementation for improved performance and readability

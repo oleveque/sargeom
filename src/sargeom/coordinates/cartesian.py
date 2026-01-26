@@ -1404,8 +1404,40 @@ class CartesianLocalENU(Cartesian3):
                 "The origin of the local Cartesian coordinate system is not defined."
             )
         else:
+            return self.to_ecefv() + self._local_origin.to_ecef()
+
+    def to_ecefv(self):
+        """
+        Transforms local East-North-Up (ENU) vector coordinates to geocentric Earth-centered Earth-fixed (ECEF) system.
+
+        This method applies only the rotation transformation (no translation), making it suitable
+        for transforming velocity vectors, direction vectors, or any other vector quantities
+        from the local ENU frame to the ECEF frame.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.CartesianECEF`
+            The transformed vector coordinates in geocentric ECEF system.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If the origin of the local Cartesian coordinate system is not defined.
+
+        Examples
+        --------
+        >>> enu_vector = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> enu_vector.to_ecefv() # doctest: +ELLIPSIS
+        XYZ CartesianECEF point
+        [ 6.997...  10.666... 35.174...]
+        """
+        if self._local_origin is None:
+            raise ValueError(
+                "The origin of the local Cartesian coordinate system is not defined."
+            )
+        else:
             new_array = self.rotation.inv().apply(self.__array__())
-            return CartesianECEF.from_array(new_array) + self._local_origin.to_ecef()
+            return CartesianECEF.from_array(new_array)
 
     def to_ned(self):
         """
@@ -1608,8 +1640,40 @@ class CartesianLocalNED(Cartesian3):
                 "The origin of the local Cartesian coordinate system is not defined."
             )
         else:
+            return self.to_ecefv() + self._local_origin.to_ecef()
+
+    def to_ecefv(self):
+        """
+        Transforms local North-East-Down (NED) vector coordinates to geocentric Earth-centered Earth-fixed (ECEF) system.
+
+        This method applies only the rotation transformation (no translation), making it suitable
+        for transforming velocity vectors, direction vectors, or any other vector quantities
+        from the local NED frame to the ECEF frame.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.CartesianECEF`
+            The transformed vector coordinates in geocentric ECEF system.
+
+        Raises
+        ------
+        :class:`ValueError`
+            If the origin of the local Cartesian coordinate system is not defined.
+
+        Examples
+        --------
+        >>> ned_vector = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
+        >>> ned_vector.to_ecefv() # doctest: +ELLIPSIS
+        XYZ CartesianECEF point
+        [-30.286...  17.367... -13.456...]
+        """
+        if self._local_origin is None:
+            raise ValueError(
+                "The origin of the local Cartesian coordinate system is not defined."
+            )
+        else:
             new_array = self.rotation.inv().apply(self.__array__())
-            return CartesianECEF.from_array(new_array) + self._local_origin.to_ecef()
+            return CartesianECEF.from_array(new_array)
 
     def to_enu(self):
         """
