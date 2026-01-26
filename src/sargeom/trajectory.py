@@ -145,7 +145,7 @@ class Trajectory:
         >>> len(traj)
         4
         """
-        return len(self._timestamps)
+        return len(self._positions)
 
     def __getitem__(self, item):
         """
