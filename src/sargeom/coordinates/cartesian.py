@@ -1439,10 +1439,16 @@ class CartesianLocalENU(Cartesian3):
             new_array = self.rotation.inv().apply(self.__array__())
             return CartesianECEF.from_array(new_array)
 
-    def to_ned(self):
+    def to_ned(self, origin=None):
         """
         Converts local East-North-Up (ENU) coordinates to local North-East-Down (NED) coordinates.
-        Both coordinate systems use the same local origin.
+
+        Parameters
+        ----------
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
+            The origin position in geodetic coordinates of the target NED system.
+            If None (default), the same local origin is used (simple axis swap).
+            If provided, a full coordinate transformation via ECEF is performed.
 
         Returns
         -------
@@ -1451,12 +1457,75 @@ class CartesianLocalENU(Cartesian3):
 
         Examples
         --------
+        Convert to NED with the same origin (simple axis swap):
+
         >>> enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
         >>> enu_coords.to_ned()
         XYZ CartesianLocalNED point
         [ 20.  10. -30.]
+
+        Convert to NED with a different origin:
+
+        >>> origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)
+        >>> origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)
+        >>> enu_coords = CartesianLocalENU(1000.0, 2000.0, 50.0, origin=origin1)
+        >>> ned_coords = enu_coords.to_ned(origin=origin2)
+        >>> ned_coords.local_origin.longitude
+        2.0
         """
-        return CartesianLocalNED(self.y, self.x, -self.z, self._local_origin)
+        if origin is None:
+            # Same origin: simple axis swap (E->E, N->N, U->-D)
+            return CartesianLocalNED(self.y, self.x, -self.z, self._local_origin)
+        else:
+            # Different origin: transform via ECEF
+            return self.to_ecef().to_ned(origin)
+
+    def to_nedv(self, origin=None):
+        """
+        Transforms local East-North-Up (ENU) vector coordinates to local North-East-Down (NED) system.
+
+        This method applies only the rotation transformation (no translation), making it suitable
+        for transforming velocity vectors, direction vectors, or any other vector quantities
+        from the local ENU frame to the NED frame.
+
+        Parameters
+        ----------
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
+            The origin position in geodetic coordinates of the target NED system.
+            If None (default), the same local origin is used (simple axis swap).
+            If provided, a full vector transformation via ECEF is performed.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.CartesianLocalNED`
+            The transformed vector coordinates in local NED system.
+
+        Examples
+        --------
+        Transform a velocity vector from ENU to NED with the same origin:
+
+        >>> enu_velocity = CartesianLocalENU(10.0, 20.0, 5.0, origin=Cartographic.ONERA_SDP())
+        >>> ned_velocity = enu_velocity.to_nedv()
+        >>> ned_velocity
+        XYZ CartesianLocalNED point
+        [ 20.  10.  -5.]
+
+        Transform a velocity vector to NED with a different origin:
+
+        >>> origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)
+        >>> origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)
+        >>> enu_velocity = CartesianLocalENU(100.0, 0.0, 0.0, origin=origin1)
+        >>> ned_velocity = enu_velocity.to_nedv(origin=origin2)
+        >>> ned_velocity
+        XYZ CartesianLocalNED point
+        [-1.25542106 99.98476952 -1.21234602]
+        """
+        if origin is None:
+            # Same origin: simple axis swap (E->E, N->N, U->-D)
+            return CartesianLocalNED(self.y, self.x, -self.z, self._local_origin)
+        else:
+            # Different origin: transform via ECEF (rotation only)
+            return self.to_ecefv().to_nedv(origin)
 
     def to_aer(self, degrees=True):
         """
@@ -1675,10 +1744,16 @@ class CartesianLocalNED(Cartesian3):
             new_array = self.rotation.inv().apply(self.__array__())
             return CartesianECEF.from_array(new_array)
 
-    def to_enu(self):
+    def to_enu(self, origin=None):
         """
         Converts local North-East-Down (NED) coordinates to local East-North-Up (ENU) coordinates.
-        Both coordinate systems use the same local origin.
+
+        Parameters
+        ----------
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
+            The origin position in geodetic coordinates of the target ENU system.
+            If None (default), the same local origin is used (simple axis swap).
+            If provided, a full coordinate transformation via ECEF is performed.
 
         Returns
         -------
@@ -1687,12 +1762,74 @@ class CartesianLocalNED(Cartesian3):
 
         Examples
         --------
+        Convert to ENU with the same origin (simple axis swap):
+
         >>> ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())
         >>> ned_coords.to_enu()
         XYZ CartesianLocalENU point
         [ 20.  10. -30.]
+
+        Convert to ENU with a different origin:
+
+        >>> origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)
+        >>> origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)
+        >>> ned_coords = CartesianLocalNED(1000.0, 2000.0, 50.0, origin=origin1)
+        >>> enu_coords = ned_coords.to_enu(origin=origin2)
+        >>> enu_coords.local_origin.longitude
+        2.0
         """
-        return CartesianLocalENU(self.y, self.x, -self.z, self._local_origin)
+        if origin is None:
+            # Same origin: simple axis swap (N->N, E->E, D->-U)
+            return CartesianLocalENU(self.y, self.x, -self.z, self._local_origin)
+        else:
+            # Different origin: transform via ECEF
+            return self.to_ecef().to_enu(origin)
+
+    def to_enuv(self, origin=None):
+        """
+        Transforms local North-East-Down (NED) vector coordinates to local East-North-Up (ENU) system.
+
+        This method applies only the rotation transformation (no translation), making it suitable
+        for transforming velocity vectors, direction vectors, or any other vector quantities
+        from the local NED frame to the ENU frame.
+
+        Parameters
+        ----------
+        origin : :class:`sargeom.coordinates.Cartographic`, optional
+            The origin position in geodetic coordinates of the target ENU system.
+            If None (default), the same local origin is used (simple axis swap).
+            If provided, a full vector transformation via ECEF is performed.
+
+        Returns
+        -------
+        :class:`sargeom.coordinates.CartesianLocalENU`
+            The transformed vector coordinates in local ENU system.
+
+        Examples
+        --------
+        Transform a velocity vector from NED to ENU with the same origin:
+
+        >>> ned_velocity = CartesianLocalNED(10.0, 20.0, 5.0, origin=Cartographic.ONERA_SDP())
+        >>> enu_velocity = ned_velocity.to_enuv()
+        >>> enu_velocity
+        XYZ CartesianLocalENU point
+        [ 20.  10.  -5.]
+
+        Transform a velocity vector to ENU with a different origin:
+
+        >>> origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)
+        >>> origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)
+        >>> ned_velocity = CartesianLocalNED(100.0, 0.0, 0.0, origin=origin1)
+        >>> enu_velocity
+        XYZ CartesianLocalENU point
+        [ 1.23407149 99.97702253  1.75272182]
+        """
+        if origin is None:
+            # Same origin: simple axis swap (N->N, E->E, D->-U)
+            return CartesianLocalENU(self.y, self.x, -self.z, self._local_origin)
+        else:
+            # Different origin: transform via ECEF (rotation only)
+            return self.to_ecefv().to_enuv(origin)
 
     def to_aer(self, degrees=True):
         """
