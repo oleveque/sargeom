@@ -10,7 +10,7 @@ import re
 import numpy as np
 from pathlib import Path
 from scipy.spatial.transform import Rotation, Slerp
-from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, Cartographic
+from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU, CartesianLocalNED, Cartographic
 
 
 # Standard trajectory data type with timestamps, geographic positions, and Euler angles
@@ -988,6 +988,95 @@ class Trajectory:
             orientations = None
         
         return Trajectory(timestamps, positions, orientations)
+
+    @staticmethod
+    def make_straight_line(velocity, duration, num_samples=100, time_origin=0.0):
+        """
+        Create a straight-line trajectory given a starting position, constant velocity, and duration.
+
+        Parameters
+        ----------
+        velocity : :class:`sargeom.coordinates.CartesianLocalENU` or :class:`sargeom.coordinates.CartesianLocalNED`
+            A 3D vector representing the constant velocity in meters per second
+            in the local East-North-Up (ENU) or North-East-Down (NED) frame.
+            The ``local_origin`` attribute defines the starting position of the trajectory.
+        duration : :class:`float`
+            The total duration of the trajectory in seconds.
+        num_samples : :class:`int`, optional
+            The number of samples to generate along the trajectory. Default is 100.
+        time_origin : :class:`float`, optional
+            The starting time in seconds for the trajectory timestamps. Default is 0.0.
+
+        Returns
+        -------
+        :class:`Trajectory`
+            A new Trajectory instance representing the straight-line motion.
+
+        Raises
+        ------
+        :class:`TypeError`
+            If ``velocity`` is not of type :class:`CartesianLocalENU` or :class:`CartesianLocalNED`.
+
+        Notes
+        -----
+        The velocity vector can be expressed in either the local ENU or NED frame at the
+        starting position. The trajectory assumes constant velocity in the ECEF frame,
+        which means the motion follows a straight line in 3D Cartesian space (not along
+        the Earth's surface).
+
+        The trajectory orientation is constant and defined such that the x-axis of the carrier
+        is aligned with its velocity vector, the y-axis of the carrier is perpendicular to its
+        velocity in the horizontal plane of the local ENU frame associated with the starting
+        position, and the z-axis of the carrier completes the right-handed coordinate system.
+
+        Examples
+        --------
+        Create a trajectory moving East at 100 m/s for 10 seconds (using ENU):
+
+        >>> start_pos = Cartographic(longitude=3.8777, latitude=43.6135, height=300.0)
+        >>> velocity_enu = CartesianLocalENU(x=100.0, y=0.0, z=0.0, origin=start_pos)
+        >>> traj = Trajectory.make_straight_line(velocity_enu, duration=10.0, num_samples=5)
+        >>> len(traj)
+        5
+        >>> traj.total_arc_length()  # ~1000m for 100 m/s over 10s
+        np.float64(1000.0)
+
+        Create a trajectory moving North at 100 m/s for 10 seconds (using NED):
+
+        >>> velocity_ned = CartesianLocalNED(x=100.0, y=0.0, z=0.0, origin=start_pos)
+        >>> traj = Trajectory.make_straight_line(velocity_ned, duration=10.0, num_samples=5)
+        >>> len(traj)
+        5
+        """
+        if not isinstance(velocity, (CartesianLocalENU, CartesianLocalNED)):
+            raise TypeError("velocity must be of type CartesianLocalENU or CartesianLocalNED.")
+
+        # Get starting position in ECEF coordinates
+        start_position_ecef = velocity.local_origin.to_ecef().to_array()
+
+        # Convert velocity vector to ECEF (rotation only, no translation)
+        velocity_ecef = velocity.to_ecefv().to_array()
+
+        # Generate time samples
+        timestamps = np.linspace(0, duration, num_samples) + time_origin
+
+        # Compute positions: P(t) = P0 + V * t
+        time_offsets = np.linspace(0, duration, num_samples).reshape(-1, 1)
+        positions_ecef = start_position_ecef + time_offsets * velocity_ecef
+
+        # Compute orientation (constant along trajectory) expressed in NED frame
+        # Convert velocity to NED if needed for orientation calculation
+        velocity_ned = velocity.to_nedv() if isinstance(velocity, CartesianLocalENU) else velocity
+        Xc_ned = velocity_ned.normalize()
+        Yc_ned = -Xc_ned.cross(Cartesian3.UNIT_Z()).normalize()
+        Zc_ned = Xc_ned.cross(Yc_ned).normalize()
+        R_ned = np.column_stack((Xc_ned.to_array(), Yc_ned.to_array(), Zc_ned.to_array()))
+
+        return Trajectory(
+            timestamps=timestamps,
+            positions=CartesianECEF.from_array(positions_ecef),
+            orientations=Rotation.from_matrix(np.tile(R_ned, (num_samples, 1, 1)))
+        )
 
     def to_numpy(self):
         """

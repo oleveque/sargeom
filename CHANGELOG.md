@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added `Trajectory.make_straight_line()` static method to create straight-line trajectories from a starting position and constant velocity in ENU or NED frame
 - Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
 - Added support for `.trj` file extension in `Trajectory.read_pamela_traj()` method (alias for `.traj` format)
 - Added `time_origin` parameter to `Trajectory.read_pamela_traj()` method to specify timestamp offset (default: 0.0)
