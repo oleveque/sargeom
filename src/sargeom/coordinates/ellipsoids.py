@@ -15,9 +15,39 @@ class Ellipsoid:
     semi_major_axis : :class:`float`
         Equatorial radius of the ellipsoid in meters.
     semi_minor_axis : :class:`float`, optional
-        Polar radius of the ellipsoid in meters. Default is None.
+        Polar radius of the ellipsoid in meters. Default is ``None``.
     flattening : :class:`float`, optional
-        Flattening factor of the ellipsoid. Default is None.
+        Flattening factor of the ellipsoid. Default is ``None``.
+
+    Raises
+    ------
+    ValueError
+        If neither ``semi_minor_axis`` nor ``flattening`` is provided.
+
+    Attributes
+    ----------
+    _a : float
+        Semi-major axis (equatorial radius) in meters.
+    _b : float
+        Semi-minor axis (polar radius) in meters.
+    _f : float
+        Flattening factor.
+    _n : float
+        Third flattening factor.
+    _e : float
+        First eccentricity.
+    _e2 : float
+        First eccentricity squared.
+
+    Examples
+    --------
+    Create the WGS84 ellipsoid:
+
+    >>> wgs84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563)
+
+    Create an ellipsoid using semi-minor axis:
+
+    >>> clarke = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)
     """
     def __init__(self, semi_major_axis, semi_minor_axis=None, flattening=None):
         self._a, self._b, self._f = semi_major_axis, semi_minor_axis, flattening
@@ -365,8 +395,8 @@ class Ellipsoid:
         return lamb, phi, h
 
 # Official ellipsoid definitions
-ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563) # WGS 84
-ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0) # Clarke 1880 (IGN)
+ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563)  # WGS 84 ellipsoid
+ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)  # Clarke 1880 (IGN) ellipsoid
 
 
 if __name__ == "__main__":

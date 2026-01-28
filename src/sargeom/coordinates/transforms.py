@@ -38,6 +38,19 @@ class LambertConicConformal:
         The x-offset in meters.
     y_offset_m : :class:`float`
         The y-offset in meters.
+
+    Examples
+    --------
+    Create a Lambert projection centered on France:
+
+    >>> import numpy as np
+    >>> from sargeom.coordinates.ellipsoids import ELPS_WGS84
+    >>> lcc = LambertConicConformal(
+    ...     ELPS_WGS84,
+    ...     lon_origin_rad=np.deg2rad(3.0),
+    ...     lat_origin_rad=np.deg2rad(46.5)
+    ... )
+    >>> x, y = lcc.forward(np.deg2rad(2.3522), np.deg2rad(48.8566))
     """
     def __init__(
             self,

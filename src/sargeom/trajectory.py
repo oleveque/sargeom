@@ -86,9 +86,9 @@ class Trajectory:
 
     >>> timestamps = np.array([0, 1, 2, 3])
     >>> positions = CartesianECEF(
-    ...     x=[4614831.06382533, 4583825.9258778, 4610933.91105407],
-    ...     y=[312803.18870294, 388064.96749322, 440116.57314554],
-    ...     z=[4377307.25608437, 4403747.15229078, 4370795.76589696]
+    ...     x=[4614831.06382533, 4583825.9258778, 4610933.91105407, 4584879.02442076],
+    ...     y=[312803.18870294, 388064.96749322, 440116.57314554, 500870.74890955],
+    ...     z=[4377307.25608437, 4403747.15229078, 4370795.76589696, 4404879.02442076]
     ... )
     >>> traj = Trajectory(timestamps, positions)
 
@@ -1847,7 +1847,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis (forward) direction
             y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis (left) direction, inverted for PIVOT convention
         else:
-            # TODO: Compute direction vectors from velocity if no orientation is available
+            # TODO: Compute direction vectors from velocity when no orientation is available.
             raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
 
         # Create PIVOT axis data from trajectory state
@@ -1868,10 +1868,14 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
         actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
 
+        # FIXME: Remove '_1' suffix from actor name when SCALIAN fixes the Actor
+        # name parsing bug in pivot library.
+        actor_name = f"{actor_dname}_{actor_downer}_{data_type}_1"
+
         # Create PIVOT actor
         actor = Actor(
             ActorTypeEnum[actor_type],
-            f"{actor_dname}_{actor_downer}_{data_type}_1",  # FIXME: Remove _1 suffix when SCALIAN fixes Actor name bug
+            actor_name,
             states
         )
 
@@ -1906,5 +1910,11 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         Future implementation will support exporting trajectory data to KML format
         for visualization in Google Earth and other KML-compatible applications.
         """
-        # TODO: Implement saving to KML format
+        # TODO: Implement KML export for Trajectory class
+        # Should support:
+        # - Exporting trajectory path as a KML LineString
+        # - Optional: time-stamped points for animation
+        # - Optional: altitude mode selection (clampToGround, relativeToGround, absolute)
+        # - Optional: styling (line color, width, icons)
+        # Reference: Cartographic.save_kml() for similar implementation
         raise NotImplementedError("Saving to KML format is not implemented yet.")

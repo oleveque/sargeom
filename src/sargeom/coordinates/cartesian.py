@@ -1471,7 +1471,7 @@ class CartesianLocalENU(Cartesian3):
         >>> enu_coords = CartesianLocalENU(1000.0, 2000.0, 50.0, origin=origin1)
         >>> ned_coords = enu_coords.to_ned(origin=origin2)
         >>> ned_coords.local_origin.longitude
-        2.0
+        array(2.)
         """
         if origin is None:
             # Same origin: simple axis swap (E->E, N->N, U->-D)
@@ -1508,7 +1508,7 @@ class CartesianLocalENU(Cartesian3):
         >>> ned_velocity = enu_velocity.to_nedv()
         >>> ned_velocity
         XYZ CartesianLocalNED point
-        [ 20.  10.  -5.]
+        [20. 10. -5.]
 
         Transform a velocity vector to NED with a different origin:
 
@@ -1776,7 +1776,7 @@ class CartesianLocalNED(Cartesian3):
         >>> ned_coords = CartesianLocalNED(1000.0, 2000.0, 50.0, origin=origin1)
         >>> enu_coords = ned_coords.to_enu(origin=origin2)
         >>> enu_coords.local_origin.longitude
-        2.0
+        array(2.)
         """
         if origin is None:
             # Same origin: simple axis swap (N->N, E->E, D->-U)
@@ -1813,13 +1813,14 @@ class CartesianLocalNED(Cartesian3):
         >>> enu_velocity = ned_velocity.to_enuv()
         >>> enu_velocity
         XYZ CartesianLocalENU point
-        [ 20.  10.  -5.]
+        [20. 10. -5.]
 
         Transform a velocity vector to ENU with a different origin:
 
         >>> origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)
         >>> origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)
         >>> ned_velocity = CartesianLocalNED(100.0, 0.0, 0.0, origin=origin1)
+        >>> enu_velocity = ned_velocity.to_enuv(origin=origin2)
         >>> enu_velocity
         XYZ CartesianLocalENU point
         [ 1.23407149 99.97702253  1.75272182]

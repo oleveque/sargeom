@@ -175,3 +175,4 @@ Next Steps
 - Explore the :doc:`examples` for more detailed use cases and Jupyter notebooks
 - Check the :doc:`api_reference` for complete function documentation and class details
 - Visit the `GitHub repository <https://github.com/oleveque/sargeom>`_ to contribute or report issues
+- Read the `CHANGELOG <https://github.com/oleveque/sargeom/blob/main/CHANGELOG.md>`_ to see the latest updates
