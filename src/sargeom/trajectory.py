@@ -57,7 +57,7 @@ class Trajectory:
     A Trajectory object represents a sequence of positions and orientations over time.
 
     This class provides comprehensive trajectory handling with support for multiple
-    coordinate systems and file formats. It is inspired by the `Trajectopy library <https://gereon-t.github.io/trajectopy/Documentation/Trajectory/>`_.
+    coordinate systems and file formats. It is inspired by the `Trajectopy library <https://gereon-t.github.io/trajectopy/api/core/trajectory/>`_.
 
     It is defined by the following characteristics:
 
