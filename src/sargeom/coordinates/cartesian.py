@@ -135,6 +135,17 @@ class Cartesian3(np.ndarray):
         else:
             return f"XYZ {self.__class__.__name__} point\n{self.__array__().squeeze().__str__()}"
 
+    def __str__(self):
+        """
+        Returns a string representation of the XYZ Cartesian3 point(s).
+
+        Returns
+        -------
+        :class:`str`
+            A string representation of the XYZ Cartesian3 point(s).
+        """
+        return self.__repr__()
+
     def __getitem__(self, key):
         """
         Allows access to the Cartesian3 element(s) using the bracket notation.

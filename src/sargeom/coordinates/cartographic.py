@@ -139,6 +139,17 @@ class Cartographic(np.ndarray):
         else:
             return f"Lon.Lat.Height Cartographic position\n{self.__array__().squeeze().__str__()}"
 
+    def __str__(self):
+        """
+        Returns a string representation of the Lon.Lat.Height Cartographic position(s).
+
+        Returns
+        -------
+        :class:`str`
+            A string representation of the Lon.Lat.Height Cartographic position(s).
+        """
+        return self.__repr__()
+
     def __getitem__(self, key):
         """
         Allows access to the Cartographic element(s) using the bracket notation.
