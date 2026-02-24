@@ -8,7 +8,9 @@ writing trajectory data in multiple formats (CSV, PIVOT, PAMELA).
 
 import re
 import numpy as np
+import numpy.typing as npt # for type hint. see: https://stackoverflow.com/a/68132027
 from pathlib import Path
+from dataclasses import dataclass
 from scipy.spatial.transform import Rotation, Slerp
 from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU, CartesianLocalNED, Cartographic
 
@@ -50,6 +52,173 @@ PAMELA_POS_DTYPE = [
     ('std_longitude_m', '<f4'),       # Standard deviation of longitude (m)
     ('std_height_m', '<f4'),          # Standard deviation of height (m)
 ]
+
+
+@dataclass
+class AntennaAttitude:
+    """
+    A DataClass to hold antenna attitude relative to its Carrier.
+
+    Parameters
+    ----------
+    bearing_deg : :class:`float`
+        Bearing angle in degrees in [-180;180] range.
+    elevation_deg : :class:`float`
+        Elevation angle in degrees in [-90;90] range.
+    bank_deg : :class:`float`
+        Bank angle in degrees in [-180;180] range.
+    """
+    bearing_deg: float = 0.0
+    elevation_deg: float = 0.0
+    bank_deg: float = 0.0 
+
+    def attitude_as_rotation(self) -> Rotation:
+        return Rotation.from_euler(
+            'ZYX',
+            [self.bearing_deg, self.elevation_deg, self.bank_deg],
+            degrees=True
+        )
+
+@dataclass(init=False)
+class NominalTrajectory:
+    """
+    A DataClass to hold nominal trajectory informations.
+
+    Parameters
+    ----------
+    position_start_ecef : :class:`sargeom.coordinates.CartesianECEF`
+        Starting position of the nominal trajectory in ECEF coordinates.
+    velocity_ecef : :class:`sargeom.coordinates.CartesianECEF`
+        Velocity vector of the nominal trajectory in ECEF coordinates.
+    beam_pointing_ecef : :class:`sargeom.coordinates.CartesianECEF`
+        Beam pointing direction of the nominal trajectory in ECEF coordinates.
+
+    Examples
+    --------
+    >>> from sargeom import Trajectory, NominalTrajectory
+    >>> traj = Trajectory(
+    ...     timestamps=[0, 1, 2],
+    ...     positions=Cartographic(
+    ...         longitude=[3.8777, 4.8391, 5.4524],
+    ...         latitude=[43.6135, 43.9422, 43.5309],
+    ...         height=[300.0, 400.0, 500.0]
+    ...     )
+    ... )
+    >>> nominal_traj = NominalTrajectory(
+    ...     position_start_ecef=CartesianECEF(x=4614831.06382533, y=312803.18870294, z=4377307.25608437),
+    ...     velocity_ecef=CartesianECEF(x=100.0, y=50.0, z=25.0),
+    ...     beam_pointing_ecef=CartesianECEF(x=1.0, y=0.0, z=0.0)
+    ... )
+    >>> nominal_traj.position_start_ecef
+    CartesianECEF(x=4614831.06382533, y=312803.18870294, z=4377307.25608437)
+    >>> nominal_traj.velocity_ecef
+    CartesianECEF(x=100.0, y=50.0, z=25.0)
+    >>> nominal_traj.beam_pointing_ecef
+    CartesianECEF(x=1.0, y=0.0, z=0.0)
+    """
+    position_start_ecef: CartesianECEF
+    velocity_ecef: CartesianECEF
+    beam_pointing_ecef: CartesianECEF
+
+    def from_pamela_traj(
+            self,
+            filename: str | Path,
+            antenna: AntennaAttitude | None = None
+        ):
+        """
+        Load nominal trajectory data from a PAMELA TRAJ file.
+
+        PAMELA nominal trajectory contains orientation of the Carrier
+        but NOT the antenna. To apply antenna orientation you can
+        pass as argument an AntennaAttitude dataclass to get
+        the antenna beam pointing in the nominal trajectory.
+
+        Parameters
+        ----------
+        filename : :class:`str` or :class:`pathlib.Path`
+            The filename or path to the ``.traj`` or ``.trj`` file.
+        antenna : :class:`sargeom.Trajectory.AntennaAttitude`, optional
+            The antenna attitude to be applied to the nominal trajectory. Default to None,
+            i.e. the Carrier attitude is hold in the `beam_pointing_ecef`
+            vector.
+
+        Returns
+        -------
+        :class:`sargeom.Trajectory.NominalTrajectory`
+            An instance of NominalTrajectory populated with data from the PAMELA TRAJ file
+            and antenna attitude.
+
+        Raises
+        ------
+        :class:`FileNotFoundError`
+            If the file does not exist.
+        :class:`ValueError`
+            If the file does not have a .traj or .trj extension.
+        """
+        # Implementation to read PAMELA TRAJ file and populate the NominalTrajectory fields
+        filename = Path(filename)
+        if not filename.is_file():
+            raise FileNotFoundError(f"File {filename} does not exist.")
+        if filename.suffix not in ('.traj', '.trj'):
+            raise ValueError("File must have a .traj or .trj extension.")
+        
+        # Read header (11 doubles, little endian)
+        # Header format:
+        #    0: origin longitude (rad)
+        #    1: origin latitude (rad)
+        #    2: origin height (m)
+        #    3: nominal horizontal velocity (m/s)
+        #    4: nominal course (rad)
+        #    5: nominal slope (rad)
+        #    6: nominal leeway (rad) - course minus heading
+        #    7: mean elevation (rad)
+        #    8: mean bank (rad)
+        #    9: std position (m) / sampling time step (s) depending on format
+        #   10: std velocity (m/s) / format flag (>-0.5: NTF, <=-0.5: WGS84)
+        header_count = 11
+        header = np.fromfile(filename, dtype='<f8', count=header_count)
+
+        # Read all records in a single operation
+        header_size = header_count * 8  # 8 bytes for each double
+        records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
+
+        from sargeom.coordinates.ellipsoids import ELPS_WGS84
+
+        # Position start ECEF
+        # Extract NTF trajectory origin coordinates from header and transform
+        # it to official WGS84 ECEF point
+        self.position_start_ecef = CartesianECEF(
+            *_pamela_carto_ntf_to_ecef_wgs84(
+                header[0], header[1], header[2]
+            )
+        )
+        position_start_carto = self.position_start_ecef.to_cartographic()
+
+        # Veolcity vector ECEF
+        self.velocity_ecef = CartesianLocalENU( # Velocity ENU
+            x=header[3] * np.sin(header[4]),
+            y=header[3] * np.cos(header[4]),
+            z=header[3] * np.sin(header[5]),
+            origin=position_start_carto
+        ).to_ecefv()
+
+        # Antenna attitude
+        rot_antenna_ned = Rotation.from_euler( # note: Carrier attitude in NED for now !
+            'ZYX',
+            [header[4]-header[6], header[7], header[8]],
+            degrees=False
+        )
+        if antenna is not None:
+            # Antenna attitude + Carrier attitude in NED = Rcarrier_NED * Rantenna_NED
+            rot_antenna_ned = rot_antenna_ned * antenna.attitude_as_rotation()
+        # NED to ECEF rotation matrix
+        ned_to_ecef_rot = CartesianLocalNED(
+            0, 0, 0, origin=position_start_carto
+        ).rotation.inv()
+        # Beam pointing ECEF
+        self.beam_pointing_ecef = CartesianECEF(
+            *(ned_to_ecef_rot * rot_antenna_ned).apply([1, 0, 0])
+        )
 
 
 class Trajectory:
@@ -1463,9 +1632,6 @@ class Trajectory:
 
         # Convert trajectory from NTF to WGS84 if needed
         if crs == 'NTF':
-            from sargeom.coordinates.transforms import LambertConicConformal
-            from sargeom.coordinates.ellipsoids import Ellipsoid, ELPS_CLARKE_1880
-
             # Extract NTF trajectory origin coordinates from header
             lon_origin_ntf_rad = header[0]
             lat_origin_ntf_rad = header[1]
@@ -1476,36 +1642,21 @@ class Trajectory:
             y_loc_m = records['latitude_rad']   # Actually local Y in Lambert projection
             height_ntf_m = records['height_m']
 
-            # Initialize Lambert Conic Conformal projection for NTF
-            locLambertNTF = LambertConicConformal(
-                ELPS_CLARKE_1880,
-                lon_origin_ntf_rad,
-                lat_origin_ntf_rad
-            )
-
-            # Step 1: Transform from local Lambert NTF to geographic NTF
-            lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
-
-            # Step 2: Transform from geographic NTF to cartesian ECEF NTF
-            x_ntf_m, y_ntf_m, z_ntf_m = ELPS_CLARKE_1880.to_ecef(
-                lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
-            )
-
-            # Custom transformation parameters from cartesian ECEF NTF to cartesian ECEF WGS84
-            _ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
-            _DX_NTF_TO_WGS84_M = -168.0
-            _DY_NTF_TO_WGS84_M = -72.0
-            _DZ_NTF_TO_WGS84_M = 318.5
-
-            # Step 3: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom transformation)
-            x_wgs84_m = 1.0000002198 * x_ntf_m - _ANGLE_Z_NTF_TO_WGS84_RAD * y_ntf_m + _DX_NTF_TO_WGS84_M
-            y_wgs84_m = 1.0000002198 * y_ntf_m + _ANGLE_Z_NTF_TO_WGS84_RAD * x_ntf_m + _DY_NTF_TO_WGS84_M
-            z_wgs84_m = 1.0000002198 * z_ntf_m                                       + _DZ_NTF_TO_WGS84_M
-
-            # Step 4: Transform from cartesian ECEF WGS84 to geographic WGS84
-            ELPS_PAM_WGS84 = Ellipsoid(semi_major_axis=6378137.0, semi_minor_axis=6356752.3142)  # Custom PamelaX11 WGS84
-            lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m = ELPS_PAM_WGS84.to_cartographic(
-                x_wgs84_m, y_wgs84_m, z_wgs84_m
+            # Transform from PAMELA's NTF Lambert Conic Conformal projection coordinates to
+            # custom ECEF WGS84, then to official geographic WGS84 coordinates
+            (
+                lon_wgs84_rad,
+                lat_wgs84_rad,
+                height_wgs84_m
+            ) = _pamela_ecef_wgs84_to_carto_wgs84(
+                *_pamela_lambert_ntf_to_ecef_wgs84(
+                    lon_origin_ntf_rad,
+                    lat_origin_ntf_rad,
+                    height_origin_ntf_m,
+                    x_loc_m,
+                    y_loc_m,
+                    height_ntf_m
+                )
             )
 
             # Update records with converted geographic coordinates
@@ -1918,3 +2069,111 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         # - Optional: styling (line color, width, icons)
         # Reference: Cartographic.save_kml() for similar implementation
         raise NotImplementedError("Saving to KML format is not implemented yet.")
+
+
+def _pamela_carto_ntf_to_ecef_wgs84(
+        lon_ntf_rad: float | npt.NDArray[float],
+        lat_ntf_rad: float | npt.NDArray[float],
+        height_ntf_m: float | npt.NDArray[float]
+     ) -> tuple[float | npt.NDArray[float], float | npt.NDArray[float], float | npt.NDArray[float]]:
+    """
+    Internal helper function to convert from PAMELA's NTF geographic coordinates
+    to ECEF custom WGS84 coordinates.
+
+    Parameters
+    ----------
+    lon_ntf_rad, lat_ntf_rad, height_ntf_m : :class:`float` or array_like
+        The input coordinates in PAMELA's geographic NTF frame
+        (longitude and latitude in radians, height in meters) to be converted into
+        custom ECEF WGS84 coordinates.
+    """
+    from sargeom.coordinates.ellipsoids import ELPS_CLARKE_1880
+
+    # Step 1: Transform from geographic NTF to cartesian ECEF NTF
+    x_ntf_m, y_ntf_m, z_ntf_m = ELPS_CLARKE_1880.to_ecef(
+        lon_ntf_rad, lat_ntf_rad, height_ntf_m
+    )
+
+    # Custom transformation parameters from cartesian ECEF NTF to cartesian ECEF WGS84
+    _ANGLE_Z_NTF_TO_WGS84_RAD = np.deg2rad(0.554 / 3600.0)
+    _DX_NTF_TO_WGS84_M = -168.0
+    _DY_NTF_TO_WGS84_M = -72.0
+    _DZ_NTF_TO_WGS84_M = 318.5
+
+    # Step 2: Transform from cartesian ECEF NTF to cartesian ECEF WGS84 (custom transformation)
+    x_wgs84_m = 1.0000002198 * x_ntf_m - _ANGLE_Z_NTF_TO_WGS84_RAD * y_ntf_m + _DX_NTF_TO_WGS84_M
+    y_wgs84_m = 1.0000002198 * y_ntf_m + _ANGLE_Z_NTF_TO_WGS84_RAD * x_ntf_m + _DY_NTF_TO_WGS84_M
+    z_wgs84_m = 1.0000002198 * z_ntf_m                                       + _DZ_NTF_TO_WGS84_M
+
+    return (x_wgs84_m, y_wgs84_m, z_wgs84_m)
+
+def _pamela_lambert_ntf_to_ecef_wgs84(
+        lon_origin_ntf_rad: float,
+        lat_origin_ntf_rad: float,
+        height_origin_ntf_m: float,
+        x_loc_m: float | npt.NDArray[float],
+        y_loc_m: float | npt.NDArray[float],
+        height_ntf_m: float | npt.NDArray[float]
+    ) -> tuple[float | npt.NDArray[float], float | npt.NDArray[float], float | npt.NDArray[float]]:
+    """
+    Internal helper function to convert from PAMELA's NTF Lambert Conic
+    Conformal projection coordinates to ECEF custom WGS84 coordinates.
+
+    Parameters
+    ----------
+    lon_origin_ntf_rad, lat_origin_ntf_rad, height_origin_ntf_m : :class:`float`
+        The origin coordinates of the NTF local cartographic system
+        (in radians for longitude and latitude, in meters for height).
+    x_loc_m, y_loc_m, height_ntf_m : :class:`float` or array_like
+        The input coordinates in PAMELA's custom NTF local cartographic system
+        (x and y in meters, height in meters) to be converted into custom ECEF
+        WGS84 coordinates.
+    """
+    from sargeom.coordinates.transforms import LambertConicConformal
+    from sargeom.coordinates.ellipsoids import ELPS_CLARKE_1880
+
+    # Initialize Lambert Conic Conformal projection for NTF
+    locLambertNTF = LambertConicConformal(
+        ELPS_CLARKE_1880,
+        lon_origin_ntf_rad,
+        lat_origin_ntf_rad
+    )
+
+    # Step 1: Transform from local Lambert NTF to geographic NTF
+    lon_ntf_rad, lat_ntf_rad = locLambertNTF.inverse(x_loc_m, y_loc_m)
+
+    return _pamela_carto_ntf_to_ecef_wgs84(
+        lon_ntf_rad, lat_ntf_rad, height_ntf_m + height_origin_ntf_m
+    )
+
+def _pamela_ecef_wgs84_to_carto_wgs84(
+        x_wgs84_m: float | npt.NDArray[float],
+        y_wgs84_m: float | npt.NDArray[float],
+        z_wgs84_m: float | npt.NDArray[float]
+    ) -> tuple[float | npt.NDArray[float], float | npt.NDArray[float], float | npt.NDArray[float]]:
+    """
+    Internal helper function to convert from PAMELA's custom WGS84 ECEF coordinates
+    to official geographic WGS84 coordinates.
+
+    Parameters
+    ----------
+    x_wgs84_m, y_wgs84_m, z_wgs84_m : :class:`float` or array_like
+        The input coordinates in PAMELA's custom WGS84 ECEF frame (in meters).
+
+    Returns
+    -------
+    lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m : :class:`float` or array_like
+        The output coordinates in official geographic WGS84 frame
+        (longitude and latitude in radians, height in meters).
+    """
+    from sargeom.coordinates.ellipsoids import Ellipsoid
+    # Transform from cartesian ECEF WGS84 to geographic WGS84
+    ELPS_PAM_WGS84 = Ellipsoid( # Custom PamelaX11 WGS84
+        semi_major_axis=6378137.0,
+        semi_minor_axis=6356752.3142
+    )
+    lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m = ELPS_PAM_WGS84.to_cartographic(
+        x_wgs84_m, y_wgs84_m, z_wgs84_m
+    )
+
+    return (lon_wgs84_rad, lat_wgs84_rad, height_wgs84_m)

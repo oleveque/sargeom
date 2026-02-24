@@ -16,11 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `CartesianLocalNED.to_ecefv()` method for transforming NED vector coordinates (e.g., velocities) to ECEF (rotation only, no translation)
 - Added `CartesianLocalENU.to_nedv()` method for transforming ENU vector coordinates to NED (rotation only, no translation)
 - Added `CartesianLocalNED.to_enuv()` method for transforming NED vector coordinates to ENU (rotation only, no translation)
+- Added `AntennaAttitude` dataclass for handling antenna attitude
+- Added `NominalTrajectory` dataclass for handling nominal trajectory information
 
 ### Changed
 - Refactored `negativePiToPi()` into a vectorized NumPy implementation for improved performance and readability
 - Enhanced `CartesianLocalENU.to_ned()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
 - Enhanced `CartesianLocalNED.to_enu()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
+- Modularized transformation in `Trajectory.read_pamela_traj()` for possible reuse in other Class/Functions
 
 ### Fixed
 - Fixed issue in `Trajectory.read_pivot()` where timestamps were not correctly extracted from actors
