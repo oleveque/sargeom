@@ -92,33 +92,12 @@ class NominalTrajectory:
         Velocity vector of the nominal trajectory in ECEF coordinates.
     beam_pointing_ecef : :class:`sargeom.coordinates.CartesianECEF`
         Beam pointing direction of the nominal trajectory in ECEF coordinates.
-
-    Examples
-    --------
-    >>> from sargeom import Trajectory, NominalTrajectory
-    >>> traj = Trajectory(
-    ...     timestamps=[0, 1, 2],
-    ...     positions=Cartographic(
-    ...         longitude=[3.8777, 4.8391, 5.4524],
-    ...         latitude=[43.6135, 43.9422, 43.5309],
-    ...         height=[300.0, 400.0, 500.0]
-    ...     )
-    ... )
-    >>> nominal_traj = NominalTrajectory(
-    ...     position_start_ecef=CartesianECEF(x=4614831.06382533, y=312803.18870294, z=4377307.25608437),
-    ...     velocity_ecef=CartesianECEF(x=100.0, y=50.0, z=25.0),
-    ...     beam_pointing_ecef=CartesianECEF(x=1.0, y=0.0, z=0.0)
-    ... )
-    >>> nominal_traj.position_start_ecef
-    CartesianECEF(x=4614831.06382533, y=312803.18870294, z=4377307.25608437)
-    >>> nominal_traj.velocity_ecef
-    CartesianECEF(x=100.0, y=50.0, z=25.0)
-    >>> nominal_traj.beam_pointing_ecef
-    CartesianECEF(x=1.0, y=0.0, z=0.0)
     """
     position_start_ecef: CartesianECEF
     velocity_ecef: CartesianECEF
     beam_pointing_ecef: CartesianECEF
+    idx_start: int = 0
+    npoints: int = 0
 
     def from_pamela_traj(
             self,
