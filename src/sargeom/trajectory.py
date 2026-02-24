@@ -178,46 +178,38 @@ class NominalTrajectory:
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
-        # Read all records in a single operation
-        header_size = header_count * 8  # 8 bytes for each double
-        records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
-
-        from sargeom.coordinates.ellipsoids import ELPS_WGS84
-
         # Position start ECEF
-        # Extract NTF trajectory origin coordinates from header and transform
-        # it to official WGS84 ECEF point
         self.position_start_ecef = CartesianECEF(
             *_pamela_carto_ntf_to_ecef_wgs84(
                 header[0], header[1], header[2]
             )
         )
-        position_start_carto = self.position_start_ecef.to_cartographic()
 
         # Veolcity vector ECEF
-        self.velocity_ecef = CartesianLocalENU( # Velocity ENU
-            x=header[3] * np.sin(header[4]),
-            y=header[3] * np.cos(header[4]),
-            z=header[3] * np.sin(header[5]),
-            origin=position_start_carto
-        ).to_ecefv()
+        velocity_ned = CartesianLocalNED( # Velocity NED
+            x=header[3] * np.cos(header[4]),
+            y=header[3] * np.sin(header[4]),
+            z=-header[3] * np.sin(header[5]),
+            origin=self.position_start_ecef.to_cartographic()
+        )
+        self.velocity_ecef = velocity_ned.to_ecefv()
 
         # Antenna attitude
-        rot_antenna_ned = Rotation.from_euler( # note: Carrier attitude in NED for now !
+        attitude_antenna_ned = Rotation.from_euler( # note: Carrier attitude in NED for now !
             'ZYX',
             [header[4]-header[6], header[7], header[8]],
             degrees=False
         )
         if antenna is not None:
             # Antenna attitude + Carrier attitude in NED = Rcarrier_NED * Rantenna_NED
-            rot_antenna_ned *= antenna.attitude_as_rotation()
-        # NED to ECEF rotation matrix
-        ned_to_ecef_rot = CartesianLocalNED(
-            0, 0, 0, origin=position_start_carto
-        ).rotation.inv()
+            attitude_antenna_ned *= antenna.attitude_as_rotation()
+
         # Beam pointing ECEF
         self.beam_pointing_ecef = CartesianECEF(
-            *(ned_to_ecef_rot * rot_antenna_ned).apply([1, 0, 0])
+            *(
+                velocity_ned.rotation.inv() *  # NED to ECEF rotation
+                attitude_antenna_ned
+            ).apply([1, 0, 0])
         )
 
 
