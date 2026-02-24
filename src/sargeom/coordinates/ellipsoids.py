@@ -1,5 +1,5 @@
 import numpy as np
-
+import numpy.typing as npt # for type hint. see: https://stackoverflow.com/a/68132027
 
 class Ellipsoid:
     """
@@ -49,7 +49,12 @@ class Ellipsoid:
 
     >>> clarke = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)
     """
-    def __init__(self, semi_major_axis, semi_minor_axis=None, flattening=None):
+    def __init__(
+            self,
+            semi_major_axis: float,
+            semi_minor_axis: float | None = None,
+            flattening: float | None = None
+        ):
         self._a, self._b, self._f = semi_major_axis, semi_minor_axis, flattening
         if self._b is None:
             if self._f is None:
@@ -105,7 +110,10 @@ class Ellipsoid:
             175201343549*n[10]/297604125
         )
 
-    def prime_vertical_curvature_radius(self, phi):
+    def prime_vertical_curvature_radius(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the prime vertical curvature radius of a point at latitude :math:`\\phi`.
 
@@ -136,7 +144,10 @@ class Ellipsoid:
         nu = self._a / np.sqrt(1 - self._e2 * np.sin(phi)**2)
         return nu
 
-    def isometric_latitude(self, phi):
+    def isometric_latitude(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the isometric latitude (parameter of the Mercator projection).
 
@@ -176,7 +187,10 @@ class Ellipsoid:
         psi = np.arctanh(sphi) - self._e * np.arctanh(self._e * sphi)
         return psi
 
-    def inverse_isometric_latitude(self, psi):
+    def inverse_isometric_latitude(
+            self,
+            psi: float | npt.NDArray[float]
+        ):
         """
         Computes the inverse isometric latitude.
 
@@ -210,7 +224,10 @@ class Ellipsoid:
         phi = self.inverse_conformal_latitude(chi)
         return phi
 
-    def conformal_latitude(self, phi):
+    def conformal_latitude(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the conformal latitude from the geodetic latitude.
 
@@ -247,7 +264,10 @@ class Ellipsoid:
         ))
         return chi
 
-    def inverse_conformal_latitude(self, chi):
+    def inverse_conformal_latitude(
+            self,
+            chi: float | npt.NDArray[float]
+        ):
         """
         Computes the inverse conformal latitude.
 
@@ -283,7 +303,12 @@ class Ellipsoid:
             phi += dn * np.sin(2 * (n + 1) * chi)
         return phi
     
-    def to_ecef(self, lamb, phi, height_m=0):
+    def to_ecef(
+            self,
+            lamb: float | npt.NDArray[float],
+            phi: float | npt.NDArray[float],
+            height_m: float | npt.NDArray[float] = 0.0
+        ):
         """
         Converts geodetic coordinates to geocentric cartesian ECEF coordinates.
 
@@ -331,7 +356,12 @@ class Ellipsoid:
         Z = ((1 - self._e2) * nu + height_m) * np.sin(phi)
         return X, Y, Z
     
-    def to_cartographic(self, X, Y, Z):
+    def to_cartographic(
+            self,
+            X: float | npt.NDArray[float],
+            Y: float | npt.NDArray[float],
+            Z: float | npt.NDArray[float]
+        ):
         """
         Converts geocentric cartesian ECEF coordinates to geodetic coordinates.
 
