@@ -210,7 +210,7 @@ class NominalTrajectory:
         )
         if antenna is not None:
             # Antenna attitude + Carrier attitude in NED = Rcarrier_NED * Rantenna_NED
-            rot_antenna_ned = rot_antenna_ned * antenna.attitude_as_rotation()
+            rot_antenna_ned *= antenna.attitude_as_rotation()
         # NED to ECEF rotation matrix
         ned_to_ecef_rot = CartesianLocalNED(
             0, 0, 0, origin=position_start_carto
