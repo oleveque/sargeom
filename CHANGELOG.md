@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added string representation methods (`__str__`) to `Cartesian3` and `Cartographic` classes to avoid errors when printing instances of these classes
 - Corrected minor typos in the `Trajectory` class documentation strings
 
+### Removed
+- Removed deprecated `Trajectory.velocities` property (which computed velocity magnitude) in favor of `Trajectory.velocity_xyz` for vector velocities. Users can compute magnitudes using `traj.velocity_xyz.magnitude()`. 
+
 ## [0.4.0] - 2025-10-23
 
 ### Added

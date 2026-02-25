@@ -329,23 +329,23 @@ class Trajectory:
         return self._positions
 
     @property
-    def velocities(self):
+    def velocity_xyz(self):
         """
-        Velocities between consecutive trajectory samples.
+        Velocity vectors between consecutive trajectory samples in ECEF coordinates.
 
-        Computed as the arc length divided by the time difference between
-        consecutive samples.
+        Computed as the difference in ECEF positions divided by the time difference
+        between consecutive samples.
 
         Returns
         -------
-        :class:`numpy.ndarray`
-            1D array of velocity magnitudes, in meters per second.
-            Length is :math:`n-1` where :math:`n` is the number of trajectory samples.
+        :class:`sargeom.coordinates.CartesianECEF`
+            Velocity vectors in ECEF coordinates, in meters per second.
+            Shape is (:math:`n-1`, 3) where :math:`n` is the number of trajectory samples.
 
         Raises
         ------
         :class:`ValueError`
-            If there are fewer than two timestamps.
+            If there are fewer than two samples.
 
         Examples
         --------
@@ -357,13 +357,19 @@ class Trajectory:
         ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> traj.velocities
+        >>> traj.velocity_xyz
+        XYZ CartesianECEF points
+        [[-31005.13794753  75261.77879028  26439.89620641]
+         [ 27107.98517627  52051.60565232 -32951.38639382]
+         [-26054.8866333   60754.17576401  20824.74087453]]        
+        >>> traj.velocity_xyz.magnitude()
         array([85584.58995186, 67305.32205239, 69307.98527392])
         """
         if len(self._timestamps) < 2:
-            raise ValueError("Not enough timestamps to compute velocities.")
-        dt = np.diff(self._timestamps)
-        return self.arc_lengths / dt
+            raise ValueError("Not enough samples to compute velocity vectors.")
+        dt = np.diff(self._timestamps)[:, np.newaxis]
+        dp = self._positions[1:] - self._positions[:-1]
+        return dp / dt
 
     def has_orientation(self):
         """
