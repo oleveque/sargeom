@@ -10,7 +10,7 @@ import re
 import numpy as np
 import numpy.typing as npt # for type hint. see: https://stackoverflow.com/a/68132027
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from scipy.spatial.transform import Rotation, Slerp
 from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU, CartesianLocalNED, Cartographic
 
@@ -79,28 +79,54 @@ class AntennaAttitude:
             degrees=True
         )
 
-@dataclass(init=False)
+@dataclass
 class NominalTrajectory:
     """
     A DataClass to hold nominal trajectory informations.
 
     Parameters
     ----------
-    position_start_ecef : :class:`sargeom.coordinates.CartesianECEF`
+    position_start_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
         Starting position of the nominal trajectory in ECEF coordinates.
-    velocity_ecef : :class:`sargeom.coordinates.CartesianECEF`
+        Default to :method:`sargeom.coordinates.CartesianECEF.ZERO()`.
+    velocity_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
         Velocity vector of the nominal trajectory in ECEF coordinates.
-    beam_pointing_ecef : :class:`sargeom.coordinates.CartesianECEF`
+        Default to :method:`sargeom.coordinates.CartesianECEF.ZERO()`.
+    beam_pointing_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
         Beam pointing direction of the nominal trajectory in ECEF coordinates.
+        Default to :method:`sargeom.coordinates.CartesianECEF.UNIT_X()`.
+    idx_start : :class:`int`, optional
+        The index of the real trajectory first point used for the nominal
+        trajectory computation (mainly for RustSAR `NominalTrajectory`).
+        Default to 0.
+    npoints : :class:`int`, optional
+        The number of points of the real trajectory used for the nominal
+        trajectory computation (mainly for RustSAR `NominalTrajectory`).
+        Default to 0.
     """
     position_start_ecef: CartesianECEF
     velocity_ecef: CartesianECEF
     beam_pointing_ecef: CartesianECEF
-    idx_start: int = 0
-    npoints: int = 0
+    idx_start: int
+    npoints: int
 
-    def from_pamela_traj(
+    def __init__(
             self,
+            position_start_ecef: CartesianECEF | None = None,
+            velocity_ecef: CartesianECEF | None = None,
+            beam_pointing_ecef: CartesianECEF | None = None,
+            idx_start: int = 0,
+            npoints: int = 0
+        ):
+        self.position_start_ecef = position_start_ecef if position_start_ecef is not None else CartesianECEF.ZERO()
+        self.velocity_ecef = velocity_ecef if velocity_ecef is not None else CartesianECEF.ZERO()
+        self.beam_pointing_ecef = beam_pointing_ecef if beam_pointing_ecef is not None else CartesianECEF.UNIT_X()
+        self.idx_start = idx_start
+        self.npoints = npoints
+
+    @classmethod
+    def from_pamela_traj(
+            cls,
             filename: str | Path,
             antenna: AntennaAttitude | None = None
         ):
@@ -109,8 +135,8 @@ class NominalTrajectory:
 
         PAMELA nominal trajectory contains orientation of the Carrier
         but NOT the antenna. To apply antenna orientation you can
-        pass as argument an AntennaAttitude dataclass to get
-        the antenna beam pointing in the nominal trajectory.
+        pass as argument an :class:`sargeom.Trajectory.AntennaAttitude`
+        dataclass to get the antenna beam pointing in the nominal trajectory.
 
         Parameters
         ----------
@@ -158,7 +184,7 @@ class NominalTrajectory:
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
         # Position start ECEF
-        self.position_start_ecef = CartesianECEF(
+        position_start_ecef = CartesianECEF(
             *_pamela_carto_ntf_to_ecef_wgs84(
                 header[0], header[1], header[2]
             )
@@ -169,9 +195,9 @@ class NominalTrajectory:
             x=header[3] * np.cos(header[4]),
             y=header[3] * np.sin(header[4]),
             z=-header[3] * np.sin(header[5]),
-            origin=self.position_start_ecef.to_cartographic()
+            origin=position_start_ecef.to_cartographic()
         )
-        self.velocity_ecef = velocity_ned.to_ecefv()
+        velocity_ecef = velocity_ned.to_ecefv()
 
         # Antenna attitude
         attitude_antenna_ned = Rotation.from_euler( # note: Carrier attitude in NED for now !
@@ -184,13 +210,18 @@ class NominalTrajectory:
             attitude_antenna_ned *= antenna.attitude_as_rotation()
 
         # Beam pointing ECEF
-        self.beam_pointing_ecef = CartesianECEF(
+        beam_pointing_ecef = CartesianECEF(
             *(
                 velocity_ned.rotation.inv() *  # NED to ECEF rotation
                 attitude_antenna_ned
             ).apply([1, 0, 0])
         )
 
+        return cls(
+            position_start_ecef=position_start_ecef,
+            velocity_ecef=velocity_ecef,
+            beam_pointing_ecef=beam_pointing_ecef
+        )
 
 class Trajectory:
     """
