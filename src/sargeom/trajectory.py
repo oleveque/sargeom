@@ -329,7 +329,7 @@ class Trajectory:
         return self._positions
 
     @property
-    def velocity_xyz(self):
+    def velocity_ecef(self):
         """
         Velocity vectors between consecutive trajectory samples in ECEF coordinates.
 
@@ -357,12 +357,12 @@ class Trajectory:
         ...         height=[300.0, 400.0, 500.0, 600.0]
         ...     )
         ... )
-        >>> traj.velocity_xyz
+        >>> traj.velocity_ecef
         XYZ CartesianECEF points
         [[-31005.13794753  75261.77879028  26439.89620641]
          [ 27107.98517627  52051.60565232 -32951.38639382]
          [-26054.8866333   60754.17576401  20824.74087453]]        
-        >>> traj.velocity_xyz.magnitude()
+        >>> traj.velocity_ecef.magnitude()
         array([85584.58995186, 67305.32205239, 69307.98527392])
         """
         if len(self._timestamps) < 2:
