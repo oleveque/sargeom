@@ -57,16 +57,25 @@ PAMELA_POS_DTYPE = [
 @dataclass
 class AntennaAttitude:
     """
-    A DataClass to hold antenna attitude relative to its Carrier.
+    Antenna attitude angles relative to its carrier platform.
+
+    Defines the rotation from the carrier body frame to the antenna frame
+    using three Euler angles in ZYX convention (bearing, elevation, bank).
 
     Parameters
     ----------
     bearing_deg : :class:`float`
-        Bearing angle in degrees in [-180; 180] range.
+        Bearing angle in degrees, in [-180, 180]. Default is 0.0.
     elevation_deg : :class:`float`
-        Elevation angle in degrees in [-90; 90] range.
+        Elevation angle in degrees, in [-90, 90]. Default is 0.0.
     bank_deg : :class:`float`
-        Bank angle in degrees in [-180; 180] range.
+        Bank angle in degrees, in [-180, 180]. Default is 0.0.
+
+    Examples
+    --------
+    >>> antenna = AntennaAttitude(bearing_deg=-30.0, elevation_deg=5.0)
+    >>> antenna.orientation.as_euler('ZYX', degrees=True)
+    array([-30.,   5.,   0.])
     """
     bearing_deg: float = 0.0
     elevation_deg: float = 0.0
@@ -74,8 +83,12 @@ class AntennaAttitude:
 
     @property
     def orientation(self) -> Rotation:
-        """
-        Convert the antenna attitude to a Scipy Rotation object.
+        """Rotation object from carrier body frame to antenna frame (ZYX convention).
+
+        Returns
+        -------
+        :class:`scipy.spatial.transform.Rotation`
+            The corresponding rotation.
         """
         return Rotation.from_euler(
             'ZYX',
@@ -86,27 +99,35 @@ class AntennaAttitude:
 @dataclass
 class NominalTrajectory:
     """
-    A DataClass to hold nominal trajectory informations.
+    Nominal (straight-line, constant-velocity) trajectory description.
+
+    Represents the linearised trajectory of a SAR platform defined by a starting
+    position, a constant velocity vector, and a beam pointing direction, all
+    expressed in ECEF coordinates.
 
     Parameters
     ----------
     position_start_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
-        Starting position of the nominal trajectory in ECEF coordinates.
-        Default to :method:`sargeom.coordinates.CartesianECEF.ZERO()`.
+        Starting position in ECEF coordinates. Default is ``CartesianECEF.ZERO()``.
     velocity_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
-        Velocity vector of the nominal trajectory in ECEF coordinates.
-        Default to :method:`sargeom.coordinates.CartesianECEF.ZERO()`.
+        Constant velocity vector in ECEF coordinates (m/s). Default is ``CartesianECEF.ZERO()``.
     beam_pointing_ecef : :class:`sargeom.coordinates.CartesianECEF`, optional
-        Beam pointing direction of the nominal trajectory in ECEF coordinates.
-        Default to :method:`sargeom.coordinates.CartesianECEF.UNIT_X()`.
+        Beam pointing unit direction in ECEF coordinates. Default is ``CartesianECEF.UNIT_X()``.
     idx_start : :class:`int`, optional
-        The index of the real trajectory first point used for the nominal
-        trajectory computation (mainly for RustSAR `NominalTrajectory`).
-        Default to 0.
+        Index of the first sample in the reference trajectory used to compute
+        this nominal trajectory. Default is 0.
     npoints : :class:`int`, optional
-        The number of points of the real trajectory used for the nominal
-        trajectory computation (mainly for RustSAR `NominalTrajectory`).
-        Default to 0.
+        Number of samples in the reference trajectory used to compute
+        this nominal trajectory. Default is 0.
+
+    Examples
+    --------
+    >>> nom = NominalTrajectory(
+    ...     position_start_ecef=CartesianECEF(x=4600000, y=300000, z=4400000),
+    ...     velocity_ecef=CartesianECEF(x=-30.0, y=75.0, z=26.0)
+    ... )
+    >>> nom.velocity_ecef.magnitude()  # doctest: +ELLIPSIS
+    np.float64(84.08...)
     """
     position_start_ecef: CartesianECEF
     velocity_ecef: CartesianECEF
@@ -162,9 +183,8 @@ class NominalTrajectory:
         :class:`FileNotFoundError`
             If the file does not exist.
         :class:`ValueError`
-            If the file does not have a .traj or .trj extension.
+            If the file does not have a ``.traj`` or ``.trj`` extension.
         """
-        # Implementation to read PAMELA TRAJ file and populate the NominalTrajectory fields
         filename = Path(filename)
         if not filename.is_file():
             raise FileNotFoundError(f"File {filename} does not exist.")
@@ -1013,55 +1033,44 @@ class Trajectory:
             raise ModuleNotFoundError("Matplotlib is not installed. Please follow the instructions on https://matplotlib.org/stable/users/installing/index.html")
 
         def set_axes_equal(ax):
-            # Get current axis limits
             x_limits = ax.get_xlim3d()
             y_limits = ax.get_ylim3d()
             z_limits = ax.get_zlim3d()
-
-            # Calculate range and midpoint for each axis
             x_range = abs(x_limits[1] - x_limits[0])
             x_middle = np.mean(x_limits)
             y_range = abs(y_limits[1] - y_limits[0])
             y_middle = np.mean(y_limits)
             z_range = abs(z_limits[1] - z_limits[0])
             z_middle = np.mean(z_limits)
-
-            # Use half of the maximum range as plot radius to ensure equal scaling
             plot_radius = 0.5 * max([x_range, y_range, z_range])
-
-            # Set symmetric limits around the midpoint
             ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
             ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
             ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
 
-        # Create new figure and axis if not provided
+        # Create figure if not provided
         if ax is None:
             fig = plt.figure(figsize=(9, 7))
             ax = fig.add_subplot(111, projection='3d')
 
-        # Transform positions to local ENU frame
+        # Positions in local ENU frame
         cartographic_positions = self._positions.to_cartographic()
         if enu_origin is None:
             enu_origin = cartographic_positions[0]
-
         enu_positions = self._positions.to_enu(origin=enu_origin)
 
-        # Plot trajectory path as a continuous line
+        # Plot trajectory path and sample points
         ax.plot(enu_positions.x, enu_positions.y, enu_positions.z, color='k', linewidth=1.0, label='Trajectory')
-        
-        # Mark trajectory points with scatter plot
         ax.scatter(enu_positions.x, enu_positions.y, enu_positions.z, s=8, color='k')
 
-        # Display orientation vectors if requested and available
+        # Orientation arrows
         if display_orientations and self.has_orientation():
-            # Compute rotation matrices from local NED frame to ECEF for each position
             num_points = len(self)
             longitude_rad = np.deg2rad(cartographic_positions.longitude)
             latitude_rad = np.deg2rad(cartographic_positions.latitude)
             cos_lon, sin_lon = np.cos(longitude_rad), np.sin(longitude_rad)
             cos_lat, sin_lat = np.cos(latitude_rad), np.sin(latitude_rad)
 
-            # Build NED-to-ECEF rotation matrices for all points
+            # NED-to-ECEF rotation for each position
             rotation_ned_to_ecef = Rotation.from_matrix(
                 np.array([
                     [-cos_lon * sin_lat, -sin_lon * sin_lat, cos_lat],
@@ -1070,32 +1079,24 @@ class Trajectory:
                 ]).T
             )
 
-            # Get rotation from ECEF to global ENU frame (centered at first position)
+            # ECEF-to-ENU rotation (global ENU frame)
             rotation_ecef_to_enu = enu_positions.rotation
 
-            # Chain rotations: local NED -> ECEF -> global ENU
-            # This transforms body frame orientations to the visualization frame
+            # Body -> NED -> ECEF -> ENU
             rotation_body_to_enu = rotation_ecef_to_enu * rotation_ned_to_ecef * self._orientations
 
-            # Calculate appropriate arrow length based on trajectory extent
+            # Arrow length scaled to 10% of trajectory bounding box diagonal
             positions_array = enu_positions.to_array()
             bbox_min, bbox_max = positions_array.min(axis=0), positions_array.max(axis=0)
             bbox_diagonal = np.linalg.norm(bbox_max - bbox_min)
             arrow_length = 0.1 * bbox_diagonal if bbox_diagonal > 0 else 0.1
 
-            # Arrow styling parameters
             arrow_kwargs = dict(linewidth=1.2, arrow_length_ratio=0.2)
-
-            # Unit vectors for the three body frame axes
             body_frame_axes = np.eye(3)
 
-            # Draw orientation arrows at each trajectory point
             for idx, (position, rotation) in enumerate(zip(positions_array, rotation_body_to_enu)):
-                # Transform body frame axes to ENU frame
                 x_axis, y_axis, z_axis = rotation.apply(body_frame_axes)
-
-                # Draw arrows: red=X, green=Y, blue=Z
-                # Add labels only for the first point to appear once in legend
+                # Labels only on first point for legend
                 if idx == 0:
                     ax.quiver(*position, *(arrow_length * x_axis), color='r', label='X-axis', **arrow_kwargs)
                     ax.quiver(*position, *(arrow_length * y_axis), color='g', label='Y-axis', **arrow_kwargs)
@@ -1105,13 +1106,11 @@ class Trajectory:
                     ax.quiver(*position, *(arrow_length * y_axis), color='g', **arrow_kwargs)
                     ax.quiver(*position, *(arrow_length * z_axis), color='b', **arrow_kwargs)
 
-        # Set axis labels
+        # Axis labels and equal aspect ratio
         ax.set_xlabel('East')
         ax.set_ylabel('North')
         ax.set_zlabel('Up')
         ax.legend()
-
-        # Apply equal scaling to all axes
         set_axes_equal(ax)
 
         return ax
@@ -1234,16 +1233,10 @@ class Trajectory:
         if not isinstance(velocity, (CartesianLocalENU, CartesianLocalNED)):
             raise TypeError("velocity must be of type CartesianLocalENU or CartesianLocalNED.")
 
-        # Get starting position in ECEF coordinates
         start_position_ecef = velocity.local_origin.to_ecef().to_array()
-
-        # Convert velocity vector to ECEF (rotation only, no translation)
         velocity_ecef = velocity.to_ecefv().to_array()
 
-        # Generate time samples
         timestamps = np.linspace(0, duration, num_samples) + time_origin
-
-        # Compute positions: P(t) = P0 + V * t
         time_offsets = np.linspace(0, duration, num_samples).reshape(-1, 1)
         positions_ecef = start_position_ecef + time_offsets * velocity_ecef
 
@@ -1295,15 +1288,13 @@ class Trajectory:
               dtype=[('TIMESTAMP_S', '<f8'), ('LON_WGS84_DEG', '<f8'), ('LAT_WGS84_DEG', '<f8'), ('HEIGHT_WGS84_M', '<f8'), ('HEADING_DEG', '<f8'), ('ELEVATION_DEG', '<f8'), ('BANK_DEG', '<f8')])
         """
         cartographic_positions = self._positions.to_cartographic()
-        
-        # Extract orientations if available, otherwise use zeros
+
         if self.has_orientation():
             heading, elevation, bank = self._orientations.as_euler("ZYX", degrees=True).T
-            heading %= 360  # Normalize heading angle to [0, 360]
+            heading %= 360
         else:
             heading = elevation = bank = np.zeros(len(self))
-        
-        # Create the structured array
+
         data = np.empty(len(self), dtype=TRAJ_DTYPE)
         data['TIMESTAMP_S'] = self._timestamps
         data['LON_WGS84_DEG'] = cartographic_positions.longitude
@@ -1478,34 +1469,31 @@ class Trajectory:
         else:
             timestamps = axes[AxisLabelEnum.TIME]
 
-        # Extract ECEF positions
+        # ECEF positions
         positions = CartesianECEF(
             x=axes[AxisLabelEnum.POS_X_ECEF],
             y=axes[AxisLabelEnum.POS_Y_ECEF],
             z=axes[AxisLabelEnum.POS_Z_ECEF]
         )
 
-        # Extract direction vectors for x and y axes in ECEF frame
+        # Body-frame direction vectors in ECEF
         x_axis_dir = CartesianECEF(
             x=axes[AxisLabelEnum.DIR_x_X_ECEF],
             y=axes[AxisLabelEnum.DIR_x_Y_ECEF],
             z=axes[AxisLabelEnum.DIR_x_Z_ECEF]
         )
-
         y_axis_dir = CartesianECEF(
             x=axes[AxisLabelEnum.DIR_y_X_ECEF],
             y=axes[AxisLabelEnum.DIR_y_Y_ECEF],
             z=axes[AxisLabelEnum.DIR_y_Z_ECEF]
         )
-        y_axis_dir *= -1  # inverted for PIVOT convention
-
-        # Compute z-axis direction as cross product of x and y axes
+        y_axis_dir *= -1  # PIVOT convention
         z_axis_dir = x_axis_dir.cross(y_axis_dir)
 
-        # Compute rotation matrices from body to ECEF for each position
+        # Body-to-ECEF rotation
         rot_body2ecef = Rotation.from_matrix(np.stack([x_axis_dir.to_array(), y_axis_dir.to_array(), z_axis_dir.to_array()], axis=2))
 
-        # Compute rotation matrices from ECEF to NED for each position
+        # ECEF-to-NED rotation
         size = len(positions)
         local_origins = positions.to_cartographic()
         lon = np.deg2rad(local_origins.longitude)
@@ -1520,7 +1508,7 @@ class Trajectory:
             ]).T
         )
 
-        # Combine rotations to get body to NED orientations
+        # Body-to-NED orientations
         orientations = rot_ecef2ned * rot_body2ecef
 
         return cls(timestamps, positions, orientations)
@@ -1627,11 +1615,10 @@ class Trajectory:
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
-        # Read all records in a single operation
-        header_size = header_count * 8  # 8 bytes for each double
+        header_size = header_count * 8
         records = np.fromfile(filename, dtype=PAMELA_TRAJ_DTYPE, offset=header_size)
 
-        # Determine coordinate reference system from header
+        # Determine CRS from header flag
         if crs == 'auto':
             if header[10] > -0.5:
                 crs = 'NTF'
@@ -1644,7 +1631,7 @@ class Trajectory:
                 print("Guessed origin CRS is 'WGS84'")
                 crs = 'WGS84'
 
-        # Convert trajectory from NTF to WGS84 if needed
+        # Convert NTF Lambert records to geographic WGS84
         if crs == 'NTF':
             # Extract NTF trajectory origin coordinates from header
             lon_origin_ntf_rad = header[0]
@@ -1673,12 +1660,12 @@ class Trajectory:
                 )
             )
 
-            # Update records with converted geographic coordinates
+            # Update records with WGS84 coordinates
             records['longitude_rad'] = lon_wgs84_rad
             records['latitude_rad'] = lat_wgs84_rad
             records['height_m'] = height_wgs84_m
 
-        # Determine trajectory time sampling
+        # Time sampling
         if sampling_time_s is not None:
             time_step = sampling_time_s
         else:
@@ -1689,9 +1676,8 @@ class Trajectory:
                     "Sampling time step is non-positive or not defined!\n"
                     " ↳ This value is set to 1.0 second by default."
                 )
-        print(f"Sampling time step is set to {time_step}s. To modify the timestamp axis, set a new one in the newly created Trajectory object.")
+        print(f"Sampling time step is set to {time_step}s.")
 
-        # Create output structured array
         n = records.shape[0]
         data = np.empty(n, dtype=TRAJ_DTYPE)
         data['TIMESTAMP_S'] = np.arange(n) * time_step + time_origin
@@ -1992,7 +1978,7 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         if write_mode not in ['override', 'append']:
             raise ValueError("write_mode must be 'override' or 'append'.")
 
-        # Compute rotation matrices from NED to ECEF for coordinate transformation
+        # NED-to-ECEF rotation
         size = len(self)
         local_origins = self._positions.to_cartographic()
         lon = np.deg2rad(local_origins.longitude)
@@ -2008,14 +1994,13 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
         )
 
         if self.has_orientation():
-            # Transform carrier "BODY" frame direction vectors from NED to ECEF coordinates
-            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])  # X-axis (forward) direction
-            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])  # Y-axis (left) direction, inverted for PIVOT convention
+            # Body-frame direction vectors in ECEF (y-axis inverted for PIVOT convention)
+            x_axis_dir = (rot_ned2ecef * self._orientations).apply([1.0, 0.0, 0.0])
+            y_axis_dir = (rot_ned2ecef * self._orientations).apply([0.0, -1.0, 0.0])
         else:
             # TODO: Compute direction vectors from velocity when no orientation is available.
             raise NotImplementedError("Saving to PIVOT format without orientation is not implemented yet.")
 
-        # Create PIVOT axis data from trajectory state
         states = [
             Axis(AxisLabelEnum.TIME, self._timestamps.tolist()),
             Axis(AxisLabelEnum.POS_X_ECEF, self._positions.x.tolist()),
@@ -2029,25 +2014,15 @@ TIMESTAMP_S;LON_WGS84_DEG;LAT_WGS84_DEG;HEIGHT_WGS84_M;HEADING_DEG;ELEVATION_DEG
             Axis(AxisLabelEnum.DIR_y_Z_ECEF, y_axis_dir[:, 2].tolist())
         ]
 
-        # Create actor name from filename
+        # Actor name
         actor_dname = re.sub(r'[^a-zA-Z0-9]', '-', filename.stem)
         actor_downer = re.sub(r'[^a-zA-Z0-9]', '-', data_owner)
-
-        # FIXME: Remove '_1' suffix from actor name when SCALIAN fixes the Actor
-        # name parsing bug in pivot library.
+        # FIXME: Remove '_1' suffix when SCALIAN fixes Actor name parsing bug.
         actor_name = f"{actor_dname}_{actor_downer}_{data_type}_1"
 
-        # Create PIVOT actor
-        actor = Actor(
-            ActorTypeEnum[actor_type],
-            actor_name,
-            states
-        )
-
-        # Save actor to PIVOT file
+        actor = Actor(ActorTypeEnum[actor_type], actor_name, states)
         actor.save(filename, mode=write_mode)
 
-        # Save metadata only for new files or when overriding
         if write_mode == 'override' or not filename.is_file():
             meta = Metadata({ 'Rights': { 'dataOwner': data_owner, 'dataCoowner': 'NA', 'confid': ProtectionTag[protection_tag] } })
             meta.save(filename)
