@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-06
+
 ### Added
 - Added `Trajectory.make_straight_line()` static method to create straight-line trajectories from a starting position and constant velocity in ENU or NED frame
 - Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
@@ -31,8 +33,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed bug in `Trajectory.__len__()` method for single-point trajectories
 - Added string representation methods (`__str__`) to `Cartesian3` and `Cartographic` classes to avoid errors when printing instances of these classes
 - Corrected minor typos in the `Trajectory` class documentation strings
-
-### Removed
 
 ## [0.4.0] - 2025-10-23
 
