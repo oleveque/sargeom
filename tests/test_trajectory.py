@@ -94,20 +94,21 @@ class TestTrajectoryProperties(unittest.TestCase):
         self.assertEqual(len(arc_lengths), 3)
         self.assertTrue(all(arc_lengths > 0))
 
-    def test_velocities_property(self):
-        """Test velocities property computation."""
-        velocities = self.traj.velocities
-        self.assertEqual(len(velocities), 3)
-        self.assertTrue(all(velocities > 0))
+    def test_velocity_ecef_property(self):
+        """Test velocity_ecef property computation."""
+        velocity_ecef = self.traj.velocity_ecef
+        self.assertIsInstance(velocity_ecef, CartesianECEF)
+        self.assertEqual(len(velocity_ecef), 3)
+        self.assertTrue(all(velocity_ecef.magnitude() > 0))
 
-    def test_velocities_insufficient_points(self):
-        """Test that velocities raises error with single point."""
+    def test_velocity_ecef_insufficient_points(self):
+        """Test that velocity_ecef raises error with single point."""
         single_traj = Trajectory(
             timestamps=[0.0],
             positions=Cartographic(longitude=3.8, latitude=43.6, height=300.0)
         )
         with self.assertRaises(ValueError):
-            _ = single_traj.velocities
+            _ = single_traj.velocity_ecef
 
     def test_total_arc_length(self):
         """Test total_arc_length computation."""
