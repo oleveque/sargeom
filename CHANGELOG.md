@@ -24,12 +24,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced `CartesianLocalENU.to_ned()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
 - Enhanced `CartesianLocalNED.to_enu()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
 - Modularized transformation in `Trajectory.read_pamela_traj()` for possible reuse in other Class/Functions
+- Changed deprecated `Trajectory.velocities` property (which computed velocity magnitude) in favor of `Trajectory.velocity_ecef` for vector velocities. Users can compute magnitudes using `traj.velocity_ecef.magnitude()`.
 
 ### Fixed
 - Fixed issue in `Trajectory.read_pivot()` where timestamps were not correctly extracted from actors
 - Fixed bug in `Trajectory.__len__()` method for single-point trajectories
 - Added string representation methods (`__str__`) to `Cartesian3` and `Cartographic` classes to avoid errors when printing instances of these classes
 - Corrected minor typos in the `Trajectory` class documentation strings
+
+### Removed
 
 ## [0.4.0] - 2025-10-23
 
