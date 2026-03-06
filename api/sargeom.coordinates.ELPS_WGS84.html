@@ -3,10 +3,10 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="ELPS_WGS84" href="sargeom.coordinates.ELPS_WGS84.html"><link rel="prev" title="Ellipsoid" href="sargeom.coordinates.Ellipsoid.html">
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="ELPS_CLARKE_1880" href="sargeom.coordinates.ELPS_CLARKE_1880.html"><link rel="prev" title="LambertConicConformal" href="sargeom.coordinates.LambertConicConformal.html">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>LambertConicConformal - sargeom</title>
+        <title>ELPS_WGS84 - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../_static/tabs.css?v=4c969af8" />
@@ -208,8 +208,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.CartesianLocalNED.html">CartesianLocalNED</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">LambertConicConformal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.ELPS_WGS84.html">ELPS_WGS84</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">ELPS_WGS84</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sargeom.coordinates.ELPS_CLARKE_1880.html">ELPS_CLARKE_1880</a></li>
 </ul>
 </li>
@@ -238,7 +238,7 @@
         </a>
         <div class="content-icon-container">
           <div class="view-this-page">
-  <a class="muted-link" href="../_sources/api/sargeom.coordinates.LambertConicConformal.rst.txt" title="View this page">
+  <a class="muted-link" href="../_sources/api/sargeom.coordinates.ELPS_WGS84.rst.txt" title="View this page">
     <svg><use href="#svg-eye"></use></svg>
     <span class="visually-hidden">View this page</span>
   </a>
@@ -256,134 +256,60 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="lambertconicconformal">
-<h1>LambertConicConformal<a class="headerlink" href="#lambertconicconformal" title="Link to this heading">¶</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal">
-<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">LambertConicConformal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ellipsoid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_origin_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_offset_m</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal" title="Link to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Lambert Conic Conformal projection class.</p>
-<p>This class implements the Lambert Conic Conformal projection, a conformal
-map projection that preserves angles and is commonly used for mapping
-regions in the middle latitudes with primarily east-west extent.</p>
+          <section id="elps-wgs84">
+<h1>ELPS_WGS84<a class="headerlink" href="#elps-wgs84" title="Link to this heading">¶</a></h1>
+<dl class="py data">
+<dt class="sig sig-object py" id="sargeom.coordinates.ELPS_WGS84">
+<span class="sig-prename descclassname"><span class="pre">sargeom.coordinates.</span></span><span class="sig-name descname"><span class="pre">ELPS_WGS84</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;sargeom.coordinates.ellipsoids.Ellipsoid</span> <span class="pre">object&gt;</span></span><a class="headerlink" href="#sargeom.coordinates.ELPS_WGS84" title="Link to this definition">¶</a></dt>
+<dd><p>Represents a reference ellipsoid of revolution for geodetic calculations.</p>
+<p>The ellipsoid is defined by either:</p>
+<ul class="simple">
+<li><p>Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or</p></li>
+<li><p>Equatorial radius (semi-major axis) and flattening factor (<span class="math notranslate nohighlight">\(f\)</span>).</p></li>
+</ul>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><dl>
-<dt><strong>ellipsoid</strong><span class="classifier"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" title="sargeom.coordinates.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Ellipsoid</span></code></a></span></dt><dd><p>Reference ellipsoid used for the projection.</p>
+<dt><strong>semi_major_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Equatorial radius of the ellipsoid in meters.</p>
 </dd>
-<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Longitude of the origin of the Lambert Conic Conformal projection in radians.</p>
+<dt><strong>semi_minor_axis</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Polar radius of the ellipsoid in meters. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
-<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>Latitude of the origin of the Lambert Conic Conformal projection in radians.</p>
-</dd>
-<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Scale factor of the projection. Default is 1.0.</p>
-</dd>
-<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the x-direction in meters. Default is 0.0.</p>
-</dd>
-<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Offset from the projection origin in the y-direction in meters. Default is 0.0.</p>
+<dt><strong>flattening</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>, optional</span></dt><dd><p>Flattening factor of the ellipsoid. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
 </dd>
 </dl>
 </dd>
 <dt class="field-even">Attributes<span class="colon">:</span></dt>
-<dd class="field-even"><dl>
-<dt><strong>ellipsoid</strong><span class="classifier"><a class="reference internal" href="sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" title="sargeom.coordinates.Ellipsoid"><code class="xref py py-class docutils literal notranslate"><span class="pre">sargeom.coordinates.Ellipsoid</span></code></a></span></dt><dd><p>The reference ellipsoid.</p>
+<dd class="field-even"><dl class="simple">
+<dt><strong>_a</strong><span class="classifier">float</span></dt><dd><p>Semi-major axis (equatorial radius) in meters.</p>
 </dd>
-<dt><strong>lon_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The longitude origin in radians.</p>
+<dt><strong>_b</strong><span class="classifier">float</span></dt><dd><p>Semi-minor axis (polar radius) in meters.</p>
 </dd>
-<dt><strong>lat_origin_rad</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The latitude origin in radians.</p>
+<dt><strong>_f</strong><span class="classifier">float</span></dt><dd><p>Flattening factor.</p>
 </dd>
-<dt><strong>scale</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The scale factor.</p>
+<dt><strong>_n</strong><span class="classifier">float</span></dt><dd><p>Third flattening factor.</p>
 </dd>
-<dt><strong>x_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The x-offset in meters.</p>
+<dt><strong>_e</strong><span class="classifier">float</span></dt><dd><p>First eccentricity.</p>
 </dd>
-<dt><strong>y_offset_m</strong><span class="classifier"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></span></dt><dd><p>The y-offset in meters.</p>
+<dt><strong>_e2</strong><span class="classifier">float</span></dt><dd><p>First eccentricity squared.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>ValueError</dt><dd><p>If neither <code class="docutils literal notranslate"><span class="pre">semi_minor_axis</span></code> nor <code class="docutils literal notranslate"><span class="pre">flattening</span></code> is provided.</p>
 </dd>
 </dl>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<p>Create a Lambert projection centered on France:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">sargeom.coordinates.ellipsoids</span><span class="w"> </span><span class="kn">import</span> <span class="n">ELPS_WGS84</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lcc</span> <span class="o">=</span> <span class="n">LambertConicConformal</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">ELPS_WGS84</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">lon_origin_rad</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">3.0</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">lat_origin_rad</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">46.5</span><span class="p">)</span>
-<span class="gp">... </span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">lcc</span><span class="o">.</span><span class="n">forward</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">2.3522</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">48.8566</span><span class="p">))</span>
+<p>Create the WGS84 ellipsoid:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">wgs84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">flattening</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">298.257223563</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="rubric">Methods Summary</p>
-<div class="table-wrapper autosummary longtable docutils container">
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.forward" title="sargeom.coordinates.LambertConicConformal.forward"><code class="xref py py-obj docutils literal notranslate"><span class="pre">forward</span></code></a>(lon_rad, lat_rad)</p></td>
-<td><p>Forward transformation from geographic coordinates to projected coordinates.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.inverse" title="sargeom.coordinates.LambertConicConformal.inverse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">inverse</span></code></a>(x_m, y_m)</p></td>
-<td><p>Inverse transformation from projected coordinates to geographic coordinates.</p></td>
-</tr>
-</tbody>
-</table>
+<p>Create an ellipsoid using semi-minor axis:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">clarke</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378249.2</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356515.0</span><span class="p">)</span>
+</pre></div>
 </div>
-<p class="rubric">Methods Documentation</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal.forward">
-<span class="sig-name descname"><span class="pre">forward</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lon_rad</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat_rad</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal.forward"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal.forward" title="Link to this definition">¶</a></dt>
-<dd><p>Forward transformation from geographic coordinates to projected coordinates.</p>
-<p>Transforms geographic coordinates (longitude, latitude) to projected coordinates 
-(x, y) in the Lambert Conic Conformal projection.</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>lon_rad</strong><span class="classifier">array_like</span></dt><dd><p>The geographic longitude in radians.</p>
-</dd>
-<dt><strong>lat_rad</strong><span class="classifier">array_like</span></dt><dd><p>The geographic latitude in radians.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl>
-<dt><strong>x_m</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The projected x-coordinate in meters.</p>
-</dd>
-<dt><strong>y_m</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The projected y-coordinate in meters.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The transformation uses the standard Lambert Conic Conformal projection 
-formulas with the ellipsoid parameters and projection constants.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="sargeom.coordinates.LambertConicConformal.inverse">
-<span class="sig-name descname"><span class="pre">inverse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/sargeom/coordinates/transforms.html#LambertConicConformal.inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sargeom.coordinates.LambertConicConformal.inverse" title="Link to this definition">¶</a></dt>
-<dd><p>Inverse transformation from projected coordinates to geographic coordinates.</p>
-<p>Transforms projected coordinates (x, y) in the Lambert Conic Conformal 
-projection to geographic coordinates (longitude, latitude).</p>
-<dl class="field-list">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>x_m</strong><span class="classifier">array_like</span></dt><dd><p>The projected x-coordinate in meters.</p>
-</dd>
-<dt><strong>y_m</strong><span class="classifier">array_like</span></dt><dd><p>The projected y-coordinate in meters.</p>
-</dd>
-</dl>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><dl>
-<dt><strong>lon_rad</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geographic longitude in radians.</p>
-</dd>
-<dt><strong>lat_rad</strong><span class="classifier"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(in NumPy v2.4)"><code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.ndarray</span></code></a></span></dt><dd><p>The geographic latitude in radians.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>The transformation uses the inverse Lambert Conic Conformal projection 
-formulas with the ellipsoid parameters and projection constants.</p>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -393,23 +319,23 @@ formulas with the ellipsoid parameters and projection constants.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="sargeom.coordinates.ELPS_WGS84.html">
+          <a class="next-page" href="sargeom.coordinates.ELPS_CLARKE_1880.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">ELPS_WGS84</div>
+                <div class="title">ELPS_CLARKE_1880</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="sargeom.coordinates.Ellipsoid.html">
+          <a class="prev-page" href="sargeom.coordinates.LambertConicConformal.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Ellipsoid</div>
+                <div class="title">LambertConicConformal</div>
                 
               </div>
             </a>
@@ -443,12 +369,8 @@ formulas with the ellipsoid parameters and projection constants.</p>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">LambertConicConformal</a><ul>
-<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal</span></code></a><ul>
-<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.forward"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal.forward()</span></code></a></li>
-<li><a class="reference internal" href="#sargeom.coordinates.LambertConicConformal.inverse"><code class="docutils literal notranslate"><span class="pre">LambertConicConformal.inverse()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">ELPS_WGS84</a><ul>
+<li><a class="reference internal" href="#sargeom.coordinates.ELPS_WGS84"><code class="docutils literal notranslate"><span class="pre">ELPS_WGS84</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -469,5 +391,7 @@ formulas with the ellipsoid parameters and projection constants.</p>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     </body>
 </html>

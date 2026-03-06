@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>sargeom.coordinates.ellipsoids - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
@@ -196,6 +196,8 @@
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.AntennaAttitude.html">AntennaAttitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.NominalTrajectory.html">NominalTrajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
@@ -206,6 +208,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.ELPS_WGS84.html">ELPS_WGS84</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.ELPS_CLARKE_1880.html">ELPS_CLARKE_1880</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -247,7 +251,7 @@
         <article role="main" id="furo-main-content">
           <h1>Source code for sargeom.coordinates.ellipsoids</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">npt</span> <span class="c1"># for type hint. see: https://stackoverflow.com/a/68132027</span>
 
 <div class="viewcode-block" id="Ellipsoid">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid">[docs]</a>
@@ -265,11 +269,46 @@
 <span class="sd">    semi_major_axis : :class:`float`</span>
 <span class="sd">        Equatorial radius of the ellipsoid in meters.</span>
 <span class="sd">    semi_minor_axis : :class:`float`, optional</span>
-<span class="sd">        Polar radius of the ellipsoid in meters. Default is None.</span>
+<span class="sd">        Polar radius of the ellipsoid in meters. Default is ``None``.</span>
 <span class="sd">    flattening : :class:`float`, optional</span>
-<span class="sd">        Flattening factor of the ellipsoid. Default is None.</span>
+<span class="sd">        Flattening factor of the ellipsoid. Default is ``None``.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If neither ``semi_minor_axis`` nor ``flattening`` is provided.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    _a : float</span>
+<span class="sd">        Semi-major axis (equatorial radius) in meters.</span>
+<span class="sd">    _b : float</span>
+<span class="sd">        Semi-minor axis (polar radius) in meters.</span>
+<span class="sd">    _f : float</span>
+<span class="sd">        Flattening factor.</span>
+<span class="sd">    _n : float</span>
+<span class="sd">        Third flattening factor.</span>
+<span class="sd">    _e : float</span>
+<span class="sd">        First eccentricity.</span>
+<span class="sd">    _e2 : float</span>
+<span class="sd">        First eccentricity squared.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create the WGS84 ellipsoid:</span>
+
+<span class="sd">    &gt;&gt;&gt; wgs84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563)</span>
+
+<span class="sd">    Create an ellipsoid using semi-minor axis:</span>
+
+<span class="sd">    &gt;&gt;&gt; clarke = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">flattening</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">semi_major_axis</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+            <span class="n">semi_minor_axis</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">flattening</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_a</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="o">=</span> <span class="n">semi_major_axis</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="p">,</span> <span class="n">flattening</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_b</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_f</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -327,7 +366,10 @@
 
 <div class="viewcode-block" id="Ellipsoid.prime_vertical_curvature_radius">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.prime_vertical_curvature_radius">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">prime_vertical_curvature_radius</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">prime_vertical_curvature_radius</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the prime vertical curvature radius of a point at latitude :math:`\\phi`.</span>
 
@@ -361,7 +403,10 @@
 
 <div class="viewcode-block" id="Ellipsoid.isometric_latitude">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.isometric_latitude">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">isometric_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">isometric_latitude</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the isometric latitude (parameter of the Mercator projection).</span>
 
@@ -404,7 +449,10 @@
 
 <div class="viewcode-block" id="Ellipsoid.inverse_isometric_latitude">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.inverse_isometric_latitude">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_isometric_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">psi</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_isometric_latitude</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">psi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the inverse isometric latitude.</span>
 
@@ -441,7 +489,10 @@
 
 <div class="viewcode-block" id="Ellipsoid.conformal_latitude">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.conformal_latitude">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">conformal_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phi</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">conformal_latitude</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the conformal latitude from the geodetic latitude.</span>
 
@@ -481,7 +532,10 @@
 
 <div class="viewcode-block" id="Ellipsoid.inverse_conformal_latitude">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.inverse_conformal_latitude">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_conformal_latitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chi</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inverse_conformal_latitude</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">chi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the inverse conformal latitude.</span>
 
@@ -520,7 +574,12 @@
     
 <div class="viewcode-block" id="Ellipsoid.to_ecef">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.to_ecef">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecef</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lamb</span><span class="p">,</span> <span class="n">phi</span><span class="p">,</span> <span class="n">height_m</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecef</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">lamb</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+            <span class="n">phi</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+            <span class="n">height_m</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts geodetic coordinates to geocentric cartesian ECEF coordinates.</span>
 
@@ -571,7 +630,12 @@
     
 <div class="viewcode-block" id="Ellipsoid.to_cartographic">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid.to_cartographic">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_cartographic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_cartographic</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">X</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+            <span class="n">Y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+            <span class="n">Z</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="n">npt</span><span class="o">.</span><span class="n">NDArray</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+        <span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts geocentric cartesian ECEF coordinates to geodetic coordinates.</span>
 
@@ -637,8 +701,8 @@
 
 
 <span class="c1"># Official ellipsoid definitions</span>
-<span class="n">ELPS_WGS84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">flattening</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">298.257223563</span><span class="p">)</span> <span class="c1"># WGS 84</span>
-<span class="n">ELPS_CLARKE_1880</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378249.2</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356515.0</span><span class="p">)</span> <span class="c1"># Clarke 1880 (IGN)</span>
+<span class="n">ELPS_WGS84</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378137.0</span><span class="p">,</span> <span class="n">flattening</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">298.257223563</span><span class="p">)</span>  <span class="c1"># WGS 84 ellipsoid</span>
+<span class="n">ELPS_CLARKE_1880</span> <span class="o">=</span> <span class="n">Ellipsoid</span><span class="p">(</span><span class="n">semi_major_axis</span><span class="o">=</span><span class="mf">6378249.2</span><span class="p">,</span> <span class="n">semi_minor_axis</span><span class="o">=</span><span class="mf">6356515.0</span><span class="p">)</span>  <span class="c1"># Clarke 1880 (IGN) ellipsoid</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
@@ -676,9 +740,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../_static/tabs.js?v=3ee01567"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>

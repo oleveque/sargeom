@@ -3,12 +3,12 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="Trajectory" href="api/sargeom.Trajectory.html"><link rel="prev" title="Quickstart" href="quickstart.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Search" href="search.html"><link rel="next" title="AntennaAttitude" href="api/sargeom.AntennaAttitude.html"><link rel="prev" title="Quickstart" href="quickstart.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>API Reference - sargeom</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
@@ -197,6 +197,8 @@
   <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">API Reference</a><input aria-label="Toggle navigation of API Reference" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.AntennaAttitude.html">AntennaAttitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.NominalTrajectory.html">NominalTrajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
@@ -207,6 +209,8 @@
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.ELPS_WGS84.html">ELPS_WGS84</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/sargeom.coordinates.ELPS_CLARKE_1880.html">ELPS_CLARKE_1880</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -262,8 +266,14 @@
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.AntennaAttitude.html#sargeom.AntennaAttitude" title="sargeom.AntennaAttitude"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AntennaAttitude</span></code></a>([bearing_deg, ...])</p></td>
+<td><p>Antenna attitude angles relative to its carrier platform.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/sargeom.NominalTrajectory.html#sargeom.NominalTrajectory" title="sargeom.NominalTrajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NominalTrajectory</span></code></a>(position_start_ecef, ...)</p></td>
+<td><p>Nominal (straight-line, constant-velocity) trajectory description.</p></td>
+</tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.Trajectory.html#sargeom.Trajectory" title="sargeom.Trajectory"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Trajectory</span></code></a>(timestamps, positions[, orientations])</p></td>
-<td><p>A Trajectory object represents a sequence of positions and orientations over time.</p></td>
+<td><p>Sequence of timestamped positions and orientations.</p></td>
 </tr>
 </tbody>
 </table>
@@ -284,15 +294,19 @@
 </section>
 <section id="module-sargeom.coordinates">
 <span id="sargeom-coordinates"></span><h2>sargeom.coordinates<a class="headerlink" href="#module-sargeom.coordinates" title="Link to this heading">¶</a></h2>
-<p>This module allows you to manipulate and transform terrestrial coordinates in the WGS84 geodetic system.
-By default, distances are expressed in meters and angles in degrees.</p>
+<p>Coordinate systems module for SAR geometry calculations.</p>
+<p>This module provides classes and functions for manipulating and transforming
+terrestrial coordinates in the WGS84 geodetic system. It supports conversions
+between geographic (latitude/longitude), geocentric (ECEF), and local
+tangent plane (ENU/NED) coordinate systems.</p>
+<p>By default, distances are expressed in meters and angles in degrees.</p>
 <section id="functions">
 <h3>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h3>
 <div class="table-wrapper autosummary longtable docutils container">
 <table class="autosummary longtable docutils align-default">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.coordinates.negativePiToPi.html#sargeom.coordinates.negativePiToPi" title="sargeom.coordinates.negativePiToPi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">negativePiToPi</span></code></a>(angle[, degrees])</p></td>
-<td><p>Converts angles to the range from -180 to 180 degrees.</p></td>
+<td><p>Normalize angles to the range [-180, 180] degrees or [-π, π] radians.</p></td>
 </tr>
 </tbody>
 </table>
@@ -328,15 +342,30 @@ By default, distances are expressed in meters and angles in degrees.</p>
 </table>
 </div>
 </section>
+<section id="id2">
+<h3>Variables<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper autosummary longtable docutils container">
+<table class="autosummary longtable docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="api/sargeom.coordinates.ELPS_WGS84.html#sargeom.coordinates.ELPS_WGS84" title="sargeom.coordinates.ELPS_WGS84"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELPS_WGS84</span></code></a></p></td>
+<td><p>Represents a reference ellipsoid of revolution for geodetic calculations.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="api/sargeom.coordinates.ELPS_CLARKE_1880.html#sargeom.coordinates.ELPS_CLARKE_1880" title="sargeom.coordinates.ELPS_CLARKE_1880"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ELPS_CLARKE_1880</span></code></a></p></td>
+<td><p>Represents a reference ellipsoid of revolution for geodetic calculations.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
 <section id="class-inheritance-diagram">
 <h3>Class Inheritance Diagram<a class="headerlink" href="#class-inheritance-diagram" title="Link to this heading">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-055f8ed9946f7404bfb88f978b37063c2a795dbc.png" alt="Inheritance diagram of sargeom.coordinates.cartesian.Cartesian3, sargeom.coordinates.cartesian.CartesianECEF, sargeom.coordinates.cartesian.CartesianLocalENU, sargeom.coordinates.cartesian.CartesianLocalNED, sargeom.coordinates.cartographic.Cartographic, sargeom.coordinates.ellipsoids.Ellipsoid, sargeom.coordinates.transforms.LambertConicConformal" usemap="#inheritance2269dc533f" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-ab3371d333e040433fa2dbccb4305c64de08e138.png" alt="Inheritance diagram of sargeom.coordinates.cartesian.Cartesian3, sargeom.coordinates.cartesian.CartesianECEF, sargeom.coordinates.cartesian.CartesianLocalENU, sargeom.coordinates.cartesian.CartesianLocalNED, sargeom.coordinates.cartographic.Cartographic, sargeom.coordinates.ellipsoids.Ellipsoid, sargeom.coordinates.transforms.LambertConicConformal" usemap="#inheritance2269dc533f" class="inheritance graphviz" /></div>
 <map id="inheritance2269dc533f" name="inheritance2269dc533f">
 <area shape="rect" id="node1" href="api/sargeom.coordinates.Cartesian3.html#sargeom.coordinates.Cartesian3" target="_top" title="A Cartesian3 object represents the coordinates of a point or a vector in a 3D Cartesian coordinate system." alt="" coords="240,79,332,104"/>
 <area shape="rect" id="node3" href="api/sargeom.coordinates.CartesianECEF.html#sargeom.coordinates.CartesianECEF" target="_top" title="A geocentric Earth&#45;centered Earth&#45;fixed (ECEF) system uses the Cartesian coordinates (*X*, *Y*, *Z*) to represent the 3D components of a position or a vector." alt="" coords="401,29,519,55"/>
 <area shape="rect" id="node4" href="api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU" target="_top" title="A local East&#45;North&#45;Up (ENU) system uses the Cartesian coordinates (*xEast*, *yNorth*, *zUp*) to represent position relative to a local origin." alt="" coords="387,79,533,104"/>
 <area shape="rect" id="node5" href="api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED" target="_top" title="A North&#45;East&#45;Down (NED) system uses the Cartesian coordinates (*xNorth*, *yEast*, *zDown*) to represent position relative to a local origin." alt="" coords="387,128,533,153"/>
-<area shape="rect" id="node2" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" target="_top" title="ndarray(shape, dtype=float, buffer=None, offset=0," alt="" coords="59,104,131,129"/>
+<area shape="rect" id="node2" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" target="_top" title="ndarray(shape, dtype=float, buffer=None, offset=0, strides=None, order=None)" alt="" coords="59,104,131,129"/>
 <area shape="rect" id="node6" href="api/sargeom.coordinates.Cartographic.html#sargeom.coordinates.Cartographic" target="_top" title="A Cartographic object represents the position of a point in a geodetic coordinate system." alt="" coords="233,128,339,153"/>
 <area shape="rect" id="node7" href="api/sargeom.coordinates.Ellipsoid.html#sargeom.coordinates.Ellipsoid" target="_top" title="Represents a reference ellipsoid of revolution for geodetic calculations." alt="" coords="57,55,134,80"/>
 <area shape="rect" id="node8" href="api/sargeom.coordinates.LambertConicConformal.html#sargeom.coordinates.LambertConicConformal" target="_top" title="Lambert Conic Conformal projection class." alt="" coords="5,5,185,31"/>
@@ -349,12 +378,12 @@ By default, distances are expressed in meters and angles in degrees.</p>
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api/sargeom.Trajectory.html">
+          <a class="next-page" href="api/sargeom.AntennaAttitude.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Trajectory</div>
+                <div class="title">AntennaAttitude</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -408,6 +437,7 @@ By default, distances are expressed in meters and angles in degrees.</p>
 <li><a class="reference internal" href="#module-sargeom.coordinates">sargeom.coordinates</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
 <li><a class="reference internal" href="#id1">Classes</a></li>
+<li><a class="reference internal" href="#id2">Variables</a></li>
 <li><a class="reference internal" href="#class-inheritance-diagram">Class Inheritance Diagram</a></li>
 </ul>
 </li>
@@ -422,16 +452,14 @@ By default, distances are expressed in meters and angles in degrees.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=6c02275b"></script>
-    <script src="_static/doctools.js?v=9bcbadda"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="_static/tabs.js?v=3ee01567"></script>
     <script src="_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="_static/copybutton.js?v=f281be69"></script>
     <script src="_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     </body>
 </html>

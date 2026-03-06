@@ -1,0 +1,6 @@
+ELPS_WGS84
+==========
+
+.. currentmodule:: sargeom.coordinates
+
+.. autodata:: ELPS_WGS84

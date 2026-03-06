@@ -4,10 +4,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../../genindex.html"><link rel="search" title="Search" href="../../../search.html">
 
-    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+    <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
         <title>sargeom.coordinates.cartesian - sargeom</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=d111a655" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="../../../_static/tabs.css?v=4c969af8" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
@@ -196,6 +196,8 @@
   <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quickstart</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../api_reference.html">API Reference</a><input aria-label="Toggle navigation of API Reference" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.AntennaAttitude.html">AntennaAttitude</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.NominalTrajectory.html">NominalTrajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.Trajectory.html">Trajectory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.TRAJ_DTYPE.html">TRAJ_DTYPE</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.negativePiToPi.html">negativePiToPi</a></li>
@@ -206,6 +208,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.Cartographic.html">Cartographic</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.Ellipsoid.html">Ellipsoid</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.LambertConicConformal.html">LambertConicConformal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.ELPS_WGS84.html">ELPS_WGS84</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/sargeom.coordinates.ELPS_CLARKE_1880.html">ELPS_CLARKE_1880</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../examples.html">Examples</a><input aria-label="Toggle navigation of Examples" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -384,6 +388,17 @@
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;XYZ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> points</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;XYZ </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> point</span><span class="se">\n</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">()</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns a string representation of the XYZ Cartesian3 point(s).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`str`</span>
+<span class="sd">            A string representation of the XYZ Cartesian3 point(s).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1755,16 +1770,57 @@
                 <span class="s2">&quot;The origin of the local Cartesian coordinate system is not defined.&quot;</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecefv</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CartesianLocalENU.to_ecefv">
+<a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_ecefv">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecefv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms local East-North-Up (ENU) vector coordinates to geocentric Earth-centered Earth-fixed (ECEF) system.</span>
+
+<span class="sd">        This method applies only the rotation transformation (no translation), making it suitable</span>
+<span class="sd">        for transforming velocity vectors, direction vectors, or any other vector quantities</span>
+<span class="sd">        from the local ENU frame to the ECEF frame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianECEF`</span>
+<span class="sd">            The transformed vector coordinates in geocentric ECEF system.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the origin of the local Cartesian coordinate system is not defined.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; enu_vector = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())</span>
+<span class="sd">        &gt;&gt;&gt; enu_vector.to_ecefv() # doctest: +ELLIPSIS</span>
+<span class="sd">        XYZ CartesianECEF point</span>
+<span class="sd">        [ 6.997...  10.666... 35.174...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The origin of the local Cartesian coordinate system is not defined.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">new_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span>
-            <span class="k">return</span> <span class="n">CartesianECEF</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">CartesianECEF</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CartesianLocalENU.to_ned">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_ned">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ned</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local East-North-Up (ENU) coordinates to local North-East-Down (NED) coordinates.</span>
-<span class="sd">        Both coordinate systems use the same local origin.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
+<span class="sd">            The origin position in geodetic coordinates of the target NED system.</span>
+<span class="sd">            If None (default), the same local origin is used (simple axis swap).</span>
+<span class="sd">            If provided, a full coordinate transformation via ECEF is performed.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1773,12 +1829,78 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
+<span class="sd">        Convert to NED with the same origin (simple axis swap):</span>
+
 <span class="sd">        &gt;&gt;&gt; enu_coords = CartesianLocalENU(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())</span>
 <span class="sd">        &gt;&gt;&gt; enu_coords.to_ned()</span>
 <span class="sd">        XYZ CartesianLocalNED point</span>
 <span class="sd">        [ 20.  10. -30.]</span>
+
+<span class="sd">        Convert to NED with a different origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)</span>
+<span class="sd">        &gt;&gt;&gt; origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)</span>
+<span class="sd">        &gt;&gt;&gt; enu_coords = CartesianLocalENU(1000.0, 2000.0, 50.0, origin=origin1)</span>
+<span class="sd">        &gt;&gt;&gt; ned_coords = enu_coords.to_ned(origin=origin2)</span>
+<span class="sd">        &gt;&gt;&gt; ned_coords.local_origin.longitude</span>
+<span class="sd">        array(2.)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">CartesianLocalNED</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Same origin: simple axis swap (E-&gt;E, N-&gt;N, U-&gt;-D)</span>
+            <span class="k">return</span> <span class="n">CartesianLocalNED</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Different origin: transform via ECEF</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span><span class="o">.</span><span class="n">to_ned</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CartesianLocalENU.to_nedv">
+<a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalENU.html#sargeom.coordinates.CartesianLocalENU.to_nedv">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_nedv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms local East-North-Up (ENU) vector coordinates to local North-East-Down (NED) system.</span>
+
+<span class="sd">        This method applies only the rotation transformation (no translation), making it suitable</span>
+<span class="sd">        for transforming velocity vectors, direction vectors, or any other vector quantities</span>
+<span class="sd">        from the local ENU frame to the NED frame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
+<span class="sd">            The origin position in geodetic coordinates of the target NED system.</span>
+<span class="sd">            If None (default), the same local origin is used (simple axis swap).</span>
+<span class="sd">            If provided, a full vector transformation via ECEF is performed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalNED`</span>
+<span class="sd">            The transformed vector coordinates in local NED system.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Transform a velocity vector from ENU to NED with the same origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; enu_velocity = CartesianLocalENU(10.0, 20.0, 5.0, origin=Cartographic.ONERA_SDP())</span>
+<span class="sd">        &gt;&gt;&gt; ned_velocity = enu_velocity.to_nedv()</span>
+<span class="sd">        &gt;&gt;&gt; ned_velocity</span>
+<span class="sd">        XYZ CartesianLocalNED point</span>
+<span class="sd">        [20. 10. -5.]</span>
+
+<span class="sd">        Transform a velocity vector to NED with a different origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)</span>
+<span class="sd">        &gt;&gt;&gt; origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)</span>
+<span class="sd">        &gt;&gt;&gt; enu_velocity = CartesianLocalENU(100.0, 0.0, 0.0, origin=origin1)</span>
+<span class="sd">        &gt;&gt;&gt; ned_velocity = enu_velocity.to_nedv(origin=origin2)</span>
+<span class="sd">        &gt;&gt;&gt; ned_velocity</span>
+<span class="sd">        XYZ CartesianLocalNED point</span>
+<span class="sd">        [-1.25542106 99.98476952 -1.21234602]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Same origin: simple axis swap (E-&gt;E, N-&gt;N, U-&gt;-D)</span>
+            <span class="k">return</span> <span class="n">CartesianLocalNED</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Different origin: transform via ECEF (rotation only)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecefv</span><span class="p">()</span><span class="o">.</span><span class="n">to_nedv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CartesianLocalENU.to_aer">
@@ -1974,16 +2096,57 @@
                 <span class="s2">&quot;The origin of the local Cartesian coordinate system is not defined.&quot;</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecefv</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="CartesianLocalNED.to_ecefv">
+<a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_ecefv">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_ecefv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms local North-East-Down (NED) vector coordinates to geocentric Earth-centered Earth-fixed (ECEF) system.</span>
+
+<span class="sd">        This method applies only the rotation transformation (no translation), making it suitable</span>
+<span class="sd">        for transforming velocity vectors, direction vectors, or any other vector quantities</span>
+<span class="sd">        from the local NED frame to the ECEF frame.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianECEF`</span>
+<span class="sd">            The transformed vector coordinates in geocentric ECEF system.</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        :class:`ValueError`</span>
+<span class="sd">            If the origin of the local Cartesian coordinate system is not defined.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; ned_vector = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())</span>
+<span class="sd">        &gt;&gt;&gt; ned_vector.to_ecefv() # doctest: +ELLIPSIS</span>
+<span class="sd">        XYZ CartesianECEF point</span>
+<span class="sd">        [-30.286...  17.367... -13.456...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;The origin of the local Cartesian coordinate system is not defined.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">new_array</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotation</span><span class="o">.</span><span class="n">inv</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__array__</span><span class="p">())</span>
-            <span class="k">return</span> <span class="n">CartesianECEF</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span></div>
+            <span class="k">return</span> <span class="n">CartesianECEF</span><span class="o">.</span><span class="n">from_array</span><span class="p">(</span><span class="n">new_array</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CartesianLocalNED.to_enu">
 <a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_enu">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_enu</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Converts local North-East-Down (NED) coordinates to local East-North-Up (ENU) coordinates.</span>
-<span class="sd">        Both coordinate systems use the same local origin.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
+<span class="sd">            The origin position in geodetic coordinates of the target ENU system.</span>
+<span class="sd">            If None (default), the same local origin is used (simple axis swap).</span>
+<span class="sd">            If provided, a full coordinate transformation via ECEF is performed.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -1992,12 +2155,78 @@
 
 <span class="sd">        Examples</span>
 <span class="sd">        --------</span>
+<span class="sd">        Convert to ENU with the same origin (simple axis swap):</span>
+
 <span class="sd">        &gt;&gt;&gt; ned_coords = CartesianLocalNED(10.0, 20.0, 30.0, origin=Cartographic.ONERA_SDP())</span>
 <span class="sd">        &gt;&gt;&gt; ned_coords.to_enu()</span>
 <span class="sd">        XYZ CartesianLocalENU point</span>
 <span class="sd">        [ 20.  10. -30.]</span>
+
+<span class="sd">        Convert to ENU with a different origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)</span>
+<span class="sd">        &gt;&gt;&gt; origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)</span>
+<span class="sd">        &gt;&gt;&gt; ned_coords = CartesianLocalNED(1000.0, 2000.0, 50.0, origin=origin1)</span>
+<span class="sd">        &gt;&gt;&gt; enu_coords = ned_coords.to_enu(origin=origin2)</span>
+<span class="sd">        &gt;&gt;&gt; enu_coords.local_origin.longitude</span>
+<span class="sd">        array(2.)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Same origin: simple axis swap (N-&gt;N, E-&gt;E, D-&gt;-U)</span>
+            <span class="k">return</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Different origin: transform via ECEF</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecef</span><span class="p">()</span><span class="o">.</span><span class="n">to_enu</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CartesianLocalNED.to_enuv">
+<a class="viewcode-back" href="../../../api/sargeom.coordinates.CartesianLocalNED.html#sargeom.coordinates.CartesianLocalNED.to_enuv">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_enuv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transforms local North-East-Down (NED) vector coordinates to local East-North-Up (ENU) system.</span>
+
+<span class="sd">        This method applies only the rotation transformation (no translation), making it suitable</span>
+<span class="sd">        for transforming velocity vectors, direction vectors, or any other vector quantities</span>
+<span class="sd">        from the local NED frame to the ENU frame.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        origin : :class:`sargeom.coordinates.Cartographic`, optional</span>
+<span class="sd">            The origin position in geodetic coordinates of the target ENU system.</span>
+<span class="sd">            If None (default), the same local origin is used (simple axis swap).</span>
+<span class="sd">            If provided, a full vector transformation via ECEF is performed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        :class:`sargeom.coordinates.CartesianLocalENU`</span>
+<span class="sd">            The transformed vector coordinates in local ENU system.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        Transform a velocity vector from NED to ENU with the same origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; ned_velocity = CartesianLocalNED(10.0, 20.0, 5.0, origin=Cartographic.ONERA_SDP())</span>
+<span class="sd">        &gt;&gt;&gt; enu_velocity = ned_velocity.to_enuv()</span>
+<span class="sd">        &gt;&gt;&gt; enu_velocity</span>
+<span class="sd">        XYZ CartesianLocalENU point</span>
+<span class="sd">        [20. 10. -5.]</span>
+
+<span class="sd">        Transform a velocity vector to ENU with a different origin:</span>
+
+<span class="sd">        &gt;&gt;&gt; origin1 = Cartographic(longitude=1.0, latitude=45.0, height=0.0)</span>
+<span class="sd">        &gt;&gt;&gt; origin2 = Cartographic(longitude=2.0, latitude=46.0, height=100.0)</span>
+<span class="sd">        &gt;&gt;&gt; ned_velocity = CartesianLocalNED(100.0, 0.0, 0.0, origin=origin1)</span>
+<span class="sd">        &gt;&gt;&gt; enu_velocity = ned_velocity.to_enuv(origin=origin2)</span>
+<span class="sd">        &gt;&gt;&gt; enu_velocity</span>
+<span class="sd">        XYZ CartesianLocalENU point</span>
+<span class="sd">        [ 1.23407149 99.97702253  1.75272182]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">origin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Same origin: simple axis swap (N-&gt;N, E-&gt;E, D-&gt;-U)</span>
+            <span class="k">return</span> <span class="n">CartesianLocalENU</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_local_origin</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Different origin: transform via ECEF (rotation only)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ecefv</span><span class="p">()</span><span class="o">.</span><span class="n">to_enuv</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CartesianLocalNED.to_aer">
@@ -2132,9 +2361,9 @@
       
     </aside>
   </div>
-</div><script src="../../../_static/documentation_options.js?v=6c02275b"></script>
-    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+</div><script src="../../../_static/documentation_options.js?v=1dd76d02"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/scripts/furo.js?v=46bd48cc"></script>
     <script src="../../../_static/tabs.js?v=3ee01567"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>

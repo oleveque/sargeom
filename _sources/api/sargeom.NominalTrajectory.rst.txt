@@ -1,0 +1,35 @@
+NominalTrajectory
+=================
+
+.. currentmodule:: sargeom
+
+.. autoclass:: NominalTrajectory
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~NominalTrajectory.beam_pointing_ecef
+      ~NominalTrajectory.idx_start
+      ~NominalTrajectory.npoints
+      ~NominalTrajectory.position_start_ecef
+      ~NominalTrajectory.velocity_ecef
+
+   .. rubric:: Methods Summary
+
+   .. autosummary::
+
+      ~NominalTrajectory.read_pamela_traj
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: beam_pointing_ecef
+   .. autoattribute:: idx_start
+   .. autoattribute:: npoints
+   .. autoattribute:: position_start_ecef
+   .. autoattribute:: velocity_ecef
+
+   .. rubric:: Methods Documentation
+
+   .. automethod:: read_pamela_traj

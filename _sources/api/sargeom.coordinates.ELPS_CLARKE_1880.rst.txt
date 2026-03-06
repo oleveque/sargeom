@@ -1,0 +1,6 @@
+ELPS_CLARKE_1880
+================
+
+.. currentmodule:: sargeom.coordinates
+
+.. autodata:: ELPS_CLARKE_1880

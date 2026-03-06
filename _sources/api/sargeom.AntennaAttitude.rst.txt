@@ -1,0 +1,23 @@
+AntennaAttitude
+===============
+
+.. currentmodule:: sargeom
+
+.. autoclass:: AntennaAttitude
+   :show-inheritance:
+
+   .. rubric:: Attributes Summary
+
+   .. autosummary::
+
+      ~AntennaAttitude.bank_deg
+      ~AntennaAttitude.bearing_deg
+      ~AntennaAttitude.elevation_deg
+      ~AntennaAttitude.orientation
+
+   .. rubric:: Attributes Documentation
+
+   .. autoattribute:: bank_deg
+   .. autoattribute:: bearing_deg
+   .. autoattribute:: elevation_deg
+   .. autoattribute:: orientation

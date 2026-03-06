@@ -19,7 +19,9 @@ CartesianLocalNED
       ~CartesianLocalNED.save_csv
       ~CartesianLocalNED.to_aer
       ~CartesianLocalNED.to_ecef
+      ~CartesianLocalNED.to_ecefv
       ~CartesianLocalNED.to_enu
+      ~CartesianLocalNED.to_enuv
 
    .. rubric:: Attributes Documentation
 
@@ -30,4 +32,6 @@ CartesianLocalNED
    .. automethod:: save_csv
    .. automethod:: to_aer
    .. automethod:: to_ecef
+   .. automethod:: to_ecefv
    .. automethod:: to_enu
+   .. automethod:: to_enuv

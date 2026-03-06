@@ -15,7 +15,7 @@ Trajectory
       ~Trajectory.positions
       ~Trajectory.sampling_rate
       ~Trajectory.timestamps
-      ~Trajectory.velocities
+      ~Trajectory.velocity_ecef
 
    .. rubric:: Methods Summary
 
@@ -25,7 +25,8 @@ Trajectory
       ~Trajectory.from_numpy
       ~Trajectory.has_orientation
       ~Trajectory.interp
-      ~Trajectory.plot
+      ~Trajectory.make_straight_line
+      ~Trajectory.plot3d
       ~Trajectory.read_csv
       ~Trajectory.read_pamela_pos
       ~Trajectory.read_pamela_traj
@@ -48,7 +49,7 @@ Trajectory
    .. autoattribute:: positions
    .. autoattribute:: sampling_rate
    .. autoattribute:: timestamps
-   .. autoattribute:: velocities
+   .. autoattribute:: velocity_ecef
 
    .. rubric:: Methods Documentation
 
@@ -56,7 +57,8 @@ Trajectory
    .. automethod:: from_numpy
    .. automethod:: has_orientation
    .. automethod:: interp
-   .. automethod:: plot
+   .. automethod:: make_straight_line
+   .. automethod:: plot3d
    .. automethod:: read_csv
    .. automethod:: read_pamela_pos
    .. automethod:: read_pamela_traj
