@@ -1,11 +1,12 @@
 import numpy as np
-
+import numpy.typing as npt # for type hint. see: https://stackoverflow.com/a/68132027
 
 class Ellipsoid:
     """
     Represents a reference ellipsoid of revolution for geodetic calculations.
 
     The ellipsoid is defined by either:
+
     - Equatorial radius (semi-major axis) and polar radius (semi-minor axis), or
     - Equatorial radius (semi-major axis) and flattening factor (:math:`f`).
 
@@ -14,11 +15,46 @@ class Ellipsoid:
     semi_major_axis : :class:`float`
         Equatorial radius of the ellipsoid in meters.
     semi_minor_axis : :class:`float`, optional
-        Polar radius of the ellipsoid in meters. Default is None.
+        Polar radius of the ellipsoid in meters. Default is ``None``.
     flattening : :class:`float`, optional
-        Flattening factor of the ellipsoid. Default is None.
+        Flattening factor of the ellipsoid. Default is ``None``.
+
+    Raises
+    ------
+    ValueError
+        If neither ``semi_minor_axis`` nor ``flattening`` is provided.
+
+    Attributes
+    ----------
+    _a : float
+        Semi-major axis (equatorial radius) in meters.
+    _b : float
+        Semi-minor axis (polar radius) in meters.
+    _f : float
+        Flattening factor.
+    _n : float
+        Third flattening factor.
+    _e : float
+        First eccentricity.
+    _e2 : float
+        First eccentricity squared.
+
+    Examples
+    --------
+    Create the WGS84 ellipsoid:
+
+    >>> wgs84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563)
+
+    Create an ellipsoid using semi-minor axis:
+
+    >>> clarke = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)
     """
-    def __init__(self, semi_major_axis, semi_minor_axis=None, flattening=None):
+    def __init__(
+            self,
+            semi_major_axis: float,
+            semi_minor_axis: float | None = None,
+            flattening: float | None = None
+        ):
         self._a, self._b, self._f = semi_major_axis, semi_minor_axis, flattening
         if self._b is None:
             if self._f is None:
@@ -74,7 +110,10 @@ class Ellipsoid:
             175201343549*n[10]/297604125
         )
 
-    def prime_vertical_curvature_radius(self, phi):
+    def prime_vertical_curvature_radius(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the prime vertical curvature radius of a point at latitude :math:`\\phi`.
 
@@ -98,14 +137,17 @@ class Ellipsoid:
 
         Notes
         -----
-        The prime vertical curvature radius is the radius of curvature in the 
-        plane of the prime vertical, which is perpendicular to the meridian 
+        The prime vertical curvature radius is the radius of curvature in the
+        plane of the prime vertical, which is perpendicular to the meridian
         and contains the normal to the ellipsoid.
         """
         nu = self._a / np.sqrt(1 - self._e2 * np.sin(phi)**2)
         return nu
 
-    def isometric_latitude(self, phi):
+    def isometric_latitude(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the isometric latitude (parameter of the Mercator projection).
 
@@ -145,7 +187,10 @@ class Ellipsoid:
         psi = np.arctanh(sphi) - self._e * np.arctanh(self._e * sphi)
         return psi
 
-    def inverse_isometric_latitude(self, psi):
+    def inverse_isometric_latitude(
+            self,
+            psi: float | npt.NDArray[float]
+        ):
         """
         Computes the inverse isometric latitude.
 
@@ -179,7 +224,10 @@ class Ellipsoid:
         phi = self.inverse_conformal_latitude(chi)
         return phi
 
-    def conformal_latitude(self, phi):
+    def conformal_latitude(
+            self,
+            phi: float | npt.NDArray[float]
+        ):
         """
         Computes the conformal latitude from the geodetic latitude.
 
@@ -216,7 +264,10 @@ class Ellipsoid:
         ))
         return chi
 
-    def inverse_conformal_latitude(self, chi):
+    def inverse_conformal_latitude(
+            self,
+            chi: float | npt.NDArray[float]
+        ):
         """
         Computes the inverse conformal latitude.
 
@@ -252,7 +303,12 @@ class Ellipsoid:
             phi += dn * np.sin(2 * (n + 1) * chi)
         return phi
     
-    def to_ecef(self, lamb, phi, height_m=0):
+    def to_ecef(
+            self,
+            lamb: float | npt.NDArray[float],
+            phi: float | npt.NDArray[float],
+            height_m: float | npt.NDArray[float] = 0.0
+        ):
         """
         Converts geodetic coordinates to geocentric cartesian ECEF coordinates.
 
@@ -262,11 +318,11 @@ class Ellipsoid:
         The conversion is made through the relationships:
 
         .. math::
-            \\left\{\\begin{array}{rcl}
-            X & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\
-            Y & = & \\big(\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\
-            Z & = & \\big((1-e^2)\\nu(\\phi) + H\\big)\\sin(\\phi)
-            \\end{array}\\right.
+            \\begin{cases}
+            X = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\cos(\\lambda) \\\\
+            Y = \\big(\\nu(\\phi) + H\\big)\\cos(\\phi)\\sin(\\lambda) \\\\
+            Z = \\big[(1-e^2)\\nu(\\phi) + H\\big]\\sin(\\phi)
+            \\end{cases}
 
         where :math:`\\nu(\\phi)` is the prime vertical curvature radius
         of the point with latitude :math:`\\phi`.
@@ -293,14 +349,19 @@ class Ellipsoid:
         --------
         prime_vertical_curvature_radius, to_cartographic
         """
-        nu = self.prime_vertical_curvature_radius(phi) # At the ellipsoid level
+        nu = self.prime_vertical_curvature_radius(phi)
         nuhcosphi = (nu + height_m) * np.cos(phi)
         X = nuhcosphi * np.cos(lamb)
         Y = nuhcosphi * np.sin(lamb)
         Z = ((1 - self._e2) * nu + height_m) * np.sin(phi)
         return X, Y, Z
     
-    def to_cartographic(self, X, Y, Z):
+    def to_cartographic(
+            self,
+            X: float | npt.NDArray[float],
+            Y: float | npt.NDArray[float],
+            Z: float | npt.NDArray[float]
+        ):
         """
         Converts geocentric cartesian ECEF coordinates to geodetic coordinates.
 
@@ -322,7 +383,7 @@ class Ellipsoid:
             The geographic longitude in radians.
         phi : :class:`numpy.ndarray`
             The geographic latitude in radians.
-        height_m : :class:`numpy.ndarray`
+        h : :class:`numpy.ndarray`
             The geodetic height in meters.
 
         Notes
@@ -354,18 +415,18 @@ class Ellipsoid:
         D = k * R / (k + self._e2)
         hypotDZ = np.hypot(D, Z)
 
-        # Calculation of h and phi
+        # Calculation of geodetic height (h) and latitude (phi)
         h = (k + self._e2 - 1) * hypotDZ / k
         phi = 2 * np.arctan(Z / (hypotDZ + D))
 
-        # Calculation of lambda
+        # Calculation of longitude (lamb)
         lamb = np.arctan2(Y, X)
 
         return lamb, phi, h
 
 # Official ellipsoid definitions
-ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563) # WGS 84
-ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0) # Clarke 1880 (IGN)
+ELPS_WGS84 = Ellipsoid(semi_major_axis=6378137.0, flattening=1/298.257223563)  # WGS 84 ellipsoid
+ELPS_CLARKE_1880 = Ellipsoid(semi_major_axis=6378249.2, semi_minor_axis=6356515.0)  # Clarke 1880 (IGN) ellipsoid
 
 
 if __name__ == "__main__":

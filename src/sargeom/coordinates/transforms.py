@@ -15,7 +15,7 @@ class LambertConicConformal:
         Reference ellipsoid used for the projection.
     lon_origin_rad : :class:`float`
         Longitude of the origin of the Lambert Conic Conformal projection in radians.
-    lat_origin_rad : :class:`float` 
+    lat_origin_rad : :class:`float`
         Latitude of the origin of the Lambert Conic Conformal projection in radians.
     scale : :class:`float`, optional
         Scale factor of the projection. Default is 1.0.
@@ -38,6 +38,19 @@ class LambertConicConformal:
         The x-offset in meters.
     y_offset_m : :class:`float`
         The y-offset in meters.
+
+    Examples
+    --------
+    Create a Lambert projection centered on France:
+
+    >>> import numpy as np
+    >>> from sargeom.coordinates.ellipsoids import ELPS_WGS84
+    >>> lcc = LambertConicConformal(
+    ...     ELPS_WGS84,
+    ...     lon_origin_rad=np.deg2rad(3.0),
+    ...     lat_origin_rad=np.deg2rad(46.5)
+    ... )
+    >>> x, y = lcc.forward(np.deg2rad(2.3522), np.deg2rad(48.8566))
     """
     def __init__(
             self,
@@ -55,7 +68,7 @@ class LambertConicConformal:
         self.x_offset_m = x_offset_m
         self.y_offset_m = y_offset_m + R0
 
-        # Precompute constants
+        # Precompute constants for efficiency
         self._sin_lat_origin = np.sin(self.lat_origin_rad)
         self._C = R0 * np.exp(
             self._sin_lat_origin * self.ellipsoid.isometric_latitude(self.lat_origin_rad)
@@ -125,9 +138,11 @@ class LambertConicConformal:
         else:
             dx = self.x_offset_m - x_m
             dy = y_m - self.y_offset_m
-        # Longitude
+        
+        # Compute longitude from angular parameter
         lon_rad = self.lon_origin_rad + np.arctan2(dx, dy) / self._sin_lat_origin
-        # Latitude
+        
+        # Compute latitude from radial distance via inverse isometric latitude
         lat_rad = self.ellipsoid.inverse_isometric_latitude(
             -np.log(np.abs(np.hypot(dx, dy) / self._C)) / self._sin_lat_origin
         )

@@ -33,6 +33,6 @@ jobs:
       with:
         name: sargeom ${{ github.ref_name }}
         body: |
-          **sargeom** is a Python package dedicated for Synthetic Aperture Radar (SAR) geometry calculations.
-          This new release introduces important features and improvements. For detailed information on changes, please consult the [CHANGELOG](./CHANGELOG.md).
+          `sargeom` is a Python package dedicated for Synthetic Aperture Radar (SAR) geometry calculations.
+          This is a new release of the package. Please refer to the [CHANGELOG](./CHANGELOG.md) for more information.
         files: dist/*.whl

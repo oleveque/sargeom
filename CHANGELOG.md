@@ -7,27 +7,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-03-06
+
+### Added
+- Added `Trajectory.make_straight_line()` static method to create straight-line trajectories from a starting position and constant velocity in ENU or NED frame
+- Implemented `Trajectory.plot3d()` method for 3D visualization of trajectories in local ENU frame
+- Added support for `.trj` file extension in `Trajectory.read_pamela_traj()` method (alias for `.traj` format)
+- Added `time_origin` parameter to `Trajectory.read_pamela_traj()` method to specify timestamp offset (default: 0.0)
+- Added `CartesianLocalENU.to_ecefv()` method for transforming ENU vector coordinates (e.g., velocities) to ECEF (rotation only, no translation)
+- Added `CartesianLocalNED.to_ecefv()` method for transforming NED vector coordinates (e.g., velocities) to ECEF (rotation only, no translation)
+- Added `CartesianLocalENU.to_nedv()` method for transforming ENU vector coordinates to NED (rotation only, no translation)
+- Added `CartesianLocalNED.to_enuv()` method for transforming NED vector coordinates to ENU (rotation only, no translation)
+- Added `AntennaAttitude` dataclass for handling antenna attitude
+- Added `NominalTrajectory` dataclass for handling nominal trajectory information
+
+### Changed
+- Refactored `negativePiToPi()` into a vectorized NumPy implementation for improved performance and readability
+- Enhanced `CartesianLocalENU.to_ned()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
+- Enhanced `CartesianLocalNED.to_enu()` method with optional `origin` parameter to support coordinate transformation to a different local origin (via ECEF)
+- Modularized transformation in `Trajectory.read_pamela_traj()` for possible reuse in other Class/Functions
+- Changed deprecated `Trajectory.velocities` property (which computed velocity magnitude) in favor of `Trajectory.velocity_ecef` for vector velocities. Users can compute magnitudes using `traj.velocity_ecef.magnitude()`.
+
+### Fixed
+- Fixed issue in `Trajectory.read_pivot()` where timestamps were not correctly extracted from actors
+- Fixed bug in `Trajectory.__len__()` method for single-point trajectories
+- Added string representation methods (`__str__`) to `Cartesian3` and `Cartographic` classes to avoid errors when printing instances of these classes
+- Corrected minor typos in the `Trajectory` class documentation strings
+
+## [0.4.0] - 2025-10-23
+
+### Added
+- Implemented `Trajectory.read_pivot()` method for reading PIVOT .h5 files
+- Implemented `Trajectory.save_pivot()` method for saving trajectories to PIVOT .h5 files
+
+### Changed
+- Normalized heading angles to [0, 360] range in trajectory orientation exports
+- Improved `Trajectory.read_pamela_traj()` to better detect and report CRS format
+
 ## [0.3.0] - 2025-09-26
 
 ### Added
 - Introduced `concatenate()` methods for `Cartesian3`, `Cartographic`, and `Trajectory`
 - Added `height_mode` parameter to `Cartographic.save_kml()` method to specify height reference (e.g., ellipsoid, orthometric)
 - Added support for legacy PamelaX11 format in `Trajectory.read_pamela_traj()`
-- Implemented `Trajectory.read_pivot()` method for reading PIVOT .h5 files
-- Implemented `Trajectory.save_pivot()` method for saving trajectories to PIVOT .h5 files
 
 ### Changed
 - Refactored `append()` methods to internally use `concatenate()` for improved consistency and maintainability
 - Updated all `save_*` methods to return the path of the saved file
 - Replaced `pyproj` dependency with `sargeom.coordinates.ellipsoids` for coordinate transformations
-- Normalized heading angles to [0, 360] range in trajectory orientation exports
-- Improved `Trajectory.read_pamela_traj()` to better detect and report CRS format
 
 ### Fixed
 - Fixed longitude/latitude precision in CSV output from `%.12f` to `%.15f` (by @oboisot in #1)
   - Affects `Trajectory.save_csv()` and `Cartographic.save_csv()` methods
   - Ensures full double-precision accuracy for geographic coordinates
-- Other minor fixes
+- Minor bug fixes and improvements
 
 ## [0.2.0] - 2025-08-04
 
