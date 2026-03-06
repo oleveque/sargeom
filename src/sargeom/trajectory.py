@@ -8,9 +8,9 @@ writing trajectory data in multiple formats (CSV, PIVOT, PAMELA).
 
 import re
 import numpy as np
-import numpy.typing as npt # for type hint. see: https://stackoverflow.com/a/68132027
+import numpy.typing as npt
 from pathlib import Path
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from scipy.spatial.transform import Rotation, Slerp
 from sargeom.coordinates.cartesian import Cartesian3, CartesianECEF, CartesianLocalENU, CartesianLocalNED, Cartographic
 
@@ -62,17 +62,21 @@ class AntennaAttitude:
     Parameters
     ----------
     bearing_deg : :class:`float`
-        Bearing angle in degrees in [-180;180] range.
+        Bearing angle in degrees in [-180; 180] range.
     elevation_deg : :class:`float`
-        Elevation angle in degrees in [-90;90] range.
+        Elevation angle in degrees in [-90; 90] range.
     bank_deg : :class:`float`
-        Bank angle in degrees in [-180;180] range.
+        Bank angle in degrees in [-180; 180] range.
     """
     bearing_deg: float = 0.0
     elevation_deg: float = 0.0
-    bank_deg: float = 0.0 
+    bank_deg: float = 0.0
 
-    def attitude_as_rotation(self) -> Rotation:
+    @property
+    def orientation(self) -> Rotation:
+        """
+        Convert the antenna attitude to a Scipy Rotation object.
+        """
         return Rotation.from_euler(
             'ZYX',
             [self.bearing_deg, self.elevation_deg, self.bank_deg],
@@ -112,20 +116,20 @@ class NominalTrajectory:
 
     def __init__(
             self,
-            position_start_ecef: CartesianECEF | None = None,
-            velocity_ecef: CartesianECEF | None = None,
-            beam_pointing_ecef: CartesianECEF | None = None,
+            position_start_ecef: CartesianECEF = CartesianECEF.ZERO(),
+            velocity_ecef: CartesianECEF = CartesianECEF.ZERO(),
+            beam_pointing_ecef: CartesianECEF = CartesianECEF.UNIT_X(),
             idx_start: int = 0,
             npoints: int = 0
         ):
-        self.position_start_ecef = position_start_ecef if position_start_ecef is not None else CartesianECEF.ZERO()
-        self.velocity_ecef = velocity_ecef if velocity_ecef is not None else CartesianECEF.ZERO()
-        self.beam_pointing_ecef = beam_pointing_ecef if beam_pointing_ecef is not None else CartesianECEF.UNIT_X()
+        self.position_start_ecef = position_start_ecef
+        self.velocity_ecef = velocity_ecef
+        self.beam_pointing_ecef = beam_pointing_ecef
         self.idx_start = idx_start
         self.npoints = npoints
 
     @classmethod
-    def from_pamela_traj(
+    def read_pamela_traj(
             cls,
             filename: str | Path,
             antenna: AntennaAttitude | None = None
@@ -207,7 +211,7 @@ class NominalTrajectory:
         )
         if antenna is not None:
             # Antenna attitude + Carrier attitude in NED = Rcarrier_NED * Rantenna_NED
-            attitude_antenna_ned *= antenna.attitude_as_rotation()
+            attitude_antenna_ned *= antenna.orientation
 
         # Beam pointing ECEF
         beam_pointing_ecef = CartesianECEF(
