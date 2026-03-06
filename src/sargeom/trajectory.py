@@ -187,10 +187,12 @@ class NominalTrajectory:
         header_count = 11
         header = np.fromfile(filename, dtype='<f8', count=header_count)
 
-        # Position start ECEF
-        position_start_ecef = CartesianECEF(
-            *_pamela_carto_ntf_to_ecef_wgs84(
-                header[0], header[1], header[2]
+        # Convert NTF origin to WGS84 geographic coordinates
+        position_start = Cartographic(
+            *_pamela_ecef_wgs84_to_carto_wgs84(
+                *_pamela_carto_ntf_to_ecef_wgs84(
+                    header[0], header[1], header[2]
+                )
             )
         )
 
@@ -199,7 +201,7 @@ class NominalTrajectory:
             x=header[3] * np.cos(header[4]),
             y=header[3] * np.sin(header[4]),
             z=-header[3] * np.sin(header[5]),
-            origin=position_start_ecef.to_cartographic()
+            origin=position_start
         )
         velocity_ecef = velocity_ned.to_ecefv()
 
@@ -222,7 +224,7 @@ class NominalTrajectory:
         )
 
         return cls(
-            position_start_ecef=position_start_ecef,
+            position_start_ecef=position_start.to_ecef(),
             velocity_ecef=velocity_ecef,
             beam_pointing_ecef=beam_pointing_ecef
         )
